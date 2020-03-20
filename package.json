@@ -3,6 +3,8 @@
 	"displayName": "Facility",
 	"description": "灵活的模板",
 	"version": "0.0.1",
+	"publisher": "sillyY",
+	"repository": "https://github.com/sillyY/facility.git",
 	"engines": {
 		"vscode": "^1.43.0"
 	},
