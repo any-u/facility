@@ -19,7 +19,7 @@ export class SettingsWebview extends WebViewBase {
   }
 
   get title(): string {
-    return "轻便";
+    return "Facility";
   }
 
   async onMessageReceived(e: IpcMessage) {
