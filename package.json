@@ -1,47 +1,138 @@
 {
-	"name": "facility",
-	"displayName": "Facility",
-	"description": "灵活的模板",
-	"version": "0.0.1",
-	"publisher": "sillyY",
-	"repository": "https://github.com/sillyY/facility.git",
-	"engines": {
-		"vscode": "^1.43.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onCommand:extension.helloWorld"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"lint": "eslint src --ext ts",
-		"watch": "tsc -watch -p ./",
-		"pretest": "npm run compile && npm run lint",
-		"test": "node ./out/test/runTest.js"
-	},
-	"devDependencies": {
-		"@types/glob": "^7.1.1",
-		"@types/mocha": "^7.0.1",
-		"@types/node": "^12.11.7",
-		"@types/vscode": "^1.43.0",
-		"eslint": "^6.8.0",
-		"@typescript-eslint/parser": "^2.18.0",
-		"@typescript-eslint/eslint-plugin": "^2.18.0",
-		"glob": "^7.1.6",
-		"mocha": "^7.0.1",
-		"typescript": "^3.7.5",
-		"vscode-test": "^1.3.0"
-	}
+  "name": "facility",
+  "displayName": "Facility",
+  "description": "灵活的模板",
+  "version": "0.0.1",
+  "publisher": "sillyY",
+  "repository": "https://github.com/sillyY/facility.git",
+  "engines": {
+    "vscode": "^1.43.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "facility.view.settings",
+        "title": "设置",
+        "category": "Facility",
+        "icon": {
+          "light": "resources/light/settings.svg",
+          "dark": "resources/dark/settings.svg"
+        }
+      },
+      {
+        "command": "facility.view.showSettings",
+        "title": "打开设置页",
+        "category": "Facility"
+      },
+      {
+        "command": "facility.view.insert",
+        "title": "插入",
+        "category": "Facility"
+      },
+      {
+        "command": "facility.view.edit",
+        "title": "编辑",
+        "category": "Facility"
+      },
+      {
+        "command": "facility.view.rename",
+        "title": "重命名",
+        "category": "Facility"
+      },
+      {
+        "command": "facility.view.delete",
+        "title": "删除",
+        "category": "Facility"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "facility",
+          "title": "facility",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "facility": [
+        {
+          "id": "facility.view:explorer",
+          "name": "模板库"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "facility.view.settings",
+          "when": "view =~ /^facility\\.view/",
+          "group": "navigation@1"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "facility.view.insert",
+          "when": "view == facility.view:explorer && viewItem == facility:File",
+          "group": "navigation@1"
+        },
+        {
+          "command": "facility.view.edit",
+          "when": "view == facility.view:explorer && viewItem == facility:File",
+          "group": "1_modification"
+        },
+        {
+          "command": "facility.view.rename",
+          "when": "view == facility.view:explorer && viewItem == facility:Folder ||view == facility.view:explorer && viewItem == facility:File",
+          "group": "1_modification"
+        },
+        {
+          "command": "facility.view.delete",
+          "when": "view == facility.view:explorer && viewItem == facility:Folder || view == facility.view:explorer && viewItem == facility:File",
+          "group": "9_cutcopypaste"
+        }
+      ]
+    },
+    "configuration": [
+      {
+        "title": "facility",
+        "properties": {
+          "facility.workspaceFolder": {
+            "type": "string",
+            "scope": "application",
+            "description": "The path of the workspace folder to store the facility files.",
+            "default": ""
+          }
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext ts",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^7.0.1",
+    "@types/node": "^12.11.7",
+    "@types/vscode": "^1.43.0",
+    "eslint": "^6.8.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "glob": "^7.1.6",
+    "mocha": "^7.0.1",
+    "typescript": "^3.7.5",
+    "vscode-test": "^1.3.0"
+  }
 }
