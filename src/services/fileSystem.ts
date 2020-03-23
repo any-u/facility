@@ -12,6 +12,7 @@ import { win } from "./index";
 
 class FileSystem {
   async getFileOrFolder(fullpath: string): Promise<[string, FileType][]> {
+    await file.mkdir(fullpath)
     const data = await workspace.fs.readDirectory(Uri.parse(fullpath));
 
     return data.length ? data.filter(item => item[0] !== ".DS_Store") : data;
@@ -21,7 +22,7 @@ class FileSystem {
     const text = file.data(fullpath);
     return text ? text : "";
   }
-
+w
   async edit(data: string): Promise<void> {
     try {
       // FIXME:
