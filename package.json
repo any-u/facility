@@ -2,7 +2,7 @@
   "name": "facility",
   "displayName": "Facility",
   "description": "灵活的模板",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "publisher": "sillyY",
   "repository": "https://github.com/sillyY/facility.git",
   "engines": {
@@ -98,20 +98,7 @@
           "group": "9_cutcopypaste"
         }
       ]
-    },
-    "configuration": [
-      {
-        "title": "facility",
-        "properties": {
-          "facility.workspaceFolder": {
-            "type": "string",
-            "scope": "application",
-            "description": "The path of the workspace folder to store the facility files.",
-            "default": ""
-          }
-        }
-      }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

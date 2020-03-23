@@ -4,6 +4,10 @@ All notable changes to the "facility" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [0.1.0]
 
-- Initial release
+### Added
+
+- File system management
+- Template insert
+- Template upload
