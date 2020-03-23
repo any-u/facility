@@ -80,8 +80,7 @@
       "view/item/context": [
         {
           "command": "facility.view.insert",
-          "when": "view == facility.view:explorer && viewItem == facility:File",
-          "group": "navigation@1"
+          "when": "view == facility.view:explorer && viewItem == facility:File"
         },
         {
           "command": "facility.view.edit",
