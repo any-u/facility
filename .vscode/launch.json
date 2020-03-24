@@ -16,6 +16,7 @@
 			"outFiles": [
 				"${workspaceFolder}/out/**/*.js"
 			],
+			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "${defaultBuildTask}"
 		},
 		{
@@ -30,6 +31,7 @@
 			"outFiles": [
 				"${workspaceFolder}/out/test/**/*.js"
 			],
+			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "${defaultBuildTask}"
 		}
 	]

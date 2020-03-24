@@ -12,17 +12,30 @@ import { win } from "./index";
 
 class FileSystem {
   async getFileOrFolder(fullpath: string): Promise<[string, FileType][]> {
-    await file.mkdir(fullpath)
-    const data = await workspace.fs.readDirectory(Uri.parse(fullpath));
+    // ensure folder path exist
+    this.ensureFolderExist(fullpath);
 
+    /*
+     * FIXME:
+     * windows will throw error `vscode unable to resolve filesystem provider with relative file path "C:/..."`
+     * it's a magic bug, and can not find method to resolve
+     * use file.listFile instead of fs.readDirectory
+     *
+     * so use adapter mode to achieve mac and windows adaptation
+     */
+    const data = await workspace.fs.readDirectory(Uri.parse(fullpath));
     return data.length ? data.filter(item => item[0] !== ".DS_Store") : data;
+  }
+
+  private ensureFolderExist(fullpath) {
+    return file.mkdir(fullpath);
   }
 
   getFileText(fullpath: string): string {
     const text = file.data(fullpath);
     return text ? text : "";
   }
-w
+  
   async edit(data: string): Promise<void> {
     try {
       // FIXME:
@@ -34,7 +47,7 @@ w
       if (!editor) {
         console.error("Failed to found Editor. Please open the Editor.");
         win.showWarningMessage("未找到编辑窗口，请打开窗口重试!");
-        win.setStatusBarMessage("⚠未找到编辑窗口，请打开窗口重试!")
+        win.setStatusBarMessage("⚠未找到编辑窗口，请打开窗口重试!");
         return;
       }
       editor.edit((builder: TextEditorEdit) => {
