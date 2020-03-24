@@ -1,30 +1,29 @@
-import {
-  workspace,
-  Uri,
-  FileType,
-  window,
-  TextEditorEdit,
-  Position,
-  WorkspaceEdit
-} from "vscode";
+import { Uri, FileType, window, TextEditorEdit, Position } from "vscode";
+import * as path from "path";
 import { file } from "../utils";
 import { win } from "./index";
 
+/*
+ * NOTE:
+ * windows will throw error `vscode unable to resolve filesystem provider with relative file path "C:/..."`
+ * it's a magic bug, and can not find method to resolve
+ * use file.listFile instead of fs.readDirectory
+ */
+
 class FileSystem {
-  async getFileOrFolder(fullpath: string): Promise<[string, FileType][]> {
+  async getFileOrFolder(
+    fullpath: string
+  ): Promise<[string, FileType][] | (string | FileType)[][]> {
     // ensure folder path exist
     this.ensureFolderExist(fullpath);
 
-    /*
-     * FIXME:
-     * windows will throw error `vscode unable to resolve filesystem provider with relative file path "C:/..."`
-     * it's a magic bug, and can not find method to resolve
-     * use file.listFile instead of fs.readDirectory
-     *
-     * so use adapter mode to achieve mac and windows adaptation
-     */
-    const data = await workspace.fs.readDirectory(Uri.parse(fullpath));
-    return data.length ? data.filter(item => item[0] !== ".DS_Store") : data;
+    const files = file.listFile(fullpath);
+    return files
+      ? files.map((item: string) => {
+          const stat = file.stat(fullpath + path.sep + item);
+          return [item, stat.isDirectory() ? 2 : 1];
+        })
+      : [];
   }
 
   private ensureFolderExist(fullpath) {
@@ -35,7 +34,7 @@ class FileSystem {
     const text = file.data(fullpath);
     return text ? text : "";
   }
-  
+
   async edit(data: string): Promise<void> {
     try {
       // FIXME:
@@ -67,37 +66,13 @@ class FileSystem {
     return await window.showTextDocument(Uri.file(fullpath));
   }
 
-  async createAndInsertFile(path: string, data: string) {
-    // FIXME:
-    // if use insert before rename, rename is not work.
-    // make workspaceEdit be new Object all the time
-    const workspaceEdit = new WorkspaceEdit();
-
-    if (!workspaceEdit) {
-      console.error("error");
-      return;
-    }
-    const pathUri = Uri.parse(path);
-    await workspaceEdit.createFile(pathUri);
-    await workspace.applyEdit(workspaceEdit);
-    return file.write(path, data);
-    // await workspaceEdit.insert(pathUri, new Position(0, 0), data);
-    // const editor = window.activeTextEditor;
-    // return editor?.document.save()
+  async createAndInsertFile(fullpath: string, data: string) {
+    this.ensureFolderExist(path.dirname(fullpath));
+    return file.write(fullpath, data);
   }
 
   async renameFile(oldPath: string, newPath: string) {
-    // FIXME:
-    // if use insert before rename, rename is not work.
-    // make workspaceEdit be new Object all the time
-    const workspaceEdit = new WorkspaceEdit();
-
-    if (!workspaceEdit) {
-      console.error("error");
-      return;
-    }
-    workspaceEdit.renameFile(Uri.parse(oldPath), Uri.parse(newPath));
-    return workspace.applyEdit(workspaceEdit);
+    return file.mv(oldPath, newPath);
   }
 
   deleteFile(fullpath: string) {

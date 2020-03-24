@@ -20,12 +20,12 @@ export class FolderNode extends ViewNode {
       switch (item[1]) {
         case 1:
           children.push(
-            new FileNode(this.view, this.path + "/" + item[0], this, item)
+            new FileNode(this.view, this.path + path.sep + item[0], this, item)
           );
           break;
         case 2:
           children.push(
-            new FolderNode(this.view, this.path + "/" + item[0], this)
+            new FolderNode(this.view, this.path + path.sep + item[0], this)
           );
         default:
           break;

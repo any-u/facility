@@ -21,7 +21,7 @@ class Helper {
     const extname = path.extname(basename).substr(1);
 
     await fs.createAndInsertFile(
-      Container.configuration.appFolder() + "/" + extname + "/" + basename,
+      Container.configuration.appFolder() + path.sep + extname + path.sep + basename,
       filedata
     );
 
@@ -38,7 +38,7 @@ class Helper {
     const extname = path.extname(basename).substr(1);
 
     await fs.createAndInsertFile(
-      Container.configuration.appFolder() + "/" + extname + "/" + basename,
+      Container.configuration.appFolder() + path.sep + extname + path.sep + basename,
       content.replace(/<br\/>/g, "\n").replace(/&nbsp;/g, " ")
     );
 

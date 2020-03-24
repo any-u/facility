@@ -23,6 +23,9 @@ class File {
   public rm(fullpath: string) {
     return fs.unlinkSync(fullpath);
   }
+  public mv (src: string, dst: string) {
+    return fs.renameSync(src, dst);
+  };
 
   public remove(fullpath: string) {
     return fse.removeSync(fullpath);
@@ -42,6 +45,10 @@ class File {
   public exist(fullpath: string): boolean {
     return fs.existsSync(fullpath);
   }
+
+  public stat(fullpath: string) {
+    return fs.statSync(fullpath);
+  };
 
   public write<T>(fullpath: string, data: T) {
     return fs.writeFileSync(fullpath, data);
