@@ -42,14 +42,14 @@ facility译为便利、灵巧，即为了便捷而产生。设定好本地代码
 </p>
 - 点击`Facility Explorer`右上角配置按钮，即可打开webview页面
 <p align="center">
-    <img src="https://raw.githubusercontent.com/sillyy/facility/master/docs/local.jpg" width="50%" height="50%"/>
+    <img src="https://raw.githubusercontent.com/sillyy/facility/master/docs/local.jpg"/>
 </p>
 - 本地资源，可通过点击或拖拽实现文件上传.  
 
 > 会根据文件后缀名导入文件夹中。
 
 <p align="center">
-    <img src="https://raw.githubusercontent.com/sillyy/facility/master/docs/online.jpg" width="50%" height="50%"/>
+    <img src="https://raw.githubusercontent.com/sillyy/facility/master/docs/online.jpg" />
 </p>
 
 - 网络资源(Beta)，可点击查看预览文件详情，亦可点击添加导入本地
