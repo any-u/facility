@@ -11,7 +11,7 @@ facility译为便利、灵巧，即为了便捷而产生。设定好本地代码
 [![](https://github.com/sillyy/facility/blob/master/LICENSE)](https://img.shields.io/github/license/sillyy/facility.svg?style=flat-square)
 
 ## 快速开始
-![quick-start]()
+<!-- ![quick-start]() -->
 
 ## 功能
 ### 文件系统管理
