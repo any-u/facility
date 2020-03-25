@@ -7,7 +7,7 @@ facility 译为便利、灵巧，即为了便捷而产生。设定好本地代�
 </p>
 
 [![](https://vsmarketplacebadge.apphb.com/version-short/sillyy.facility.svg)](https://marketplace.visualstudio.com/items?itemName=sillyy.facility)
-[![](https://vsmarketplacebadge.apphb.com/downloads-short/sillyy.facility.svg)](https://marketplace.visualstudio.com/items?itemName=sillyy.facility)
+[![](https://vsmarketplacebadge.apphb.com/installs-short/sillyy.facility.svg)](https://marketplace.visualstudio.com/items?itemName=sillyy.facility)
 [![](https://vsmarketplacebadge.apphb.com/rating-short/sillyy.facility.svg)](https://marketplace.visualstudio.com/items?itemName=sillyy.facility)
 [![](https://github.com/sillyy/facility/blob/master/LICENSE)](https://img.shields.io/github/license/sillyy/facility.svg?style=flat-square)
 
