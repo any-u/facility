@@ -3,13 +3,23 @@
   "displayName": "Facility",
   "description": "灵活的模板",
   "version": "0.1.0",
+  "author": "sillyY",
   "publisher": "sillyY",
+  "license": "MIT",
+  "icon": "resources/icon.png",
   "repository": "https://github.com/sillyY/facility.git",
+  "homepage": "https://github.com/sillyY/facility/blob/master/README.md",
   "engines": {
     "vscode": "^1.43.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Snippets"
+  ],
+  "keywords": [
+    "facility",
+    "template",
+    "insert"
   ],
   "activationEvents": [
     "*"
