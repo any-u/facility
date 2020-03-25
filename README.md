@@ -13,7 +13,7 @@ facility 译为便利、灵巧，即为了便捷而产生。设定好本地代�
 
 ## 快速开始
 
-![quick-start](https://raw.githubusercontent.com/sillyy/facility/master/docs/fs.png/quick-start.gif)
+![quick-start](https://raw.githubusercontent.com/sillyy/facility/master/docs/quick-start.gif)
 
 ## 功能
 
