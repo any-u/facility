@@ -1,7 +1,7 @@
 import * as path from "path";
 import { WebViewBase, IpcMessage } from "./webviewBase";
 import { Container } from "../container";
-import { helper } from "../services";
+import {  ipc } from "../services";
 
 export class SettingsWebview extends WebViewBase {
   constructor() {
@@ -23,7 +23,7 @@ export class SettingsWebview extends WebViewBase {
   }
 
   async onMessageReceived(e: IpcMessage) {
-    const msg = await helper.handler(e.cmd, e.data);
+    const msg = await ipc.handler(e.cmd, e.data);
     msg.cbid = e.cbid;
     return this.postMessage(msg);
   }

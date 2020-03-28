@@ -28,7 +28,7 @@ export class FileNode extends ViewNode {
     item.command = {
       title: "Insert Template",
       command: "facility.view.insert",
-      arguments: [this]
+      arguments: [this, 1]
     };
 
     return item;

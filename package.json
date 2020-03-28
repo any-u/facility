@@ -108,7 +108,27 @@
           "group": "9_cutcopypaste"
         }
       ]
-    }
+    },
+    "configuration": [
+      {
+        "title": "Facility",
+        "properties": {
+          "facility.toggleClick": {
+            "type": "string",
+            "description": "切换插入代码的点击方式",
+            "default": "单击",
+            "enum": [
+              "单击",
+              "双击"
+            ],
+            "enumDescriptions": [
+              "单击插入代码",
+              "双击插入代码"
+            ]
+          }
+        }
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile && npm run copy",

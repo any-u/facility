@@ -1,51 +1,28 @@
-import * as path from "path";
-import { Container } from "../container";
-import { IpcMessage } from "../webviews/webviewBase";
-import { win, fs } from "./index";
+import { FileNode } from "../views/nodes";
+
+interface PrevSelection {
+  node: FileNode;
+  time: number;
+}
+
+let prevselection: PrevSelection | null = null;
 
 class Helper {
-  handler(cmd: string, data: any) {
-    return (this as any)[cmd](data);
-  }
+  doubleClick(node: FileNode) {
+    const currentTime = Date.now(),
+      doubleClickTime = 500;
 
-  defaultMsg() {
-    return {
-      cmd: "vscode_callback",
-      cbid: "",
-      data: "操作成功"
-    };
-  }
-  async uploadFile(data: any): Promise<IpcMessage> {
-    const filedata = fs.getFileText(data);
-    const basename = path.basename(data);
-    const extname = path.extname(basename).substr(1);
+    if (
+      prevselection === null ||
+      prevselection.node !== node ||
+      currentTime - prevselection.time >= doubleClickTime
+    ) {
+      prevselection = { node: node, time: currentTime };
+      return false;
+    }
 
-    await fs.createAndInsertFile(
-      Container.configuration.appFolder() + path.sep + extname + path.sep + basename,
-      filedata
-    );
-
-    Container.view.triggerNodeChange();
-    win.showInformationMessage("🎉上传文件成功");
-
-    return this.defaultMsg();
-  }
-
-  async addSource(data: any): Promise<IpcMessage> {
-    const { content, name } = data;
-
-    const basename = path.basename(name);
-    const extname = path.extname(basename).substr(1);
-
-    await fs.createAndInsertFile(
-      Container.configuration.appFolder() + path.sep + extname + path.sep + basename,
-      content.replace(/<br\/>/g, "\n").replace(/&nbsp;/g, " ")
-    );
-
-    Container.view.triggerNodeChange();
-    win.showInformationMessage("🎉导入文件成功");
-
-    return this.defaultMsg();
+    prevselection = null;
+    return true;
   }
 }
 

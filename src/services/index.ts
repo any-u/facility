@@ -1,5 +1,5 @@
 export * from './configuration'
 export * from './fileSystem'
-export * from './helper'
+export * from './ipc'
 export * from './windowService'
 export * from './icon'

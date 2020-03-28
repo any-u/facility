@@ -11,6 +11,7 @@ import {
 import { ViewNode } from "./viewNode";
 import { Container } from "../container";
 import { FileNode, FolderNode } from "./nodes";
+import { helper } from "../services/helper";
 
 export class SidebarView implements TreeDataProvider<ViewNode>, Disposable {
   protected _onDidChangeTreeData = new EventEmitter<ViewNode>();
@@ -59,8 +60,11 @@ export class SidebarView implements TreeDataProvider<ViewNode>, Disposable {
   private registerCommands() {
     commands.registerCommand(
       `${this.id}.insert`,
-      (node: FileNode) => {
-        this.onInsert(node);
+      (node: FileNode, type: number) => {
+        // type 为 1， 表示直接点击
+        return type && Container.configuration.checkDoubleClick()
+          ? helper.doubleClick(node) && this.onInsert(node)
+          : this.onInsert(node);
       },
       this
     );

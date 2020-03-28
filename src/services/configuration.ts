@@ -18,6 +18,10 @@ export class Configuration implements Disposable {
     return process.env.HOME || process.env.USERPROFILE || "";
   }
 
+  private getToggleClick(): string {
+    return this.getWorkspaceConfiguration().get<string>("toggleClick", "");
+  }
+
   dispose() {}
   /**
    * @description: 获取插件首页目录
@@ -36,5 +40,9 @@ export class Configuration implements Disposable {
       this.homeFolder(),
       this.getAppFolder() || "facility-library"
     );
+  }
+
+  public checkDoubleClick(): boolean {
+    return this.getToggleClick() === "双击";
   }
 }
