@@ -113,6 +113,12 @@
       {
         "title": "Facility",
         "properties": {
+          "facility.workspaceFolder": {
+            "type": "string",
+            "scope": "application",
+            "description": "设置用于存储模板文件的工作区文件夹路径",
+            "default": ""
+          },
           "facility.toggleClick": {
             "type": "string",
             "description": "切换插入代码的点击方式",

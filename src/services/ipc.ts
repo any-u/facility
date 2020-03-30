@@ -2,6 +2,7 @@ import * as path from "path";
 import { Container } from "../container";
 import { IpcMessage } from "../webviews/webviewBase";
 import { win, fs } from "./index";
+import { configuration } from "../configuration";
 
 class Ipc {
   handler(cmd: string, data: any) {
@@ -21,7 +22,7 @@ class Ipc {
     const extname = path.extname(basename).substr(1);
 
     await fs.createAndInsertFile(
-      Container.configuration.appFolder() + path.sep + extname + path.sep + basename,
+      configuration.appFolder() + path.sep + extname + path.sep + basename,
       filedata
     );
 
@@ -38,7 +39,7 @@ class Ipc {
     const extname = path.extname(basename).substr(1);
 
     await fs.createAndInsertFile(
-      Container.configuration.appFolder() + path.sep + extname + path.sep + basename,
+      configuration.appFolder() + path.sep + extname + path.sep + basename,
       content.replace(/<br\/>/g, "\n").replace(/&nbsp;/g, " ")
     );
 

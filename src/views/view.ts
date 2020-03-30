@@ -6,12 +6,14 @@ import {
   window,
   TreeView,
   TreeItem,
-  commands
+  commands,
+  ConfigurationChangeEvent
 } from "vscode";
 import { ViewNode } from "./viewNode";
-import { Container } from "../container";
 import { FileNode, FolderNode } from "./nodes";
 import { helper } from "../services/helper";
+import { configuration } from "../services";
+import { Container } from "../container";
 
 export class SidebarView implements TreeDataProvider<ViewNode>, Disposable {
   protected _onDidChangeTreeData = new EventEmitter<ViewNode>();
@@ -33,6 +35,10 @@ export class SidebarView implements TreeDataProvider<ViewNode>, Disposable {
     }
 
     this.registerCommands();
+
+    Container.context.subscriptions.push(
+      configuration.onDidChange(this.onConfigurationChanged, this)
+    );
     this.initialize("explorer");
   }
 
@@ -57,12 +63,21 @@ export class SidebarView implements TreeDataProvider<ViewNode>, Disposable {
     this._disposable = Disposable.from(this._tree);
   }
 
+  protected onConfigurationChanged(e: ConfigurationChangeEvent) {
+
+    if (configuration.changed(e, "workspaceFolder")) {
+      this._root = undefined;
+
+      this.triggerNodeChange()
+    }
+  }
+
   private registerCommands() {
     commands.registerCommand(
       `${this.id}.insert`,
       (node: FileNode, type: number) => {
         // type 为 1， 表示直接点击
-        return type && Container.configuration.checkDoubleClick()
+        return type && configuration.checkDoubleClick()
           ? helper.doubleClick(node) && this.onInsert(node)
           : this.onInsert(node);
       },
@@ -90,7 +105,7 @@ export class SidebarView implements TreeDataProvider<ViewNode>, Disposable {
 
   private getRoot() {
     if (this._root === void 0) {
-      this._root = new FolderNode(this, Container.configuration.appFolder());
+      this._root = new FolderNode(this, configuration.appFolder());
     }
 
     return this.root;

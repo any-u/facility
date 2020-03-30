@@ -23,9 +23,9 @@ class File {
   public rm(fullpath: string) {
     return fs.unlinkSync(fullpath);
   }
-  public mv (src: string, dst: string) {
+  public mv(src: string, dst: string) {
     return fs.renameSync(src, dst);
-  };
+  }
 
   public remove(fullpath: string) {
     return fse.removeSync(fullpath);
@@ -48,7 +48,7 @@ class File {
 
   public stat(fullpath: string) {
     return fs.statSync(fullpath);
-  };
+  }
 
   public write<T>(fullpath: string, data: T) {
     return fs.writeFileSync(fullpath, data);
@@ -61,7 +61,11 @@ class File {
   }
 
   public copyFile(src: string, dest: string) {
-    fs.copyFileSync(src, dest);
+    return fs.copyFileSync(src, dest);
+  }
+
+  public move(src: string, dest: string) {
+    return fse.moveSync(src, dest);
   }
 }
 

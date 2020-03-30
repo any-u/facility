@@ -78,6 +78,15 @@ class FileSystem {
   deleteFile(fullpath: string) {
     return file.remove(fullpath);
   }
+
+  workspaceFolderMigrate(
+    cfg: string,
+    config: string,
+    raw?: string | null | undefined
+  ) {
+    file.move(cfg, config);
+    raw && file.remove(raw);
+  }
 }
 
 export const fs = new FileSystem();

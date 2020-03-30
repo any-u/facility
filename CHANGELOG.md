@@ -9,6 +9,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### 增加
 
 - 模板插入方式可配置
+- 用于存储模板文件的工作区文件夹路径可配置
 
 ## [0.1.1]
 

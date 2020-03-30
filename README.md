@@ -61,6 +61,13 @@ facility 译为便利、灵巧，即为了便捷而产生。设定好本地代�
 
 - 网络资源(Beta)，可点击查看预览文件详情，亦可点击添加导入本地
 
+## Settings
+
+| 设置                        | 说明                                   | 默认值 |
+| --------------------------- | -------------------------------------- | ------ |
+| `facility.workspacceFolder` | 设置用于存储模板文件的工作区文件夹路径 | `—`    |
+| `facility.toggleClick`      | 换插入代码的点击方式                   | `单击` |
+
 ## 更新日志
 
 请参考[更新日志](https://github.com/sillyY/facility/blob/master/CHANGELOG.md)
