@@ -1,4 +1,5 @@
 import * as path from "path";
+import * as _ from "lodash";
 import {
   workspace,
   WorkspaceConfiguration,
@@ -19,9 +20,10 @@ export const extensionId = "facility";
 
 export class Configuration {
   static configure(ctx: ExtensionContext) {
+    // 配置项加上防抖，否则input输出会频繁触发
     ctx.subscriptions.push(
       workspace.onDidChangeConfiguration(
-        configuration.onConfigurationChanged,
+        _.debounce(configuration.onConfigurationChanged, 250),
         configuration
       )
     );
