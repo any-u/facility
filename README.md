@@ -8,7 +8,8 @@ facility 译为便利、灵巧，即为了便捷而产生。设定好本地代�
 
 [![](https://vsmarketplacebadge.apphb.com/version-short/sillyy.facility.svg)](https://marketplace.visualstudio.com/items?itemName=sillyy.facility)
 [![](https://vsmarketplacebadge.apphb.com/installs-short/sillyy.facility.svg)](https://marketplace.visualstudio.com/items?itemName=sillyy.facility)
-[![](https://vsmarketplacebadge.apphb.com/rating-short/sillyy.facility.svg)](https://marketplace.visualstudio.com/items?itemName=sillyy.facility)
+[![](https://vsmarketplacebadge.apphb.com/downloads-short/sillyy.facility.svg)](https://marketplace.visualstudio.com/items?itemName=sillyy.facility)
+[![](https://vsmarketplacebadge.apphb.com/rating-star/sillyy.facility.svg)](https://marketplace.visualstudio.com/items?itemName=sillyy.facility)
 [![](https://github.com/sillyy/facility/blob/master/LICENSE)](https://img.shields.io/github/license/sillyy/facility.svg?style=flat-square)
 
 ## 快速开始
@@ -16,7 +17,7 @@ facility 译为便利、灵巧，即为了便捷而产生。设定好本地代�
 ![quick-start](https://raw.githubusercontent.com/sillyy/facility/master/docs/quick-start.gif)
 
 ## 功能
-
+ 
 ### 文件系统管理
 
 <p align="center">
@@ -33,6 +34,7 @@ facility 译为便利、灵巧，即为了便捷而产生。设定好本地代�
   <p align="center">
       <img src="https://raw.githubusercontent.com/sillyy/facility/master/docs/file_click.jpg" width="50%" height="50%"/>
   </p>
+
 - 在`Facility Explorer` 中**右键**文件, 可编辑、重命名、删除、插入文件
 
 ### 模板插入
@@ -40,17 +42,20 @@ facility 译为便利、灵巧，即为了便捷而产生。设定好本地代�
 <p align="center">
     <img src="https://raw.githubusercontent.com/sillyy/facility/master/docs/insert.jpg" width="50%" height="50%"/>
 </p>
-- 直接点击模板或者在`Facility Explorer` 中**右键**文件并选择插入，即可在当前编辑区光标处导入模板
+
+- 直接`点击`/`双击`模板或者在`Facility Explorer` 中**右键**文件并选择插入，即可在当前编辑区光标处导入模板
 
 ### 模板上传
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/sillyy/facility/master/docs/show.jpg" width="50%" height="50%"/>
 </p>
+
 - 点击`Facility Explorer`右上角配置按钮，即可打开webview页面
 <p align="center">
     <img src="https://raw.githubusercontent.com/sillyy/facility/master/docs/local.jpg"/>
 </p>
+
 - 本地资源，可通过点击或拖拽实现文件上传.
 
 > 会根据文件后缀名导入文件夹中。
