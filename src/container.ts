@@ -70,15 +70,14 @@ export class Container {
         }
 
         let cfg = this._config?.workspaceFolder,
-          config = configuration.get("workspaceFolder"),
-          raw = cfg;
+          config = configuration.get("workspaceFolder");
 
         cfg = cfg ? path.join(cfg, ".fl") : configuration.defaultFolder();
         config = config
           ? path.join(config, ".fl")
           : configuration.defaultFolder();
 
-        fs.workspaceFolderMigrate(cfg, config, raw);
+        fs.workspaceFolderMigrate(cfg, config);
 
         this._config = configuration.get();
         e.transform = this._applyModeConfigurationTransformBound;

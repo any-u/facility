@@ -81,11 +81,10 @@ class FileSystem {
 
   workspaceFolderMigrate(
     cfg: string,
-    config: string,
-    raw?: string | null | undefined
+    config: string
   ) {
     file.move(cfg, config);
-    raw && file.remove(raw);
+    cfg && file.remove(cfg);
   }
 }
 
