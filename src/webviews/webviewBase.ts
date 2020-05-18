@@ -1,14 +1,14 @@
-import {
+import vscode, {
   Disposable,
   WebviewPanel,
   ViewColumn,
   window,
   Uri,
-  workspace,
-  commands
-} from "vscode";
-import * as path from "path";
-import { Container } from "../container";
+  // workspace,
+  commands,
+} from 'vscode';
+// import * as path from 'path';
+import { Container } from '../container';
 
 export interface IpcMessage {
   cbid: string;
@@ -36,16 +36,18 @@ export abstract class WebViewBase implements Disposable {
     this.show(this._column);
   }
 
-  abstract onMessageReceived(e: IpcMessage): void
+  abstract onMessageReceived(e: IpcMessage): void;
 
   private onMessageReceivedCore(e: IpcMessage) {
-    if (e == null) return;
+    if (e === null) return;
 
     this.onMessageReceived(e);
   }
 
   async show(column: ViewColumn = ViewColumn.Active): Promise<void> {
-    const html = await this.getHtml();
+    const fullWebServerUri = await vscode.env.asExternalUri(
+      vscode.Uri.parse(`http://localhost:3000`)
+    );
 
     if (this._panel === void 0) {
       this._panel = window.createWebviewPanel(
@@ -53,17 +55,17 @@ export abstract class WebViewBase implements Disposable {
         this.title,
         {
           viewColumn: column,
-          preserveFocus: false
+          preserveFocus: false,
         },
         {
           retainContextWhenHidden: true,
           enableFindWidget: true,
           enableCommandUris: true,
-          enableScripts: true
+          enableScripts: true,
         }
       );
       this._panel.iconPath = Uri.file(
-        Container.context.asAbsolutePath("resources/icon.png")
+        Container.context.asAbsolutePath('resources/icon.png')
       );
       this._disposablePanel = Disposable.from(
         this._panel,
@@ -73,42 +75,56 @@ export abstract class WebViewBase implements Disposable {
           this
         )
       );
-
-      this._panel.webview.html = html;
+      const cspSource = this._panel.webview.cspSource;
+      this._panel.webview.html = `<!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta
+                http-equiv="Content-Security-Policy"
+                content="default-src 'none'; frame-src ${fullWebServerUri} ${cspSource} https:; img-src ${cspSource} https:; script-src ${cspSource}; style-src ${cspSource};"
+            />
+          <title>facility-webview</title>
+        </head>
+        <body>
+        <iframe src="${fullWebServerUri}">
+        </body>
+      </html>`;
     } else {
-      this._panel.webview.html = "";
+      this._panel.webview.html = '';
       this._panel.reveal(this._panel.viewColumn || ViewColumn.Active, false);
     }
   }
 
-  private _html: string | undefined;
-  private async getHtml(): Promise<string> {
-    let content;
+  // private _html: string | undefined;
+  // private async getHtml(): Promise<string> {
+  //   let content;
 
-    if (this._html !== void 0) return this._html;
+  //   if (this._html !== void 0) return this._html;
 
-    const doc = await workspace.openTextDocument(this.filepath);
-    content = doc.getText();
+  //   const doc = await workspace.openTextDocument(this.filepath);
+  //   content = doc.getText();
 
-    let html = content.replace(
-      /(<link.+?href="|<script.+?src="|<img.+?src=")(.+?)"/g,
-      //@ts-ignore
-      (m, $1, $2) => {
-        if ($2.substr(0, 2) == "//" || $2.substr(0, 5) == "https")
-          return $1 + $2 + '"';
-        return (
-          $1 +
-          Uri.file(path.join(this.dirpath, $2))
-            .with({ scheme: "vscode-resource" })
-            .toString() +
-          '"'
-        );
-      }
-    );
+  //   let html = content.replace(
+  //     /(<link.+?href="|<script.+?src="|<img.+?src=")(.+?)"/g,
+  //     //@ts-ignore
+  //     (m, $1, $2) => {
+  //       if ($2.substr(0, 2) == '//' || $2.substr(0, 5) == 'https')
+  //         return $1 + $2 + '"';
+  //       return (
+  //         $1 +
+  //         Uri.file(path.join(this.dirpath, $2))
+  //           .with({ scheme: 'vscode-resource' })
+  //           .toString() +
+  //         '"'
+  //       );
+  //     }
+  //   );
 
-    this._html = html;
-    return html;
-  }
+  //   this._html = html;
+  //   return html;
+  // }
 
   dispose() {
     this._disposable && this._disposable.dispose();

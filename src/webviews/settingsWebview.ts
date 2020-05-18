@@ -12,7 +12,7 @@ export class SettingsWebview extends WebViewBase {
   }
 
   get filepath() {
-    return Container.context.asAbsolutePath("out/src/webviews/settings/index.html");
+    return Container.context.asAbsolutePath("dist/webview/index.html");
   }
   get id(): string {
     return "facility.settings";

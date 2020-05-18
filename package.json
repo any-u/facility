@@ -24,7 +24,7 @@
   "activationEvents": [
     "*"
   ],
-  "main": "./out/src/extension.js",
+  "main": "dist/extension",
   "contributes": {
     "commands": [
       {
@@ -141,9 +141,14 @@
     "compile": "tsc -p ./",
     "copy": "node pack.js",
     "lint": "eslint src --ext ts",
-    "watch": "tsc -watch -p ./",
+    "watch": "webpack --watch",
     "pretest": "npm run compile && npm run lint",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "watch-copy": "webpack --watch --env.development --info-verbosity verbose",
+    "extension:watch": "webpack --watch --config ./config/dev.config.js",
+    "webviews:watch": "webpack-dev-server --watch --config ./config/dev.config.js",
+    "start:webview": "node scripts/start.js",
+    "webview": "webpack --watch --config ./config/prod.config.js"
   },
   "devDependencies": {
     "@types/fs-extra": "^8.1.0",
@@ -152,19 +157,36 @@
     "@types/mkdirp": "^1.0.0",
     "@types/mocha": "^7.0.1",
     "@types/node": "^12.11.7",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.7",
     "@types/vscode": "^1.43.0",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.1.0",
+    "clean-webpack-plugin": "^3.0.0",
     "copy-dir": "^1.2.0",
+    "css-loader": "^3.5.3",
     "eslint": "^6.8.0",
     "glob": "^7.1.6",
+    "mini-css-extract-plugin": "^0.9.0",
     "mocha": "^7.0.1",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^8.0.2",
     "typescript": "^3.7.5",
-    "vscode-test": "^1.3.0"
+    "url-loader": "^4.1.0",
+    "vscode-test": "^1.3.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "fs-extra": "^9.0.0",
+    "html-webpack-plugin": "^4.2.1",
     "lodash": "^4.17.15",
-    "mkdirp": "^1.0.3"
+    "mkdirp": "^1.0.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   }
 }
