@@ -21,7 +21,8 @@
     "alwaysStrict": true,
     "jsx": "react",
     "noEmit": true,
+    "downlevelIteration": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", ".vscode-test", "webview","src/test"]
+  "exclude": ["node_modules", ".vscode-test", "webview", "src/test"]
 }

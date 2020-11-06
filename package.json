@@ -6,20 +6,24 @@
   "author": "sillyY",
   "publisher": "sillyY",
   "license": "MIT",
-  "icon": "resources/icon.png",
+  "icon": "images/icon.png",
   "repository": "https://github.com/sillyY/facility.git",
   "homepage": "https://github.com/sillyY/facility/blob/master/README.md",
   "engines": {
     "vscode": "^1.43.0"
   },
   "categories": [
-    "Other",
-    "Snippets"
+    "Other"
   ],
+  "galleryBanner": {
+    "color": "#3b9af6",
+    "theme": "dark"
+  },
   "keywords": [
     "facility",
     "template",
-    "insert"
+    "insert",
+    "library"
   ],
   "activationEvents": [
     "*"
@@ -28,37 +32,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "facility.view.settings",
-        "title": "设置",
-        "category": "Facility",
-        "icon": {
-          "light": "resources/light/settings.svg",
-          "dark": "resources/dark/settings.svg"
-        }
-      },
-      {
-        "command": "facility.view.showSettings",
-        "title": "打开设置页",
-        "category": "Facility"
-      },
-      {
-        "command": "facility.view.insert",
-        "title": "插入",
-        "category": "Facility"
-      },
-      {
-        "command": "facility.view.edit",
-        "title": "编辑",
-        "category": "Facility"
-      },
-      {
-        "command": "facility.view.rename",
-        "title": "重命名",
-        "category": "Facility"
-      },
-      {
-        "command": "facility.view.delete",
-        "title": "删除",
+        "command": "facility.views.repositories.insert",
+        "title": "Insert code",
         "category": "Facility"
       }
     ],
@@ -67,46 +42,32 @@
         {
           "id": "facility",
           "title": "facility",
-          "icon": "resources/icon.svg"
+          "icon": "images/icon.svg"
         }
       ]
     },
     "views": {
       "facility": [
         {
-          "id": "facility.view:explorer",
-          "name": "模板库"
+          "id": "facility.views.repositories:facility",
+          "name": "Repositories",
+          "contextualTitle": "Facility",
+          "icon": "repo"
+        },
+        {
+          "id": "facility.views.outline:facility",
+          "name": "Outline",
+          "contextualTitle": "Facility",
+          "icon": "repo"
         }
       ]
     },
     "menus": {
       "view/title": [
-        {
-          "command": "facility.view.settings",
-          "when": "view =~ /^facility\\.view/",
-          "group": "navigation@1"
-        }
+        
       ],
       "view/item/context": [
-        {
-          "command": "facility.view.insert",
-          "when": "view == facility.view:explorer && viewItem == facility:File"
-        },
-        {
-          "command": "facility.view.edit",
-          "when": "view == facility.view:explorer && viewItem == facility:File",
-          "group": "1_modification"
-        },
-        {
-          "command": "facility.view.rename",
-          "when": "view == facility.view:explorer && viewItem == facility:Folder ||view == facility.view:explorer && viewItem == facility:File",
-          "group": "1_modification"
-        },
-        {
-          "command": "facility.view.delete",
-          "when": "view == facility.view:explorer && viewItem == facility:Folder || view == facility.view:explorer && viewItem == facility:File",
-          "group": "9_cutcopypaste"
-        }
+        
       ]
     },
     "configuration": [
@@ -141,16 +102,12 @@
     "compile": "tsc -p ./",
     "copy": "node pack.js",
     "lint": "eslint src --ext ts",
-    "watch": "webpack --watch",
+    "watch": "webpack --watch --env.development --info-verbosity verbose",
     "pretest": "npm run compile && npm run lint",
-    "test": "node ./out/test/runTest.js",
-    "watch-copy": "webpack --watch --env.development --info-verbosity verbose",
-    "extension:watch": "webpack --watch --config ./config/dev.config.js",
-    "webviews:watch": "webpack-dev-server --watch --config ./config/dev.config.js",
-    "start:webview": "node scripts/start.js",
-    "webview": "webpack --watch --config ./config/prod.config.js"
+    "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
+    "@types/chokidar": "^2.1.3",
     "@types/fs-extra": "^8.1.0",
     "@types/glob": "^7.1.1",
     "@types/lodash": "^4.14.149",
@@ -168,11 +125,15 @@
     "copy-dir": "^1.2.0",
     "css-loader": "^3.5.3",
     "eslint": "^6.8.0",
+    "fork-ts-checker-webpack-plugin": "^5.2.0",
     "glob": "^7.1.6",
+    "html-webpack-plugin": "^4.5.0",
     "mini-css-extract-plugin": "^0.9.0",
     "mocha": "^7.0.1",
     "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
+    "terser-webpack-plugin": "^4.2.3",
+    "ts-loader": "^8.0.5",
     "typescript": "^3.7.5",
     "url-loader": "^4.1.0",
     "vscode-test": "^1.3.0",
@@ -182,8 +143,8 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "chokidar": "^3.4.3",
     "fs-extra": "^9.0.0",
-    "html-webpack-plugin": "^4.2.1",
     "lodash": "^4.17.15",
     "mkdirp": "^1.0.3",
     "react": "^16.13.1",

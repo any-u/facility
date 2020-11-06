@@ -1,14 +1,14 @@
-import { FileNode } from "../views/nodes";
-
 interface PrevSelection {
-  node: FileNode;
+  // TODO: 调整node类型
+  node: any;
   time: number;
 }
 
 let prevselection: PrevSelection | null = null;
 
 class Helper {
-  doubleClick(node: FileNode) {
+  // TODO: 调整node类型
+  doubleClick(node: any) {
     const currentTime = Date.now(),
       doubleClickTime = 500;
 
