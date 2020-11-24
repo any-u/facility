@@ -1,67 +1,84 @@
 import {
   Disposable,
-  ThemeIcon,
+  FileType,
   TreeItem,
   TreeItemCollapsibleState,
 } from 'vscode'
+import { ContextValues, ViewNode } from '.'
 import { App } from '../../app'
-import { Repository } from '../../repo/repository'
-import { configuration, fs } from '../../services'
-import { RepositoriesView } from '../repositoriesView'
+import { Commands } from '../../commands'
+import { fileSystem } from '../../services'
+import { GistElement, TExplorerTreeNode } from '../../tree/explorerTree'
+import { isDblclick } from '../../utils'
+import { ExplorerView } from '../explorerView'
 import { MessageNode } from './common'
-import { GistNode } from './gistNode'
-import { RepositoriesNode } from './repositoriesNode'
 import { SubscribeableViewNode } from './viewNode'
 
-export class RepositoryNode extends SubscribeableViewNode<RepositoriesView> {
-  private _children: RepositoryNode[] | GistNode[] | MessageNode[] | undefined
+export class RepositoryNode extends SubscribeableViewNode<ExplorerView> {
+  private _children: (RepositoryNode | MessageNode)[] | undefined
 
   constructor(
-    view: RepositoriesView,
-    public parent: RepositoriesNode,
-    public readonly repo: Repository
+    view: ExplorerView,
+    public readonly element: GistElement,
+    public readonly children: TExplorerTreeNode[]
   ) {
-    super(view, '')
+    super(view)
   }
+  async getChildren(): Promise<(RepositoryNode | MessageNode)[]> {
+    const children: any[] = []
+    const root = await App.explorerTree.getNode(
+      this.element.name,
+      FileType.Directory
+    )
 
-  async getChildren(): Promise<RepositoryNode[] | GistNode[] | MessageNode[]> {
-    const repositories = await fs.getFileList(this.repo.path)
+    if (!root || !root.children.length)
+      return [new MessageNode(this.view, this, 'No nodes could be found')]
 
-    if (!repositories.directory.length && !repositories.file.length)
-      return [
-        new MessageNode(this.view, this, 'No repositories could be found.'),
-      ]
-
-    const children = [] as any[]
-    for (let dir of repositories.directory) {
-      const repository = new Repository(dir.name, dir.path, false, dir.type)
-      let node = new RepositoryNode(this.view, this.parent, repository)
-      children.push(node)
-    }
-
-    for (let dir of repositories.file) {
-      let node = new GistNode(this.view, dir)
-      children.push(node)
-    }
+    root.children.forEach((item) =>
+      children.push(new RepositoryNode(this.view, item.element, item.children))
+    )
 
     this._children = children
     return this._children
   }
 
   getTreeItem() {
-    const label = this.repo.formattedName
-    const item = new TreeItem(label, TreeItemCollapsibleState.Expanded)
-    item.iconPath =
-      this.repo.path === configuration.appFolder()
-        ? {
-            dark: App.context.asAbsolutePath(`images/dark/icon-repo.svg`),
-            light: App.context.asAbsolutePath(`images/light/icon-repo.svg`),
-          }
-        : ThemeIcon.Folder
+    const { name, element } = this.element
+    const label = fileSystem.fullname(name)
+    const item = new TreeItem(
+      label,
+      this.children.length
+        ? TreeItemCollapsibleState.Expanded
+        : TreeItemCollapsibleState.None
+    )
+    item.iconPath = this.adaptIcon(label, element.fileType)
+    item.contextValue = ContextValues.Explorer
+    item.command = {
+      title: 'Stick Gist',
+      command: Commands.StickGist,
+      arguments: [this],
+    }
     return item
   }
 
+  onRepositoryChanged() {
+    void this.triggerChange()
+  }
+
   subscribe() {
-    return Disposable.from()
+    return Disposable.from(
+      App.explorerTree.onDidChangeNodes(this.onRepositoryChanged, this)
+    )
+  }
+
+  triggerGistSticked() {
+    const { name } = this.element
+    const content = fileSystem.getFileText(name)
+
+    if (isDblclick(this)) {
+      fileSystem.edit(content)
+    } else {
+      App.outlineView.path = name
+    }
   }
 }

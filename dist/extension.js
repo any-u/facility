@@ -87,10 +87,10 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/anymatch/index.js":
-/*!****************************************!*\
-  !*** ./node_modules/anymatch/index.js ***!
-  \****************************************/
+/***/ "./node_modules/_anymatch@3.1.1@anymatch/index.js":
+/*!********************************************************!*\
+  !*** ./node_modules/_anymatch@3.1.1@anymatch/index.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -99,8 +99,8 @@ module.exports =
 
 Object.defineProperty(exports, "__esModule", { value: true });
 
-const picomatch = __webpack_require__(/*! picomatch */ "./node_modules/picomatch/index.js");
-const normalizePath = __webpack_require__(/*! normalize-path */ "./node_modules/normalize-path/index.js");
+const picomatch = __webpack_require__(/*! picomatch */ "./node_modules/_picomatch@2.2.2@picomatch/index.js");
+const normalizePath = __webpack_require__(/*! normalize-path */ "./node_modules/_normalize-path@3.0.0@normalize-path/index.js");
 
 /**
  * @typedef {(testString: string) => boolean} AnymatchFn
@@ -201,10 +201,10 @@ module.exports = anymatch;
 
 /***/ }),
 
-/***/ "./node_modules/at-least-node/index.js":
-/*!*********************************************!*\
-  !*** ./node_modules/at-least-node/index.js ***!
-  \*********************************************/
+/***/ "./node_modules/_at-least-node@1.0.0@at-least-node/index.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/_at-least-node@1.0.0@at-least-node/index.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -217,10 +217,10 @@ module.exports = r => {
 
 /***/ }),
 
-/***/ "./node_modules/binary-extensions/binary-extensions.json":
-/*!***************************************************************!*\
-  !*** ./node_modules/binary-extensions/binary-extensions.json ***!
-  \***************************************************************/
+/***/ "./node_modules/_binary-extensions@2.1.0@binary-extensions/binary-extensions.json":
+/*!****************************************************************************************!*\
+  !*** ./node_modules/_binary-extensions@2.1.0@binary-extensions/binary-extensions.json ***!
+  \****************************************************************************************/
 /*! exports provided: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, default */
 /***/ (function(module) {
 
@@ -228,32 +228,32 @@ module.exports = JSON.parse("[\"3dm\",\"3ds\",\"3g2\",\"3gp\",\"7z\",\"a\",\"aac
 
 /***/ }),
 
-/***/ "./node_modules/binary-extensions/index.js":
-/*!*************************************************!*\
-  !*** ./node_modules/binary-extensions/index.js ***!
-  \*************************************************/
+/***/ "./node_modules/_binary-extensions@2.1.0@binary-extensions/index.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/_binary-extensions@2.1.0@binary-extensions/index.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./binary-extensions.json */ "./node_modules/binary-extensions/binary-extensions.json");
+module.exports = __webpack_require__(/*! ./binary-extensions.json */ "./node_modules/_binary-extensions@2.1.0@binary-extensions/binary-extensions.json");
 
 
 /***/ }),
 
-/***/ "./node_modules/braces/index.js":
-/*!**************************************!*\
-  !*** ./node_modules/braces/index.js ***!
-  \**************************************/
+/***/ "./node_modules/_braces@3.0.2@braces/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/_braces@3.0.2@braces/index.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const stringify = __webpack_require__(/*! ./lib/stringify */ "./node_modules/braces/lib/stringify.js");
-const compile = __webpack_require__(/*! ./lib/compile */ "./node_modules/braces/lib/compile.js");
-const expand = __webpack_require__(/*! ./lib/expand */ "./node_modules/braces/lib/expand.js");
-const parse = __webpack_require__(/*! ./lib/parse */ "./node_modules/braces/lib/parse.js");
+const stringify = __webpack_require__(/*! ./lib/stringify */ "./node_modules/_braces@3.0.2@braces/lib/stringify.js");
+const compile = __webpack_require__(/*! ./lib/compile */ "./node_modules/_braces@3.0.2@braces/lib/compile.js");
+const expand = __webpack_require__(/*! ./lib/expand */ "./node_modules/_braces@3.0.2@braces/lib/expand.js");
+const parse = __webpack_require__(/*! ./lib/parse */ "./node_modules/_braces@3.0.2@braces/lib/parse.js");
 
 /**
  * Expand the given pattern or create a regex-compatible string.
@@ -422,18 +422,18 @@ module.exports = braces;
 
 /***/ }),
 
-/***/ "./node_modules/braces/lib/compile.js":
-/*!********************************************!*\
-  !*** ./node_modules/braces/lib/compile.js ***!
-  \********************************************/
+/***/ "./node_modules/_braces@3.0.2@braces/lib/compile.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/_braces@3.0.2@braces/lib/compile.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const fill = __webpack_require__(/*! fill-range */ "./node_modules/fill-range/index.js");
-const utils = __webpack_require__(/*! ./utils */ "./node_modules/braces/lib/utils.js");
+const fill = __webpack_require__(/*! fill-range */ "./node_modules/_fill-range@7.0.1@fill-range/index.js");
+const utils = __webpack_require__(/*! ./utils */ "./node_modules/_braces@3.0.2@braces/lib/utils.js");
 
 const compile = (ast, options = {}) => {
   let walk = (node, parent = {}) => {
@@ -491,10 +491,10 @@ module.exports = compile;
 
 /***/ }),
 
-/***/ "./node_modules/braces/lib/constants.js":
-/*!**********************************************!*\
-  !*** ./node_modules/braces/lib/constants.js ***!
-  \**********************************************/
+/***/ "./node_modules/_braces@3.0.2@braces/lib/constants.js":
+/*!************************************************************!*\
+  !*** ./node_modules/_braces@3.0.2@braces/lib/constants.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -560,19 +560,19 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/braces/lib/expand.js":
-/*!*******************************************!*\
-  !*** ./node_modules/braces/lib/expand.js ***!
-  \*******************************************/
+/***/ "./node_modules/_braces@3.0.2@braces/lib/expand.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/_braces@3.0.2@braces/lib/expand.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const fill = __webpack_require__(/*! fill-range */ "./node_modules/fill-range/index.js");
-const stringify = __webpack_require__(/*! ./stringify */ "./node_modules/braces/lib/stringify.js");
-const utils = __webpack_require__(/*! ./utils */ "./node_modules/braces/lib/utils.js");
+const fill = __webpack_require__(/*! fill-range */ "./node_modules/_fill-range@7.0.1@fill-range/index.js");
+const stringify = __webpack_require__(/*! ./stringify */ "./node_modules/_braces@3.0.2@braces/lib/stringify.js");
+const utils = __webpack_require__(/*! ./utils */ "./node_modules/_braces@3.0.2@braces/lib/utils.js");
 
 const append = (queue = '', stash = '', enclose = false) => {
   let result = [];
@@ -685,17 +685,17 @@ module.exports = expand;
 
 /***/ }),
 
-/***/ "./node_modules/braces/lib/parse.js":
-/*!******************************************!*\
-  !*** ./node_modules/braces/lib/parse.js ***!
-  \******************************************/
+/***/ "./node_modules/_braces@3.0.2@braces/lib/parse.js":
+/*!********************************************************!*\
+  !*** ./node_modules/_braces@3.0.2@braces/lib/parse.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const stringify = __webpack_require__(/*! ./stringify */ "./node_modules/braces/lib/stringify.js");
+const stringify = __webpack_require__(/*! ./stringify */ "./node_modules/_braces@3.0.2@braces/lib/stringify.js");
 
 /**
  * Constants
@@ -717,7 +717,7 @@ const {
   CHAR_SINGLE_QUOTE, /* ' */
   CHAR_NO_BREAK_SPACE,
   CHAR_ZERO_WIDTH_NOBREAK_SPACE
-} = __webpack_require__(/*! ./constants */ "./node_modules/braces/lib/constants.js");
+} = __webpack_require__(/*! ./constants */ "./node_modules/_braces@3.0.2@braces/lib/constants.js");
 
 /**
  * parse
@@ -1030,17 +1030,17 @@ module.exports = parse;
 
 /***/ }),
 
-/***/ "./node_modules/braces/lib/stringify.js":
-/*!**********************************************!*\
-  !*** ./node_modules/braces/lib/stringify.js ***!
-  \**********************************************/
+/***/ "./node_modules/_braces@3.0.2@braces/lib/stringify.js":
+/*!************************************************************!*\
+  !*** ./node_modules/_braces@3.0.2@braces/lib/stringify.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const utils = __webpack_require__(/*! ./utils */ "./node_modules/braces/lib/utils.js");
+const utils = __webpack_require__(/*! ./utils */ "./node_modules/_braces@3.0.2@braces/lib/utils.js");
 
 module.exports = (ast, options = {}) => {
   let stringify = (node, parent = {}) => {
@@ -1074,10 +1074,10 @@ module.exports = (ast, options = {}) => {
 
 /***/ }),
 
-/***/ "./node_modules/braces/lib/utils.js":
-/*!******************************************!*\
-  !*** ./node_modules/braces/lib/utils.js ***!
-  \******************************************/
+/***/ "./node_modules/_braces@3.0.2@braces/lib/utils.js":
+/*!********************************************************!*\
+  !*** ./node_modules/_braces@3.0.2@braces/lib/utils.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1198,10 +1198,10 @@ exports.flatten = (...args) => {
 
 /***/ }),
 
-/***/ "./node_modules/chokidar/index.js":
-/*!****************************************!*\
-  !*** ./node_modules/chokidar/index.js ***!
-  \****************************************/
+/***/ "./node_modules/_chokidar@3.4.3@chokidar/index.js":
+/*!********************************************************!*\
+  !*** ./node_modules/_chokidar@3.4.3@chokidar/index.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1212,15 +1212,15 @@ const { EventEmitter } = __webpack_require__(/*! events */ "events");
 const fs = __webpack_require__(/*! fs */ "fs");
 const sysPath = __webpack_require__(/*! path */ "path");
 const { promisify } = __webpack_require__(/*! util */ "util");
-const readdirp = __webpack_require__(/*! readdirp */ "./node_modules/readdirp/index.js");
-const anymatch = __webpack_require__(/*! anymatch */ "./node_modules/anymatch/index.js").default;
-const globParent = __webpack_require__(/*! glob-parent */ "./node_modules/glob-parent/index.js");
-const isGlob = __webpack_require__(/*! is-glob */ "./node_modules/is-glob/index.js");
-const braces = __webpack_require__(/*! braces */ "./node_modules/braces/index.js");
-const normalizePath = __webpack_require__(/*! normalize-path */ "./node_modules/normalize-path/index.js");
+const readdirp = __webpack_require__(/*! readdirp */ "./node_modules/_readdirp@3.5.0@readdirp/index.js");
+const anymatch = __webpack_require__(/*! anymatch */ "./node_modules/_anymatch@3.1.1@anymatch/index.js").default;
+const globParent = __webpack_require__(/*! glob-parent */ "./node_modules/_glob-parent@5.1.1@glob-parent/index.js");
+const isGlob = __webpack_require__(/*! is-glob */ "./node_modules/_is-glob@4.0.1@is-glob/index.js");
+const braces = __webpack_require__(/*! braces */ "./node_modules/_braces@3.0.2@braces/index.js");
+const normalizePath = __webpack_require__(/*! normalize-path */ "./node_modules/_normalize-path@3.0.0@normalize-path/index.js");
 
-const NodeFsHandler = __webpack_require__(/*! ./lib/nodefs-handler */ "./node_modules/chokidar/lib/nodefs-handler.js");
-const FsEventsHandler = __webpack_require__(/*! ./lib/fsevents-handler */ "./node_modules/chokidar/lib/fsevents-handler.js");
+const NodeFsHandler = __webpack_require__(/*! ./lib/nodefs-handler */ "./node_modules/_chokidar@3.4.3@chokidar/lib/nodefs-handler.js");
+const FsEventsHandler = __webpack_require__(/*! ./lib/fsevents-handler */ "./node_modules/_chokidar@3.4.3@chokidar/lib/fsevents-handler.js");
 const {
   EV_ALL,
   EV_READY,
@@ -1257,7 +1257,7 @@ const {
 
   isWindows,
   isMacos
-} = __webpack_require__(/*! ./lib/constants */ "./node_modules/chokidar/lib/constants.js");
+} = __webpack_require__(/*! ./lib/constants */ "./node_modules/_chokidar@3.4.3@chokidar/lib/constants.js");
 
 const stat = promisify(fs.stat);
 const readdir = promisify(fs.readdir);
@@ -2168,10 +2168,10 @@ exports.watch = watch;
 
 /***/ }),
 
-/***/ "./node_modules/chokidar/lib/constants.js":
-/*!************************************************!*\
-  !*** ./node_modules/chokidar/lib/constants.js ***!
-  \************************************************/
+/***/ "./node_modules/_chokidar@3.4.3@chokidar/lib/constants.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/_chokidar@3.4.3@chokidar/lib/constants.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2243,10 +2243,10 @@ exports.isLinux = platform === 'linux';
 
 /***/ }),
 
-/***/ "./node_modules/chokidar/lib/fsevents-handler.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/chokidar/lib/fsevents-handler.js ***!
-  \*******************************************************/
+/***/ "./node_modules/_chokidar@3.4.3@chokidar/lib/fsevents-handler.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/_chokidar@3.4.3@chokidar/lib/fsevents-handler.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2259,7 +2259,7 @@ const { promisify } = __webpack_require__(/*! util */ "util");
 
 let fsevents;
 try {
-  fsevents = __webpack_require__(/*! fsevents */ "./node_modules/fsevents/fsevents.js");
+  fsevents = __webpack_require__(/*! fsevents */ "./node_modules/_fsevents@2.1.3@fsevents/fsevents.js");
 } catch (error) {
   if (process.env.CHOKIDAR_PRINT_FSEVENTS_REQUIRE_ERROR) console.error(error);
 }
@@ -2300,7 +2300,7 @@ const {
   FUNCTION_TYPE,
   EMPTY_FN,
   IDENTITY_FN
-} = __webpack_require__(/*! ./constants */ "./node_modules/chokidar/lib/constants.js");
+} = __webpack_require__(/*! ./constants */ "./node_modules/_chokidar@3.4.3@chokidar/lib/constants.js");
 
 const Depth = (value) => isNaN(value) ? {} : {depth: value};
 
@@ -2779,10 +2779,10 @@ module.exports.canUse = canUse;
 
 /***/ }),
 
-/***/ "./node_modules/chokidar/lib/nodefs-handler.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/chokidar/lib/nodefs-handler.js ***!
-  \*****************************************************/
+/***/ "./node_modules/_chokidar@3.4.3@chokidar/lib/nodefs-handler.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/_chokidar@3.4.3@chokidar/lib/nodefs-handler.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2792,7 +2792,7 @@ module.exports.canUse = canUse;
 const fs = __webpack_require__(/*! fs */ "fs");
 const sysPath = __webpack_require__(/*! path */ "path");
 const { promisify } = __webpack_require__(/*! util */ "util");
-const isBinaryPath = __webpack_require__(/*! is-binary-path */ "./node_modules/is-binary-path/index.js");
+const isBinaryPath = __webpack_require__(/*! is-binary-path */ "./node_modules/_is-binary-path@2.1.0@is-binary-path/index.js");
 const {
   isWindows,
   isLinux,
@@ -2810,7 +2810,7 @@ const {
   STR_END,
   BRACE_START,
   STAR
-} = __webpack_require__(/*! ./constants */ "./node_modules/chokidar/lib/constants.js");
+} = __webpack_require__(/*! ./constants */ "./node_modules/_chokidar@3.4.3@chokidar/lib/constants.js");
 
 const THROTTLE_MODE_WATCH = 'watch';
 
@@ -3436,10 +3436,10 @@ module.exports = NodeFsHandler;
 
 /***/ }),
 
-/***/ "./node_modules/fill-range/index.js":
-/*!******************************************!*\
-  !*** ./node_modules/fill-range/index.js ***!
-  \******************************************/
+/***/ "./node_modules/_fill-range@7.0.1@fill-range/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/_fill-range@7.0.1@fill-range/index.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3454,7 +3454,7 @@ module.exports = NodeFsHandler;
 
 
 const util = __webpack_require__(/*! util */ "util");
-const toRegexRange = __webpack_require__(/*! to-regex-range */ "./node_modules/to-regex-range/index.js");
+const toRegexRange = __webpack_require__(/*! to-regex-range */ "./node_modules/_to-regex-range@5.0.1@to-regex-range/index.js");
 
 const isObject = val => val !== null && typeof val === 'object' && !Array.isArray(val);
 
@@ -3697,21 +3697,21 @@ module.exports = fill;
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/copy-sync/copy-sync.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/fs-extra/lib/copy-sync/copy-sync.js ***!
-  \**********************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/copy-sync/copy-sync.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/copy-sync/copy-sync.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/graceful-fs/graceful-fs.js")
+const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js")
 const path = __webpack_require__(/*! path */ "path")
-const mkdirsSync = __webpack_require__(/*! ../mkdirs */ "./node_modules/fs-extra/lib/mkdirs/index.js").mkdirsSync
-const utimesMillisSync = __webpack_require__(/*! ../util/utimes */ "./node_modules/fs-extra/lib/util/utimes.js").utimesMillisSync
-const stat = __webpack_require__(/*! ../util/stat */ "./node_modules/fs-extra/lib/util/stat.js")
+const mkdirsSync = __webpack_require__(/*! ../mkdirs */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/mkdirs/index.js").mkdirsSync
+const utimesMillisSync = __webpack_require__(/*! ../util/utimes */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/util/utimes.js").utimesMillisSync
+const stat = __webpack_require__(/*! ../util/stat */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/util/stat.js")
 
 function copySync (src, dest, opts) {
   if (typeof opts === 'function') {
@@ -3875,10 +3875,10 @@ module.exports = copySync
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/copy-sync/index.js":
-/*!******************************************************!*\
-  !*** ./node_modules/fs-extra/lib/copy-sync/index.js ***!
-  \******************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/copy-sync/index.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/copy-sync/index.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3886,28 +3886,28 @@ module.exports = copySync
 
 
 module.exports = {
-  copySync: __webpack_require__(/*! ./copy-sync */ "./node_modules/fs-extra/lib/copy-sync/copy-sync.js")
+  copySync: __webpack_require__(/*! ./copy-sync */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/copy-sync/copy-sync.js")
 }
 
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/copy/copy.js":
-/*!************************************************!*\
-  !*** ./node_modules/fs-extra/lib/copy/copy.js ***!
-  \************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/copy/copy.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/copy/copy.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/graceful-fs/graceful-fs.js")
+const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js")
 const path = __webpack_require__(/*! path */ "path")
-const mkdirs = __webpack_require__(/*! ../mkdirs */ "./node_modules/fs-extra/lib/mkdirs/index.js").mkdirs
-const pathExists = __webpack_require__(/*! ../path-exists */ "./node_modules/fs-extra/lib/path-exists/index.js").pathExists
-const utimesMillis = __webpack_require__(/*! ../util/utimes */ "./node_modules/fs-extra/lib/util/utimes.js").utimesMillis
-const stat = __webpack_require__(/*! ../util/stat */ "./node_modules/fs-extra/lib/util/stat.js")
+const mkdirs = __webpack_require__(/*! ../mkdirs */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/mkdirs/index.js").mkdirs
+const pathExists = __webpack_require__(/*! ../path-exists */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/path-exists/index.js").pathExists
+const utimesMillis = __webpack_require__(/*! ../util/utimes */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/util/utimes.js").utimesMillis
+const stat = __webpack_require__(/*! ../util/stat */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/util/stat.js")
 
 function copy (src, dest, opts, cb) {
   if (typeof opts === 'function' && !cb) {
@@ -4136,39 +4136,39 @@ module.exports = copy
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/copy/index.js":
-/*!*************************************************!*\
-  !*** ./node_modules/fs-extra/lib/copy/index.js ***!
-  \*************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/copy/index.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/copy/index.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const u = __webpack_require__(/*! universalify */ "./node_modules/universalify/index.js").fromCallback
+const u = __webpack_require__(/*! universalify */ "./node_modules/_universalify@1.0.0@universalify/index.js").fromCallback
 module.exports = {
-  copy: u(__webpack_require__(/*! ./copy */ "./node_modules/fs-extra/lib/copy/copy.js"))
+  copy: u(__webpack_require__(/*! ./copy */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/copy/copy.js"))
 }
 
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/empty/index.js":
-/*!**************************************************!*\
-  !*** ./node_modules/fs-extra/lib/empty/index.js ***!
-  \**************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/empty/index.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/empty/index.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const u = __webpack_require__(/*! universalify */ "./node_modules/universalify/index.js").fromCallback
-const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/graceful-fs/graceful-fs.js")
+const u = __webpack_require__(/*! universalify */ "./node_modules/_universalify@1.0.0@universalify/index.js").fromCallback
+const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js")
 const path = __webpack_require__(/*! path */ "path")
-const mkdir = __webpack_require__(/*! ../mkdirs */ "./node_modules/fs-extra/lib/mkdirs/index.js")
-const remove = __webpack_require__(/*! ../remove */ "./node_modules/fs-extra/lib/remove/index.js")
+const mkdir = __webpack_require__(/*! ../mkdirs */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/mkdirs/index.js")
+const remove = __webpack_require__(/*! ../remove */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/remove/index.js")
 
 const emptyDir = u(function emptyDir (dir, callback) {
   callback = callback || function () {}
@@ -4214,20 +4214,20 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/ensure/file.js":
-/*!**************************************************!*\
-  !*** ./node_modules/fs-extra/lib/ensure/file.js ***!
-  \**************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/file.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/file.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const u = __webpack_require__(/*! universalify */ "./node_modules/universalify/index.js").fromCallback
+const u = __webpack_require__(/*! universalify */ "./node_modules/_universalify@1.0.0@universalify/index.js").fromCallback
 const path = __webpack_require__(/*! path */ "path")
-const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/graceful-fs/graceful-fs.js")
-const mkdir = __webpack_require__(/*! ../mkdirs */ "./node_modules/fs-extra/lib/mkdirs/index.js")
+const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js")
+const mkdir = __webpack_require__(/*! ../mkdirs */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/mkdirs/index.js")
 
 function createFile (file, callback) {
   function makeFile () {
@@ -4295,19 +4295,19 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/ensure/index.js":
-/*!***************************************************!*\
-  !*** ./node_modules/fs-extra/lib/ensure/index.js ***!
-  \***************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/index.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/index.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const file = __webpack_require__(/*! ./file */ "./node_modules/fs-extra/lib/ensure/file.js")
-const link = __webpack_require__(/*! ./link */ "./node_modules/fs-extra/lib/ensure/link.js")
-const symlink = __webpack_require__(/*! ./symlink */ "./node_modules/fs-extra/lib/ensure/symlink.js")
+const file = __webpack_require__(/*! ./file */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/file.js")
+const link = __webpack_require__(/*! ./link */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/link.js")
+const symlink = __webpack_require__(/*! ./symlink */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/symlink.js")
 
 module.exports = {
   // file
@@ -4330,21 +4330,21 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/ensure/link.js":
-/*!**************************************************!*\
-  !*** ./node_modules/fs-extra/lib/ensure/link.js ***!
-  \**************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/link.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/link.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const u = __webpack_require__(/*! universalify */ "./node_modules/universalify/index.js").fromCallback
+const u = __webpack_require__(/*! universalify */ "./node_modules/_universalify@1.0.0@universalify/index.js").fromCallback
 const path = __webpack_require__(/*! path */ "path")
-const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/graceful-fs/graceful-fs.js")
-const mkdir = __webpack_require__(/*! ../mkdirs */ "./node_modules/fs-extra/lib/mkdirs/index.js")
-const pathExists = __webpack_require__(/*! ../path-exists */ "./node_modules/fs-extra/lib/path-exists/index.js").pathExists
+const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js")
+const mkdir = __webpack_require__(/*! ../mkdirs */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/mkdirs/index.js")
+const pathExists = __webpack_require__(/*! ../path-exists */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/path-exists/index.js").pathExists
 
 function createLink (srcpath, dstpath, callback) {
   function makeLink (srcpath, dstpath) {
@@ -4403,10 +4403,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/ensure/symlink-paths.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/fs-extra/lib/ensure/symlink-paths.js ***!
-  \***********************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/symlink-paths.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/symlink-paths.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4414,8 +4414,8 @@ module.exports = {
 
 
 const path = __webpack_require__(/*! path */ "path")
-const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/graceful-fs/graceful-fs.js")
-const pathExists = __webpack_require__(/*! ../path-exists */ "./node_modules/fs-extra/lib/path-exists/index.js").pathExists
+const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js")
+const pathExists = __webpack_require__(/*! ../path-exists */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/path-exists/index.js").pathExists
 
 /**
  * Function that returns two types of paths, one relative to symlink, and one
@@ -4514,17 +4514,17 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/ensure/symlink-type.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/fs-extra/lib/ensure/symlink-type.js ***!
-  \**********************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/symlink-type.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/symlink-type.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/graceful-fs/graceful-fs.js")
+const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js")
 
 function symlinkType (srcpath, type, callback) {
   callback = (typeof type === 'function') ? type : callback
@@ -4557,32 +4557,32 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/ensure/symlink.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/fs-extra/lib/ensure/symlink.js ***!
-  \*****************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/symlink.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/symlink.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const u = __webpack_require__(/*! universalify */ "./node_modules/universalify/index.js").fromCallback
+const u = __webpack_require__(/*! universalify */ "./node_modules/_universalify@1.0.0@universalify/index.js").fromCallback
 const path = __webpack_require__(/*! path */ "path")
-const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/graceful-fs/graceful-fs.js")
-const _mkdirs = __webpack_require__(/*! ../mkdirs */ "./node_modules/fs-extra/lib/mkdirs/index.js")
+const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js")
+const _mkdirs = __webpack_require__(/*! ../mkdirs */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/mkdirs/index.js")
 const mkdirs = _mkdirs.mkdirs
 const mkdirsSync = _mkdirs.mkdirsSync
 
-const _symlinkPaths = __webpack_require__(/*! ./symlink-paths */ "./node_modules/fs-extra/lib/ensure/symlink-paths.js")
+const _symlinkPaths = __webpack_require__(/*! ./symlink-paths */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/symlink-paths.js")
 const symlinkPaths = _symlinkPaths.symlinkPaths
 const symlinkPathsSync = _symlinkPaths.symlinkPathsSync
 
-const _symlinkType = __webpack_require__(/*! ./symlink-type */ "./node_modules/fs-extra/lib/ensure/symlink-type.js")
+const _symlinkType = __webpack_require__(/*! ./symlink-type */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/symlink-type.js")
 const symlinkType = _symlinkType.symlinkType
 const symlinkTypeSync = _symlinkType.symlinkTypeSync
 
-const pathExists = __webpack_require__(/*! ../path-exists */ "./node_modules/fs-extra/lib/path-exists/index.js").pathExists
+const pathExists = __webpack_require__(/*! ../path-exists */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/path-exists/index.js").pathExists
 
 function createSymlink (srcpath, dstpath, type, callback) {
   callback = (typeof type === 'function') ? type : callback
@@ -4632,10 +4632,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/fs/index.js":
-/*!***********************************************!*\
-  !*** ./node_modules/fs-extra/lib/fs/index.js ***!
-  \***********************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/fs/index.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/fs/index.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4643,8 +4643,8 @@ module.exports = {
 
 // This is adapted from https://github.com/normalize/mz
 // Copyright (c) 2014-2016 Jonathan Ong me@jongleberry.com and Contributors
-const u = __webpack_require__(/*! universalify */ "./node_modules/universalify/index.js").fromCallback
-const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/graceful-fs/graceful-fs.js")
+const u = __webpack_require__(/*! universalify */ "./node_modules/_universalify@1.0.0@universalify/index.js").fromCallback
+const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js")
 
 const api = [
   'access',
@@ -4772,10 +4772,10 @@ if (typeof fs.realpath.native === 'function') {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/index.js":
-/*!********************************************!*\
-  !*** ./node_modules/fs-extra/lib/index.js ***!
-  \********************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/index.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4784,19 +4784,19 @@ if (typeof fs.realpath.native === 'function') {
 
 module.exports = {
   // Export promiseified graceful-fs:
-  ...__webpack_require__(/*! ./fs */ "./node_modules/fs-extra/lib/fs/index.js"),
+  ...__webpack_require__(/*! ./fs */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/fs/index.js"),
   // Export extra methods:
-  ...__webpack_require__(/*! ./copy-sync */ "./node_modules/fs-extra/lib/copy-sync/index.js"),
-  ...__webpack_require__(/*! ./copy */ "./node_modules/fs-extra/lib/copy/index.js"),
-  ...__webpack_require__(/*! ./empty */ "./node_modules/fs-extra/lib/empty/index.js"),
-  ...__webpack_require__(/*! ./ensure */ "./node_modules/fs-extra/lib/ensure/index.js"),
-  ...__webpack_require__(/*! ./json */ "./node_modules/fs-extra/lib/json/index.js"),
-  ...__webpack_require__(/*! ./mkdirs */ "./node_modules/fs-extra/lib/mkdirs/index.js"),
-  ...__webpack_require__(/*! ./move-sync */ "./node_modules/fs-extra/lib/move-sync/index.js"),
-  ...__webpack_require__(/*! ./move */ "./node_modules/fs-extra/lib/move/index.js"),
-  ...__webpack_require__(/*! ./output */ "./node_modules/fs-extra/lib/output/index.js"),
-  ...__webpack_require__(/*! ./path-exists */ "./node_modules/fs-extra/lib/path-exists/index.js"),
-  ...__webpack_require__(/*! ./remove */ "./node_modules/fs-extra/lib/remove/index.js")
+  ...__webpack_require__(/*! ./copy-sync */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/copy-sync/index.js"),
+  ...__webpack_require__(/*! ./copy */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/copy/index.js"),
+  ...__webpack_require__(/*! ./empty */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/empty/index.js"),
+  ...__webpack_require__(/*! ./ensure */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/ensure/index.js"),
+  ...__webpack_require__(/*! ./json */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/json/index.js"),
+  ...__webpack_require__(/*! ./mkdirs */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/mkdirs/index.js"),
+  ...__webpack_require__(/*! ./move-sync */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/move-sync/index.js"),
+  ...__webpack_require__(/*! ./move */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/move/index.js"),
+  ...__webpack_require__(/*! ./output */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/output/index.js"),
+  ...__webpack_require__(/*! ./path-exists */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/path-exists/index.js"),
+  ...__webpack_require__(/*! ./remove */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/remove/index.js")
 }
 
 // Export fs.promises as a getter property so that we don't trigger
@@ -4811,21 +4811,21 @@ if (Object.getOwnPropertyDescriptor(fs, 'promises')) {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/json/index.js":
-/*!*************************************************!*\
-  !*** ./node_modules/fs-extra/lib/json/index.js ***!
-  \*************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/json/index.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/json/index.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const u = __webpack_require__(/*! universalify */ "./node_modules/universalify/index.js").fromPromise
-const jsonFile = __webpack_require__(/*! ./jsonfile */ "./node_modules/fs-extra/lib/json/jsonfile.js")
+const u = __webpack_require__(/*! universalify */ "./node_modules/_universalify@1.0.0@universalify/index.js").fromPromise
+const jsonFile = __webpack_require__(/*! ./jsonfile */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/json/jsonfile.js")
 
-jsonFile.outputJson = u(__webpack_require__(/*! ./output-json */ "./node_modules/fs-extra/lib/json/output-json.js"))
-jsonFile.outputJsonSync = __webpack_require__(/*! ./output-json-sync */ "./node_modules/fs-extra/lib/json/output-json-sync.js")
+jsonFile.outputJson = u(__webpack_require__(/*! ./output-json */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/json/output-json.js"))
+jsonFile.outputJsonSync = __webpack_require__(/*! ./output-json-sync */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/json/output-json-sync.js")
 // aliases
 jsonFile.outputJSON = jsonFile.outputJson
 jsonFile.outputJSONSync = jsonFile.outputJsonSync
@@ -4839,17 +4839,17 @@ module.exports = jsonFile
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/json/jsonfile.js":
-/*!****************************************************!*\
-  !*** ./node_modules/fs-extra/lib/json/jsonfile.js ***!
-  \****************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/json/jsonfile.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/json/jsonfile.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const jsonFile = __webpack_require__(/*! jsonfile */ "./node_modules/jsonfile/index.js")
+const jsonFile = __webpack_require__(/*! jsonfile */ "./node_modules/_jsonfile@6.1.0@jsonfile/index.js")
 
 module.exports = {
   // jsonfile exports
@@ -4862,18 +4862,18 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/json/output-json-sync.js":
-/*!************************************************************!*\
-  !*** ./node_modules/fs-extra/lib/json/output-json-sync.js ***!
-  \************************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/json/output-json-sync.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/json/output-json-sync.js ***!
+  \****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const { stringify } = __webpack_require__(/*! jsonfile/utils */ "./node_modules/jsonfile/utils.js")
-const { outputFileSync } = __webpack_require__(/*! ../output */ "./node_modules/fs-extra/lib/output/index.js")
+const { stringify } = __webpack_require__(/*! jsonfile/utils */ "./node_modules/_jsonfile@6.1.0@jsonfile/utils.js")
+const { outputFileSync } = __webpack_require__(/*! ../output */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/output/index.js")
 
 function outputJsonSync (file, data, options) {
   const str = stringify(data, options)
@@ -4886,18 +4886,18 @@ module.exports = outputJsonSync
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/json/output-json.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/fs-extra/lib/json/output-json.js ***!
-  \*******************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/json/output-json.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/json/output-json.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const { stringify } = __webpack_require__(/*! jsonfile/utils */ "./node_modules/jsonfile/utils.js")
-const { outputFile } = __webpack_require__(/*! ../output */ "./node_modules/fs-extra/lib/output/index.js")
+const { stringify } = __webpack_require__(/*! jsonfile/utils */ "./node_modules/_jsonfile@6.1.0@jsonfile/utils.js")
+const { outputFile } = __webpack_require__(/*! ../output */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/output/index.js")
 
 async function outputJson (file, data, options = {}) {
   const str = stringify(data, options)
@@ -4910,17 +4910,17 @@ module.exports = outputJson
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/mkdirs/index.js":
-/*!***************************************************!*\
-  !*** ./node_modules/fs-extra/lib/mkdirs/index.js ***!
-  \***************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/mkdirs/index.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/mkdirs/index.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const u = __webpack_require__(/*! universalify */ "./node_modules/universalify/index.js").fromPromise
-const { makeDir: _makeDir, makeDirSync } = __webpack_require__(/*! ./make-dir */ "./node_modules/fs-extra/lib/mkdirs/make-dir.js")
+const u = __webpack_require__(/*! universalify */ "./node_modules/_universalify@1.0.0@universalify/index.js").fromPromise
+const { makeDir: _makeDir, makeDirSync } = __webpack_require__(/*! ./make-dir */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/mkdirs/make-dir.js")
 const makeDir = u(_makeDir)
 
 module.exports = {
@@ -4936,10 +4936,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/mkdirs/make-dir.js":
-/*!******************************************************!*\
-  !*** ./node_modules/fs-extra/lib/mkdirs/make-dir.js ***!
-  \******************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/mkdirs/make-dir.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/mkdirs/make-dir.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4950,9 +4950,9 @@ module.exports = {
 // The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-const fs = __webpack_require__(/*! ../fs */ "./node_modules/fs-extra/lib/fs/index.js")
+const fs = __webpack_require__(/*! ../fs */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/fs/index.js")
 const path = __webpack_require__(/*! path */ "path")
-const atLeastNode = __webpack_require__(/*! at-least-node */ "./node_modules/at-least-node/index.js")
+const atLeastNode = __webpack_require__(/*! at-least-node */ "./node_modules/_at-least-node@1.0.0@at-least-node/index.js")
 
 const useNativeRecursiveOption = atLeastNode('10.12.0')
 
@@ -4971,8 +4971,7 @@ const checkPath = pth => {
 }
 
 const processOptions = options => {
-  // Must be defined here so we get fresh process.umask()
-  const defaults = { mode: 0o777 & (~process.umask()) }
+  const defaults = { mode: 0o777 }
   if (typeof options === 'number') options = { mode: options }
   return { ...defaults, ...options }
 }
@@ -5090,10 +5089,10 @@ module.exports.makeDirSync = (input, options) => {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/move-sync/index.js":
-/*!******************************************************!*\
-  !*** ./node_modules/fs-extra/lib/move-sync/index.js ***!
-  \******************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/move-sync/index.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/move-sync/index.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5101,28 +5100,28 @@ module.exports.makeDirSync = (input, options) => {
 
 
 module.exports = {
-  moveSync: __webpack_require__(/*! ./move-sync */ "./node_modules/fs-extra/lib/move-sync/move-sync.js")
+  moveSync: __webpack_require__(/*! ./move-sync */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/move-sync/move-sync.js")
 }
 
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/move-sync/move-sync.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/fs-extra/lib/move-sync/move-sync.js ***!
-  \**********************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/move-sync/move-sync.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/move-sync/move-sync.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/graceful-fs/graceful-fs.js")
+const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js")
 const path = __webpack_require__(/*! path */ "path")
-const copySync = __webpack_require__(/*! ../copy-sync */ "./node_modules/fs-extra/lib/copy-sync/index.js").copySync
-const removeSync = __webpack_require__(/*! ../remove */ "./node_modules/fs-extra/lib/remove/index.js").removeSync
-const mkdirpSync = __webpack_require__(/*! ../mkdirs */ "./node_modules/fs-extra/lib/mkdirs/index.js").mkdirpSync
-const stat = __webpack_require__(/*! ../util/stat */ "./node_modules/fs-extra/lib/util/stat.js")
+const copySync = __webpack_require__(/*! ../copy-sync */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/copy-sync/index.js").copySync
+const removeSync = __webpack_require__(/*! ../remove */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/remove/index.js").removeSync
+const mkdirpSync = __webpack_require__(/*! ../mkdirs */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/mkdirs/index.js").mkdirpSync
+const stat = __webpack_require__(/*! ../util/stat */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/util/stat.js")
 
 function moveSync (src, dest, opts) {
   opts = opts || {}
@@ -5166,41 +5165,41 @@ module.exports = moveSync
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/move/index.js":
-/*!*************************************************!*\
-  !*** ./node_modules/fs-extra/lib/move/index.js ***!
-  \*************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/move/index.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/move/index.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const u = __webpack_require__(/*! universalify */ "./node_modules/universalify/index.js").fromCallback
+const u = __webpack_require__(/*! universalify */ "./node_modules/_universalify@1.0.0@universalify/index.js").fromCallback
 module.exports = {
-  move: u(__webpack_require__(/*! ./move */ "./node_modules/fs-extra/lib/move/move.js"))
+  move: u(__webpack_require__(/*! ./move */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/move/move.js"))
 }
 
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/move/move.js":
-/*!************************************************!*\
-  !*** ./node_modules/fs-extra/lib/move/move.js ***!
-  \************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/move/move.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/move/move.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/graceful-fs/graceful-fs.js")
+const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js")
 const path = __webpack_require__(/*! path */ "path")
-const copy = __webpack_require__(/*! ../copy */ "./node_modules/fs-extra/lib/copy/index.js").copy
-const remove = __webpack_require__(/*! ../remove */ "./node_modules/fs-extra/lib/remove/index.js").remove
-const mkdirp = __webpack_require__(/*! ../mkdirs */ "./node_modules/fs-extra/lib/mkdirs/index.js").mkdirp
-const pathExists = __webpack_require__(/*! ../path-exists */ "./node_modules/fs-extra/lib/path-exists/index.js").pathExists
-const stat = __webpack_require__(/*! ../util/stat */ "./node_modules/fs-extra/lib/util/stat.js")
+const copy = __webpack_require__(/*! ../copy */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/copy/index.js").copy
+const remove = __webpack_require__(/*! ../remove */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/remove/index.js").remove
+const mkdirp = __webpack_require__(/*! ../mkdirs */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/mkdirs/index.js").mkdirp
+const pathExists = __webpack_require__(/*! ../path-exists */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/path-exists/index.js").pathExists
+const stat = __webpack_require__(/*! ../util/stat */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/util/stat.js")
 
 function move (src, dest, opts, cb) {
   if (typeof opts === 'function') {
@@ -5261,21 +5260,21 @@ module.exports = move
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/output/index.js":
-/*!***************************************************!*\
-  !*** ./node_modules/fs-extra/lib/output/index.js ***!
-  \***************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/output/index.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/output/index.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const u = __webpack_require__(/*! universalify */ "./node_modules/universalify/index.js").fromCallback
-const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/graceful-fs/graceful-fs.js")
+const u = __webpack_require__(/*! universalify */ "./node_modules/_universalify@1.0.0@universalify/index.js").fromCallback
+const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js")
 const path = __webpack_require__(/*! path */ "path")
-const mkdir = __webpack_require__(/*! ../mkdirs */ "./node_modules/fs-extra/lib/mkdirs/index.js")
-const pathExists = __webpack_require__(/*! ../path-exists */ "./node_modules/fs-extra/lib/path-exists/index.js").pathExists
+const mkdir = __webpack_require__(/*! ../mkdirs */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/mkdirs/index.js")
+const pathExists = __webpack_require__(/*! ../path-exists */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/path-exists/index.js").pathExists
 
 function outputFile (file, data, encoding, callback) {
   if (typeof encoding === 'function') {
@@ -5313,17 +5312,17 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/path-exists/index.js":
-/*!********************************************************!*\
-  !*** ./node_modules/fs-extra/lib/path-exists/index.js ***!
-  \********************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/path-exists/index.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/path-exists/index.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const u = __webpack_require__(/*! universalify */ "./node_modules/universalify/index.js").fromPromise
-const fs = __webpack_require__(/*! ../fs */ "./node_modules/fs-extra/lib/fs/index.js")
+const u = __webpack_require__(/*! universalify */ "./node_modules/_universalify@1.0.0@universalify/index.js").fromPromise
+const fs = __webpack_require__(/*! ../fs */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/fs/index.js")
 
 function pathExists (path) {
   return fs.access(path).then(() => true).catch(() => false)
@@ -5337,18 +5336,18 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/remove/index.js":
-/*!***************************************************!*\
-  !*** ./node_modules/fs-extra/lib/remove/index.js ***!
-  \***************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/remove/index.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/remove/index.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const u = __webpack_require__(/*! universalify */ "./node_modules/universalify/index.js").fromCallback
-const rimraf = __webpack_require__(/*! ./rimraf */ "./node_modules/fs-extra/lib/remove/rimraf.js")
+const u = __webpack_require__(/*! universalify */ "./node_modules/_universalify@1.0.0@universalify/index.js").fromCallback
+const rimraf = __webpack_require__(/*! ./rimraf */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/remove/rimraf.js")
 
 module.exports = {
   remove: u(rimraf),
@@ -5358,17 +5357,17 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/remove/rimraf.js":
-/*!****************************************************!*\
-  !*** ./node_modules/fs-extra/lib/remove/rimraf.js ***!
-  \****************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/remove/rimraf.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/remove/rimraf.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/graceful-fs/graceful-fs.js")
+const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js")
 const path = __webpack_require__(/*! path */ "path")
 const assert = __webpack_require__(/*! assert */ "assert")
 
@@ -5481,9 +5480,6 @@ function fixWinEPERM (p, options, er, cb) {
   assert(p)
   assert(options)
   assert(typeof cb === 'function')
-  if (er) {
-    assert(er instanceof Error)
-  }
 
   options.chmod(p, 0o666, er2 => {
     if (er2) {
@@ -5507,9 +5503,6 @@ function fixWinEPERMSync (p, options, er) {
 
   assert(p)
   assert(options)
-  if (er) {
-    assert(er instanceof Error)
-  }
 
   try {
     options.chmodSync(p, 0o666)
@@ -5541,9 +5534,6 @@ function fixWinEPERMSync (p, options, er) {
 function rmdir (p, options, originalEr, cb) {
   assert(p)
   assert(options)
-  if (originalEr) {
-    assert(originalEr instanceof Error)
-  }
   assert(typeof cb === 'function')
 
   // try to rmdir first, and only readdir on ENOTEMPTY or EEXIST (SunOS)
@@ -5636,9 +5626,6 @@ function rimrafSync (p, options) {
 function rmdirSync (p, options, originalEr) {
   assert(p)
   assert(options)
-  if (originalEr) {
-    assert(originalEr instanceof Error)
-  }
 
   try {
     options.rmdirSync(p)
@@ -5684,20 +5671,20 @@ rimraf.sync = rimrafSync
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/util/stat.js":
-/*!************************************************!*\
-  !*** ./node_modules/fs-extra/lib/util/stat.js ***!
-  \************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/util/stat.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/util/stat.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const fs = __webpack_require__(/*! ../fs */ "./node_modules/fs-extra/lib/fs/index.js")
+const fs = __webpack_require__(/*! ../fs */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/fs/index.js")
 const path = __webpack_require__(/*! path */ "path")
 const util = __webpack_require__(/*! util */ "util")
-const atLeastNode = __webpack_require__(/*! at-least-node */ "./node_modules/at-least-node/index.js")
+const atLeastNode = __webpack_require__(/*! at-least-node */ "./node_modules/_at-least-node@1.0.0@at-least-node/index.js")
 
 const nodeSupportsBigInt = atLeastNode('10.5.0')
 const stat = (file) => nodeSupportsBigInt ? fs.stat(file, { bigint: true }) : fs.stat(file)
@@ -5835,17 +5822,17 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/fs-extra/lib/util/utimes.js":
-/*!**************************************************!*\
-  !*** ./node_modules/fs-extra/lib/util/utimes.js ***!
-  \**************************************************/
+/***/ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/util/utimes.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/_fs-extra@9.0.1@fs-extra/lib/util/utimes.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/graceful-fs/graceful-fs.js")
+const fs = __webpack_require__(/*! graceful-fs */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js")
 
 function utimesMillis (path, atime, mtime, callback) {
   // if (!HAS_MILLIS_RES) return fs.utimes(path, atime, mtime, callback)
@@ -5873,10 +5860,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/fsevents/fsevents.js":
-/*!*******************************************!*\
-  !*** ./node_modules/fsevents/fsevents.js ***!
-  \*******************************************/
+/***/ "./node_modules/_fsevents@2.1.3@fsevents/fsevents.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/_fsevents@2.1.3@fsevents/fsevents.js ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5893,7 +5880,7 @@ if (process.platform !== 'darwin') {
   throw new Error(`Module 'fsevents' is not compatible with platform '${process.platform}'`);
 }
 
-const Native = __webpack_require__(/*! ./fsevents.node */ "./node_modules/fsevents/fsevents.node");
+const Native = __webpack_require__(/*! ./fsevents.node */ "./node_modules/_fsevents@2.1.3@fsevents/fsevents.node");
 const events = Native.constants;
 
 function watch(path, handler) {
@@ -5962,10 +5949,10 @@ exports.constants = events;
 
 /***/ }),
 
-/***/ "./node_modules/fsevents/fsevents.node":
-/*!*********************************************!*\
-  !*** ./node_modules/fsevents/fsevents.node ***!
-  \*********************************************/
+/***/ "./node_modules/_fsevents@2.1.3@fsevents/fsevents.node":
+/*!*************************************************************!*\
+  !*** ./node_modules/_fsevents@2.1.3@fsevents/fsevents.node ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -5973,17 +5960,17 @@ throw new Error("Module parse failed: Unexpected character '�' (1:0)\nYou may 
 
 /***/ }),
 
-/***/ "./node_modules/glob-parent/index.js":
-/*!*******************************************!*\
-  !*** ./node_modules/glob-parent/index.js ***!
-  \*******************************************/
+/***/ "./node_modules/_glob-parent@5.1.1@glob-parent/index.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/_glob-parent@5.1.1@glob-parent/index.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isGlob = __webpack_require__(/*! is-glob */ "./node_modules/is-glob/index.js");
+var isGlob = __webpack_require__(/*! is-glob */ "./node_modules/_is-glob@4.0.1@is-glob/index.js");
 var pathPosixDirname = __webpack_require__(/*! path */ "path").posix.dirname;
 var isWin32 = __webpack_require__(/*! os */ "os").platform() === 'win32';
 
@@ -6026,10 +6013,10 @@ module.exports = function globParent(str, opts) {
 
 /***/ }),
 
-/***/ "./node_modules/graceful-fs/clone.js":
-/*!*******************************************!*\
-  !*** ./node_modules/graceful-fs/clone.js ***!
-  \*******************************************/
+/***/ "./node_modules/_graceful-fs@4.2.4@graceful-fs/clone.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/_graceful-fs@4.2.4@graceful-fs/clone.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6057,17 +6044,17 @@ function clone (obj) {
 
 /***/ }),
 
-/***/ "./node_modules/graceful-fs/graceful-fs.js":
-/*!*************************************************!*\
-  !*** ./node_modules/graceful-fs/graceful-fs.js ***!
-  \*************************************************/
+/***/ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 var fs = __webpack_require__(/*! fs */ "fs")
-var polyfills = __webpack_require__(/*! ./polyfills.js */ "./node_modules/graceful-fs/polyfills.js")
-var legacy = __webpack_require__(/*! ./legacy-streams.js */ "./node_modules/graceful-fs/legacy-streams.js")
-var clone = __webpack_require__(/*! ./clone.js */ "./node_modules/graceful-fs/clone.js")
+var polyfills = __webpack_require__(/*! ./polyfills.js */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/polyfills.js")
+var legacy = __webpack_require__(/*! ./legacy-streams.js */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/legacy-streams.js")
+var clone = __webpack_require__(/*! ./clone.js */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/clone.js")
 
 var util = __webpack_require__(/*! util */ "util")
 
@@ -6087,6 +6074,14 @@ if (typeof Symbol === 'function' && typeof Symbol.for === 'function') {
 
 function noop () {}
 
+function publishQueue(context, queue) {
+  Object.defineProperty(context, gracefulQueue, {
+    get: function() {
+      return queue
+    }
+  })
+}
+
 var debug = noop
 if (util.debuglog)
   debug = util.debuglog('gfs4')
@@ -6098,14 +6093,10 @@ else if (/\bgfs4\b/i.test(process.env.NODE_DEBUG || ''))
   }
 
 // Once time initialization
-if (!global[gracefulQueue]) {
+if (!fs[gracefulQueue]) {
   // This queue can be shared by multiple loaded instances
-  var queue = []
-  Object.defineProperty(global, gracefulQueue, {
-    get: function() {
-      return queue
-    }
-  })
+  var queue = global[gracefulQueue] || []
+  publishQueue(fs, queue)
 
   // Patch fs.close/closeSync to shared queue version, because we need
   // to retry() whenever a close happens *anywhere* in the program.
@@ -6145,10 +6136,14 @@ if (!global[gracefulQueue]) {
 
   if (/\bgfs4\b/i.test(process.env.NODE_DEBUG || '')) {
     process.on('exit', function() {
-      debug(global[gracefulQueue])
-      __webpack_require__(/*! assert */ "assert").equal(global[gracefulQueue].length, 0)
+      debug(fs[gracefulQueue])
+      __webpack_require__(/*! assert */ "assert").equal(fs[gracefulQueue].length, 0)
     })
   }
+}
+
+if (!global[gracefulQueue]) {
+  publishQueue(global, fs[gracefulQueue]);
 }
 
 module.exports = patch(clone(fs))
@@ -6400,11 +6395,11 @@ function patch (fs) {
 
 function enqueue (elem) {
   debug('ENQUEUE', elem[0].name, elem[1])
-  global[gracefulQueue].push(elem)
+  fs[gracefulQueue].push(elem)
 }
 
 function retry () {
-  var elem = global[gracefulQueue].shift()
+  var elem = fs[gracefulQueue].shift()
   if (elem) {
     debug('RETRY', elem[0].name, elem[1])
     elem[0].apply(null, elem[1])
@@ -6414,10 +6409,10 @@ function retry () {
 
 /***/ }),
 
-/***/ "./node_modules/graceful-fs/legacy-streams.js":
-/*!****************************************************!*\
-  !*** ./node_modules/graceful-fs/legacy-streams.js ***!
-  \****************************************************/
+/***/ "./node_modules/_graceful-fs@4.2.4@graceful-fs/legacy-streams.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/_graceful-fs@4.2.4@graceful-fs/legacy-streams.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6543,10 +6538,10 @@ function legacy (fs) {
 
 /***/ }),
 
-/***/ "./node_modules/graceful-fs/polyfills.js":
-/*!***********************************************!*\
-  !*** ./node_modules/graceful-fs/polyfills.js ***!
-  \***********************************************/
+/***/ "./node_modules/_graceful-fs@4.2.4@graceful-fs/polyfills.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/_graceful-fs@4.2.4@graceful-fs/polyfills.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6896,17 +6891,17 @@ function patch (fs) {
 
 /***/ }),
 
-/***/ "./node_modules/is-binary-path/index.js":
-/*!**********************************************!*\
-  !*** ./node_modules/is-binary-path/index.js ***!
-  \**********************************************/
+/***/ "./node_modules/_is-binary-path@2.1.0@is-binary-path/index.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/_is-binary-path@2.1.0@is-binary-path/index.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 const path = __webpack_require__(/*! path */ "path");
-const binaryExtensions = __webpack_require__(/*! binary-extensions */ "./node_modules/binary-extensions/index.js");
+const binaryExtensions = __webpack_require__(/*! binary-extensions */ "./node_modules/_binary-extensions@2.1.0@binary-extensions/index.js");
 
 const extensions = new Set(binaryExtensions);
 
@@ -6915,10 +6910,10 @@ module.exports = filePath => extensions.has(path.extname(filePath).slice(1).toLo
 
 /***/ }),
 
-/***/ "./node_modules/is-extglob/index.js":
-/*!******************************************!*\
-  !*** ./node_modules/is-extglob/index.js ***!
-  \******************************************/
+/***/ "./node_modules/_is-extglob@2.1.1@is-extglob/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/_is-extglob@2.1.1@is-extglob/index.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -6946,10 +6941,10 @@ module.exports = function isExtglob(str) {
 
 /***/ }),
 
-/***/ "./node_modules/is-glob/index.js":
-/*!***************************************!*\
-  !*** ./node_modules/is-glob/index.js ***!
-  \***************************************/
+/***/ "./node_modules/_is-glob@4.0.1@is-glob/index.js":
+/*!******************************************************!*\
+  !*** ./node_modules/_is-glob@4.0.1@is-glob/index.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6960,7 +6955,7 @@ module.exports = function isExtglob(str) {
  * Released under the MIT License.
  */
 
-var isExtglob = __webpack_require__(/*! is-extglob */ "./node_modules/is-extglob/index.js");
+var isExtglob = __webpack_require__(/*! is-extglob */ "./node_modules/_is-extglob@2.1.1@is-extglob/index.js");
 var chars = { '{': '}', '(': ')', '[': ']'};
 var strictRegex = /\\(.)|(^!|\*|[\].+)]\?|\[[^\\\]]+\]|\{[^\\}]+\}|\(\?[:!=][^\\)]+\)|\([^|]+\|[^\\)]+\))/;
 var relaxedRegex = /\\(.)|(^!|[*?{}()[\]]|\(\?)/;
@@ -7005,10 +7000,10 @@ module.exports = function isGlob(str, options) {
 
 /***/ }),
 
-/***/ "./node_modules/is-number/index.js":
-/*!*****************************************!*\
-  !*** ./node_modules/is-number/index.js ***!
-  \*****************************************/
+/***/ "./node_modules/_is-number@7.0.0@is-number/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/_is-number@7.0.0@is-number/index.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7035,21 +7030,21 @@ module.exports = function(num) {
 
 /***/ }),
 
-/***/ "./node_modules/jsonfile/index.js":
-/*!****************************************!*\
-  !*** ./node_modules/jsonfile/index.js ***!
-  \****************************************/
+/***/ "./node_modules/_jsonfile@6.1.0@jsonfile/index.js":
+/*!********************************************************!*\
+  !*** ./node_modules/_jsonfile@6.1.0@jsonfile/index.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 let _fs
 try {
-  _fs = __webpack_require__(/*! graceful-fs */ "./node_modules/graceful-fs/graceful-fs.js")
+  _fs = __webpack_require__(/*! graceful-fs */ "./node_modules/_graceful-fs@4.2.4@graceful-fs/graceful-fs.js")
 } catch (_) {
   _fs = __webpack_require__(/*! fs */ "fs")
 }
-const universalify = __webpack_require__(/*! universalify */ "./node_modules/universalify/index.js")
-const { stringify, stripBom } = __webpack_require__(/*! ./utils */ "./node_modules/jsonfile/utils.js")
+const universalify = __webpack_require__(/*! universalify */ "./node_modules/_universalify@2.0.0@universalify/index.js")
+const { stringify, stripBom } = __webpack_require__(/*! ./utils */ "./node_modules/_jsonfile@6.1.0@jsonfile/utils.js")
 
 async function _readFile (file, options = {}) {
   if (typeof options === 'string') {
@@ -7134,19 +7129,18 @@ module.exports = jsonfile
 
 /***/ }),
 
-/***/ "./node_modules/jsonfile/utils.js":
-/*!****************************************!*\
-  !*** ./node_modules/jsonfile/utils.js ***!
-  \****************************************/
+/***/ "./node_modules/_jsonfile@6.1.0@jsonfile/utils.js":
+/*!********************************************************!*\
+  !*** ./node_modules/_jsonfile@6.1.0@jsonfile/utils.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-function stringify (obj, options = {}) {
-  const EOL = options.EOL || '\n'
+function stringify (obj, { EOL = '\n', finalEOL = true, replacer = null, spaces } = {}) {
+  const EOF = finalEOL ? EOL : ''
+  const str = JSON.stringify(obj, replacer, spaces)
 
-  const str = JSON.stringify(obj, options ? options.replacer : null, options.spaces)
-
-  return str.replace(/\n/g, EOL) + EOL
+  return str.replace(/\n/g, EOL) + EOF
 }
 
 function stripBom (content) {
@@ -7160,10 +7154,10 @@ module.exports = { stringify, stripBom }
 
 /***/ }),
 
-/***/ "./node_modules/lodash/lodash.js":
-/*!***************************************!*\
-  !*** ./node_modules/lodash/lodash.js ***!
-  \***************************************/
+/***/ "./node_modules/_lodash@4.17.20@lodash/lodash.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/_lodash@4.17.20@lodash/lodash.js ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7181,7 +7175,7 @@ module.exports = { stringify, stripBom }
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.15';
+  var VERSION = '4.17.20';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -10888,8 +10882,21 @@ module.exports = { stringify, stripBom }
      * @returns {Array} Returns the new sorted array.
      */
     function baseOrderBy(collection, iteratees, orders) {
+      if (iteratees.length) {
+        iteratees = arrayMap(iteratees, function(iteratee) {
+          if (isArray(iteratee)) {
+            return function(value) {
+              return baseGet(value, iteratee.length === 1 ? iteratee[0] : iteratee);
+            }
+          }
+          return iteratee;
+        });
+      } else {
+        iteratees = [identity];
+      }
+
       var index = -1;
-      iteratees = arrayMap(iteratees.length ? iteratees : [identity], baseUnary(getIteratee()));
+      iteratees = arrayMap(iteratees, baseUnary(getIteratee()));
 
       var result = baseMap(collection, function(value, key, collection) {
         var criteria = arrayMap(iteratees, function(iteratee) {
@@ -11146,6 +11153,10 @@ module.exports = { stringify, stripBom }
         var key = toKey(path[index]),
             newValue = value;
 
+        if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+          return object;
+        }
+
         if (index != lastIndex) {
           var objValue = nested[key];
           newValue = customizer ? customizer(objValue, key, nested) : undefined;
@@ -11298,11 +11309,14 @@ module.exports = { stringify, stripBom }
      *  into `array`.
      */
     function baseSortedIndexBy(array, value, iteratee, retHighest) {
-      value = iteratee(value);
-
       var low = 0,
-          high = array == null ? 0 : array.length,
-          valIsNaN = value !== value,
+          high = array == null ? 0 : array.length;
+      if (high === 0) {
+        return 0;
+      }
+
+      value = iteratee(value);
+      var valIsNaN = value !== value,
           valIsNull = value === null,
           valIsSymbol = isSymbol(value),
           valIsUndefined = value === undefined;
@@ -12787,10 +12801,11 @@ module.exports = { stringify, stripBom }
       if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
         return false;
       }
-      // Assume cyclic values are equal.
-      var stacked = stack.get(array);
-      if (stacked && stack.get(other)) {
-        return stacked == other;
+      // Check that cyclic values are equal.
+      var arrStacked = stack.get(array);
+      var othStacked = stack.get(other);
+      if (arrStacked && othStacked) {
+        return arrStacked == other && othStacked == array;
       }
       var index = -1,
           result = true,
@@ -12952,10 +12967,11 @@ module.exports = { stringify, stripBom }
           return false;
         }
       }
-      // Assume cyclic values are equal.
-      var stacked = stack.get(object);
-      if (stacked && stack.get(other)) {
-        return stacked == other;
+      // Check that cyclic values are equal.
+      var objStacked = stack.get(object);
+      var othStacked = stack.get(other);
+      if (objStacked && othStacked) {
+        return objStacked == other && othStacked == object;
       }
       var result = true;
       stack.set(object, other);
@@ -16336,6 +16352,10 @@ module.exports = { stringify, stripBom }
      * // The `_.property` iteratee shorthand.
      * _.filter(users, 'active');
      * // => objects for ['barney']
+     *
+     * // Combining several predicates using `_.overEvery` or `_.overSome`.
+     * _.filter(users, _.overSome([{ 'age': 36 }, ['age', 40]]));
+     * // => objects for ['fred', 'barney']
      */
     function filter(collection, predicate) {
       var func = isArray(collection) ? arrayFilter : baseFilter;
@@ -17085,15 +17105,15 @@ module.exports = { stringify, stripBom }
      * var users = [
      *   { 'user': 'fred',   'age': 48 },
      *   { 'user': 'barney', 'age': 36 },
-     *   { 'user': 'fred',   'age': 40 },
+     *   { 'user': 'fred',   'age': 30 },
      *   { 'user': 'barney', 'age': 34 }
      * ];
      *
      * _.sortBy(users, [function(o) { return o.user; }]);
-     * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
+     * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 30]]
      *
      * _.sortBy(users, ['user', 'age']);
-     * // => objects for [['barney', 34], ['barney', 36], ['fred', 40], ['fred', 48]]
+     * // => objects for [['barney', 34], ['barney', 36], ['fred', 30], ['fred', 48]]
      */
     var sortBy = baseRest(function(collection, iteratees) {
       if (collection == null) {
@@ -21968,11 +21988,11 @@ module.exports = { stringify, stripBom }
 
       // Use a sourceURL for easier debugging.
       // The sourceURL gets injected into the source that's eval-ed, so be careful
-      // with lookup (in case of e.g. prototype pollution), and strip newlines if any.
-      // A newline wouldn't be a valid sourceURL anyway, and it'd enable code injection.
+      // to normalize all kinds of whitespace, so e.g. newlines (and unicode versions of it) can't sneak in
+      // and escape the comment, thus injecting code that gets evaled.
       var sourceURL = '//# sourceURL=' +
         (hasOwnProperty.call(options, 'sourceURL')
-          ? (options.sourceURL + '').replace(/[\r\n]/g, ' ')
+          ? (options.sourceURL + '').replace(/\s/g, ' ')
           : ('lodash.templateSources[' + (++templateCounter) + ']')
         ) + '\n';
 
@@ -22005,8 +22025,6 @@ module.exports = { stringify, stripBom }
 
       // If `variable` is not specified wrap a with-statement around the generated
       // code to add the data object to the top of the scope chain.
-      // Like with sourceURL, we take care to not check the option's prototype,
-      // as this configuration is a code injection vector.
       var variable = hasOwnProperty.call(options, 'variable') && options.variable;
       if (!variable) {
         source = 'with (obj) {\n' + source + '\n}\n';
@@ -22713,6 +22731,9 @@ module.exports = { stringify, stripBom }
      * values against any array or object value, respectively. See `_.isEqual`
      * for a list of supported value comparisons.
      *
+     * **Note:** Multiple values can be checked by combining several matchers
+     * using `_.overSome`
+     *
      * @static
      * @memberOf _
      * @since 3.0.0
@@ -22728,6 +22749,10 @@ module.exports = { stringify, stripBom }
      *
      * _.filter(objects, _.matches({ 'a': 4, 'c': 6 }));
      * // => [{ 'a': 4, 'b': 5, 'c': 6 }]
+     *
+     * // Checking for several possible values
+     * _.filter(objects, _.overSome([_.matches({ 'a': 1 }), _.matches({ 'a': 4 })]));
+     * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
      */
     function matches(source) {
       return baseMatches(baseClone(source, CLONE_DEEP_FLAG));
@@ -22741,6 +22766,9 @@ module.exports = { stringify, stripBom }
      * **Note:** Partial comparisons will match empty array and empty object
      * `srcValue` values against any array or object value, respectively. See
      * `_.isEqual` for a list of supported value comparisons.
+     *
+     * **Note:** Multiple values can be checked by combining several matchers
+     * using `_.overSome`
      *
      * @static
      * @memberOf _
@@ -22758,6 +22786,10 @@ module.exports = { stringify, stripBom }
      *
      * _.find(objects, _.matchesProperty('a', 4));
      * // => { 'a': 4, 'b': 5, 'c': 6 }
+     *
+     * // Checking for several possible values
+     * _.filter(objects, _.overSome([_.matchesProperty('a', 1), _.matchesProperty('a', 4)]));
+     * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
      */
     function matchesProperty(path, srcValue) {
       return baseMatchesProperty(path, baseClone(srcValue, CLONE_DEEP_FLAG));
@@ -22981,6 +23013,10 @@ module.exports = { stringify, stripBom }
      * Creates a function that checks if **all** of the `predicates` return
      * truthy when invoked with the arguments it receives.
      *
+     * Following shorthands are possible for providing predicates.
+     * Pass an `Object` and it will be used as an parameter for `_.matches` to create the predicate.
+     * Pass an `Array` of parameters for `_.matchesProperty` and the predicate will be created using them.
+     *
      * @static
      * @memberOf _
      * @since 4.0.0
@@ -23007,6 +23043,10 @@ module.exports = { stringify, stripBom }
      * Creates a function that checks if **any** of the `predicates` return
      * truthy when invoked with the arguments it receives.
      *
+     * Following shorthands are possible for providing predicates.
+     * Pass an `Object` and it will be used as an parameter for `_.matches` to create the predicate.
+     * Pass an `Array` of parameters for `_.matchesProperty` and the predicate will be created using them.
+     *
      * @static
      * @memberOf _
      * @since 4.0.0
@@ -23026,6 +23066,9 @@ module.exports = { stringify, stripBom }
      *
      * func(NaN);
      * // => false
+     *
+     * var matchesFunc = _.overSome([{ 'a': 1 }, { 'a': 2 }])
+     * var matchesPropertyFunc = _.overSome([['a', 1], ['a', 2]])
      */
     var overSome = createOver(arraySome);
 
@@ -24272,23 +24315,23 @@ module.exports = { stringify, stripBom }
   else {}
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../_webpack@4.44.2@webpack/buildin/module.js */ "./node_modules/_webpack@4.44.2@webpack/buildin/module.js")(module)))
 
 /***/ }),
 
-/***/ "./node_modules/mkdirp/index.js":
-/*!**************************************!*\
-  !*** ./node_modules/mkdirp/index.js ***!
-  \**************************************/
+/***/ "./node_modules/_mkdirp@1.0.4@mkdirp/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/_mkdirp@1.0.4@mkdirp/index.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-const optsArg = __webpack_require__(/*! ./lib/opts-arg.js */ "./node_modules/mkdirp/lib/opts-arg.js")
-const pathArg = __webpack_require__(/*! ./lib/path-arg.js */ "./node_modules/mkdirp/lib/path-arg.js")
+const optsArg = __webpack_require__(/*! ./lib/opts-arg.js */ "./node_modules/_mkdirp@1.0.4@mkdirp/lib/opts-arg.js")
+const pathArg = __webpack_require__(/*! ./lib/path-arg.js */ "./node_modules/_mkdirp@1.0.4@mkdirp/lib/path-arg.js")
 
-const {mkdirpNative, mkdirpNativeSync} = __webpack_require__(/*! ./lib/mkdirp-native.js */ "./node_modules/mkdirp/lib/mkdirp-native.js")
-const {mkdirpManual, mkdirpManualSync} = __webpack_require__(/*! ./lib/mkdirp-manual.js */ "./node_modules/mkdirp/lib/mkdirp-manual.js")
-const {useNative, useNativeSync} = __webpack_require__(/*! ./lib/use-native.js */ "./node_modules/mkdirp/lib/use-native.js")
+const {mkdirpNative, mkdirpNativeSync} = __webpack_require__(/*! ./lib/mkdirp-native.js */ "./node_modules/_mkdirp@1.0.4@mkdirp/lib/mkdirp-native.js")
+const {mkdirpManual, mkdirpManualSync} = __webpack_require__(/*! ./lib/mkdirp-manual.js */ "./node_modules/_mkdirp@1.0.4@mkdirp/lib/mkdirp-manual.js")
+const {useNative, useNativeSync} = __webpack_require__(/*! ./lib/use-native.js */ "./node_modules/_mkdirp@1.0.4@mkdirp/lib/use-native.js")
 
 
 const mkdirp = (path, opts) => {
@@ -24318,10 +24361,10 @@ module.exports = mkdirp
 
 /***/ }),
 
-/***/ "./node_modules/mkdirp/lib/find-made.js":
-/*!**********************************************!*\
-  !*** ./node_modules/mkdirp/lib/find-made.js ***!
-  \**********************************************/
+/***/ "./node_modules/_mkdirp@1.0.4@mkdirp/lib/find-made.js":
+/*!************************************************************!*\
+  !*** ./node_modules/_mkdirp@1.0.4@mkdirp/lib/find-made.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24358,10 +24401,10 @@ module.exports = {findMade, findMadeSync}
 
 /***/ }),
 
-/***/ "./node_modules/mkdirp/lib/mkdirp-manual.js":
-/*!**************************************************!*\
-  !*** ./node_modules/mkdirp/lib/mkdirp-manual.js ***!
-  \**************************************************/
+/***/ "./node_modules/_mkdirp@1.0.4@mkdirp/lib/mkdirp-manual.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/_mkdirp@1.0.4@mkdirp/lib/mkdirp-manual.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24433,16 +24476,16 @@ module.exports = {mkdirpManual, mkdirpManualSync}
 
 /***/ }),
 
-/***/ "./node_modules/mkdirp/lib/mkdirp-native.js":
-/*!**************************************************!*\
-  !*** ./node_modules/mkdirp/lib/mkdirp-native.js ***!
-  \**************************************************/
+/***/ "./node_modules/_mkdirp@1.0.4@mkdirp/lib/mkdirp-native.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/_mkdirp@1.0.4@mkdirp/lib/mkdirp-native.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 const {dirname} = __webpack_require__(/*! path */ "path")
-const {findMade, findMadeSync} = __webpack_require__(/*! ./find-made.js */ "./node_modules/mkdirp/lib/find-made.js")
-const {mkdirpManual, mkdirpManualSync} = __webpack_require__(/*! ./mkdirp-manual.js */ "./node_modules/mkdirp/lib/mkdirp-manual.js")
+const {findMade, findMadeSync} = __webpack_require__(/*! ./find-made.js */ "./node_modules/_mkdirp@1.0.4@mkdirp/lib/find-made.js")
+const {mkdirpManual, mkdirpManualSync} = __webpack_require__(/*! ./mkdirp-manual.js */ "./node_modules/_mkdirp@1.0.4@mkdirp/lib/mkdirp-manual.js")
 
 const mkdirpNative = (path, opts) => {
   opts.recursive = true
@@ -24483,10 +24526,10 @@ module.exports = {mkdirpNative, mkdirpNativeSync}
 
 /***/ }),
 
-/***/ "./node_modules/mkdirp/lib/opts-arg.js":
-/*!*********************************************!*\
-  !*** ./node_modules/mkdirp/lib/opts-arg.js ***!
-  \*********************************************/
+/***/ "./node_modules/_mkdirp@1.0.4@mkdirp/lib/opts-arg.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/_mkdirp@1.0.4@mkdirp/lib/opts-arg.js ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24494,9 +24537,9 @@ const { promisify } = __webpack_require__(/*! util */ "util")
 const fs = __webpack_require__(/*! fs */ "fs")
 const optsArg = opts => {
   if (!opts)
-    opts = { mode: 0o777 & (~process.umask()), fs }
+    opts = { mode: 0o777, fs }
   else if (typeof opts === 'object')
-    opts = { mode: 0o777 & (~process.umask()), fs, ...opts }
+    opts = { mode: 0o777, fs, ...opts }
   else if (typeof opts === 'number')
     opts = { mode: opts, fs }
   else if (typeof opts === 'string')
@@ -24517,10 +24560,10 @@ module.exports = optsArg
 
 /***/ }),
 
-/***/ "./node_modules/mkdirp/lib/path-arg.js":
-/*!*********************************************!*\
-  !*** ./node_modules/mkdirp/lib/path-arg.js ***!
-  \*********************************************/
+/***/ "./node_modules/_mkdirp@1.0.4@mkdirp/lib/path-arg.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/_mkdirp@1.0.4@mkdirp/lib/path-arg.js ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24557,10 +24600,10 @@ module.exports = pathArg
 
 /***/ }),
 
-/***/ "./node_modules/mkdirp/lib/use-native.js":
-/*!***********************************************!*\
-  !*** ./node_modules/mkdirp/lib/use-native.js ***!
-  \***********************************************/
+/***/ "./node_modules/_mkdirp@1.0.4@mkdirp/lib/use-native.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/_mkdirp@1.0.4@mkdirp/lib/use-native.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24578,10 +24621,10 @@ module.exports = {useNative, useNativeSync}
 
 /***/ }),
 
-/***/ "./node_modules/normalize-path/index.js":
-/*!**********************************************!*\
-  !*** ./node_modules/normalize-path/index.js ***!
-  \**********************************************/
+/***/ "./node_modules/_normalize-path@3.0.0@normalize-path/index.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/_normalize-path@3.0.0@normalize-path/index.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -24624,25 +24667,25 @@ module.exports = function(path, stripTrailing) {
 
 /***/ }),
 
-/***/ "./node_modules/picomatch/index.js":
-/*!*****************************************!*\
-  !*** ./node_modules/picomatch/index.js ***!
-  \*****************************************/
+/***/ "./node_modules/_picomatch@2.2.2@picomatch/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/_picomatch@2.2.2@picomatch/index.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(/*! ./lib/picomatch */ "./node_modules/picomatch/lib/picomatch.js");
+module.exports = __webpack_require__(/*! ./lib/picomatch */ "./node_modules/_picomatch@2.2.2@picomatch/lib/picomatch.js");
 
 
 /***/ }),
 
-/***/ "./node_modules/picomatch/lib/constants.js":
-/*!*************************************************!*\
-  !*** ./node_modules/picomatch/lib/constants.js ***!
-  \*************************************************/
+/***/ "./node_modules/_picomatch@2.2.2@picomatch/lib/constants.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/_picomatch@2.2.2@picomatch/lib/constants.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24830,18 +24873,18 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/picomatch/lib/parse.js":
-/*!*********************************************!*\
-  !*** ./node_modules/picomatch/lib/parse.js ***!
-  \*********************************************/
+/***/ "./node_modules/_picomatch@2.2.2@picomatch/lib/parse.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/_picomatch@2.2.2@picomatch/lib/parse.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const constants = __webpack_require__(/*! ./constants */ "./node_modules/picomatch/lib/constants.js");
-const utils = __webpack_require__(/*! ./utils */ "./node_modules/picomatch/lib/utils.js");
+const constants = __webpack_require__(/*! ./constants */ "./node_modules/_picomatch@2.2.2@picomatch/lib/constants.js");
+const utils = __webpack_require__(/*! ./utils */ "./node_modules/_picomatch@2.2.2@picomatch/lib/utils.js");
 
 /**
  * Constants
@@ -25920,10 +25963,10 @@ module.exports = parse;
 
 /***/ }),
 
-/***/ "./node_modules/picomatch/lib/picomatch.js":
-/*!*************************************************!*\
-  !*** ./node_modules/picomatch/lib/picomatch.js ***!
-  \*************************************************/
+/***/ "./node_modules/_picomatch@2.2.2@picomatch/lib/picomatch.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/_picomatch@2.2.2@picomatch/lib/picomatch.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25931,10 +25974,10 @@ module.exports = parse;
 
 
 const path = __webpack_require__(/*! path */ "path");
-const scan = __webpack_require__(/*! ./scan */ "./node_modules/picomatch/lib/scan.js");
-const parse = __webpack_require__(/*! ./parse */ "./node_modules/picomatch/lib/parse.js");
-const utils = __webpack_require__(/*! ./utils */ "./node_modules/picomatch/lib/utils.js");
-const constants = __webpack_require__(/*! ./constants */ "./node_modules/picomatch/lib/constants.js");
+const scan = __webpack_require__(/*! ./scan */ "./node_modules/_picomatch@2.2.2@picomatch/lib/scan.js");
+const parse = __webpack_require__(/*! ./parse */ "./node_modules/_picomatch@2.2.2@picomatch/lib/parse.js");
+const utils = __webpack_require__(/*! ./utils */ "./node_modules/_picomatch@2.2.2@picomatch/lib/utils.js");
+const constants = __webpack_require__(/*! ./constants */ "./node_modules/_picomatch@2.2.2@picomatch/lib/constants.js");
 const isObject = val => val && typeof val === 'object' && !Array.isArray(val);
 
 /**
@@ -26271,17 +26314,17 @@ module.exports = picomatch;
 
 /***/ }),
 
-/***/ "./node_modules/picomatch/lib/scan.js":
-/*!********************************************!*\
-  !*** ./node_modules/picomatch/lib/scan.js ***!
-  \********************************************/
+/***/ "./node_modules/_picomatch@2.2.2@picomatch/lib/scan.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/_picomatch@2.2.2@picomatch/lib/scan.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const utils = __webpack_require__(/*! ./utils */ "./node_modules/picomatch/lib/utils.js");
+const utils = __webpack_require__(/*! ./utils */ "./node_modules/_picomatch@2.2.2@picomatch/lib/utils.js");
 const {
   CHAR_ASTERISK,             /* * */
   CHAR_AT,                   /* @ */
@@ -26298,7 +26341,7 @@ const {
   CHAR_RIGHT_CURLY_BRACE,    /* } */
   CHAR_RIGHT_PARENTHESES,    /* ) */
   CHAR_RIGHT_SQUARE_BRACKET  /* ] */
-} = __webpack_require__(/*! ./constants */ "./node_modules/picomatch/lib/constants.js");
+} = __webpack_require__(/*! ./constants */ "./node_modules/_picomatch@2.2.2@picomatch/lib/constants.js");
 
 const isPathSeparator = code => {
   return code === CHAR_FORWARD_SLASH || code === CHAR_BACKWARD_SLASH;
@@ -26666,10 +26709,10 @@ module.exports = scan;
 
 /***/ }),
 
-/***/ "./node_modules/picomatch/lib/utils.js":
-/*!*********************************************!*\
-  !*** ./node_modules/picomatch/lib/utils.js ***!
-  \*********************************************/
+/***/ "./node_modules/_picomatch@2.2.2@picomatch/lib/utils.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/_picomatch@2.2.2@picomatch/lib/utils.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26683,7 +26726,7 @@ const {
   REGEX_REMOVE_BACKSLASH,
   REGEX_SPECIAL_CHARS,
   REGEX_SPECIAL_CHARS_GLOBAL
-} = __webpack_require__(/*! ./constants */ "./node_modules/picomatch/lib/constants.js");
+} = __webpack_require__(/*! ./constants */ "./node_modules/_picomatch@2.2.2@picomatch/lib/constants.js");
 
 exports.isObject = val => val !== null && typeof val === 'object' && !Array.isArray(val);
 exports.hasRegexChars = str => REGEX_SPECIAL_CHARS.test(str);
@@ -26742,10 +26785,10 @@ exports.wrapOutput = (input, state = {}, options = {}) => {
 
 /***/ }),
 
-/***/ "./node_modules/readdirp/index.js":
-/*!****************************************!*\
-  !*** ./node_modules/readdirp/index.js ***!
-  \****************************************/
+/***/ "./node_modules/_readdirp@3.5.0@readdirp/index.js":
+/*!********************************************************!*\
+  !*** ./node_modules/_readdirp@3.5.0@readdirp/index.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26756,7 +26799,7 @@ const fs = __webpack_require__(/*! fs */ "fs");
 const { Readable } = __webpack_require__(/*! stream */ "stream");
 const sysPath = __webpack_require__(/*! path */ "path");
 const { promisify } = __webpack_require__(/*! util */ "util");
-const picomatch = __webpack_require__(/*! picomatch */ "./node_modules/picomatch/index.js");
+const picomatch = __webpack_require__(/*! picomatch */ "./node_modules/_picomatch@2.2.2@picomatch/index.js");
 
 const readdir = promisify(fs.readdir);
 const stat = promisify(fs.stat);
@@ -27036,10 +27079,10 @@ module.exports = readdirp;
 
 /***/ }),
 
-/***/ "./node_modules/to-regex-range/index.js":
-/*!**********************************************!*\
-  !*** ./node_modules/to-regex-range/index.js ***!
-  \**********************************************/
+/***/ "./node_modules/_to-regex-range@5.0.1@to-regex-range/index.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/_to-regex-range@5.0.1@to-regex-range/index.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27053,7 +27096,7 @@ module.exports = readdirp;
 
 
 
-const isNumber = __webpack_require__(/*! is-number */ "./node_modules/is-number/index.js");
+const isNumber = __webpack_require__(/*! is-number */ "./node_modules/_is-number@7.0.0@is-number/index.js");
 
 const toRegexRange = (min, max, options) => {
   if (isNumber(min) === false) {
@@ -27336,10 +27379,10 @@ module.exports = toRegexRange;
 
 /***/ }),
 
-/***/ "./node_modules/universalify/index.js":
-/*!********************************************!*\
-  !*** ./node_modules/universalify/index.js ***!
-  \********************************************/
+/***/ "./node_modules/_universalify@1.0.0@universalify/index.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/_universalify@1.0.0@universalify/index.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27371,7 +27414,43 @@ exports.fromPromise = function (fn) {
 
 /***/ }),
 
-/***/ "./node_modules/webpack/buildin/module.js":
+/***/ "./node_modules/_universalify@2.0.0@universalify/index.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/_universalify@2.0.0@universalify/index.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.fromCallback = function (fn) {
+  return Object.defineProperty(function (...args) {
+    if (typeof args[args.length - 1] === 'function') fn.apply(this, args)
+    else {
+      return new Promise((resolve, reject) => {
+        fn.call(
+          this,
+          ...args,
+          (err, res) => (err != null) ? reject(err) : resolve(res)
+        )
+      })
+    }
+  }, 'name', { value: fn.name })
+}
+
+exports.fromPromise = function (fn) {
+  return Object.defineProperty(function (...args) {
+    const cb = args[args.length - 1]
+    if (typeof cb !== 'function') return fn.apply(this, args)
+    else fn.apply(this, args.slice(0, -1)).then(r => cb(null, r), cb)
+  }, 'name', { value: fn.name })
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/_webpack@4.44.2@webpack/buildin/module.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/module.js ***!
   \***********************************/
@@ -27417,121 +27496,344 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "path");
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services */ "./src/services/index.ts");
-/* harmony import */ var _views_repositoriesView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/repositoriesView */ "./src/views/repositoriesView.ts");
-/* harmony import */ var _repo_tree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./repo/tree */ "./src/repo/tree.ts");
-/* harmony import */ var _views_outlineView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/outlineView */ "./src/views/outlineView.ts");
-var __assign = (undefined && undefined.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
+/* harmony import */ var _views_explorerView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/explorerView */ "./src/views/explorerView.ts");
+/* harmony import */ var _views_outlineView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/outlineView */ "./src/views/outlineView.ts");
+/* harmony import */ var _tree_explorerTree__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./tree/explorerTree */ "./src/tree/explorerTree.ts");
 
 
 
 
 
-var App = /** @class */ (function () {
-    function App() {
+class App {
+    static get context() {
+        return this._context;
     }
-    Object.defineProperty(App, "context", {
-        get: function () {
-            return this._context;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(App, "config", {
-        get: function () {
-            if (this._config === undefined) {
-                this._config = _services__WEBPACK_IMPORTED_MODULE_1__["configuration"].get();
-            }
-            return this._config;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(App, "repositoriesView", {
-        get: function () {
-            if (this._repositoriesView === undefined) {
-                this._context.subscriptions.push((this._repositoriesView = new _views_repositoriesView__WEBPACK_IMPORTED_MODULE_2__["RepositoriesView"]()));
-            }
-            return this._repositoriesView;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(App, "outlineView", {
-        get: function () {
-            if (this._outlineView === undefined) {
-                this._context.subscriptions.push((this._outlineView = new _views_outlineView__WEBPACK_IMPORTED_MODULE_4__["OutlineView"]()));
-            }
-            return this._outlineView;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(App, "tree", {
-        get: function () {
-            return this._tree;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    App.initialize = function (context, config) {
+    static get config() {
+        if (this._config === undefined) {
+            this._config = _services__WEBPACK_IMPORTED_MODULE_1__["configuration"].get();
+        }
+        return this._config;
+    }
+    static get ExplorerView() {
+        if (this._explorerView === undefined) {
+            this._context.subscriptions.push((this._explorerView = new _views_explorerView__WEBPACK_IMPORTED_MODULE_2__["ExplorerView"]()));
+        }
+        return this._explorerView;
+    }
+    static get outlineView() {
+        if (this._outlineView === undefined) {
+            this._context.subscriptions.push((this._outlineView = new _views_outlineView__WEBPACK_IMPORTED_MODULE_3__["OutlineView"]()));
+        }
+        return this._outlineView;
+    }
+    static get explorerTree() {
+        return this._explorerTree;
+    }
+    static initialize(context, config) {
         this._context = context;
         this._config = config;
         context.subscriptions.push(_services__WEBPACK_IMPORTED_MODULE_1__["configuration"].onWillChange(this.onConfigurationChanging, this));
-        context.subscriptions.push((this._tree = new _repo_tree__WEBPACK_IMPORTED_MODULE_3__["TreeService"]()));
-        context.subscriptions.push((this._repositoriesView = new _views_repositoriesView__WEBPACK_IMPORTED_MODULE_2__["RepositoriesView"]()));
-        context.subscriptions.push((this._outlineView = new _views_outlineView__WEBPACK_IMPORTED_MODULE_4__["OutlineView"]()));
-    };
-    App.onConfigurationChanging = function (e) {
+        // context.subscriptions.push((this._tree = new TreeService()))
+        context.subscriptions.push((this._explorerTree = new _tree_explorerTree__WEBPACK_IMPORTED_MODULE_4__["ExplorerTree"]()));
+        context.subscriptions.push((this._explorerView = new _views_explorerView__WEBPACK_IMPORTED_MODULE_2__["ExplorerView"]()));
+        context.subscriptions.push((this._outlineView = new _views_outlineView__WEBPACK_IMPORTED_MODULE_3__["OutlineView"]()));
+    }
+    static onConfigurationChanging(e) {
         var _a, _b, _c, _d;
         if (_services__WEBPACK_IMPORTED_MODULE_1__["configuration"].changed(e.change, 'workspaceFolder')) {
             // 路径输入后执行函数未执行完之前， 不允许再次执行
-            var onConfigurationSetting = (_a = this._onConfigurationSetting) === null || _a === void 0 ? void 0 : _a.get('workspaceFolder');
+            const onConfigurationSetting = (_a = this._onConfigurationSetting) === null || _a === void 0 ? void 0 : _a.get('workspaceFolder');
             if (onConfigurationSetting === undefined ||
                 onConfigurationSetting === false) {
                 (_b = this._onConfigurationSetting) === null || _b === void 0 ? void 0 : _b.set('workspaceFolder', true);
                 if (this._applyModeConfigurationTransformBound === undefined) {
                     this._applyModeConfigurationTransformBound = this.applyModeConfigurationTransform.bind(this);
                 }
-                var cfg = (_c = this._config) === null || _c === void 0 ? void 0 : _c.workspaceFolder, config = _services__WEBPACK_IMPORTED_MODULE_1__["configuration"].get('workspaceFolder');
+                let cfg = (_c = this._config) === null || _c === void 0 ? void 0 : _c.workspaceFolder, config = _services__WEBPACK_IMPORTED_MODULE_1__["configuration"].get('workspaceFolder');
                 cfg = cfg ? path__WEBPACK_IMPORTED_MODULE_0__["join"](cfg, '.fl') : _services__WEBPACK_IMPORTED_MODULE_1__["configuration"].defaultFolder();
                 config = config
                     ? path__WEBPACK_IMPORTED_MODULE_0__["join"](config, '.fl')
                     : _services__WEBPACK_IMPORTED_MODULE_1__["configuration"].defaultFolder();
-                _services__WEBPACK_IMPORTED_MODULE_1__["fs"].workspaceFolderMigrate(cfg, config);
+                _services__WEBPACK_IMPORTED_MODULE_1__["fileSystem"].migrateWorkspaceFolder(cfg, config);
                 this._config = _services__WEBPACK_IMPORTED_MODULE_1__["configuration"].get();
                 e.transform = this._applyModeConfigurationTransformBound;
                 (_d = this._onConfigurationSetting) === null || _d === void 0 ? void 0 : _d.set('workspaceFolder', false);
             }
         }
-    };
-    App.applyModeConfigurationTransform = function (e) {
-        var _this = this;
+    }
+    static applyModeConfigurationTransform(e) {
         if (this._configsAffectedByMode === undefined) {
             this._configsAffectedByMode = [
-                "facility." + _services__WEBPACK_IMPORTED_MODULE_1__["configuration"].name('workspaceFolder'),
+                `facility.${_services__WEBPACK_IMPORTED_MODULE_1__["configuration"].name('workspaceFolder')}`,
             ];
         }
-        var original = e.affectsConfiguration;
-        return __assign(__assign({}, e), { affectsConfiguration: function (section, resource) {
-                if (_this._configsAffectedByMode &&
-                    _this._configsAffectedByMode.some(function (n) { return section.startsWith(n); })) {
+        const original = e.affectsConfiguration;
+        return {
+            ...e,
+            affectsConfiguration: (section, resource) => {
+                if (this._configsAffectedByMode &&
+                    this._configsAffectedByMode.some((n) => section.startsWith(n))) {
                     return true;
                 }
                 return original(section, resource);
-            } });
+            },
+        };
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/commands.ts":
+/*!*************************!*\
+  !*** ./src/commands.ts ***!
+  \*************************/
+/*! exports provided: Commands, command, registerCommands, Command, Save, Paste */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _commands_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./commands/common */ "./src/commands/common.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Commands", function() { return _commands_common__WEBPACK_IMPORTED_MODULE_0__["Commands"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "command", function() { return _commands_common__WEBPACK_IMPORTED_MODULE_0__["command"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerCommands", function() { return _commands_common__WEBPACK_IMPORTED_MODULE_0__["registerCommands"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Command", function() { return _commands_common__WEBPACK_IMPORTED_MODULE_0__["Command"]; });
+
+/* harmony import */ var _commands_save__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./commands/save */ "./src/commands/save.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Save", function() { return _commands_save__WEBPACK_IMPORTED_MODULE_1__["Save"]; });
+
+/* harmony import */ var _commands_paste__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./commands/paste */ "./src/commands/paste.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Paste", function() { return _commands_paste__WEBPACK_IMPORTED_MODULE_2__["Paste"]; });
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./src/commands/common.ts":
+/*!********************************!*\
+  !*** ./src/commands/common.ts ***!
+  \********************************/
+/*! exports provided: Commands, command, registerCommands, Command */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Commands", function() { return Commands; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "command", function() { return command; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerCommands", function() { return registerCommands; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Command", function() { return Command; });
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
+
+var Commands;
+(function (Commands) {
+    Commands["StickGist"] = "facility.views.explorer.stick";
+    Commands["StickGistOnOutline"] = "facility.views.outline.stick";
+    Commands["Save"] = "facility.save";
+    Commands["Paste"] = "facility.paste";
+})(Commands || (Commands = {}));
+const registrableCommands = [];
+function command() {
+    return (target) => {
+        registrableCommands.push(target);
     };
-    return App;
-}());
+}
+function registerCommands(context) {
+    for (const c of registrableCommands) {
+        context.subscriptions.push(new c());
+    }
+}
+class Command {
+    constructor(command) {
+        if (typeof command === 'string') {
+            this._disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].registerCommand(command, (...args) => this._execute(command, ...args), this);
+            return;
+        }
+        const subscriptions = command.map((cmd) => vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].registerCommand(cmd, (...args) => this._execute(cmd, ...args), this));
+        this._disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(...subscriptions);
+    }
+    dispose() {
+        this._disposable.dispose();
+    }
+    _execute(command, ...args) {
+        this.execute(args);
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/commands/paste.ts":
+/*!*******************************!*\
+  !*** ./src/commands/paste.ts ***!
+  \*******************************/
+/*! exports provided: Paste */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Paste", function() { return Paste; });
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! path */ "path");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
+/* harmony import */ var _utils_window__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/window */ "./src/utils/window.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./common */ "./src/commands/common.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+let Paste = class Paste extends _common__WEBPACK_IMPORTED_MODULE_4__["Command"] {
+    constructor() {
+        super(_common__WEBPACK_IMPORTED_MODULE_4__["Commands"].Paste);
+    }
+    async execute() {
+        const input = await Object(_utils_window__WEBPACK_IMPORTED_MODULE_3__["showInputBox"])({
+            prompt: 'Please enter a keyword',
+        });
+        if (input) {
+            await this.onKeywordInputed(input);
+        }
+        else {
+            Object(_utils_window__WEBPACK_IMPORTED_MODULE_3__["showWarningMessage"])(`Unpaste the code snippet to the current file`);
+        }
+    }
+    async onKeywordInputed(input) {
+        const config = _config__WEBPACK_IMPORTED_MODULE_2__["configuration"].get('keywords');
+        if (config) {
+            const path = path__WEBPACK_IMPORTED_MODULE_1__["resolve"](_config__WEBPACK_IMPORTED_MODULE_2__["configuration"].appFolder(), Reflect.get(config, input));
+            await this.paste(path);
+        }
+        else {
+            Object(_utils_window__WEBPACK_IMPORTED_MODULE_3__["showWarningMessage"])(`Cannot found configuration information`);
+        }
+    }
+    async paste(path) {
+        let text = '';
+        try {
+            const document = await Object(_utils_window__WEBPACK_IMPORTED_MODULE_3__["openTextDocument"])(path);
+            text = document.getText();
+        }
+        catch (error) {
+            Object(_utils_window__WEBPACK_IMPORTED_MODULE_3__["showErrorMessage"])(`Cannot read file ${path}.`);
+        }
+        const editor = vscode__WEBPACK_IMPORTED_MODULE_0__["window"].activeTextEditor;
+        if (editor) {
+            const selection = editor.selection;
+            editor.edit((builder) => {
+                builder.insert(new vscode__WEBPACK_IMPORTED_MODULE_0__["Position"](selection.end.line, selection.end.character), text);
+            });
+        }
+        else {
+            Object(_utils_window__WEBPACK_IMPORTED_MODULE_3__["showWarningMessage"])('Cannot found active text editor');
+        }
+    }
+};
+Paste = __decorate([
+    Object(_common__WEBPACK_IMPORTED_MODULE_4__["command"])()
+], Paste);
+
+
+
+/***/ }),
+
+/***/ "./src/commands/save.ts":
+/*!******************************!*\
+  !*** ./src/commands/save.ts ***!
+  \******************************/
+/*! exports provided: Save */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Save", function() { return Save; });
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../app */ "./src/app.ts");
+/* harmony import */ var _config_language__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/language */ "./src/config/language.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+/* harmony import */ var _utils_window__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/window */ "./src/utils/window.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./common */ "./src/commands/common.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+let Save = class Save extends _common__WEBPACK_IMPORTED_MODULE_5__["Command"] {
+    constructor() {
+        super(_common__WEBPACK_IMPORTED_MODULE_5__["Commands"].Save);
+    }
+    async execute() {
+        const text = await vscode__WEBPACK_IMPORTED_MODULE_0__["env"].clipboard.readText();
+        const { paths, nodes } = await this.getNodes();
+        const selectOption = await vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showQuickPick(nodes);
+        if (selectOption === undefined) {
+            Object(_utils_window__WEBPACK_IMPORTED_MODULE_4__["showWarningMessage"])('Unsave the code snippet to the local');
+        }
+        else if (selectOption === _config_language__WEBPACK_IMPORTED_MODULE_2__["Language"].saveAs) {
+            await this.onSaveAsSelected(text);
+        }
+        else {
+            await this.onAppendSelected(paths, selectOption, text);
+        }
+    }
+    async getNodes() {
+        const paths = await _app__WEBPACK_IMPORTED_MODULE_1__["App"].explorerTree.getFilterNodes((item) => {
+            const { name, _element: { fileType }, } = item.element;
+            if (fileType !== vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].File)
+                return;
+            return name;
+        });
+        const nodes = [_config_language__WEBPACK_IMPORTED_MODULE_2__["Language"].saveAs, ...paths.map((item) => Object(_utils__WEBPACK_IMPORTED_MODULE_3__["fullname"])(item))];
+        return {
+            paths,
+            nodes,
+        };
+    }
+    async onAppendSelected(paths, selectOption, text) {
+        const path = paths.find((item) => item.includes(selectOption));
+        if (path !== undefined) {
+            text = '\n' + text;
+            await Object(_utils__WEBPACK_IMPORTED_MODULE_3__["append"])(path, text);
+        }
+        else {
+            console.warn(`cannot found the path: ${path}`);
+        }
+    }
+    async onSaveAsSelected(text) {
+        const path = await Object(_utils_window__WEBPACK_IMPORTED_MODULE_4__["showSaveDiaglog"])();
+        if (path) {
+            Object(_utils__WEBPACK_IMPORTED_MODULE_3__["write"])(path, text);
+        }
+        else {
+            console.warn(`cannot found the path: ${path}`);
+        }
+    }
+};
+Save = __decorate([
+    Object(_common__WEBPACK_IMPORTED_MODULE_5__["command"])()
+], Save);
 
 
 
@@ -27541,67 +27843,58 @@ var App = /** @class */ (function () {
 /*!*************************************!*\
   !*** ./src/config/configuration.ts ***!
   \*************************************/
-/*! exports provided: extensionId, Configuration, configuration */
+/*! exports provided: extensionId, extensionQualifiedId, Configuration, configuration */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extensionId", function() { return extensionId; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extensionQualifiedId", function() { return extensionQualifiedId; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Configuration", function() { return Configuration; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "configuration", function() { return configuration; });
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "path");
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/_lodash@4.17.20@lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
-var extensionId = 'facility';
-var Configuration = /** @class */ (function () {
-    function Configuration() {
+const extensionId = 'facility';
+const extensionQualifiedId = `sillyy.${extensionId}`;
+class Configuration {
+    constructor() {
         this._onDidChange = new vscode__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
         this._onWillChange = new vscode__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
         this.initializingChangeEvent = {
-            affectsConfiguration: function () { return true; },
+            affectsConfiguration: () => true,
         };
     }
-    Configuration.configure = function (ctx) {
+    static configure(ctx) {
         // 配置项加上防抖，否则input输出会频繁触发
         ctx.subscriptions.push(vscode__WEBPACK_IMPORTED_MODULE_2__["workspace"].onDidChangeConfiguration(lodash__WEBPACK_IMPORTED_MODULE_1__["debounce"](configuration.onConfigurationChanged, 250), configuration));
-    };
-    Object.defineProperty(Configuration.prototype, "onDidChange", {
-        get: function () {
-            return this._onDidChange.event;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Configuration.prototype, "onWillChange", {
-        get: function () {
-            return this._onWillChange.event;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Configuration.prototype.getWorkspaceConfiguration = function () {
+    }
+    get onDidChange() {
+        return this._onDidChange.event;
+    }
+    get onWillChange() {
+        return this._onWillChange.event;
+    }
+    getWorkspaceConfiguration() {
         return vscode__WEBPACK_IMPORTED_MODULE_2__["workspace"].getConfiguration('facility');
-    };
-    Configuration.prototype.getWorkspaceFolder = function () {
+    }
+    getWorkspaceFolder() {
         return this.getWorkspaceConfiguration().get('workspaceFolder', '');
-    };
-    Configuration.prototype.getAppFolder = function () {
+    }
+    getAppFolder() {
         return this.getWorkspaceConfiguration().get('appFolder', '');
-    };
-    Configuration.prototype.userHomeFolder = function () {
+    }
+    userHomeFolder() {
         return process.env.HOME || process.env.USERPROFILE || '';
-    };
-    Configuration.prototype.getToggleClick = function () {
-        return this.getWorkspaceConfiguration().get('toggleClick', '');
-    };
-    Configuration.prototype.onConfigurationChanged = function (e) {
-        var evt = {
+    }
+    onConfigurationChanged(e) {
+        const evt = {
             change: e,
         };
         this._onWillChange.fire(evt);
@@ -27609,49 +27902,42 @@ var Configuration = /** @class */ (function () {
             e = evt.transform(e);
         }
         this._onDidChange.fire(e);
-    };
-    Configuration.prototype.initializing = function (e) {
+    }
+    initializing(e) {
         return e === this.initializingChangeEvent;
-    };
+    }
     /**
      * @description: 获取插件首页目录
      * @return: 插件首页目录-带隐藏.tl
      */
-    Configuration.prototype.homeFolder = function () {
+    homeFolder() {
         return path__WEBPACK_IMPORTED_MODULE_0__["join"](this.getWorkspaceFolder() || this.userHomeFolder(), '.fl');
-    };
+    }
     /**
      * @description: 获取插件首页目录
      * @return: 插件首页目录-不带隐藏.tl
      */
-    Configuration.prototype.appFolder = function () {
+    appFolder() {
         return path__WEBPACK_IMPORTED_MODULE_0__["join"](this.homeFolder(), this.getAppFolder() || 'facility-library');
-    };
-    Configuration.prototype.defaultFolder = function () {
+    }
+    defaultFolder() {
         return path__WEBPACK_IMPORTED_MODULE_0__["join"](this.userHomeFolder(), '.fl');
-    };
-    Configuration.prototype.defaultFile = function () {
-        return path__WEBPACK_IMPORTED_MODULE_0__["join"](this.defaultFolder(), 'default.js');
-    };
-    Configuration.prototype.checkDoubleClick = function () {
-        return this.getToggleClick() === '双击';
-    };
-    Configuration.prototype.get = function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        var section;
-        var resource;
-        var defaultValue;
+    }
+    cacheHandleFile() {
+        return path__WEBPACK_IMPORTED_MODULE_0__["join"](this.defaultFolder(), '.cache-handle.js');
+    }
+    get(...args) {
+        let section;
+        let resource;
+        let defaultValue;
         if (args.length > 0) {
             section = args[0];
             if (typeof args[1] === 'string') {
-                section += "." + args[1];
+                section += `.${args[1]}`;
                 if (typeof args[2] === 'string') {
-                    section += "." + args[2];
+                    section += `.${args[2]}`;
                     if (typeof args[3] === 'string') {
-                        section += "." + args[3];
+                        section += `.${args[3]}`;
                         resource = args[4];
                         defaultValue = args[5];
                     }
@@ -27677,25 +27963,17 @@ var Configuration = /** @class */ (function () {
             : vscode__WEBPACK_IMPORTED_MODULE_2__["workspace"]
                 .getConfiguration(section === undefined ? undefined : extensionId, resource)
                 .get(section === undefined ? extensionId : section, defaultValue);
-    };
-    Configuration.prototype.name = function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
+    }
+    name(...args) {
         return args.join('.');
-    };
-    Configuration.prototype.changed = function (e) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
-        var section = args[0];
-        var resource;
+    }
+    changed(e, ...args) {
+        let section = args[0];
+        let resource;
         if (typeof args[1] === 'string') {
-            section += "." + args[1];
+            section += `.${args[1]}`;
             if (typeof args[2] === 'string') {
-                section += "." + args[2];
+                section += `.${args[2]}`;
                 if (typeof args[3] === 'string') {
                     section += args[3];
                     resource = args[4];
@@ -27712,12 +27990,10 @@ var Configuration = /** @class */ (function () {
             resource = args[1];
         }
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-        return e.affectsConfiguration("facility." + section, resource);
-    };
-    return Configuration;
-}());
-
-var configuration = new Configuration();
+        return e.affectsConfiguration(`facility.${section}`, resource);
+    }
+}
+const configuration = new Configuration();
 
 
 /***/ }),
@@ -27779,7 +28055,7 @@ var FILENAME;
 /*!*****************************!*\
   !*** ./src/config/index.ts ***!
   \*****************************/
-/*! no static exports found */
+/*! exports provided: extensionId, extensionQualifiedId, Configuration, configuration */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27787,26 +28063,48 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _configuration__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./configuration */ "./src/config/configuration.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "extensionId", function() { return _configuration__WEBPACK_IMPORTED_MODULE_0__["extensionId"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "extensionQualifiedId", function() { return _configuration__WEBPACK_IMPORTED_MODULE_0__["extensionQualifiedId"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Configuration", function() { return _configuration__WEBPACK_IMPORTED_MODULE_0__["Configuration"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "configuration", function() { return _configuration__WEBPACK_IMPORTED_MODULE_0__["configuration"]; });
-
-/* harmony import */ var _interface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./interface */ "./src/config/interface.ts");
-/* harmony import */ var _interface__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_interface__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _interface__WEBPACK_IMPORTED_MODULE_1__) if(["extensionId","Configuration","configuration","default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _interface__WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 
 
 
 
 /***/ }),
 
-/***/ "./src/config/interface.ts":
-/*!*********************************!*\
-  !*** ./src/config/interface.ts ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/***/ "./src/config/language.ts":
+/*!********************************!*\
+  !*** ./src/config/language.ts ***!
+  \********************************/
+/*! exports provided: Language */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Language", function() { return Language; });
+var Language;
+(function (Language) {
+    Language["saveAs"] = "Save As...";
+})(Language || (Language = {}));
+
+
+/***/ }),
+
+/***/ "./src/constants.ts":
+/*!**************************!*\
+  !*** ./src/constants.ts ***!
+  \**************************/
+/*! exports provided: extensionOutputChannelName, appLibaryName */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extensionOutputChannelName", function() { return extensionOutputChannelName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appLibaryName", function() { return appLibaryName; });
+const extensionOutputChannelName = 'Facility';
+const appLibaryName = 'facility-library';
 
 
 /***/ }),
@@ -27815,869 +28113,150 @@ __webpack_require__.r(__webpack_exports__);
 /*!**************************!*\
   !*** ./src/extension.ts ***!
   \**************************/
-/*! exports provided: activate */
+/*! exports provided: getDurationMilliseconds, activate */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDurationMilliseconds", function() { return getDurationMilliseconds; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "activate", function() { return activate; });
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./src/app.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services */ "./src/services/index.ts");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-
-
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
-function activate(context) {
-    return __awaiter(this, void 0, void 0, function () {
-        var config;
-        return __generator(this, function (_a) {
-            // Use the console to output diagnostic information (console.log) and errors (console.error)
-            // This line of code will only be executed once when your extension is activated
-            try {
-                _services__WEBPACK_IMPORTED_MODULE_1__["Configuration"].configure(context);
-                config = _services__WEBPACK_IMPORTED_MODULE_1__["configuration"].get();
-                _app__WEBPACK_IMPORTED_MODULE_0__["App"].initialize(context, config);
-            }
-            catch (err) {
-                console.log(err);
-            }
-            return [2 /*return*/];
-        });
-    });
-}
-
-
-/***/ }),
-
-/***/ "./src/file/pfs.ts":
-/*!*************************!*\
-  !*** ./src/file/pfs.ts ***!
-  \*************************/
-/*! exports provided: readdirWithFileTypes, getExtname, getDirent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "readdirWithFileTypes", function() { return readdirWithFileTypes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getExtname", function() { return getExtname; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDirent", function() { return getDirent; });
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! fs */ "fs");
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! util */ "util");
-/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! path */ "path");
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_2__);
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-
-
-
-function readdirWithFileTypes(fullpath, includes, excludes) {
-    if (includes === void 0) { includes = []; }
-    if (excludes === void 0) { excludes = ['.DS_Store']; }
-    return __awaiter(this, void 0, Promise, function () {
-        var res;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, Object(util__WEBPACK_IMPORTED_MODULE_1__["promisify"])(fs__WEBPACK_IMPORTED_MODULE_0__["readdir"])(fullpath, { withFileTypes: true })];
-                case 1:
-                    res = _a.sent();
-                    return [2 /*return*/, includes.length
-                            ? res.filter(function (item) {
-                                return includes.includes(item.name) && !excludes.includes(item.name);
-                            })
-                            : res.filter(function (item) { return !excludes.includes(item.name); })];
-            }
-        });
-    });
-}
-function getExtname(fullpath) {
-    return path__WEBPACK_IMPORTED_MODULE_2__["basename"](fullpath);
-}
-function getDirent(fullpath) {
-    return __awaiter(this, void 0, Promise, function () {
-        var root, name, res;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    root = path__WEBPACK_IMPORTED_MODULE_2__["resolve"](fullpath, '../'), name = path__WEBPACK_IMPORTED_MODULE_2__["basename"](fullpath);
-                    return [4 /*yield*/, readdirWithFileTypes(root, [name])];
-                case 1:
-                    res = _a.sent();
-                    return [2 /*return*/, res[0]];
-            }
-        });
-    });
-}
-
-
-/***/ }),
-
-/***/ "./src/repo/gist.ts":
-/*!**************************!*\
-  !*** ./src/repo/gist.ts ***!
-  \**************************/
-/*! exports provided: Gist */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Gist", function() { return Gist; });
-var Gist = /** @class */ (function () {
-    function Gist(name, node) {
-        this.name = name;
-        this.node = node;
-    }
-    Gist.prototype.dispose = function () {
-    };
-    return Gist;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/repo/gistTree.ts":
-/*!******************************!*\
-  !*** ./src/repo/gistTree.ts ***!
-  \******************************/
-/*! exports provided: SymbolNode, GistTree */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SymbolNode", function() { return SymbolNode; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GistTree", function() { return GistTree; });
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
-/* harmony import */ var _system_searchTree__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../system/searchTree */ "./src/system/searchTree.ts");
-/* harmony import */ var _gist__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./gist */ "./src/repo/gist.ts");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var __values = (undefined && undefined.__values) || function(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-};
-var __read = (undefined && undefined.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app */ "./src/app.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services */ "./src/services/index.ts");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./config */ "./src/config/index.ts");
+/* harmony import */ var _reactive_watcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./reactive/watcher */ "./src/reactive/watcher.ts");
+/* harmony import */ var _commands__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./commands */ "./src/commands.ts");
+// The module 'vscode' contains the VS Code extensibility API
+// Import the module and reference it with the alias vscode in your code below
+
+
+
+
+
+
+function getDurationMilliseconds(start) {
+    const [secs, nanosecs] = process.hrtime(start);
+    return secs * 1000 + Math.floor(nanosecs / 1000000);
+}
+async function activate(context) {
+    const start = process.hrtime();
+    const facility = vscode__WEBPACK_IMPORTED_MODULE_0__["extensions"].getExtension(_config__WEBPACK_IMPORTED_MODULE_3__["extensionQualifiedId"]);
+    const facilityVersion = facility === null || facility === void 0 ? void 0 : facility.packageJSON.version;
     try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+        _services__WEBPACK_IMPORTED_MODULE_2__["Configuration"].configure(context);
+        _reactive_watcher__WEBPACK_IMPORTED_MODULE_4__["Watcher"].configure(context, _services__WEBPACK_IMPORTED_MODULE_2__["configuration"].appFolder());
+        const config = _services__WEBPACK_IMPORTED_MODULE_2__["configuration"].get();
+        _app__WEBPACK_IMPORTED_MODULE_1__["App"].initialize(context, config);
+        Object(_commands__WEBPACK_IMPORTED_MODULE_5__["registerCommands"])(context);
+        console.log(`Facility (v${facilityVersion}) activated \u2022 ${getDurationMilliseconds(start)} ms`);
     }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
+    catch (err) {
+        console.log(err);
     }
-    return ar;
-};
-var __spread = (undefined && undefined.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
-};
-
-
-
-
-var SymbolNode = /** @class */ (function () {
-    function SymbolNode(symbol) {
-        this.children = [];
-        this.symbol = symbol;
-    }
-    SymbolNode.prototype.addChild = function (child) {
-        child.parent = this;
-        this.children.push(child);
-    };
-    return SymbolNode;
-}());
-
-var GistTree = /** @class */ (function () {
-    // FIXME: path不能设为只读，path会被改文件名，导致outline无法实现同步更新
-    function GistTree(name, path) {
-        this.name = name;
-        this.path = path;
-        this._gistTree = _system_searchTree__WEBPACK_IMPORTED_MODULE_2__["TernarySearchTree"].forPaths();
-        this._disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from();
-    }
-    GistTree.prototype.dispose = function () {
-        this._disposable && this._disposable.dispose();
-    };
-    GistTree.prototype.getSymbols = function (path) {
-        return vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].executeCommand('vscode.executeDocumentSymbolProvider', vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(path));
-    };
-    GistTree.prototype.updateSymbols = function (path) {
-        return __awaiter(this, void 0, Promise, function () {
-            var tree, symbols, symbolNodes, potentialParents;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        tree = new SymbolNode();
-                        return [4 /*yield*/, this.getSymbols(path)];
-                    case 1:
-                        symbols = _a.sent();
-                        if (!symbols)
-                            return [2 /*return*/, tree];
-                        symbolNodes = symbols.map(function (symbol) { return new SymbolNode(symbol); });
-                        potentialParents = [];
-                        symbolNodes.forEach(function (currentNode) {
-                            // Drop candidates that do not contain the current symbol range
-                            potentialParents = potentialParents.filter(function (node) {
-                                return node !== currentNode &&
-                                    node.symbol.location.range.contains(currentNode.symbol.location.range) &&
-                                    !node.symbol.location.range.isEqual(currentNode.symbol.location.range);
-                            });
-                            if (!potentialParents.length) {
-                                tree.addChild(currentNode);
-                            }
-                            else {
-                                var parent = potentialParents[potentialParents.length - 1];
-                                parent.addChild(currentNode);
-                            }
-                            potentialParents.push(currentNode);
-                        });
-                        return [2 /*return*/, tree];
-                }
-            });
-        });
-    };
-    GistTree.prototype.analyze = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var data, _a, _b, f, gist;
-            var e_1, _c;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
-                    case 0: 
-                    // FIX: VSCode read same path file will return cache information.
-                    // first load default file and then load truly information.
-                    return [4 /*yield*/, this.updateSymbols(_config__WEBPACK_IMPORTED_MODULE_1__["configuration"].defaultFile())];
-                    case 1:
-                        // FIX: VSCode read same path file will return cache information.
-                        // first load default file and then load truly information.
-                        _d.sent();
-                        return [4 /*yield*/, this.updateSymbols(this.path)];
-                    case 2:
-                        data = _d.sent();
-                        if (data.children) {
-                            this._gistTree.clear();
-                            try {
-                                for (_a = __values(data.children), _b = _a.next(); !_b.done; _b = _a.next()) {
-                                    f = _b.value;
-                                    gist = new _gist__WEBPACK_IMPORTED_MODULE_3__["Gist"](f.symbol.name, f);
-                                    this._gistTree.set(f.symbol.name, gist);
-                                }
-                            }
-                            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                            finally {
-                                try {
-                                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
-                                }
-                                finally { if (e_1) throw e_1.error; }
-                            }
-                        }
-                        return [2 /*return*/, Promise.resolve()
-                            // })
-                        ];
-                }
-            });
-        });
-    };
-    GistTree.prototype.getOrderedGists = function () {
-        return __awaiter(this, void 0, Promise, function () {
-            var gist;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getGists()];
-                    case 1:
-                        gist = __spread.apply(void 0, [(_a.sent())]);
-                        return [2 /*return*/, gist];
-                }
-            });
-        });
-    };
-    GistTree.prototype.getGists = function () {
-        return __awaiter(this, void 0, Promise, function () {
-            var values;
-            return __generator(this, function (_a) {
-                values = this._gistTree.values();
-                return [2 /*return*/, values];
-            });
-        });
-    };
-    return GistTree;
-}());
-
+}
 
 
 /***/ }),
 
-/***/ "./src/repo/repository.ts":
-/*!********************************!*\
-  !*** ./src/repo/repository.ts ***!
-  \********************************/
-/*! exports provided: Repository */
+/***/ "./src/reactive/watcher.ts":
+/*!*********************************!*\
+  !*** ./src/reactive/watcher.ts ***!
+  \*********************************/
+/*! exports provided: FolderChangeEvent, Watcher, watcher */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Repository", function() { return Repository; });
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../app */ "./src/app.ts");
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! path */ "path");
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_1__);
-
-
-var Repository = /** @class */ (function () {
-    function Repository(name, path, root, type) {
-        this.name = name;
-        this.path = path;
-        this.root = root;
-        this.type = type;
-        this.formattedName = name;
-        !root && this.pourParent();
-    }
-    Object.defineProperty(Repository.prototype, "parent", {
-        get: function () {
-            return this._parent;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Repository.prototype.dispose = function () { };
-    Repository.prototype.pourParent = function () {
-        this._parent = _app__WEBPACK_IMPORTED_MODULE_0__["App"].tree.getNode(path__WEBPACK_IMPORTED_MODULE_1__["dirname"](this.path));
-    };
-    return Repository;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/repo/tree.ts":
-/*!**************************!*\
-  !*** ./src/repo/tree.ts ***!
-  \**************************/
-/*! exports provided: TreeService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TreeService", function() { return TreeService; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
-/* harmony import */ var _repository__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./repository */ "./src/repo/repository.ts");
-/* harmony import */ var _watcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./watcher */ "./src/repo/watcher.ts");
-/* harmony import */ var _system_searchTree__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../system/searchTree */ "./src/system/searchTree.ts");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var __values = (undefined && undefined.__values) || function(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-};
-var __read = (undefined && undefined.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __spread = (undefined && undefined.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
-};
-
-
-
-
-
-var TreeService = /** @class */ (function () {
-    // private _repositoriesLoadingPromise: Promise<void> | undefined
-    function TreeService() {
-        this._onDidChangeRepositories = new vscode__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-        this._onDidChangeOutline = new vscode__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-        this._repositoryTree = _system_searchTree__WEBPACK_IMPORTED_MODULE_4__["TernarySearchTree"].forPaths();
-        this._disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(_watcher__WEBPACK_IMPORTED_MODULE_3__["watcher"].onDidChangeRepoFolders(this.onRepoFoldersChanged, this));
-        //  this.onRepoFoldersChanged()
-        this.initialize();
-    }
-    Object.defineProperty(TreeService.prototype, "onDidChangeRepositories", {
-        get: function () {
-            return this._onDidChangeRepositories.event;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TreeService.prototype, "onDidChangeOutline", {
-        get: function () {
-            return this._onDidChangeOutline.event;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    TreeService.prototype.dispose = function () {
-        this._disposable && this._disposable.dispose();
-    };
-    TreeService.prototype.initialize = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, _watcher__WEBPACK_IMPORTED_MODULE_3__["watcher"].initialize(_config__WEBPACK_IMPORTED_MODULE_1__["configuration"].appFolder())];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    TreeService.prototype.onRepoFoldersChanged = function (e) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _a, _b, f, name, path, type, repository;
-            var e_1, _c;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
-                    case 0:
-                        try {
-                            for (_a = __values(e.added), _b = _a.next(); !_b.done; _b = _a.next()) {
-                                f = _b.value;
-                                name = f.name, path = f.path, type = f.type;
-                                repository = new _repository__WEBPACK_IMPORTED_MODULE_2__["Repository"](name, path, path === _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].appFolder(), type);
-                                this._repositoryTree.set(repository.path, repository);
-                            }
-                        }
-                        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                        finally {
-                            try {
-                                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
-                            }
-                            finally { if (e_1) throw e_1.error; }
-                        }
-                        return [4 /*yield*/, this.updateContext()];
-                    case 1:
-                        _d.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    TreeService.prototype.updateContext = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                this.fireChanged();
-                return [2 /*return*/];
-            });
-        });
-    };
-    TreeService.prototype.fireChanged = function () {
-        // TODO: 检验非指定outline不更新
-        this._onDidChangeRepositories.fire();
-        this._onDidChangeOutline.fire();
-    };
-    TreeService.prototype.getRepositories = function (predicate) {
-        return __awaiter(this, void 0, Promise, function () {
-            var repositoryTree, values;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getRepositoryTree()];
-                    case 1:
-                        repositoryTree = _a.sent();
-                        values = repositoryTree.values();
-                        return [2 /*return*/, predicate !== undefined ? values.filter(predicate) : values];
-                }
-            });
-        });
-    };
-    TreeService.prototype.getOrderedRepositories = function () {
-        return __awaiter(this, void 0, Promise, function () {
-            var repositories;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getRepositories()];
-                    case 1:
-                        repositories = __spread.apply(void 0, [(_a.sent())]);
-                        if (repositories.length === 0)
-                            return [2 /*return*/, repositories];
-                        return [2 /*return*/, repositories];
-                }
-            });
-        });
-    };
-    TreeService.prototype.getRepositoryTree = function () {
-        return this._repositoryTree;
-    };
-    TreeService.prototype.getNode = function (key) {
-        return this._repositoryTree.get(key);
-    };
-    TreeService.prototype.getChildren = function () {
-        return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
-            return [2 /*return*/];
-        }); });
-    };
-    return TreeService;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/repo/watcher.ts":
-/*!*****************************!*\
-  !*** ./src/repo/watcher.ts ***!
-  \*****************************/
-/*! exports provided: IFolderChangeType, Watcher, watcher */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IFolderChangeType", function() { return IFolderChangeType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FolderChangeEvent", function() { return FolderChangeEvent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Watcher", function() { return Watcher; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "watcher", function() { return watcher; });
-/* harmony import */ var chokidar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chokidar */ "./node_modules/chokidar/index.js");
+/* harmony import */ var chokidar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chokidar */ "./node_modules/_chokidar@3.4.3@chokidar/index.js");
 /* harmony import */ var chokidar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(chokidar__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _file_pfs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../file/pfs */ "./src/file/pfs.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services */ "./src/services/index.ts");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var __read = (undefined && undefined.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __spread = (undefined && undefined.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
-};
+// @ts-ignore
 
 
-
-
-var IFolderChangeType;
-(function (IFolderChangeType) {
-    IFolderChangeType["ADDDIR"] = "addDir";
-    IFolderChangeType["ADD"] = "add";
-    IFolderChangeType["CHANGE"] = "change";
-    IFolderChangeType["UNLINK"] = "unlink";
-    IFolderChangeType["UNLINKDIR"] = "unlinkDir";
-})(IFolderChangeType || (IFolderChangeType = {}));
-var Watcher = /** @class */ (function () {
-    function Watcher() {
-        this._onDidChangeRepoFolders = new vscode__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
-        // this.initialize()
+var FolderChangeEvent;
+(function (FolderChangeEvent) {
+    FolderChangeEvent["ADDDIR"] = "addDir";
+    FolderChangeEvent["ADD"] = "add";
+    FolderChangeEvent["CHANGE"] = "change";
+    FolderChangeEvent["UNLINK"] = "unlink";
+    FolderChangeEvent["UNLINKDIR"] = "unlinkDir";
+})(FolderChangeEvent || (FolderChangeEvent = {}));
+class Watcher {
+    constructor() {
+        this._onWillChange = new vscode__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
     }
-    Object.defineProperty(Watcher.prototype, "onDidChangeRepoFolders", {
-        get: function () {
-            return this._onDidChangeRepoFolders.event;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Watcher.prototype.dispose = function () {
-        this._disposable && this._disposable.dispose();
-    };
-    Watcher.prototype.initialize = function (watchDir) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                this._watcher = chokidar__WEBPACK_IMPORTED_MODULE_0___default.a
-                    .watch(watchDir)
-                    .on('all', function (event, path) {
-                    _this.onRepoWillChange(event, path);
-                });
-                this._disposable = vscode__WEBPACK_IMPORTED_MODULE_1__["Disposable"].from(this._watcher, this._watcher.on('error', this.onDidWatcherError, this));
-                return [2 /*return*/];
-            });
-        });
-    };
-    Watcher.prototype.toAddedRepoFolder = function (event, path) {
-        if (event !== IFolderChangeType.ADD && event !== IFolderChangeType.ADDDIR)
-            return [];
-        if (event === IFolderChangeType.ADD) {
-            return [
-                {
-                    type: _services__WEBPACK_IMPORTED_MODULE_3__["FolderType"].FILE,
-                    path: path,
-                    name: Object(_file_pfs__WEBPACK_IMPORTED_MODULE_2__["getExtname"])(path),
-                },
-            ];
-        }
-        if (event === IFolderChangeType.ADDDIR) {
-            return [
-                {
-                    type: _services__WEBPACK_IMPORTED_MODULE_3__["FolderType"].DIRECTORY,
-                    path: path,
-                    name: Object(_file_pfs__WEBPACK_IMPORTED_MODULE_2__["getExtname"])(path)
-                },
-            ];
-        }
-        return [];
-    };
-    Watcher.prototype.toRemovedRepoFolder = function (event, path) {
-        if (event !== IFolderChangeType.UNLINK &&
-            event !== IFolderChangeType.UNLINKDIR) {
-            return [];
-        }
-        if (event === IFolderChangeType.UNLINK) {
-            return [
-                {
-                    type: _services__WEBPACK_IMPORTED_MODULE_3__["FolderType"].FILE,
-                    path: path,
-                    name: Object(_file_pfs__WEBPACK_IMPORTED_MODULE_2__["getExtname"])(path)
-                },
-            ];
-        }
-        if (event === IFolderChangeType.UNLINKDIR) {
-            return [
-                {
-                    type: _services__WEBPACK_IMPORTED_MODULE_3__["FolderType"].DIRECTORY,
-                    path: path,
-                    name: Object(_file_pfs__WEBPACK_IMPORTED_MODULE_2__["getExtname"])(path)
-                },
-            ];
-        }
-        return [];
-    };
-    Watcher.prototype.toChangedRepoFolder = function (event, path) {
-        if (event !== IFolderChangeType.CHANGE)
-            return [];
-        return [
-            {
-                type: _services__WEBPACK_IMPORTED_MODULE_3__["FolderType"].FILE,
-                path: path,
-                name: Object(_file_pfs__WEBPACK_IMPORTED_MODULE_2__["getExtname"])(path)
-            },
-        ];
-    };
-    Watcher.prototype.onRepoWillChange = function (event, path) {
-        if (path.includes('.DS_Store'))
+    static configure(context, watchDir) {
+        context.subscriptions.push((watcher._watcher = chokidar__WEBPACK_IMPORTED_MODULE_0___default.a
+            .watch(watchDir)
+            .on('all', watcher.onFolderChanged.bind(watcher))));
+    }
+    get onWillChange() {
+        return this._onWillChange.event;
+    }
+    checkIgnore(path) {
+        return path.includes('.DS_Store');
+    }
+    onFolderChanged(event, path) {
+        if (this.checkIgnore(path))
             return;
-        var result = {
-            added: [],
-            removed: [],
-            changed: [],
+        const e = this.transform(event);
+        if (!e)
+            return;
+        const evt = {
+            path,
+            ...e,
         };
-        result.added = __spread(this.toAddedRepoFolder(event, path));
-        result.removed = __spread(this.toRemovedRepoFolder(event, path));
-        result.changed = __spread(this.toChangedRepoFolder(event, path));
-        this._onDidChangeRepoFolders.fire(result);
-    };
-    Watcher.prototype.onDidWatcherError = function (error) {
-        console.log('watch file system error, ', error);
-    };
-    return Watcher;
-}());
-
-var watcher = new Watcher();
+        this._onWillChange.fire(evt);
+    }
+    transform(event) {
+        let changeType;
+        switch (event) {
+            case FolderChangeEvent.ADD:
+                changeType = {
+                    type: vscode__WEBPACK_IMPORTED_MODULE_1__["FileChangeType"].Created,
+                    fileType: vscode__WEBPACK_IMPORTED_MODULE_1__["FileType"].File,
+                };
+                break;
+            case FolderChangeEvent.ADDDIR:
+                changeType = {
+                    type: vscode__WEBPACK_IMPORTED_MODULE_1__["FileChangeType"].Created,
+                    fileType: vscode__WEBPACK_IMPORTED_MODULE_1__["FileType"].Directory,
+                };
+                break;
+            case FolderChangeEvent.CHANGE:
+                changeType = {
+                    type: vscode__WEBPACK_IMPORTED_MODULE_1__["FileChangeType"].Changed,
+                    fileType: vscode__WEBPACK_IMPORTED_MODULE_1__["FileType"].File,
+                };
+                break;
+            case FolderChangeEvent.UNLINK:
+                changeType = {
+                    type: vscode__WEBPACK_IMPORTED_MODULE_1__["FileChangeType"].Deleted,
+                    fileType: vscode__WEBPACK_IMPORTED_MODULE_1__["FileType"].File,
+                };
+                break;
+            case FolderChangeEvent.UNLINKDIR:
+                changeType = {
+                    type: vscode__WEBPACK_IMPORTED_MODULE_1__["FileChangeType"].Deleted,
+                    fileType: vscode__WEBPACK_IMPORTED_MODULE_1__["FileType"].Directory,
+                };
+                break;
+            default:
+                changeType = null;
+                break;
+        }
+        return changeType;
+    }
+    onDidWatcherError(error) {
+        console.log(`File system failure. Error: ${error}`);
+    }
+}
+const watcher = new Watcher();
 
 
 /***/ }),
@@ -28686,69 +28265,17 @@ var watcher = new Watcher();
 /*!************************************!*\
   !*** ./src/services/fileSystem.ts ***!
   \************************************/
-/*! exports provided: FolderType, fs */
+/*! exports provided: FolderType, fileSystem */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FolderType", function() { return FolderType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fs", function() { return fs; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fileSystem", function() { return fileSystem; });
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! path */ "path");
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
-/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index */ "./src/services/index.ts");
-/* harmony import */ var _file_pfs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../file/pfs */ "./src/file/pfs.ts");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var __values = (undefined && undefined.__values) || function(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-};
-
-
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index */ "./src/services/index.ts");
 
 
 
@@ -28762,245 +28289,45 @@ var FolderType;
  * it's a magic bug, and can not find method to resolve
  * use file.listFile instead of fs.readDirectory
  */
-var FileSystem = /** @class */ (function () {
-    function FileSystem() {
-    }
-    FileSystem.prototype.getFileOrFolder = function (fullpath) {
-        return __awaiter(this, void 0, Promise, function () {
-            var files;
-            return __generator(this, function (_a) {
-                // ensure folder path exist
-                this.ensureFolderExist(fullpath);
-                files = _utils__WEBPACK_IMPORTED_MODULE_2__["file"].listFile(fullpath);
-                return [2 /*return*/, files
-                        ? files.map(function (item) {
-                            var stat = _utils__WEBPACK_IMPORTED_MODULE_2__["file"].stat(fullpath + path__WEBPACK_IMPORTED_MODULE_1__["sep"] + item);
-                            return [item, stat.isDirectory() ? 2 : 1];
-                        })
-                        : []];
-            });
-        });
-    };
-    FileSystem.prototype.ensureFolderExist = function (fullpath) {
-        return _utils__WEBPACK_IMPORTED_MODULE_2__["file"].mkdir(fullpath);
-    };
-    FileSystem.prototype.createDirent = function (path) {
-        return __awaiter(this, void 0, Promise, function () {
-            var dirent;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, Object(_file_pfs__WEBPACK_IMPORTED_MODULE_4__["getDirent"])(path)];
-                    case 1:
-                        dirent = _a.sent();
-                        return [2 /*return*/, this.normalize(dirent, path, dirent.isDirectory())];
-                }
-            });
-        });
-    };
-    FileSystem.prototype.normalize = function (dirent, fullpath, directory) {
-        return __awaiter(this, void 0, Promise, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, {
-                        name: dirent.name,
-                        type: directory ? FolderType.DIRECTORY : FolderType.FILE,
-                        path: fullpath,
-                    }
-                    /**
-                     *  name
-                     *  type
-                     *  path
-                     *  parent
-                     */
-                ];
-            });
-        });
-    };
-    // TODO: 补充返回类型
-    FileSystem.prototype.getFileList = function (fullpath) {
-        return __awaiter(this, void 0, void 0, function () {
-            var result, files, r, r_1, r_1_1, item, err_1;
-            var e_1, _a;
-            var _this = this;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _b.trys.push([0, 3, , 4]);
-                        result = {
-                            directory: [],
-                            file: [],
-                        };
-                        return [4 /*yield*/, Object(_file_pfs__WEBPACK_IMPORTED_MODULE_4__["readdirWithFileTypes"])(fullpath)];
-                    case 1:
-                        files = _b.sent();
-                        return [4 /*yield*/, Promise.all(files.map(function (item) { return __awaiter(_this, void 0, void 0, function () {
-                                return __generator(this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0: return [4 /*yield*/, this.normalize(item, path__WEBPACK_IMPORTED_MODULE_1__["resolve"](fullpath, item.name), item.isDirectory())];
-                                        case 1: return [2 /*return*/, _a.sent()];
-                                    }
-                                });
-                            }); }))];
-                    case 2:
-                        r = _b.sent();
-                        try {
-                            for (r_1 = __values(r), r_1_1 = r_1.next(); !r_1_1.done; r_1_1 = r_1.next()) {
-                                item = r_1_1.value;
-                                if (item.type === FolderType.DIRECTORY) {
-                                    result.directory.push(item);
-                                }
-                                if (item.type === FolderType.FILE) {
-                                    result.file.push(item);
-                                }
-                            }
-                        }
-                        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                        finally {
-                            try {
-                                if (r_1_1 && !r_1_1.done && (_a = r_1.return)) _a.call(r_1);
-                            }
-                            finally { if (e_1) throw e_1.error; }
-                        }
-                        return [2 /*return*/, result];
-                    case 3:
-                        err_1 = _b.sent();
-                        console.log(err_1);
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    FileSystem.prototype.getFileText = function (fullpath) {
-        var text = _utils__WEBPACK_IMPORTED_MODULE_2__["file"].data(fullpath);
+class FileSystem {
+    getFileText(fullpath) {
+        const text = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["data"])(fullpath);
         return text ? text : '';
-    };
-    FileSystem.prototype.edit = function (data) {
-        return __awaiter(this, void 0, Promise, function () {
-            var editor_1;
-            return __generator(this, function (_a) {
-                try {
-                    editor_1 = vscode__WEBPACK_IMPORTED_MODULE_0__["window"].activeTextEditor;
-                    if (!editor_1) {
-                        console.error('Failed to found Editor. Please open the Editor.');
-                        _index__WEBPACK_IMPORTED_MODULE_3__["win"].showWarningMessage('未找到编辑窗口，请打开窗口重试!');
-                        _index__WEBPACK_IMPORTED_MODULE_3__["win"].setStatusBarMessage('⚠未找到编辑窗口，请打开窗口重试!');
-                        return [2 /*return*/];
-                    }
-                    editor_1.edit(function (builder) {
-                        builder.insert(new vscode__WEBPACK_IMPORTED_MODULE_0__["Position"](editor_1.selection.end.line, editor_1.selection.end.character), data);
-                    });
-                }
-                catch (error) {
-                    console.log(error);
-                }
-                return [2 /*return*/];
-            });
-        });
-    };
-    FileSystem.prototype.openText = function (fullpath) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showTextDocument(vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(fullpath))];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    FileSystem.prototype.createAndInsertFile = function (fullpath, data) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                this.ensureFolderExist(path__WEBPACK_IMPORTED_MODULE_1__["dirname"](fullpath));
-                return [2 /*return*/, _utils__WEBPACK_IMPORTED_MODULE_2__["file"].write(fullpath, data)];
-            });
-        });
-    };
-    FileSystem.prototype.renameFile = function (oldPath, newPath) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, _utils__WEBPACK_IMPORTED_MODULE_2__["file"].mv(oldPath, newPath)];
-            });
-        });
-    };
-    FileSystem.prototype.deleteFile = function (fullpath) {
-        return _utils__WEBPACK_IMPORTED_MODULE_2__["file"].remove(fullpath);
-    };
-    FileSystem.prototype.workspaceFolderMigrate = function (cfg, config) {
-        _utils__WEBPACK_IMPORTED_MODULE_2__["file"].move(cfg, config);
-        cfg && _utils__WEBPACK_IMPORTED_MODULE_2__["file"].remove(cfg);
-    };
-    FileSystem.prototype.extname = function (fullpath) {
-        return _utils__WEBPACK_IMPORTED_MODULE_2__["file"].basename(fullpath);
-    };
-    return FileSystem;
-}());
-var fs = new FileSystem();
-
-
-/***/ }),
-
-/***/ "./src/services/helper.ts":
-/*!********************************!*\
-  !*** ./src/services/helper.ts ***!
-  \********************************/
-/*! exports provided: helper */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "helper", function() { return helper; });
-var prevselection = null;
-var Helper = /** @class */ (function () {
-    function Helper() {
     }
-    // TODO: 调整node类型
-    Helper.prototype.doubleClick = function (node) {
-        var currentTime = Date.now(), doubleClickTime = 500;
-        if (prevselection === null ||
-            prevselection.node !== node ||
-            currentTime - prevselection.time >= doubleClickTime) {
-            prevselection = { node: node, time: currentTime };
-            return false;
+    async edit(data) {
+        try {
+            // FIXME:
+            // Make editor be the active textEditor all the time.
+            // because if oepn other file and close
+            // will not make the editor be the active textEditor.
+            const editor = vscode__WEBPACK_IMPORTED_MODULE_0__["window"].activeTextEditor;
+            if (!editor) {
+                console.error('Failed to found Editor. Please open the Editor.');
+                _index__WEBPACK_IMPORTED_MODULE_2__["win"].showWarningMessage('未找到编辑窗口，请打开窗口重试!');
+                _index__WEBPACK_IMPORTED_MODULE_2__["win"].setStatusBarMessage('⚠未找到编辑窗口，请打开窗口重试!');
+                return;
+            }
+            editor.edit((builder) => {
+                builder.insert(new vscode__WEBPACK_IMPORTED_MODULE_0__["Position"](editor.selection.end.line, editor.selection.end.character), data);
+            });
         }
-        prevselection = null;
-        return true;
-    };
-    return Helper;
-}());
-var helper = new Helper();
-
-
-/***/ }),
-
-/***/ "./src/services/icon.ts":
-/*!******************************!*\
-  !*** ./src/services/icon.ts ***!
-  \******************************/
-/*! exports provided: Icons, JSONIcons */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Icons", function() { return Icons; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JSONIcons", function() { return JSONIcons; });
-var Icons;
-(function (Icons) {
-    Icons["ts"] = "typescript.svg";
-    Icons["js"] = "javascript.svg";
-    Icons["html"] = "html.svg";
-    Icons["css"] = "css.svg";
-    Icons["jsx"] = "jsx.svg";
-    Icons["py"] = "python.svg";
-    Icons["babelrc"] = "babel.svg";
-    Icons["vue"] = "vue.svg";
-})(Icons || (Icons = {}));
-var JSONIcons;
-(function (JSONIcons) {
-    JSONIcons["package.json"] = "package.svg";
-    JSONIcons["package-lock.json"] = "package.svg";
-    JSONIcons["tsconfig.json"] = "tsconfig.svg";
-    JSONIcons["babel.config.json"] = "babel.svg";
-})(JSONIcons || (JSONIcons = {}));
+        catch (error) {
+            console.log(error);
+        }
+    }
+    migrateWorkspaceFolder(cfg, config) {
+        Object(_utils__WEBPACK_IMPORTED_MODULE_1__["move"])(cfg, config);
+        cfg && Object(_utils__WEBPACK_IMPORTED_MODULE_1__["remove"])(cfg);
+    }
+    fullname(fullpath) {
+        return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["fullname"])(fullpath);
+    }
+    isDirectory(fullpath) {
+        const statInfo = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["stat"])(fullpath);
+        return statInfo.isDirectory();
+    }
+}
+const fileSystem = new FileSystem();
 
 
 /***/ }),
@@ -29009,31 +28336,27 @@ var JSONIcons;
 /*!*******************************!*\
   !*** ./src/services/index.ts ***!
   \*******************************/
-/*! exports provided: extensionId, Configuration, configuration, FolderType, fs, win, Icons, JSONIcons */
+/*! exports provided: extensionId, extensionQualifiedId, Configuration, configuration, FolderType, fileSystem, win */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _config_configuration__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config/configuration */ "./src/config/configuration.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "extensionId", function() { return _config_configuration__WEBPACK_IMPORTED_MODULE_0__["extensionId"]; });
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "extensionId", function() { return _config__WEBPACK_IMPORTED_MODULE_0__["extensionId"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Configuration", function() { return _config_configuration__WEBPACK_IMPORTED_MODULE_0__["Configuration"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "extensionQualifiedId", function() { return _config__WEBPACK_IMPORTED_MODULE_0__["extensionQualifiedId"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "configuration", function() { return _config_configuration__WEBPACK_IMPORTED_MODULE_0__["configuration"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Configuration", function() { return _config__WEBPACK_IMPORTED_MODULE_0__["Configuration"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "configuration", function() { return _config__WEBPACK_IMPORTED_MODULE_0__["configuration"]; });
 
 /* harmony import */ var _fileSystem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fileSystem */ "./src/services/fileSystem.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FolderType", function() { return _fileSystem__WEBPACK_IMPORTED_MODULE_1__["FolderType"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fs", function() { return _fileSystem__WEBPACK_IMPORTED_MODULE_1__["fs"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fileSystem", function() { return _fileSystem__WEBPACK_IMPORTED_MODULE_1__["fileSystem"]; });
 
 /* harmony import */ var _windowService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./windowService */ "./src/services/windowService.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "win", function() { return _windowService__WEBPACK_IMPORTED_MODULE_2__["win"]; });
-
-/* harmony import */ var _icon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./icon */ "./src/services/icon.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Icons", function() { return _icon__WEBPACK_IMPORTED_MODULE_3__["Icons"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "JSONIcons", function() { return _icon__WEBPACK_IMPORTED_MODULE_3__["JSONIcons"]; });
-
 
 
 
@@ -29054,1575 +28377,381 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "win", function() { return win; });
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var __read = (undefined && undefined.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __spread = (undefined && undefined.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
-};
 
-var WindowService = /** @class */ (function () {
-    function WindowService() {
-    }
-    WindowService.prototype.showInputBox = function (msg) {
+class WindowService {
+    showInputBox(msg) {
         return vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showInputBox({
             password: false,
             ignoreFocusOut: false,
             placeHolder: msg // 在输入框内的提示信息
         });
-    };
-    WindowService.prototype.showInformationMessage = function (message) {
-        var items = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            items[_i - 1] = arguments[_i];
-        }
-        return vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showInformationMessage.apply(vscode__WEBPACK_IMPORTED_MODULE_0__["window"], __spread([message], items));
-    };
-    WindowService.prototype.showWarningMessage = function (message) {
-        var items = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            items[_i - 1] = arguments[_i];
-        }
-        return vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showWarningMessage.apply(vscode__WEBPACK_IMPORTED_MODULE_0__["window"], __spread([message], items));
-    };
-    WindowService.prototype.setStatusBarMessage = function (message, hideAfterTimeout) {
-        if (hideAfterTimeout === void 0) { hideAfterTimeout = 3000; }
+    }
+    showInformationMessage(message, ...items) {
+        return vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showInformationMessage(message, ...items);
+    }
+    showWarningMessage(message, ...items) {
+        return vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showWarningMessage(message, ...items);
+    }
+    setStatusBarMessage(message, hideAfterTimeout = 3000) {
         return vscode__WEBPACK_IMPORTED_MODULE_0__["window"].setStatusBarMessage(message, hideAfterTimeout);
-    };
-    WindowService.prototype.showOpenDialog = function (fsPath) {
-        return __awaiter(this, void 0, Promise, function () {
-            var defaultUri, options;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        defaultUri = this.getBelongingWorkspaceFolderUri(fsPath);
-                        options = {
-                            defaultUri: defaultUri,
-                            canSelectFiles: true,
-                            canSelectFolders: false,
-                            canSelectMany: true,
-                            openLabel: "Select"
-                        };
-                        return [4 /*yield*/, vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showOpenDialog(options)];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    WindowService.prototype.getBelongingWorkspaceFolderUri = function (fsPath) {
-        var defaultUri;
+    }
+    async showOpenDialog(fsPath) {
+        const defaultUri = this.getBelongingWorkspaceFolderUri(fsPath);
+        const options = {
+            defaultUri,
+            canSelectFiles: true,
+            canSelectFolders: false,
+            canSelectMany: true,
+            openLabel: "Select"
+        };
+        return await vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showOpenDialog(options);
+    }
+    getBelongingWorkspaceFolderUri(fsPath) {
+        let defaultUri;
         if (fsPath) {
-            var workspaceFolder = vscode__WEBPACK_IMPORTED_MODULE_0__["workspace"].getWorkspaceFolder(vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(fsPath));
+            const workspaceFolder = vscode__WEBPACK_IMPORTED_MODULE_0__["workspace"].getWorkspaceFolder(vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(fsPath));
             if (workspaceFolder) {
                 defaultUri = workspaceFolder.uri;
             }
         }
         return defaultUri;
-    };
-    return WindowService;
-}());
-var win = new WindowService();
+    }
+}
+const win = new WindowService();
 
 
 /***/ }),
 
-/***/ "./src/system/iterable.ts":
-/*!********************************!*\
-  !*** ./src/system/iterable.ts ***!
-  \********************************/
-/*! exports provided: Iterables */
+/***/ "./src/tree/explorerModel.ts":
+/*!***********************************!*\
+  !*** ./src/tree/explorerModel.ts ***!
+  \***********************************/
+/*! exports provided: ExplorerModel */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Iterables", function() { return Iterables; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExplorerModel", function() { return ExplorerModel; });
+/* harmony import */ var _treeModel__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./treeModel */ "./src/tree/treeModel.ts");
 
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+class ExplorerModel extends _treeModel__WEBPACK_IMPORTED_MODULE_0__["TreeModel"] {
+    constructor(rootElement) {
+        super(rootElement);
     }
-};
-var __values = (undefined && undefined.__values) || function(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-};
-var Iterables;
-(function (Iterables) {
-    function count(source, predicate) {
-        var count = 0;
-        var next;
-        while (true) {
-            next = source.next();
-            if (next.done)
-                break;
-            if (predicate === undefined || predicate(next.value)) {
-                count++;
-            }
-        }
-        return count;
-    }
-    Iterables.count = count;
-    function every(source, predicate) {
-        var e_1, _a;
-        try {
-            for (var source_1 = __values(source), source_1_1 = source_1.next(); !source_1_1.done; source_1_1 = source_1.next()) {
-                var item = source_1_1.value;
-                if (!predicate(item))
-                    return false;
-            }
-        }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-        finally {
-            try {
-                if (source_1_1 && !source_1_1.done && (_a = source_1.return)) _a.call(source_1);
-            }
-            finally { if (e_1) throw e_1.error; }
-        }
-        return true;
-    }
-    Iterables.every = every;
-    function filter(source, predicate) {
-        var source_2, source_2_1, item, e_2_1, source_3, source_3_1, item, e_3_1;
-        var e_2, _a, e_3, _b;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0:
-                    if (!(predicate === undefined)) return [3 /*break*/, 9];
-                    _c.label = 1;
-                case 1:
-                    _c.trys.push([1, 6, 7, 8]);
-                    source_2 = __values(source), source_2_1 = source_2.next();
-                    _c.label = 2;
-                case 2:
-                    if (!!source_2_1.done) return [3 /*break*/, 5];
-                    item = source_2_1.value;
-                    if (!(item !== null)) return [3 /*break*/, 4];
-                    return [4 /*yield*/, item];
-                case 3:
-                    _c.sent();
-                    _c.label = 4;
-                case 4:
-                    source_2_1 = source_2.next();
-                    return [3 /*break*/, 2];
-                case 5: return [3 /*break*/, 8];
-                case 6:
-                    e_2_1 = _c.sent();
-                    e_2 = { error: e_2_1 };
-                    return [3 /*break*/, 8];
-                case 7:
-                    try {
-                        if (source_2_1 && !source_2_1.done && (_a = source_2.return)) _a.call(source_2);
-                    }
-                    finally { if (e_2) throw e_2.error; }
-                    return [7 /*endfinally*/];
-                case 8: return [3 /*break*/, 16];
-                case 9:
-                    _c.trys.push([9, 14, 15, 16]);
-                    source_3 = __values(source), source_3_1 = source_3.next();
-                    _c.label = 10;
-                case 10:
-                    if (!!source_3_1.done) return [3 /*break*/, 13];
-                    item = source_3_1.value;
-                    if (!predicate(item)) return [3 /*break*/, 12];
-                    return [4 /*yield*/, item];
-                case 11:
-                    _c.sent();
-                    _c.label = 12;
-                case 12:
-                    source_3_1 = source_3.next();
-                    return [3 /*break*/, 10];
-                case 13: return [3 /*break*/, 16];
-                case 14:
-                    e_3_1 = _c.sent();
-                    e_3 = { error: e_3_1 };
-                    return [3 /*break*/, 16];
-                case 15:
-                    try {
-                        if (source_3_1 && !source_3_1.done && (_b = source_3.return)) _b.call(source_3);
-                    }
-                    finally { if (e_3) throw e_3.error; }
-                    return [7 /*endfinally*/];
-                case 16: return [2 /*return*/];
-            }
-        });
-    }
-    Iterables.filter = filter;
-    function filterMap(source, predicateMapper) {
-        var source_4, source_4_1, item, mapped, e_4_1;
-        var e_4, _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 5, 6, 7]);
-                    source_4 = __values(source), source_4_1 = source_4.next();
-                    _b.label = 1;
-                case 1:
-                    if (!!source_4_1.done) return [3 /*break*/, 4];
-                    item = source_4_1.value;
-                    mapped = predicateMapper(item);
-                    if (!(mapped != null)) return [3 /*break*/, 3];
-                    return [4 /*yield*/, mapped];
-                case 2:
-                    _b.sent();
-                    _b.label = 3;
-                case 3:
-                    source_4_1 = source_4.next();
-                    return [3 /*break*/, 1];
-                case 4: return [3 /*break*/, 7];
-                case 5:
-                    e_4_1 = _b.sent();
-                    e_4 = { error: e_4_1 };
-                    return [3 /*break*/, 7];
-                case 6:
-                    try {
-                        if (source_4_1 && !source_4_1.done && (_a = source_4.return)) _a.call(source_4);
-                    }
-                    finally { if (e_4) throw e_4.error; }
-                    return [7 /*endfinally*/];
-                case 7: return [2 /*return*/];
-            }
-        });
-    }
-    Iterables.filterMap = filterMap;
-    function forEach(source, fn) {
-        var e_5, _a;
-        var i = 0;
-        try {
-            for (var source_5 = __values(source), source_5_1 = source_5.next(); !source_5_1.done; source_5_1 = source_5.next()) {
-                var item = source_5_1.value;
-                fn(item, i);
-                i++;
-            }
-        }
-        catch (e_5_1) { e_5 = { error: e_5_1 }; }
-        finally {
-            try {
-                if (source_5_1 && !source_5_1.done && (_a = source_5.return)) _a.call(source_5);
-            }
-            finally { if (e_5) throw e_5.error; }
-        }
-    }
-    Iterables.forEach = forEach;
-    function find(source, predicate) {
-        var e_6, _a;
-        try {
-            for (var source_6 = __values(source), source_6_1 = source_6.next(); !source_6_1.done; source_6_1 = source_6.next()) {
-                var item = source_6_1.value;
-                if (predicate(item))
-                    return item;
-            }
-        }
-        catch (e_6_1) { e_6 = { error: e_6_1 }; }
-        finally {
-            try {
-                if (source_6_1 && !source_6_1.done && (_a = source_6.return)) _a.call(source_6);
-            }
-            finally { if (e_6) throw e_6.error; }
-        }
-        return null;
-    }
-    Iterables.find = find;
-    function first(source) {
-        return source[Symbol.iterator]().next().value;
-    }
-    Iterables.first = first;
-    function flatMap(source, mapper) {
-        var source_7, source_7_1, item, e_7_1;
-        var e_7, _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 5, 6, 7]);
-                    source_7 = __values(source), source_7_1 = source_7.next();
-                    _b.label = 1;
-                case 1:
-                    if (!!source_7_1.done) return [3 /*break*/, 4];
-                    item = source_7_1.value;
-                    return [5 /*yield**/, __values(mapper(item))];
-                case 2:
-                    _b.sent();
-                    _b.label = 3;
-                case 3:
-                    source_7_1 = source_7.next();
-                    return [3 /*break*/, 1];
-                case 4: return [3 /*break*/, 7];
-                case 5:
-                    e_7_1 = _b.sent();
-                    e_7 = { error: e_7_1 };
-                    return [3 /*break*/, 7];
-                case 6:
-                    try {
-                        if (source_7_1 && !source_7_1.done && (_a = source_7.return)) _a.call(source_7);
-                    }
-                    finally { if (e_7) throw e_7.error; }
-                    return [7 /*endfinally*/];
-                case 7: return [2 /*return*/];
-            }
-        });
-    }
-    Iterables.flatMap = flatMap;
-    function has(source, item) {
-        return some(source, function (i) { return i === item; });
-    }
-    Iterables.has = has;
-    function isIterable(source) {
-        return typeof source[Symbol.iterator] === 'function';
-    }
-    Iterables.isIterable = isIterable;
-    function join(source, separator) {
-        var value = '';
-        var iterator = source[Symbol.iterator]();
-        var next = iterator.next();
-        if (next.done)
-            return value;
-        while (true) {
-            var s = next.value.toString();
-            next = iterator.next();
-            if (next.done) {
-                value += s;
-                break;
-            }
-            value += "" + s + separator;
-        }
-        return value;
-    }
-    Iterables.join = join;
-    function last(source) {
-        var e_8, _a;
-        var item;
-        try {
-            for (var source_8 = __values(source), source_8_1 = source_8.next(); !source_8_1.done; source_8_1 = source_8.next()) {
-                item = source_8_1.value;
-                /* noop */
-            }
-        }
-        catch (e_8_1) { e_8 = { error: e_8_1 }; }
-        finally {
-            try {
-                if (source_8_1 && !source_8_1.done && (_a = source_8.return)) _a.call(source_8);
-            }
-            finally { if (e_8) throw e_8.error; }
-        }
-        return item;
-    }
-    Iterables.last = last;
-    function map(source, mapper) {
-        var source_9, source_9_1, item, e_9_1;
-        var e_9, _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 5, 6, 7]);
-                    source_9 = __values(source), source_9_1 = source_9.next();
-                    _b.label = 1;
-                case 1:
-                    if (!!source_9_1.done) return [3 /*break*/, 4];
-                    item = source_9_1.value;
-                    return [4 /*yield*/, mapper(item)];
-                case 2:
-                    _b.sent();
-                    _b.label = 3;
-                case 3:
-                    source_9_1 = source_9.next();
-                    return [3 /*break*/, 1];
-                case 4: return [3 /*break*/, 7];
-                case 5:
-                    e_9_1 = _b.sent();
-                    e_9 = { error: e_9_1 };
-                    return [3 /*break*/, 7];
-                case 6:
-                    try {
-                        if (source_9_1 && !source_9_1.done && (_a = source_9.return)) _a.call(source_9);
-                    }
-                    finally { if (e_9) throw e_9.error; }
-                    return [7 /*endfinally*/];
-                case 7: return [2 /*return*/];
-            }
-        });
-    }
-    Iterables.map = map;
-    function next(source) {
-        return source.next().value;
-    }
-    Iterables.next = next;
-    function skip(source, count) {
-        var i, source_10, source_10_1, item, e_10_1;
-        var e_10, _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    i = 0;
-                    _b.label = 1;
-                case 1:
-                    _b.trys.push([1, 7, 8, 9]);
-                    source_10 = __values(source), source_10_1 = source_10.next();
-                    _b.label = 2;
-                case 2:
-                    if (!!source_10_1.done) return [3 /*break*/, 6];
-                    item = source_10_1.value;
-                    if (!(i >= count)) return [3 /*break*/, 4];
-                    return [4 /*yield*/, item];
-                case 3:
-                    _b.sent();
-                    _b.label = 4;
-                case 4:
-                    i++;
-                    _b.label = 5;
-                case 5:
-                    source_10_1 = source_10.next();
-                    return [3 /*break*/, 2];
-                case 6: return [3 /*break*/, 9];
-                case 7:
-                    e_10_1 = _b.sent();
-                    e_10 = { error: e_10_1 };
-                    return [3 /*break*/, 9];
-                case 8:
-                    try {
-                        if (source_10_1 && !source_10_1.done && (_a = source_10.return)) _a.call(source_10);
-                    }
-                    finally { if (e_10) throw e_10.error; }
-                    return [7 /*endfinally*/];
-                case 9: return [2 /*return*/];
-            }
-        });
-    }
-    Iterables.skip = skip;
-    function some(source, predicate) {
-        var e_11, _a;
-        try {
-            for (var source_11 = __values(source), source_11_1 = source_11.next(); !source_11_1.done; source_11_1 = source_11.next()) {
-                var item = source_11_1.value;
-                if (predicate(item))
-                    return true;
-            }
-        }
-        catch (e_11_1) { e_11 = { error: e_11_1 }; }
-        finally {
-            try {
-                if (source_11_1 && !source_11_1.done && (_a = source_11.return)) _a.call(source_11);
-            }
-            finally { if (e_11) throw e_11.error; }
-        }
-        return false;
-    }
-    Iterables.some = some;
-    function take(source, count) {
-        var i, source_12, source_12_1, item, e_12_1;
-        var e_12, _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    if (!(count > 0)) return [3 /*break*/, 8];
-                    i = 0;
-                    _b.label = 1;
-                case 1:
-                    _b.trys.push([1, 6, 7, 8]);
-                    source_12 = __values(source), source_12_1 = source_12.next();
-                    _b.label = 2;
-                case 2:
-                    if (!!source_12_1.done) return [3 /*break*/, 5];
-                    item = source_12_1.value;
-                    return [4 /*yield*/, item];
-                case 3:
-                    _b.sent();
-                    i++;
-                    if (i >= count)
-                        return [3 /*break*/, 5];
-                    _b.label = 4;
-                case 4:
-                    source_12_1 = source_12.next();
-                    return [3 /*break*/, 2];
-                case 5: return [3 /*break*/, 8];
-                case 6:
-                    e_12_1 = _b.sent();
-                    e_12 = { error: e_12_1 };
-                    return [3 /*break*/, 8];
-                case 7:
-                    try {
-                        if (source_12_1 && !source_12_1.done && (_a = source_12.return)) _a.call(source_12);
-                    }
-                    finally { if (e_12) throw e_12.error; }
-                    return [7 /*endfinally*/];
-                case 8: return [2 /*return*/];
-            }
-        });
-    }
-    Iterables.take = take;
-    function union() {
-        var _i, sources_1, sources_1_1, source, source_13, source_13_1, item, e_13_1, e_14_1;
-        var e_14, _a, e_13, _b;
-        var sources = [];
-        for (_i = 0; _i < arguments.length; _i++) {
-            sources[_i] = arguments[_i];
-        }
-        return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0:
-                    _c.trys.push([0, 11, 12, 13]);
-                    sources_1 = __values(sources), sources_1_1 = sources_1.next();
-                    _c.label = 1;
-                case 1:
-                    if (!!sources_1_1.done) return [3 /*break*/, 10];
-                    source = sources_1_1.value;
-                    _c.label = 2;
-                case 2:
-                    _c.trys.push([2, 7, 8, 9]);
-                    source_13 = (e_13 = void 0, __values(source)), source_13_1 = source_13.next();
-                    _c.label = 3;
-                case 3:
-                    if (!!source_13_1.done) return [3 /*break*/, 6];
-                    item = source_13_1.value;
-                    return [4 /*yield*/, item];
-                case 4:
-                    _c.sent();
-                    _c.label = 5;
-                case 5:
-                    source_13_1 = source_13.next();
-                    return [3 /*break*/, 3];
-                case 6: return [3 /*break*/, 9];
-                case 7:
-                    e_13_1 = _c.sent();
-                    e_13 = { error: e_13_1 };
-                    return [3 /*break*/, 9];
-                case 8:
-                    try {
-                        if (source_13_1 && !source_13_1.done && (_b = source_13.return)) _b.call(source_13);
-                    }
-                    finally { if (e_13) throw e_13.error; }
-                    return [7 /*endfinally*/];
-                case 9:
-                    sources_1_1 = sources_1.next();
-                    return [3 /*break*/, 1];
-                case 10: return [3 /*break*/, 13];
-                case 11:
-                    e_14_1 = _c.sent();
-                    e_14 = { error: e_14_1 };
-                    return [3 /*break*/, 13];
-                case 12:
-                    try {
-                        if (sources_1_1 && !sources_1_1.done && (_a = sources_1.return)) _a.call(sources_1);
-                    }
-                    finally { if (e_14) throw e_14.error; }
-                    return [7 /*endfinally*/];
-                case 13: return [2 /*return*/];
-            }
-        });
-    }
-    Iterables.union = union;
-})(Iterables || (Iterables = {}));
+}
 
 
 /***/ }),
 
-/***/ "./src/system/searchTree.ts":
+/***/ "./src/tree/explorerTree.ts":
 /*!**********************************!*\
-  !*** ./src/system/searchTree.ts ***!
+  !*** ./src/tree/explorerTree.ts ***!
   \**********************************/
-/*! exports provided: StringIterator, PathIterator, TernarySearchTree */
+/*! exports provided: GistElement, ExplorerTree */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StringIterator", function() { return StringIterator; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PathIterator", function() { return PathIterator; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TernarySearchTree", function() { return TernarySearchTree; });
-/* harmony import */ var _iterable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./iterable */ "./src/system/iterable.ts");
-/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./string */ "./src/system/string.ts");
-
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var __read = (undefined && undefined.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __values = (undefined && undefined.__values) || function(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-};
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GistElement", function() { return GistElement; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExplorerTree", function() { return ExplorerTree; });
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _tree__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tree */ "./src/tree/tree.ts");
+/* harmony import */ var _reactive_watcher__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../reactive/watcher */ "./src/reactive/watcher.ts");
+/* harmony import */ var _explorerModel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./explorerModel */ "./src/tree/explorerModel.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services */ "./src/services/index.ts");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../app */ "./src/app.ts");
 
 
-// Code stolen from https://github.com/Microsoft/vscode/blob/b3e6d5bb039a4a9362b52a2c8726267ca68cf64e/src/vs/base/common/map.ts#L352
-var FIN = { done: true, value: undefined };
-var StringIterator = /** @class */ (function () {
-    function StringIterator() {
-        this._value = '';
-        this._pos = 0;
-    }
-    StringIterator.prototype.reset = function (key) {
-        this._value = key;
-        this._pos = 0;
-        return this;
-    };
-    StringIterator.prototype.next = function () {
-        this._pos += 1;
-        return this;
-    };
-    StringIterator.prototype.hasNext = function () {
-        return this._pos < this._value.length - 1;
-    };
-    StringIterator.prototype.cmp = function (a) {
-        var aCode = a.charCodeAt(0);
-        var thisCode = this._value.charCodeAt(this._pos);
-        return aCode - thisCode;
-    };
-    StringIterator.prototype.value = function () {
-        return this._value[this._pos];
-    };
-    return StringIterator;
-}());
 
-var PathIterator = /** @class */ (function () {
-    function PathIterator() {
-    }
-    PathIterator.prototype.reset = function (key) {
-        this._value = key.replace(/\\$|\/$/, '');
-        this._from = 0;
-        this._to = 0;
-        return this.next();
-    };
-    PathIterator.prototype.hasNext = function () {
-        return this._to < this._value.length;
-    };
-    PathIterator.prototype.next = function () {
-        // this._data = key.split(/[\\/]/).filter(s => !!s);
-        this._from = this._to;
-        var justSeps = true;
-        for (; this._to < this._value.length; this._to++) {
-            var ch = this._value.charCodeAt(this._to);
-            if (ch === _string__WEBPACK_IMPORTED_MODULE_1__["Strings"].CharCode.Slash || ch === _string__WEBPACK_IMPORTED_MODULE_1__["Strings"].CharCode.Backslash) {
-                if (justSeps) {
-                    this._from++;
-                }
-                else {
-                    break;
-                }
-            }
-            else {
-                justSeps = false;
-            }
-        }
-        return this;
-    };
-    PathIterator.prototype.cmp = function (a) {
-        var aPos = 0;
-        var aLen = a.length;
-        var thisPos = this._from;
-        while (aPos < aLen && thisPos < this._to) {
-            var cmp = a.charCodeAt(aPos) - this._value.charCodeAt(thisPos);
-            if (cmp !== 0) {
-                return cmp;
-            }
-            aPos += 1;
-            thisPos += 1;
-        }
-        if (aLen === this._to - this._from) {
-            return 0;
-        }
-        if (aPos < aLen) {
-            return -1;
-        }
-        return 1;
-    };
-    PathIterator.prototype.value = function () {
-        return this._value.substring(this._from, this._to);
-    };
-    return PathIterator;
-}());
 
-var TernarySearchTreeNode = /** @class */ (function () {
-    function TernarySearchTreeNode() {
+
+
+class GistElement extends _tree__WEBPACK_IMPORTED_MODULE_1__["BaseElement"] {
+    constructor(tree, name, element) {
+        super(tree, name);
+        this._element = element;
     }
-    TernarySearchTreeNode.prototype.isEmpty = function () {
-        return !this.left && !this.mid && !this.right && !this.value;
-    };
-    return TernarySearchTreeNode;
-}());
-var TernarySearchTree = /** @class */ (function () {
-    function TernarySearchTree(segments) {
-        this._iter = segments;
+    get element() {
+        return this._element;
     }
-    TernarySearchTree.forPaths = function () {
-        return new TernarySearchTree(new PathIterator());
-    };
-    TernarySearchTree.forStrings = function () {
-        return new TernarySearchTree(new StringIterator());
-    };
-    TernarySearchTree.prototype.clear = function () {
-        this._root = undefined;
-    };
-    TernarySearchTree.prototype.set = function (key, element) {
-        var iter = this._iter.reset(key);
-        var node;
-        if (!this._root) {
-            this._root = new TernarySearchTreeNode();
-            this._root.segment = iter.value();
-        }
-        node = this._root;
-        while (true) {
-            var val = iter.cmp(node.segment);
-            if (val > 0) {
-                // left
-                if (!node.left) {
-                    node.left = new TernarySearchTreeNode();
-                    node.left.segment = iter.value();
-                }
-                node = node.left;
-            }
-            else if (val < 0) {
-                // right
-                if (!node.right) {
-                    node.right = new TernarySearchTreeNode();
-                    node.right.segment = iter.value();
-                }
-                node = node.right;
-            }
-            else if (iter.hasNext()) {
-                // mid
-                iter.next();
-                if (!node.mid) {
-                    node.mid = new TernarySearchTreeNode();
-                    node.mid.segment = iter.value();
-                }
-                node = node.mid;
-            }
-            else {
-                break;
-            }
-        }
-        var oldElement = node.value;
-        node.value = element;
-        node.key = key;
-        return oldElement;
-    };
-    TernarySearchTree.prototype.get = function (key) {
-        var iter = this._iter.reset(key);
-        var node = this._root;
-        while (node) {
-            var val = iter.cmp(node.segment);
-            if (val > 0) {
-                // left
-                node = node.left;
-            }
-            else if (val < 0) {
-                // right
-                node = node.right;
-            }
-            else if (iter.hasNext()) {
-                // mid
-                iter.next();
-                node = node.mid;
-            }
-            else {
-                break;
-            }
-        }
-        return node ? node.value : undefined;
-    };
-    TernarySearchTree.prototype.delete = function (key) {
-        var iter = this._iter.reset(key);
-        var stack = [];
-        var node = this._root;
-        // find and unset node
-        while (node) {
-            var val = iter.cmp(node.segment);
-            if (val > 0) {
-                // left
-                stack.push([1, node]);
-                node = node.left;
-            }
-            else if (val < 0) {
-                // right
-                stack.push([-1, node]);
-                node = node.right;
-            }
-            else if (iter.hasNext()) {
-                // mid
-                iter.next();
-                stack.push([0, node]);
-                node = node.mid;
-            }
-            else {
-                // remove element
-                node.value = undefined;
-                // clean up empty nodes
-                while (stack.length > 0 && node.isEmpty()) {
-                    var _a = __read(stack.pop(), 2), dir = _a[0], parent = _a[1];
-                    switch (dir) {
-                        case 1:
-                            parent.left = undefined;
-                            break;
-                        case 0:
-                            parent.mid = undefined;
-                            break;
-                        case -1:
-                            parent.right = undefined;
-                            break;
-                    }
-                    node = parent;
-                }
-                break;
-            }
-        }
-    };
-    TernarySearchTree.prototype.findSubstr = function (key) {
-        var iter = this._iter.reset(key);
-        var node = this._root;
-        var candidate;
-        while (node) {
-            var val = iter.cmp(node.segment);
-            if (val > 0) {
-                // left
-                node = node.left;
-            }
-            else if (val < 0) {
-                // right
-                node = node.right;
-            }
-            else if (iter.hasNext()) {
-                // mid
-                iter.next();
-                candidate = node.value || candidate;
-                node = node.mid;
-            }
-            else {
-                break;
-            }
-        }
-        return (node && node.value) || candidate;
-    };
-    TernarySearchTree.prototype.findSuperstr = function (key, limit) {
+}
+class ExplorerTree extends _tree__WEBPACK_IMPORTED_MODULE_1__["Tree"] {
+    // public readonly root: IExplorerTreeNode<T> | undefined
+    constructor() {
+        super();
+        this._onDidChangeNodes = new vscode__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.nodes = new Map();
+        this._disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(_reactive_watcher__WEBPACK_IMPORTED_MODULE_2__["watcher"].onWillChange(this.updateNode, this));
+    }
+    get onDidChangeNodes() {
+        return this._onDidChangeNodes.event;
+    }
+    createModel() {
+        return new _explorerModel__WEBPACK_IMPORTED_MODULE_3__["ExplorerModel"](null);
+    }
+    deleteNode(key, fileType) {
         var _a;
-        var _this = this;
-        if (limit === void 0) { limit = false; }
-        var iter = this._iter.reset(key);
-        var node = this._root;
-        while (node) {
-            var val = iter.cmp(node.segment);
-            if (val > 0) {
-                // left
-                node = node.left;
-            }
-            else if (val < 0) {
-                // right
-                node = node.right;
-            }
-            else if (iter.hasNext()) {
-                // mid
-                iter.next();
-                node = node.mid;
-            }
-            else {
-                // collect
-                if (!node.mid) {
-                    return undefined;
-                }
-                node = node.mid;
-                return _a = {},
-                    // eslint-disable-next-line no-loop-func
-                    _a[Symbol.iterator] = function () { return _this._nodeIterator(node, limit); },
-                    _a;
-            }
-        }
-        return undefined;
-    };
-    TernarySearchTree.prototype._nodeIterator = function (node, limit) {
-        var _this = this;
-        if (limit === void 0) { limit = false; }
-        var res;
-        var idx;
-        var data;
-        var next = function () {
-            if (!data) {
-                // lazy till first invocation
-                data = [];
-                idx = 0;
-                _this._forEach(node, function (value) { return data.push(value); }, limit);
-            }
-            if (idx >= data.length) {
-                return FIN;
-            }
-            if (!res) {
-                res = { done: false, value: data[idx++] };
-            }
-            else {
-                res.value = data[idx++];
-            }
-            return res;
-        };
-        return { next: next };
-    };
-    TernarySearchTree.prototype.forEach = function (callback) {
-        this._forEach(this._root, callback);
-    };
-    TernarySearchTree.prototype._forEach = function (node, callback, limit) {
-        if (limit === void 0) { limit = false; }
-        if (node === undefined)
-            return;
-        // left
-        this._forEach(node.left, callback, limit);
-        // node
-        if (node.value) {
-            callback(node.value, node.key);
-        }
-        if (!limit) {
-            // mid
-            this._forEach(node.mid, callback, limit);
-        }
-        // right
-        this._forEach(node.right, callback, limit);
-    };
-    TernarySearchTree.prototype.any = function () {
-        return this._root !== undefined && !this._root.isEmpty();
-    };
-    TernarySearchTree.prototype.count = function (predicate) {
-        if (this._root === undefined || this._root.isEmpty())
-            return 0;
-        return _iterable__WEBPACK_IMPORTED_MODULE_0__["Iterables"].count(this.entries(), predicate === undefined ? undefined : function (_a) {
-            var _b = __read(_a, 1), e = _b[0];
-            return predicate(e);
-        });
-    };
-    TernarySearchTree.prototype.entries = function () {
-        return this._iterator(this._root);
-    };
-    TernarySearchTree.prototype.values = function () {
-        return _iterable__WEBPACK_IMPORTED_MODULE_0__["Iterables"].map(this.entries(), function (_a) {
-            var _b = __read(_a, 1), e = _b[0];
-            return e;
-        });
-    };
-    TernarySearchTree.prototype.highlander = function () {
-        if (this._root === undefined || this._root.isEmpty())
-            return undefined;
-        var entries = this.entries();
-        var count = 0;
-        var next;
-        var value;
-        while (true) {
-            next = entries.next();
-            if (next.done)
-                break;
-            value = next.value;
-            count++;
-            if (count > 1)
-                return undefined;
-        }
-        return value;
-    };
-    TernarySearchTree.prototype.some = function (predicate) {
-        if (this._root === undefined || this._root.isEmpty())
-            return false;
-        return _iterable__WEBPACK_IMPORTED_MODULE_0__["Iterables"].some(this.entries(), function (_a) {
-            var _b = __read(_a, 1), e = _b[0];
-            return predicate(e);
-        });
-    };
-    TernarySearchTree.prototype._iterator = function (node) {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    if (!(node !== undefined)) return [3 /*break*/, 6];
-                    // left
-                    return [5 /*yield**/, __values(this._iterator(node.left))];
-                case 1:
-                    // left
-                    _a.sent();
-                    if (!node.value) return [3 /*break*/, 3];
-                    return [4 /*yield*/, [node.value, node.key]];
-                case 2:
-                    _a.sent();
-                    _a.label = 3;
-                case 3: 
-                // mid
-                return [5 /*yield**/, __values(this._iterator(node.mid))];
-                case 4:
-                    // mid
-                    _a.sent();
-                    // right
-                    return [5 /*yield**/, __values(this._iterator(node.right))];
-                case 5:
-                    // right
-                    _a.sent();
-                    _a.label = 6;
-                case 6: return [2 /*return*/];
-            }
-        });
-    };
-    return TernarySearchTree;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/system/shell.ts":
-/*!*****************************!*\
-  !*** ./src/system/shell.ts ***!
-  \*****************************/
-/*! exports provided: isWindows */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isWindows", function() { return isWindows; });
-var isWindows = process.platform === 'win32';
-
-
-/***/ }),
-
-/***/ "./src/system/string.ts":
-/*!******************************!*\
-  !*** ./src/system/string.ts ***!
-  \******************************/
-/*! exports provided: Strings */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Strings", function() { return Strings; });
-/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! crypto */ "crypto");
-/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(crypto__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _shell__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./shell */ "./src/system/shell.ts");
-
-var __assign = (undefined && undefined.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var __read = (undefined && undefined.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __spread = (undefined && undefined.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
-};
-
-
-var emptyStr = '';
-var Strings;
-(function (Strings) {
-    var CharCode;
-    (function (CharCode) {
-        /**
-         * The `/` character.
-         */
-        CharCode[CharCode["Slash"] = 47] = "Slash";
-        /**
-         * The `\` character.
-         */
-        CharCode[CharCode["Backslash"] = 92] = "Backslash";
-    })(CharCode = Strings.CharCode || (Strings.CharCode = {}));
-    function base64(s) {
-        var buffer = Buffer.from(s);
-        return buffer.toString('base64');
-    }
-    Strings.base64 = base64;
-    var escapeMarkdownRegex = /[\\`*_{}[\]()#+\-.!]/g;
-    var escapeMarkdownHeaderRegex = /^===/gm;
-    // const sampleMarkdown = '## message `not code` *not important* _no underline_ \n> don\'t quote me \n- don\'t list me \n+ don\'t list me \n1. don\'t list me \nnot h1 \n=== \nnot h2 \n---\n***\n---\n___';
-    var markdownQuotedRegex = /\n/g;
-    function escapeMarkdown(s, options) {
-        if (options === void 0) { options = {}; }
-        s = s
-            // Escape markdown
-            .replace(escapeMarkdownRegex, '\\$&')
-            // Escape markdown header (since the above regex won't match it)
-            .replace(escapeMarkdownHeaderRegex, '\u200b===');
-        if (!options.quoted)
-            return s;
-        // Keep under the same block-quote but with line breaks
-        return s.replace(markdownQuotedRegex, '\t\n>  ');
-    }
-    Strings.escapeMarkdown = escapeMarkdown;
-    function getCommonBase(s1, s2, delimiter) {
-        var char;
-        var index = 0;
-        for (var i = 0; i < s1.length; i++) {
-            char = s1[i];
-            if (char !== s2[i])
-                break;
-            if (char === delimiter) {
-                index = i;
-            }
-        }
-        return index > 0 ? s1.substring(0, index + 1) : undefined;
-    }
-    Strings.getCommonBase = getCommonBase;
-    function getDurationMilliseconds(start) {
-        var _a = __read(process.hrtime(start), 2), secs = _a[0], nanosecs = _a[1];
-        return secs * 1000 + Math.floor(nanosecs / 1000000);
-    }
-    Strings.getDurationMilliseconds = getDurationMilliseconds;
-    var driveLetterNormalizeRegex = /(?<=^\/?)([A-Z])(?=:\/)/;
-    var pathNormalizeRegex = /\\/g;
-    var pathStripTrailingSlashRegex = /\/$/g;
-    var tokenRegex = /\$\{(\W*)?([^|]*?)(?:\|(\d+)(-|\?)?)?(\W*)?\}/g;
-    var tokenSanitizeRegex = /\$\{(?:\W*)?(\w*?)(?:[\W\d]*)\}/g;
-    // eslint-disable-next-line no-template-curly-in-string
-    var tokenSanitizeReplacement = '$${this.$1}';
-    function getTokensFromTemplate(template) {
-        var tokens = [];
-        var match;
-        do {
-            match = tokenRegex.exec(template);
-            if (match == null)
-                break;
-            var _a = __read(match, 6), prefix = _a[1], key = _a[2], truncateTo = _a[3], option = _a[4], suffix = _a[5];
-            tokens.push({
-                key: key,
-                options: {
-                    collapseWhitespace: option === '?',
-                    padDirection: option === '-' ? 'left' : 'right',
-                    prefix: prefix,
-                    suffix: suffix,
-                    truncateTo: truncateTo == null ? undefined : parseInt(truncateTo, 10)
+        const node = this.getNode(key, fileType);
+        if (node) {
+            ;
+            ((_a = node.parent) === null || _a === void 0 ? void 0 : _a.children).forEach((item, i) => {
+                var _a;
+                if (item.element.name === key) {
+                    (_a = node.parent) === null || _a === void 0 ? void 0 : _a.children.splice(i, 1);
                 }
             });
-        } while (true);
-        return tokens;
-    }
-    Strings.getTokensFromTemplate = getTokensFromTemplate;
-    var interpolationMap = new Map();
-    function interpolate(template, context) {
-        if (template == null || template.length === 0)
-            return template;
-        if (context === undefined)
-            return template.replace(tokenSanitizeRegex, emptyStr);
-        var fn = interpolationMap.get(template);
-        if (fn === undefined) {
-            fn = new Function("return `" + template.replace(tokenSanitizeRegex, tokenSanitizeReplacement) + "`;");
-            interpolationMap.set(template, fn);
         }
-        return fn.call(context);
+        this.nodes.delete(key);
     }
-    Strings.interpolate = interpolate;
-    function lines(s) {
-        var i, j;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    i = 0;
-                    _a.label = 1;
-                case 1:
-                    if (!(i < s.length)) return [3 /*break*/, 3];
-                    j = s.indexOf('\n', i);
-                    if (j === -1) {
-                        j = s.length;
+    getRoot() {
+        return this.model.root;
+    }
+    getNode(p, fileType) {
+        const element = new GistElement(this, p, {
+            path: p,
+            fileType,
+            type: vscode__WEBPACK_IMPORTED_MODULE_0__["FileChangeType"].Created,
+        });
+        // FIXME: 修复anyScript
+        const value = this.nodes.get(element.name);
+        return value;
+    }
+    getFilterNodes(handler) {
+        return Array.from(this.nodes.values()).map(handler).filter(item => item);
+    }
+    async updateNode(e) {
+        const { path, fileType, type } = e;
+        if (type === vscode__WEBPACK_IMPORTED_MODULE_0__["FileChangeType"].Created) {
+            // FIXME: 修复anyScript
+            const node = new GistElement(this, path, e);
+            // TODO: optimize the process
+            this.model.setChildren(node, [], this.transform.bind(this));
+        }
+        if (type === vscode__WEBPACK_IMPORTED_MODULE_0__["FileChangeType"].Deleted) {
+            // TODO: optimize the process
+            this.deleteNode(path, fileType);
+        }
+        if (type === vscode__WEBPACK_IMPORTED_MODULE_0__["FileChangeType"].Changed) {
+            if (_app__WEBPACK_IMPORTED_MODULE_5__["App"].outlineView.path === '')
+                return;
+        }
+        this._onDidChangeNodes.fire();
+    }
+    patchNode(n1, n2) {
+        const patchRootNode = (n1, n2) => {
+            let { element: { name }, } = n2;
+            if (name !== n1.element.name) {
+                const p1 = n1.element.name.split('/').filter((item) => item !== '');
+                const p2 = name.split('/').filter((item) => item !== '');
+                let basePath = '/';
+                let temp = true, i = 0;
+                while (temp) {
+                    if (p1[i] === p2[i]) {
+                        basePath += `${p1[i]}/`;
+                        p1.shift();
+                        p2.shift();
                     }
-                    return [4 /*yield*/, s.substring(i, j)];
-                case 2:
-                    _a.sent();
-                    i = j + 1;
-                    return [3 /*break*/, 1];
-                case 3: return [2 /*return*/];
+                    else {
+                        temp = false;
+                    }
+                }
+                const deepCreateNode = (path, fileType, parent) => {
+                    var _a;
+                    const element = new GistElement(this, path, {
+                        path: path,
+                        fileType: _services__WEBPACK_IMPORTED_MODULE_4__["fileSystem"].isDirectory(path)
+                            ? vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].Directory
+                            : vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].File,
+                        type: vscode__WEBPACK_IMPORTED_MODULE_0__["FileChangeType"].Created,
+                    });
+                    const children = (_a = this.nodes.get(path)) === null || _a === void 0 ? void 0 : _a.children;
+                    // FIXME: 修复anyScript
+                    return creatNode(element, parent, children ? children : [], parent ? parent.depth + 1 : 0);
+                };
+                const isExist = (children, node) => {
+                    for (const value of children) {
+                        if (value.element.name === node.element.name) {
+                            return false;
+                        }
+                    }
+                    return true;
+                };
+                const el = deepCreateNode(basePath, vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].Directory, null);
+                let cur = el;
+                let baseP1 = basePath;
+                while (p1.length) {
+                    const fileType = p1.length === 1 ? vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].File : vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].Directory;
+                    const node = deepCreateNode(baseP1 + p1[0], fileType, cur);
+                    isExist(cur.children, node) && cur.children.push(node);
+                    cur = node;
+                    if (baseP1[baseP1.length - 1] === '/') {
+                        baseP1 += p1.shift();
+                    }
+                    else {
+                        baseP1 += `/${p1.shift()}`;
+                    }
+                }
+                cur = el;
+                let baseP2 = basePath;
+                while (p2.length) {
+                    const fileType = p2.length === 1 ? vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].File : vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].Directory;
+                    if (baseP2[baseP2.length - 1] === '/') {
+                        baseP2 += p2.shift();
+                    }
+                    else {
+                        baseP2 += `/${p2.shift()}`;
+                    }
+                    const node = deepCreateNode(baseP2, fileType, cur);
+                    isExist(cur.children, node) && cur.children.push(node);
+                    cur = node;
+                }
+                return el;
             }
+            return n2;
+        };
+        const creatNode = (element, parent, children, depth, visible = true) => {
+            const node = { element, parent, children, depth, visible };
+            // FIXME: 修复anyscript
+            !this.nodes.get(element.name) && this.nodes.set(element.name, node);
+            return node;
+        };
+        if (n1.depth === 0)
+            return patchRootNode(n1, n2);
+        return n2;
+    }
+    transform(root, element, children) {
+        const rootElemet = root.element;
+        if (rootElemet.name === element.name)
+            return;
+        return this.patchNode(root, {
+            parent: null,
+            element: element,
+            children: [],
+            depth: 0,
+            visible: true,
         });
     }
-    Strings.lines = lines;
-    function md5(s, encoding) {
-        if (encoding === void 0) { encoding = 'base64'; }
-        return Object(crypto__WEBPACK_IMPORTED_MODULE_0__["createHash"])('md5')
-            .update(s)
-            .digest(encoding);
+}
+
+
+/***/ }),
+
+/***/ "./src/tree/tree.ts":
+/*!**************************!*\
+  !*** ./src/tree/tree.ts ***!
+  \**************************/
+/*! exports provided: BaseElement, Tree */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BaseElement", function() { return BaseElement; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tree", function() { return Tree; });
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _treeModel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./treeModel */ "./src/tree/treeModel.ts");
+
+
+class BaseElement {
+    constructor(tree, name) {
+        this.tree = tree;
+        this.name = name;
     }
-    Strings.md5 = md5;
-    function normalizePath(fileName, options) {
-        if (options === void 0) { options = { stripTrailingSlash: true }; }
-        if (fileName == null || fileName.length === 0)
-            return fileName;
-        var normalized = fileName.replace(pathNormalizeRegex, '/');
-        var _a = __assign({ stripTrailingSlash: true }, options), addLeadingSlash = _a.addLeadingSlash, stripTrailingSlash = _a.stripTrailingSlash;
-        if (stripTrailingSlash) {
-            normalized = normalized.replace(pathStripTrailingSlashRegex, emptyStr);
+}
+class Tree {
+    constructor() {
+        this.model = this.createModel();
+        this._disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from();
+    }
+    setChildren(element, children) {
+        this.model.setChildren(element, children);
+    }
+    createModel() {
+        return new _treeModel__WEBPACK_IMPORTED_MODULE_1__["TreeModel"](null);
+    }
+    dispose() {
+        this._disposable.dispose();
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/tree/treeModel.ts":
+/*!*******************************!*\
+  !*** ./src/tree/treeModel.ts ***!
+  \*******************************/
+/*! exports provided: TreeModel */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TreeModel", function() { return TreeModel; });
+class TreeModel {
+    constructor(rootElement) {
+        this.nodes = new Map();
+        this._root = {
+            parent: null,
+            element: rootElement,
+            children: [],
+            depth: 0,
+            visible: true,
+        };
+    }
+    get root() {
+        return this._root;
+    }
+    ensureRoot(element, children, transformer) {
+        if (!this._root.element || this._root.element === element) {
+            this._root = {
+                parent: null,
+                element,
+                children,
+                depth: 0,
+                visible: true,
+            };
+            this.nodes.set(element, this._root);
+            return;
         }
-        if (addLeadingSlash && normalized.charCodeAt(0) !== CharCode.Slash) {
-            normalized = "/" + normalized;
+        if (transformer)
+            this._root = transformer(this._root, element, children);
+    }
+    setChildren(element, children, transform) {
+        if (!element)
+            return;
+        this.ensureRoot(element, children, transform);
+        for (let i = 0; i < children.length; i++) {
+            this.nodes.set(element, children[i]);
         }
-        if (_shell__WEBPACK_IMPORTED_MODULE_1__["isWindows"]) {
-            // Ensure that drive casing is normalized (lower case)
-            normalized = normalized.replace(driveLetterNormalizeRegex, function (drive) { return drive.toLowerCase(); });
-        }
-        return normalized;
     }
-    Strings.normalizePath = normalizePath;
-    function pad(s, before, after, padding) {
-        if (before === void 0) { before = 0; }
-        if (after === void 0) { after = 0; }
-        if (padding === void 0) { padding = '\u00a0'; }
-        if (before === 0 && after === 0)
-            return s;
-        return "" + (before === 0 ? emptyStr : padding.repeat(before)) + s + (after === 0 ? emptyStr : padding.repeat(after));
-    }
-    Strings.pad = pad;
-    function padLeft(s, padTo, padding, width) {
-        if (padding === void 0) { padding = '\u00a0'; }
-        var diff = padTo - (width || getWidth(s));
-        return diff <= 0 ? s : padding.repeat(diff) + s;
-    }
-    Strings.padLeft = padLeft;
-    function padLeftOrTruncate(s, max, padding, width) {
-        width = width || getWidth(s);
-        if (width < max)
-            return padLeft(s, max, padding, width);
-        if (width > max)
-            return truncate(s, max, undefined, width);
-        return s;
-    }
-    Strings.padLeftOrTruncate = padLeftOrTruncate;
-    function padRight(s, padTo, padding, width) {
-        if (padding === void 0) { padding = '\u00a0'; }
-        var diff = padTo - (width || getWidth(s));
-        return diff <= 0 ? s : s + padding.repeat(diff);
-    }
-    Strings.padRight = padRight;
-    function padOrTruncate(s, max, padding, width) {
-        var left = max < 0;
-        max = Math.abs(max);
-        width = width || getWidth(s);
-        if (width < max)
-            return left ? padLeft(s, max, padding, width) : padRight(s, max, padding, width);
-        if (width > max)
-            return truncate(s, max, undefined, width);
-        return s;
-    }
-    Strings.padOrTruncate = padOrTruncate;
-    function padRightOrTruncate(s, max, padding, width) {
-        width = width || getWidth(s);
-        if (width < max)
-            return padRight(s, max, padding, width);
-        if (width > max)
-            return truncate(s, max);
-        return s;
-    }
-    Strings.padRightOrTruncate = padRightOrTruncate;
-    function pluralize(s, count, options) {
-        if (options == null)
-            return count + " " + s + (count === 1 ? emptyStr : 's');
-        return (count === 0
-            ? options.zero != null
-                ? options.zero
-                : count
-            : options.number != null
-                ? options.number
-                : count) + " " + (count === 1 ? s : options.plural || "" + s + (options.suffix || 's'));
-    }
-    Strings.pluralize = pluralize;
-    // Removes \ / : * ? " < > | and C0 and C1 control codes
-    // eslint-disable-next-line no-control-regex
-    var illegalCharsForFSRegex = /[\\/:*?"<>|\x00-\x1f\x80-\x9f]/g;
-    function sanitizeForFileSystem(s, replacement) {
-        if (replacement === void 0) { replacement = '_'; }
-        if (!s)
-            return s;
-        return s.replace(illegalCharsForFSRegex, replacement);
-    }
-    Strings.sanitizeForFileSystem = sanitizeForFileSystem;
-    function sha1(s, encoding) {
-        if (encoding === void 0) { encoding = 'base64'; }
-        return Object(crypto__WEBPACK_IMPORTED_MODULE_0__["createHash"])('sha1')
-            .update(s)
-            .digest(encoding);
-    }
-    Strings.sha1 = sha1;
-    function splitLast(s, splitter) {
-        var index = s.lastIndexOf(splitter);
-        if (index === -1)
-            return [s];
-        return [s.substr(index), s.substring(0, index - 1)];
-    }
-    Strings.splitLast = splitLast;
-    function splitSingle(s, splitter) {
-        var parts = s.split(splitter, 1);
-        var first = parts[0];
-        return first.length === s.length ? parts : [first, s.substr(first.length + 1)];
-    }
-    Strings.splitSingle = splitSingle;
-    function truncate(s, truncateTo, ellipsis, width) {
-        if (ellipsis === void 0) { ellipsis = '\u2026'; }
-        if (!s)
-            return s;
-        width = width || getWidth(s);
-        if (width <= truncateTo)
-            return s;
-        if (width === s.length)
-            return "" + s.substring(0, truncateTo - 1) + ellipsis;
-        // Skip ahead to start as far as we can by assuming all the double-width characters won't be truncated
-        var chars = Math.floor(truncateTo / (width / s.length));
-        var count = getWidth(s.substring(0, chars));
-        while (count < truncateTo) {
-            count += getWidth(s[chars++]);
-        }
-        if (count >= truncateTo) {
-            chars--;
-        }
-        return "" + s.substring(0, chars) + ellipsis;
-    }
-    Strings.truncate = truncate;
-    // Lifted from https://github.com/chalk/ansi-regex
-    // eslint-disable-next-line no-control-regex
-    var ansiRegex = /[\u001B\u009B][[\]()#;?]*(?:(?:(?:[a-zA-Z\d]*(?:;[-a-zA-Z\d/#&.:=?%@~_]*)*)?\u0007)|(?:(?:\d{1,4}(?:;\d{0,4})*)?[\dA-PR-TZcf-ntqry=><~]))/g;
-    var containsNonAsciiRegex = /[^\x20-\x7F\u00a0\u2026]/;
-    function getWidth(s) {
-        if (s == null || s.length === 0)
-            return 0;
-        // Shortcut to avoid needless string `RegExp`s, replacements, and allocations
-        if (!containsNonAsciiRegex.test(s))
-            return s.length;
-        s = s.replace(ansiRegex, emptyStr);
-        var count = 0;
-        var emoji = 0;
-        var joiners = 0;
-        var graphemes = __spread(s);
-        for (var i = 0; i < graphemes.length; i++) {
-            var code = graphemes[i].codePointAt(0);
-            // Ignore control characters
-            if (code <= 0x1f || (code >= 0x7f && code <= 0x9f))
-                continue;
-            // Ignore combining characters
-            if (code >= 0x300 && code <= 0x36f)
-                continue;
-            // https://stackoverflow.com/questions/30757193/find-out-if-character-in-string-is-emoji
-            if ((code >= 0x1f600 && code <= 0x1f64f) || // Emoticons
-                (code >= 0x1f300 && code <= 0x1f5ff) || // Misc Symbols and Pictographs
-                (code >= 0x1f680 && code <= 0x1f6ff) || // Transport and Map
-                (code >= 0x2600 && code <= 0x26ff) || // Misc symbols
-                (code >= 0x2700 && code <= 0x27bf) || // Dingbats
-                (code >= 0xfe00 && code <= 0xfe0f) || // Variation Selectors
-                (code >= 0x1f900 && code <= 0x1f9ff) || // Supplemental Symbols and Pictographs
-                (code >= 65024 && code <= 65039) || // Variation selector
-                (code >= 8400 && code <= 8447) // Combining Diacritical Marks for Symbols
-            ) {
-                if (code >= 0x1f3fb && code <= 0x1f3ff)
-                    continue; // emoji modifier fitzpatrick type
-                emoji++;
-                count += 2;
-                continue;
-            }
-            // Ignore zero-width joiners '\u200d'
-            if (code === 8205) {
-                joiners++;
-                count -= 2;
-                continue;
-            }
-            // Surrogates
-            if (code > 0xffff) {
-                i++;
-            }
-            count += isFullwidthCodePoint(code) ? 2 : 1;
-        }
-        var offset = emoji - joiners;
-        if (offset > 1) {
-            count += offset - 1;
-        }
-        return count;
-    }
-    Strings.getWidth = getWidth;
-    function isFullwidthCodePoint(cp) {
-        // code points are derived from:
-        // http://www.unix.org/Public/UNIDATA/EastAsianWidth.txt
-        if (cp >= 0x1100 &&
-            (cp <= 0x115f || // Hangul Jamo
-                cp === 0x2329 || // LEFT-POINTING ANGLE BRACKET
-                cp === 0x232a || // RIGHT-POINTING ANGLE BRACKET
-                // CJK Radicals Supplement .. Enclosed CJK Letters and Months
-                (cp >= 0x2e80 && cp <= 0x3247 && cp !== 0x303f) ||
-                // Enclosed CJK Letters and Months .. CJK Unified Ideographs Extension A
-                (cp >= 0x3250 && cp <= 0x4dbf) ||
-                // CJK Unified Ideographs .. Yi Radicals
-                (cp >= 0x4e00 && cp <= 0xa4c6) ||
-                // Hangul Jamo Extended-A
-                (cp >= 0xa960 && cp <= 0xa97c) ||
-                // Hangul Syllables
-                (cp >= 0xac00 && cp <= 0xd7a3) ||
-                // CJK Compatibility Ideographs
-                (cp >= 0xf900 && cp <= 0xfaff) ||
-                // Vertical Forms
-                (cp >= 0xfe10 && cp <= 0xfe19) ||
-                // CJK Compatibility Forms .. Small Form Variants
-                (cp >= 0xfe30 && cp <= 0xfe6b) ||
-                // Halfwidth and Fullwidth Forms
-                (cp >= 0xff01 && cp <= 0xff60) ||
-                (cp >= 0xffe0 && cp <= 0xffe6) ||
-                // Kana Supplement
-                (cp >= 0x1b000 && cp <= 0x1b001) ||
-                // Enclosed Ideographic Supplement
-                (cp >= 0x1f200 && cp <= 0x1f251) ||
-                // CJK Unified Ideographs Extension B .. Tertiary Ideographic Plane
-                (cp >= 0x20000 && cp <= 0x3fffd))) {
-            return true;
-        }
+}
+
+
+/***/ }),
+
+/***/ "./src/utils/check.ts":
+/*!****************************!*\
+  !*** ./src/utils/check.ts ***!
+  \****************************/
+/*! exports provided: isDblclick */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isDblclick", function() { return isDblclick; });
+let prevselection = null;
+function isDblclick(node) {
+    const currentTime = Date.now(), doubleClickTime = 500;
+    if (prevselection === null ||
+        prevselection.node !== node ||
+        currentTime - prevselection.time >= doubleClickTime) {
+        prevselection = { node: node, time: currentTime };
         return false;
     }
-})(Strings || (Strings = {}));
+    prevselection = null;
+    return true;
+}
 
 
 /***/ }),
@@ -30631,81 +28760,87 @@ var Strings;
 /*!***************************!*\
   !*** ./src/utils/file.ts ***!
   \***************************/
-/*! exports provided: file */
+/*! exports provided: readdirWithFileTypes, getExtname, getDirent, fullname, mv, remove, data, mkdir, stat, write, append, listFile, move */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "file", function() { return file; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "readdirWithFileTypes", function() { return readdirWithFileTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getExtname", function() { return getExtname; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDirent", function() { return getDirent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fullname", function() { return fullname; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mv", function() { return mv; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "data", function() { return data; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mkdir", function() { return mkdir; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "stat", function() { return stat; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "write", function() { return write; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "append", function() { return append; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "listFile", function() { return listFile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "move", function() { return move; });
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "path");
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! fs */ "fs");
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var mkdirp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! mkdirp */ "./node_modules/mkdirp/index.js");
+/* harmony import */ var mkdirp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! mkdirp */ "./node_modules/_mkdirp@1.0.4@mkdirp/index.js");
 /* harmony import */ var mkdirp__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(mkdirp__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var fs_extra__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! fs-extra */ "./node_modules/fs-extra/lib/index.js");
+/* harmony import */ var fs_extra__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! fs-extra */ "./node_modules/_fs-extra@9.0.1@fs-extra/lib/index.js");
 /* harmony import */ var fs_extra__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(fs_extra__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! util */ "util");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_4__);
 
 
 
 
-var File = /** @class */ (function () {
-    function File() {
-    }
-    File.prototype.fullname = function (fullpath) {
-        return path__WEBPACK_IMPORTED_MODULE_0__["basename"](fullpath);
-    };
-    File.prototype.basename = function (fullpath) {
-        return path__WEBPACK_IMPORTED_MODULE_0__["basename"](fullpath, path__WEBPACK_IMPORTED_MODULE_0__["extname"](fullpath));
-    };
-    File.prototype.extname = function (fullpath) {
-        return path__WEBPACK_IMPORTED_MODULE_0__["extname"](fullpath);
-    };
-    File.prototype.dirname = function (fullpath) {
-        return path__WEBPACK_IMPORTED_MODULE_0__["dirname"](fullpath);
-    };
-    File.prototype.rm = function (fullpath) {
-        return fs__WEBPACK_IMPORTED_MODULE_1__["unlinkSync"](fullpath);
-    };
-    File.prototype.mv = function (src, dst) {
-        return fs__WEBPACK_IMPORTED_MODULE_1__["renameSync"](src, dst);
-    };
-    File.prototype.remove = function (fullpath) {
-        return fs_extra__WEBPACK_IMPORTED_MODULE_3__["removeSync"](fullpath);
-    };
-    File.prototype.data = function (fullpath) {
-        return fs__WEBPACK_IMPORTED_MODULE_1__["existsSync"](fullpath)
-            ? fs__WEBPACK_IMPORTED_MODULE_1__["readFileSync"](fullpath).toString()
-            : null;
-    };
-    File.prototype.mkdir = function (fullpath) {
-        if (fs__WEBPACK_IMPORTED_MODULE_1__["existsSync"](fullpath))
-            return;
-        mkdirp__WEBPACK_IMPORTED_MODULE_2__["sync"](fullpath);
-    };
-    File.prototype.exist = function (fullpath) {
-        return fs__WEBPACK_IMPORTED_MODULE_1__["existsSync"](fullpath);
-    };
-    File.prototype.stat = function (fullpath) {
-        return fs__WEBPACK_IMPORTED_MODULE_1__["statSync"](fullpath);
-    };
-    File.prototype.write = function (fullpath, data) {
-        return fs__WEBPACK_IMPORTED_MODULE_1__["writeFileSync"](fullpath, data);
-    };
-    File.prototype.listFile = function (fullpath) {
-        return fs__WEBPACK_IMPORTED_MODULE_1__["existsSync"](fullpath)
-            ? fs__WEBPACK_IMPORTED_MODULE_1__["readdirSync"](fullpath).filter(function (pathname) { return pathname !== ".DS_Store"; })
-            : null;
-    };
-    File.prototype.copyFile = function (src, dest) {
-        return fs__WEBPACK_IMPORTED_MODULE_1__["copyFileSync"](src, dest);
-    };
-    File.prototype.move = function (src, dest) {
-        return fs_extra__WEBPACK_IMPORTED_MODULE_3__["moveSync"](src, dest);
-    };
-    return File;
-}());
-var file = new File();
+
+async function readdirWithFileTypes(fullpath, includes = [], excludes = ['.DS_Store']) {
+    const res = await Object(util__WEBPACK_IMPORTED_MODULE_4__["promisify"])(fs__WEBPACK_IMPORTED_MODULE_1__["readdir"])(fullpath, { withFileTypes: true });
+    return includes.length
+        ? res.filter((item) => includes.includes(item.name) && !excludes.includes(item.name))
+        : res.filter((item) => !excludes.includes(item.name));
+}
+function getExtname(fullpath) {
+    return path__WEBPACK_IMPORTED_MODULE_0__["basename"](fullpath);
+}
+async function getDirent(fullpath) {
+    const root = path__WEBPACK_IMPORTED_MODULE_0__["resolve"](fullpath, '../'), name = path__WEBPACK_IMPORTED_MODULE_0__["basename"](fullpath);
+    const res = await readdirWithFileTypes(root, [name]);
+    return res[0];
+}
+function fullname(fullpath) {
+    return path__WEBPACK_IMPORTED_MODULE_0__["basename"](fullpath);
+}
+function mv(src, dst) {
+    return fs__WEBPACK_IMPORTED_MODULE_1__["renameSync"](src, dst);
+}
+function remove(fullpath) {
+    return fs_extra__WEBPACK_IMPORTED_MODULE_3__["removeSync"](fullpath);
+}
+function data(fullpath) {
+    return fs__WEBPACK_IMPORTED_MODULE_1__["existsSync"](fullpath) ? fs__WEBPACK_IMPORTED_MODULE_1__["readFileSync"](fullpath).toString() : null;
+}
+function mkdir(fullpath) {
+    if (fs__WEBPACK_IMPORTED_MODULE_1__["existsSync"](fullpath))
+        return;
+    mkdirp__WEBPACK_IMPORTED_MODULE_2__["sync"](fullpath);
+}
+function stat(fullpath) {
+    return fs__WEBPACK_IMPORTED_MODULE_1__["statSync"](fullpath);
+}
+function write(fullpath, data) {
+    return fs__WEBPACK_IMPORTED_MODULE_1__["writeFileSync"](fullpath, data);
+}
+function append(fullpath, data) {
+    return fs__WEBPACK_IMPORTED_MODULE_1__["appendFileSync"](fullpath, data);
+}
+function listFile(fullpath) {
+    return fs__WEBPACK_IMPORTED_MODULE_1__["existsSync"](fullpath)
+        ? fs__WEBPACK_IMPORTED_MODULE_1__["readdirSync"](fullpath).filter((pathname) => pathname !== '.DS_Store')
+        : null;
+}
+function move(src, dest) {
+    return fs_extra__WEBPACK_IMPORTED_MODULE_3__["moveSync"](src, dest);
+}
 
 
 /***/ }),
@@ -30714,15 +28849,136 @@ var file = new File();
 /*!****************************!*\
   !*** ./src/utils/index.ts ***!
   \****************************/
-/*! exports provided: file */
+/*! exports provided: readdirWithFileTypes, getExtname, getDirent, fullname, mv, remove, data, mkdir, stat, write, append, listFile, move, isDblclick */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _file__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./file */ "./src/utils/file.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "file", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["file"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "readdirWithFileTypes", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["readdirWithFileTypes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getExtname", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["getExtname"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getDirent", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["getDirent"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fullname", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["fullname"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mv", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["mv"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["remove"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "data", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["data"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mkdir", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["mkdir"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "stat", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["stat"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "write", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["write"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "append", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["append"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "listFile", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["listFile"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "move", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["move"]; });
+
+/* harmony import */ var _check__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./check */ "./src/utils/check.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isDblclick", function() { return _check__WEBPACK_IMPORTED_MODULE_1__["isDblclick"]; });
 
 
+
+
+
+/***/ }),
+
+/***/ "./src/utils/window.ts":
+/*!*****************************!*\
+  !*** ./src/utils/window.ts ***!
+  \*****************************/
+/*! exports provided: openTextDocument, showInputBox, showQuickPick, showWarningMessage, showErrorMessage, showSaveDiaglog */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "openTextDocument", function() { return openTextDocument; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showInputBox", function() { return showInputBox; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showQuickPick", function() { return showQuickPick; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showWarningMessage", function() { return showWarningMessage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showErrorMessage", function() { return showErrorMessage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showSaveDiaglog", function() { return showSaveDiaglog; });
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
+
+
+function openTextDocument(path) {
+    return vscode__WEBPACK_IMPORTED_MODULE_0__["workspace"].openTextDocument(path);
+}
+function showInputBox(options) {
+    return vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showInputBox(options);
+}
+function showQuickPick(items, options) {
+    vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showQuickPick(items, options);
+}
+function showWarningMessage(item) {
+    vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showWarningMessage(item);
+}
+function showErrorMessage(item) {
+    vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showErrorMessage(item);
+}
+async function showSaveDiaglog(options = {
+    defaultUri: vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(_config__WEBPACK_IMPORTED_MODULE_1__["configuration"].appFolder()),
+}) {
+    const uri = await vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showSaveDialog(options);
+    if (uri) {
+        return uri.toString().replace('file://', '');
+    }
+    return;
+}
+
+
+/***/ }),
+
+/***/ "./src/views/explorerView.ts":
+/*!***********************************!*\
+  !*** ./src/views/explorerView.ts ***!
+  \***********************************/
+/*! exports provided: ExplorerView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExplorerView", function() { return ExplorerView; });
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
+/* harmony import */ var _nodes_explorerNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nodes/explorerNode */ "./src/views/nodes/explorerNode.ts");
+/* harmony import */ var _viewBase__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./viewBase */ "./src/views/viewBase.ts");
+
+
+
+
+class ExplorerView extends _viewBase__WEBPACK_IMPORTED_MODULE_3__["ViewBase"] {
+    constructor() {
+        super('facility.views.explorer', 'Explorer');
+    }
+    getRoot() {
+        return new _nodes_explorerNode__WEBPACK_IMPORTED_MODULE_2__["ExplorerNode"](this, true);
+    }
+    registerCommands() {
+        vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].registerCommand(this.getQualifiedCommand('stick'), (node) => this.onGistSticked(node), this);
+    }
+    onConfigurationChanged(e) {
+        if (_config__WEBPACK_IMPORTED_MODULE_1__["configuration"].changed(e, 'views', 'repositories', 'location')) {
+            this.initialize('facility', { showCollapseAll: true });
+        }
+        if (!_config__WEBPACK_IMPORTED_MODULE_1__["configuration"].initializing(e) && this._root !== undefined) {
+            void this.refresh(true);
+        }
+    }
+    async onGistSticked(node) {
+        return node.triggerGistSticked();
+    }
+}
 
 
 /***/ }),
@@ -30740,183 +28996,82 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
 
-var MessageNode = /** @class */ (function (_super) {
-    __extends(MessageNode, _super);
-    function MessageNode(view, parent, _message, _description, _tooltip, _iconPath, _contextValue) {
-        var _this = _super.call(this, view, '', parent) || this;
-        _this._message = _message;
-        _this._description = _description;
-        _this._tooltip = _tooltip;
-        _this._iconPath = _iconPath;
-        _this._contextValue = _contextValue;
-        return _this;
+class MessageNode extends _viewNode__WEBPACK_IMPORTED_MODULE_1__["ViewNode"] {
+    constructor(view, parent, _message, _description, _tooltip, _iconPath, _contextValue) {
+        super(view, parent);
+        this._message = _message;
+        this._description = _description;
+        this._tooltip = _tooltip;
+        this._iconPath = _iconPath;
+        this._contextValue = _contextValue;
     }
-    MessageNode.prototype.getChildren = function () {
+    getChildren() {
         return [];
-    };
-    MessageNode.prototype.getTreeItem = function () {
+    }
+    getTreeItem() {
         var _a;
-        var item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](this._message, vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].None);
+        const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](this._message, vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].None);
         item.contextValue = (_a = this._contextValue) !== null && _a !== void 0 ? _a : _viewNode__WEBPACK_IMPORTED_MODULE_1__["ContextValues"].Message;
         item.description = this._description;
         item.tooltip = this._tooltip;
         item.iconPath = this._iconPath;
         return item;
-    };
-    return MessageNode;
-}(_viewNode__WEBPACK_IMPORTED_MODULE_1__["ViewNode"]));
-
+    }
+}
 
 
 /***/ }),
 
-/***/ "./src/views/nodes/fuctionNode.ts":
-/*!****************************************!*\
-  !*** ./src/views/nodes/fuctionNode.ts ***!
-  \****************************************/
-/*! exports provided: FunctionNode */
+/***/ "./src/views/nodes/explorerNode.ts":
+/*!*****************************************!*\
+  !*** ./src/views/nodes/explorerNode.ts ***!
+  \*****************************************/
+/*! exports provided: ExplorerNode */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FunctionNode", function() { return FunctionNode; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExplorerNode", function() { return ExplorerNode; });
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services */ "./src/services/index.ts");
-/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! . */ "./src/views/nodes/index.ts");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./common */ "./src/views/nodes/common.ts");
+/* harmony import */ var _repositoryNode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./repositoryNode */ "./src/views/nodes/repositoryNode.ts");
+/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
 
 
 
 
-var FunctionNode = /** @class */ (function (_super) {
-    __extends(FunctionNode, _super);
-    function FunctionNode(view, repo) {
-        var _this = _super.call(this, view, '') || this;
-        _this.repo = repo;
-        return _this;
+
+
+class ExplorerNode extends _viewNode__WEBPACK_IMPORTED_MODULE_5__["SubscribeableViewNode"] {
+    constructor(view, isRoot) {
+        super(view);
+        this.isRoot = isRoot;
     }
-    FunctionNode.prototype.getChildren = function () {
-        return [];
-    };
-    FunctionNode.prototype.getTreeItem = function () {
-        var label = this.repo.name;
-        var item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](label, vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].None);
-        item.iconPath = {
-            dark: _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath("images/dark/icon-function.svg"),
-            light: _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath("images/light/icon-function.svg"),
-        };
-        item.command = {
-            title: 'Stick Gist',
-            command: 'facility.views.outline.stick',
-            arguments: [this],
-        };
-        return item;
-    };
-    FunctionNode.prototype.triggerStick = function (details) {
-        _services__WEBPACK_IMPORTED_MODULE_2__["fs"].edit(details);
-    };
-    FunctionNode.prototype.subscribe = function () {
-        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from();
-    };
-    return FunctionNode;
-}(_viewNode__WEBPACK_IMPORTED_MODULE_3__["SubscribeableViewNode"]));
-
-
-
-/***/ }),
-
-/***/ "./src/views/nodes/gistNode.ts":
-/*!*************************************!*\
-  !*** ./src/views/nodes/gistNode.ts ***!
-  \*************************************/
-/*! exports provided: GistNode */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GistNode", function() { return GistNode; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _repo_gistTree__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../repo/gistTree */ "./src/repo/gistTree.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services */ "./src/services/index.ts");
-/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-
-
-
-
-var GistNode = /** @class */ (function (_super) {
-    __extends(GistNode, _super);
-    function GistNode(view, repo) {
-        var _this = _super.call(this, view, '') || this;
-        _this.repo = repo;
-        _this.tree = new _repo_gistTree__WEBPACK_IMPORTED_MODULE_1__["GistTree"](repo.name, repo.path);
-        return _this;
+    async getChildren() {
+        const children = [];
+        const root = await _app__WEBPACK_IMPORTED_MODULE_2__["App"].explorerTree.getRoot();
+        if (!root || !root.element) {
+            return [new _common__WEBPACK_IMPORTED_MODULE_3__["MessageNode"](this.view, this, 'No nodes could be found')];
+        }
+        // FIXME: 修复anyScript
+        children.push(new _repositoryNode__WEBPACK_IMPORTED_MODULE_4__["RepositoryNode"](this.view, root.element, root.children));
+        this._children = children;
+        return this._children;
     }
-    GistNode.prototype.getChildren = function () {
-        return [];
-    };
-    GistNode.prototype.getTreeItem = function () {
-        var label = this.repo.name;
-        var item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](label, vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].None);
-        item.iconPath = this.adaptIcon(label);
-        item.command = {
-            title: "Stick Gist",
-            command: 'facility.views.repositories.stick',
-            arguments: [this],
-        };
+    getTreeItem() {
+        const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"]('Explorer', vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].Expanded);
+        item.contextValue = ___WEBPACK_IMPORTED_MODULE_1__["ContextValues"].Explorer;
         return item;
-    };
-    GistNode.prototype.triggerStick = function (details) {
-        _services__WEBPACK_IMPORTED_MODULE_2__["fs"].edit(details);
-    };
-    GistNode.prototype.subscribe = function () {
+    }
+    subscribe() {
         return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from();
-    };
-    return GistNode;
-}(_viewNode__WEBPACK_IMPORTED_MODULE_3__["SubscribeableViewNode"]));
-
+    }
+}
 
 
 /***/ }),
@@ -30925,7 +29080,7 @@ var GistNode = /** @class */ (function (_super) {
 /*!**********************************!*\
   !*** ./src/views/nodes/index.ts ***!
   \**********************************/
-/*! exports provided: ContextValues, ViewNode, SubscribeableViewNode, RepositoriesType, RepositoriesNode */
+/*! exports provided: ContextValues, ViewNode, SubscribeableViewNode */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -30937,149 +29092,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SubscribeableViewNode", function() { return _viewNode__WEBPACK_IMPORTED_MODULE_0__["SubscribeableViewNode"]; });
 
-/* harmony import */ var _repositoriesNode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./repositoriesNode */ "./src/views/nodes/repositoriesNode.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RepositoriesType", function() { return _repositoriesNode__WEBPACK_IMPORTED_MODULE_1__["RepositoriesType"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RepositoriesNode", function() { return _repositoriesNode__WEBPACK_IMPORTED_MODULE_1__["RepositoriesNode"]; });
-
-
-
-
-
-/***/ }),
-
-/***/ "./src/views/nodes/moduleNode.ts":
-/*!***************************************!*\
-  !*** ./src/views/nodes/moduleNode.ts ***!
-  \***************************************/
-/*! exports provided: ModuleNode */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModuleNode", function() { return ModuleNode; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common */ "./src/views/nodes/common.ts");
-/* harmony import */ var _fuctionNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fuctionNode */ "./src/views/nodes/fuctionNode.ts");
-/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-
-
-
-
-
-var ModuleNode = /** @class */ (function (_super) {
-    __extends(ModuleNode, _super);
-    function ModuleNode(view, repo) {
-        var _this = _super.call(this, view, '') || this;
-        _this.repo = repo;
-        return _this;
-    }
-    Object.defineProperty(ModuleNode.prototype, "name", {
-        get: function () {
-            return this.view.tree.name || 'Repository';
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ModuleNode.prototype.getChildren = function () {
-        var _a;
-        return __awaiter(this, void 0, void 0, function () {
-            var modules, children;
-            var _this = this;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, ((_a = this.view.tree) === null || _a === void 0 ? void 0 : _a.getOrderedGists())];
-                    case 1:
-                        modules = _b.sent();
-                        if (!modules)
-                            return [2 /*return*/, [new _common__WEBPACK_IMPORTED_MODULE_2__["MessageNode"](this.view, this, 'No outline could be found.')]];
-                        children = modules === null || modules === void 0 ? void 0 : modules.map(function (item) { return new _fuctionNode__WEBPACK_IMPORTED_MODULE_3__["FunctionNode"](_this.view, item); });
-                        this._children = children;
-                        return [2 /*return*/, this._children];
-                }
-            });
-        });
-    };
-    ModuleNode.prototype.getTreeItem = function () {
-        var item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](this.name, vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].Expanded);
-        item.iconPath = {
-            dark: _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath("images/dark/icon-class.svg"),
-            light: _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath("images/light/icon-class.svg"),
-        };
-        return item;
-    };
-    ModuleNode.prototype.refresh = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var modules;
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.view.tree.getOrderedGists()];
-                    case 1:
-                        modules = _a.sent();
-                        this._children = modules.map(function (item) { return new _fuctionNode__WEBPACK_IMPORTED_MODULE_3__["FunctionNode"](_this.view, item); });
-                        void this.ensureSubscription();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    ModuleNode.prototype.subscribe = function () {
-        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from();
-    };
-    return ModuleNode;
-}(_viewNode__WEBPACK_IMPORTED_MODULE_4__["SubscribeableViewNode"]));
 
 
 
@@ -31098,264 +29110,51 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
-/* harmony import */ var _moduleNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./moduleNode */ "./src/views/nodes/moduleNode.ts");
-/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common */ "./src/views/nodes/common.ts");
+/* harmony import */ var _symbolNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./symbolNode */ "./src/views/nodes/symbolNode.ts");
+/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
+
+
+
+
+
+class OutlineNode extends _viewNode__WEBPACK_IMPORTED_MODULE_4__["SubscribeableViewNode"] {
+    constructor(view) {
+        super(view);
     }
-};
-var __read = (undefined && undefined.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
+    async getChildren() {
+        const symbols = await Object(_symbolNode__WEBPACK_IMPORTED_MODULE_3__["getSymbol"])(this.view.path);
+        if (symbols.children.length === 0) {
+            return [new _common__WEBPACK_IMPORTED_MODULE_2__["MessageNode"](this.view, this, 'No Node could be found.')];
         }
-        finally { if (e) throw e.error; }
+        this._children = symbols.children.map((item) => new _symbolNode__WEBPACK_IMPORTED_MODULE_3__["SymbolNode"](this.view, item.symbol));
+        return this._children;
     }
-    return ar;
-};
-var __spread = (undefined && undefined.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
-};
-
-
-
-
-var OutlineNode = /** @class */ (function (_super) {
-    __extends(OutlineNode, _super);
-    function OutlineNode(view) {
-        return _super.call(this, view, '') || this;
-    }
-    OutlineNode.prototype.getChildren = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                this._children = [new _moduleNode__WEBPACK_IMPORTED_MODULE_2__["ModuleNode"](this.view, '')];
-                return [2 /*return*/, this._children];
-            });
-        });
-    };
-    OutlineNode.prototype.getTreeItem = function () {
-        var item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"]('Outline', vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].Collapsed);
-        item.contextValue = _viewNode__WEBPACK_IMPORTED_MODULE_3__["ContextValues"].Outline;
+    getTreeItem() {
+        const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"]('Outline', vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].Collapsed);
+        item.contextValue = _viewNode__WEBPACK_IMPORTED_MODULE_4__["ContextValues"].Outline;
         return item;
-    };
-    OutlineNode.prototype.refresh = function () {
+    }
+    onSymbolChanged() {
+        // 细节优化，节约性能
+        void this.triggerChange();
+    }
+    refresh() {
         if (this._children === undefined)
             return;
-        this._children.forEach(function (item) { return item.refresh(); });
-    };
-    OutlineNode.prototype.subscribe = function () {
-        var subscriptions = [
-            _app__WEBPACK_IMPORTED_MODULE_1__["App"].tree.onDidChangeOutline(this.onOutlineChanged, this),
+        this._children.forEach((item) => item.refresh());
+    }
+    subscribe() {
+        const subscriptions = [
+            _app__WEBPACK_IMPORTED_MODULE_1__["App"].explorerTree.onDidChangeNodes(this.onSymbolChanged, this),
         ];
-        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from.apply(vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"], __spread(subscriptions));
-    };
-    OutlineNode.prototype.onOutlineChanged = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.view.tree.analyze()];
-                    case 1:
-                        _a.sent();
-                        void this.triggerChange();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return OutlineNode;
-}(_viewNode__WEBPACK_IMPORTED_MODULE_3__["SubscribeableViewNode"]));
-
-
-
-/***/ }),
-
-/***/ "./src/views/nodes/repositoriesNode.ts":
-/*!*********************************************!*\
-  !*** ./src/views/nodes/repositoriesNode.ts ***!
-  \*********************************************/
-/*! exports provided: RepositoriesType, RepositoriesNode */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RepositoriesType", function() { return RepositoriesType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RepositoriesNode", function() { return RepositoriesNode; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
-/* harmony import */ var _repositoryNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./repositoryNode */ "./src/views/nodes/repositoryNode.ts");
-/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(...subscriptions);
     }
-};
-var __read = (undefined && undefined.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __spread = (undefined && undefined.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
-};
-
-
-
-
-
-var RepositoriesType;
-(function (RepositoriesType) {
-    RepositoriesType["File"] = "File";
-    RepositoriesType["Folder"] = "Folder";
-})(RepositoriesType || (RepositoriesType = {}));
-var RepositoriesNode = /** @class */ (function (_super) {
-    __extends(RepositoriesNode, _super);
-    function RepositoriesNode(view, path, parent) {
-        return _super.call(this, view, path, parent) || this;
-    }
-    RepositoriesNode.prototype.getChildren = function () {
-        return __awaiter(this, void 0, Promise, function () {
-            var repositories;
-            return __generator(this, function (_a) {
-                if (this._children === undefined) {
-                    repositories = _app__WEBPACK_IMPORTED_MODULE_1__["App"].tree.getNode(this.path);
-                    if (!repositories)
-                        return [2 /*return*/, []];
-                    this._children = [new _repositoryNode__WEBPACK_IMPORTED_MODULE_2__["RepositoryNode"](this.view, this, repositories)];
-                }
-                return [2 /*return*/, this._children];
-            });
-        });
-    };
-    RepositoriesNode.prototype.getTreeItem = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var item;
-            return __generator(this, function (_a) {
-                item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"]('Repositories', vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].Expanded);
-                item.contextValue = _viewNode__WEBPACK_IMPORTED_MODULE_3__["ContextValues"].Repositories;
-                return [2 /*return*/, item];
-            });
-        });
-    };
-    RepositoriesNode.prototype.subscribe = function () {
-        var subscriptions = [_app__WEBPACK_IMPORTED_MODULE_1__["App"].tree.onDidChangeRepositories(this.onRepositoriesChanged, this)];
-        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from.apply(vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"], __spread(subscriptions));
-    };
-    RepositoriesNode.prototype.onRepositoriesChanged = function () {
+    async onOutlineChanged() {
+        // await this.view.tree.analyze()
         void this.triggerChange();
-    };
-    return RepositoriesNode;
-}(_viewNode__WEBPACK_IMPORTED_MODULE_3__["SubscribeableViewNode"]));
-
+    }
+}
 
 
 /***/ }),
@@ -31372,154 +29171,172 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RepositoryNode", function() { return RepositoryNode; });
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
-/* harmony import */ var _repo_repository__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../repo/repository */ "./src/repo/repository.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services */ "./src/services/index.ts");
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./common */ "./src/views/nodes/common.ts");
-/* harmony import */ var _gistNode__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./gistNode */ "./src/views/nodes/gistNode.ts");
-/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! . */ "./src/views/nodes/index.ts");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
+/* harmony import */ var _commands__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../commands */ "./src/commands.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services */ "./src/services/index.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils */ "./src/utils/index.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./common */ "./src/views/nodes/common.ts");
+/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
+
+
+
+
+
+
+
+
+class RepositoryNode extends _viewNode__WEBPACK_IMPORTED_MODULE_7__["SubscribeableViewNode"] {
+    constructor(view, element, children) {
+        super(view);
+        this.element = element;
+        this.children = children;
     }
-};
-var __values = (undefined && undefined.__values) || function(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-};
-
-
-
-
-
-
-
-var RepositoryNode = /** @class */ (function (_super) {
-    __extends(RepositoryNode, _super);
-    function RepositoryNode(view, parent, repo) {
-        var _this = _super.call(this, view, '') || this;
-        _this.parent = parent;
-        _this.repo = repo;
-        return _this;
+    async getChildren() {
+        const children = [];
+        const root = await _app__WEBPACK_IMPORTED_MODULE_2__["App"].explorerTree.getNode(this.element.name, vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].Directory);
+        if (!root || !root.children.length)
+            return [new _common__WEBPACK_IMPORTED_MODULE_6__["MessageNode"](this.view, this, 'No nodes could be found')];
+        root.children.forEach((item) => children.push(new RepositoryNode(this.view, item.element, item.children)));
+        this._children = children;
+        return this._children;
     }
-    RepositoryNode.prototype.getChildren = function () {
-        return __awaiter(this, void 0, Promise, function () {
-            var repositories, children, _a, _b, dir, repository, node, _c, _d, dir, node;
-            var e_1, _e, e_2, _f;
-            return __generator(this, function (_g) {
-                switch (_g.label) {
-                    case 0: return [4 /*yield*/, _services__WEBPACK_IMPORTED_MODULE_3__["fs"].getFileList(this.repo.path)];
-                    case 1:
-                        repositories = _g.sent();
-                        if (!repositories.directory.length && !repositories.file.length)
-                            return [2 /*return*/, [
-                                    new _common__WEBPACK_IMPORTED_MODULE_4__["MessageNode"](this.view, this, 'No repositories could be found.'),
-                                ]];
-                        children = [];
-                        try {
-                            for (_a = __values(repositories.directory), _b = _a.next(); !_b.done; _b = _a.next()) {
-                                dir = _b.value;
-                                repository = new _repo_repository__WEBPACK_IMPORTED_MODULE_2__["Repository"](dir.name, dir.path, false, dir.type);
-                                node = new RepositoryNode(this.view, this.parent, repository);
-                                children.push(node);
-                            }
-                        }
-                        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                        finally {
-                            try {
-                                if (_b && !_b.done && (_e = _a.return)) _e.call(_a);
-                            }
-                            finally { if (e_1) throw e_1.error; }
-                        }
-                        try {
-                            for (_c = __values(repositories.file), _d = _c.next(); !_d.done; _d = _c.next()) {
-                                dir = _d.value;
-                                node = new _gistNode__WEBPACK_IMPORTED_MODULE_5__["GistNode"](this.view, dir);
-                                children.push(node);
-                            }
-                        }
-                        catch (e_2_1) { e_2 = { error: e_2_1 }; }
-                        finally {
-                            try {
-                                if (_d && !_d.done && (_f = _c.return)) _f.call(_c);
-                            }
-                            finally { if (e_2) throw e_2.error; }
-                        }
-                        this._children = children;
-                        return [2 /*return*/, this._children];
-                }
-            });
-        });
-    };
-    RepositoryNode.prototype.getTreeItem = function () {
-        var label = this.repo.formattedName;
-        var item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](label, vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].Expanded);
-        item.iconPath =
-            this.repo.path === _services__WEBPACK_IMPORTED_MODULE_3__["configuration"].appFolder()
-                ? {
-                    dark: _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath("images/dark/icon-repo.svg"),
-                    light: _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath("images/light/icon-repo.svg"),
-                }
-                : vscode__WEBPACK_IMPORTED_MODULE_0__["ThemeIcon"].Folder;
+    getTreeItem() {
+        const { name, element } = this.element;
+        const label = _services__WEBPACK_IMPORTED_MODULE_4__["fileSystem"].fullname(name);
+        const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](label, this.children.length
+            ? vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].Expanded
+            : vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].None);
+        item.iconPath = this.adaptIcon(label, element.fileType);
+        item.contextValue = ___WEBPACK_IMPORTED_MODULE_1__["ContextValues"].Explorer;
+        item.command = {
+            title: 'Stick Gist',
+            command: _commands__WEBPACK_IMPORTED_MODULE_3__["Commands"].StickGist,
+            arguments: [this],
+        };
         return item;
-    };
-    RepositoryNode.prototype.subscribe = function () {
-        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from();
-    };
-    return RepositoryNode;
-}(_viewNode__WEBPACK_IMPORTED_MODULE_6__["SubscribeableViewNode"]));
+    }
+    onRepositoryChanged() {
+        void this.triggerChange();
+    }
+    subscribe() {
+        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(_app__WEBPACK_IMPORTED_MODULE_2__["App"].explorerTree.onDidChangeNodes(this.onRepositoryChanged, this));
+    }
+    triggerGistSticked() {
+        const { name } = this.element;
+        const content = _services__WEBPACK_IMPORTED_MODULE_4__["fileSystem"].getFileText(name);
+        if (Object(_utils__WEBPACK_IMPORTED_MODULE_5__["isDblclick"])(this)) {
+            _services__WEBPACK_IMPORTED_MODULE_4__["fileSystem"].edit(content);
+        }
+        else {
+            _app__WEBPACK_IMPORTED_MODULE_2__["App"].outlineView.path = name;
+        }
+    }
+}
 
+
+/***/ }),
+
+/***/ "./src/views/nodes/symbolNode.ts":
+/*!***************************************!*\
+  !*** ./src/views/nodes/symbolNode.ts ***!
+  \***************************************/
+/*! exports provided: SymbolModel, getSymbolAfterTrimCache, getSymbol, SymbolNode */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SymbolModel", function() { return SymbolModel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSymbolAfterTrimCache", function() { return getSymbolAfterTrimCache; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSymbol", function() { return getSymbol; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SymbolNode", function() { return SymbolNode; });
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services */ "./src/services/index.ts");
+/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
+
+
+
+
+class SymbolModel {
+    constructor(symbol) {
+        this.children = [];
+        this.symbol = symbol;
+    }
+    addChild(child) {
+        child.parent = this;
+        this.children.push(child);
+    }
+}
+async function getSymbolAfterTrimCache(path) {
+    const tree = new SymbolModel();
+    let symbols = (await vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].executeCommand('vscode.executeDocumentSymbolProvider', vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(path)));
+    if (!symbols)
+        return tree;
+    const symbolNodes = symbols
+        .filter((symbol) => symbol.kind === vscode__WEBPACK_IMPORTED_MODULE_0__["SymbolKind"].Function)
+        .map((symbol) => new SymbolModel(symbol));
+    let potentialParents = [];
+    symbolNodes.forEach((currentNode) => {
+        // Drop candidates that do not contain the current symbol range
+        potentialParents = potentialParents.filter((node) => node !== currentNode &&
+            node.symbol.location.range.contains(currentNode.symbol.location.range) &&
+            !node.symbol.location.range.isEqual(currentNode.symbol.location.range));
+        if (!potentialParents.length) {
+            tree.addChild(currentNode);
+        }
+        else {
+            const parent = potentialParents[potentialParents.length - 1];
+            parent.addChild(currentNode);
+        }
+        potentialParents.push(currentNode);
+    });
+    return tree;
+}
+async function getSymbol(path) {
+    // magic bug.
+    // 获取真实路径文件symbol，需先获取其他路径文件的symbol
+    // 否则会存在缓存
+    // 附则bug, json文件(?)首次读不出来数据
+    // TODO: 调研此问题
+    await getSymbolAfterTrimCache(_services__WEBPACK_IMPORTED_MODULE_2__["configuration"].cacheHandleFile());
+    return await getSymbolAfterTrimCache(path);
+}
+class SymbolNode extends _viewNode__WEBPACK_IMPORTED_MODULE_3__["SubscribeableViewNode"] {
+    constructor(view, symbol) {
+        super(view);
+        this.symbol = symbol;
+    }
+    getChildren() {
+        return [];
+    }
+    getTreeItem() {
+        const label = this.symbol.name;
+        const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](label, vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].None);
+        item.iconPath = {
+            dark: _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(`images/dark/icon-function.svg`),
+            light: _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(`images/light/icon-function.svg`),
+        };
+        item.command = {
+            title: 'Stick Symbol',
+            command: 'facility.views.outline.stick',
+            arguments: [this],
+        };
+        return item;
+    }
+    async triggerSymbolSticked() {
+        const { uri, range } = this.symbol.location;
+        const document = await vscode__WEBPACK_IMPORTED_MODULE_0__["workspace"].openTextDocument(uri.path);
+        _services__WEBPACK_IMPORTED_MODULE_2__["fileSystem"].edit(document.getText(range));
+    }
+    refresh() {
+        return;
+    }
+    subscribe() {
+        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from();
+    }
+}
 
 
 /***/ }),
@@ -31542,75 +29359,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_icon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../config/icon */ "./src/config/icon.ts");
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! path */ "path");
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_3__);
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var __read = (undefined && undefined.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __spread = (undefined && undefined.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
-};
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+
 
 
 
@@ -31620,133 +29370,93 @@ var ContextValues;
     ContextValues["Repositories"] = "facility:repositories";
     ContextValues["Outline"] = "facility:outline";
     ContextValues["Message"] = "facility:message";
+    ContextValues["Explorer"] = "facility:explorer";
 })(ContextValues || (ContextValues = {}));
-var ViewNode = /** @class */ (function () {
-    function ViewNode(view, path, parent) {
+class ViewNode {
+    constructor(view, parent) {
         this.view = view;
-        this.path = path;
         this.parent = parent;
     }
-    ViewNode.prototype.triggerChange = function () {
+    triggerChange() {
         return this.view.refreshNode(this);
-    };
-    ViewNode.prototype.adaptIcon = function (name) {
-        var arr = name.split('.'), fileExtension = arr[arr.length - 1];
-        var checkFileExtension = _config_icon__WEBPACK_IMPORTED_MODULE_2__["FILE_EXTENSION"][fileExtension];
+    }
+    adaptIcon(name, fileType) {
+        const arr = name.split('.'), fileExtension = arr[arr.length - 1];
+        if (fileType === vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].Directory) {
+            return name === _constants__WEBPACK_IMPORTED_MODULE_4__["appLibaryName"]
+                ? {
+                    dark: _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(`images/dark/icon-repo.svg`),
+                    light: _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(`images/light/icon-repo.svg`),
+                }
+                : vscode__WEBPACK_IMPORTED_MODULE_0__["ThemeIcon"].Folder;
+        }
+        const checkFileExtension = _config_icon__WEBPACK_IMPORTED_MODULE_2__["FILE_EXTENSION"][fileExtension];
         if (!checkFileExtension)
-            return _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(path__WEBPACK_IMPORTED_MODULE_3___default.a.join('images/icons', _config_icon__WEBPACK_IMPORTED_MODULE_2__["FILE_EXTENSION"].DEFAULT));
+            return _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(path__WEBPACK_IMPORTED_MODULE_3__["join"]('images/icons', _config_icon__WEBPACK_IMPORTED_MODULE_2__["FILE_EXTENSION"].DEFAULT));
         return _config_icon__WEBPACK_IMPORTED_MODULE_2__["FILENAME"][name]
-            ? _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(path__WEBPACK_IMPORTED_MODULE_3___default.a.join('images/icons', _config_icon__WEBPACK_IMPORTED_MODULE_2__["FILENAME"][name]))
-            : _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(path__WEBPACK_IMPORTED_MODULE_3___default.a.join('images/icons', checkFileExtension));
-    };
-    return ViewNode;
-}());
-
-var SubscribeableViewNode = /** @class */ (function (_super) {
-    __extends(SubscribeableViewNode, _super);
-    function SubscribeableViewNode(view, path, parent) {
-        var _this = _super.call(this, view, path, parent) || this;
-        _this.path = path;
-        _this.parent = parent;
-        _this._loaded = false;
-        _this._canSubscribe = true;
-        var disposables = [
+            ? _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(path__WEBPACK_IMPORTED_MODULE_3__["join"]('images/icons', _config_icon__WEBPACK_IMPORTED_MODULE_2__["FILENAME"][name]))
+            : _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(path__WEBPACK_IMPORTED_MODULE_3__["join"]('images/icons', checkFileExtension));
+    }
+}
+class SubscribeableViewNode extends ViewNode {
+    constructor(view, parent) {
+        super(view, parent);
+        this.parent = parent;
+        this._loaded = false;
+        this._canSubscribe = true;
+        const disposables = [
         // this.view
         ];
-        var getTreeItem = _this.getTreeItem;
-        _this.getTreeItem = function () {
+        const getTreeItem = this.getTreeItem;
+        this.getTreeItem = function () {
             this._loaded = true;
             void this.ensureSubscription();
             return getTreeItem.apply(this);
         };
-        var getChildren = _this.getChildren;
-        _this.getChildren = function () {
+        const getChildren = this.getChildren;
+        this.getChildren = function () {
             this._loaded = true;
             void this.ensureSubscription();
             return getChildren.apply(this);
         };
-        _this.disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from.apply(vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"], __spread(disposables));
-        return _this;
+        this.disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(...disposables);
     }
-    SubscribeableViewNode.prototype.triggerChange = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!this._loaded)
-                            return [2 /*return*/];
-                        return [4 /*yield*/, _super.prototype.triggerChange.call(this)];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    Object.defineProperty(SubscribeableViewNode.prototype, "canSubscribe", {
-        get: function () {
-            return this._canSubscribe;
-        },
-        set: function (value) {
-            if (this._canSubscribe === value)
-                return;
-            this._canSubscribe = value;
-            void this.ensureSubscription();
-            if (value) {
-                void this.triggerChange();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    SubscribeableViewNode.prototype.unsubscribe = function () {
+    async triggerChange() {
+        if (!this._loaded)
+            return;
+        await super.triggerChange();
+    }
+    get canSubscribe() {
+        return this._canSubscribe;
+    }
+    set canSubscribe(value) {
+        if (this._canSubscribe === value)
+            return;
+        this._canSubscribe = value;
+        void this.ensureSubscription();
+        if (value) {
+            void this.triggerChange();
+        }
+    }
+    async unsubscribe() {
         var _a;
-        return __awaiter(this, void 0, Promise, function () {
-            var subscriptionPromise;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        if (!(this.subscription != null)) return [3 /*break*/, 2];
-                        subscriptionPromise = this.subscription;
-                        this.subscription = undefined;
-                        return [4 /*yield*/, subscriptionPromise];
-                    case 1:
-                        (_a = (_b.sent())) === null || _a === void 0 ? void 0 : _a.dispose();
-                        _b.label = 2;
-                    case 2: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    SubscribeableViewNode.prototype.ensureSubscription = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: 
-                    // if(!this.canSubscribe ) {
-                    return [4 /*yield*/, this.unsubscribe()
-                        //   return
-                        // }
-                    ];
-                    case 1:
-                        // if(!this.canSubscribe ) {
-                        _a.sent();
-                        //   return
-                        // }
-                        if (this.subscription != null)
-                            return [2 /*return*/];
-                        this.subscription = Promise.resolve(this.subscribe());
-                        return [4 /*yield*/, this.subscription];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return SubscribeableViewNode;
-}(ViewNode));
-
+        if (this.subscription != null) {
+            const subscriptionPromise = this.subscription;
+            this.subscription = undefined;
+            (_a = (await subscriptionPromise)) === null || _a === void 0 ? void 0 : _a.dispose();
+        }
+    }
+    async ensureSubscription() {
+        // if(!this.canSubscribe ) {
+        await this.unsubscribe();
+        //   return
+        // }
+        if (this.subscription != null)
+            return;
+        this.subscription = Promise.resolve(this.subscribe());
+        await this.subscription;
+    }
+}
 
 
 /***/ }),
@@ -31766,234 +29476,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
 /* harmony import */ var _nodes_outlineNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nodes/outlineNode */ "./src/views/nodes/outlineNode.ts");
 /* harmony import */ var _viewBase__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./viewBase */ "./src/views/viewBase.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+
+
+
+
+class OutlineView extends _viewBase__WEBPACK_IMPORTED_MODULE_3__["ViewBase"] {
+    constructor() {
+        super('facility.views.outline', 'Outline');
+        this._path = '';
     }
-};
-
-
-
-
-var OutlineView = /** @class */ (function (_super) {
-    __extends(OutlineView, _super);
-    function OutlineView() {
-        return _super.call(this, 'facility.views.outline', 'Outline') || this;
+    get path() {
+        return this._path;
     }
-    OutlineView.prototype.getRoot = function () {
+    set path(val) {
+        this.refresh(true);
+        this._path = val;
+    }
+    getRoot() {
         return new _nodes_outlineNode__WEBPACK_IMPORTED_MODULE_2__["OutlineNode"](this);
-    };
-    OutlineView.prototype.registerCommands = function () {
-        var _this = this;
+    }
+    registerCommands() {
         // TODO: 程序级命令
         // void App.viewCommands();
-        vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].registerCommand(this.getQualifiedCommand('stick'), function (node) { return _this.onSticked(node); }, this);
-    };
-    OutlineView.prototype.registerTree = function (tree) {
-        this.tree = tree;
-    };
-    OutlineView.prototype.onConfigurationChanged = function (e) {
+        vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].registerCommand(this.getQualifiedCommand('stick'), (node) => this.onSymbolSticked(node), this);
+    }
+    onConfigurationChanged(e) {
         if (_config__WEBPACK_IMPORTED_MODULE_1__["configuration"].changed(e, 'views', 'repositories', 'location')) {
             this.initialize('facility', { showCollapseAll: true });
         }
         if (!_config__WEBPACK_IMPORTED_MODULE_1__["configuration"].initializing(e) && this._root !== undefined) {
             void this.refresh(true);
         }
-    };
-    OutlineView.prototype.onSticked = function (gistNode) {
-        return __awaiter(this, void 0, void 0, function () {
-            var node, _a, uri, range, document;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        node = gistNode.repo.node;
-                        _a = node.symbol.location, uri = _a.uri, range = _a.range;
-                        return [4 /*yield*/, vscode__WEBPACK_IMPORTED_MODULE_0__["workspace"].openTextDocument(uri.path)];
-                    case 1:
-                        document = _b.sent();
-                        gistNode.triggerStick(document.getText(range));
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return OutlineView;
-}(_viewBase__WEBPACK_IMPORTED_MODULE_3__["ViewBase"]));
-
-
-
-/***/ }),
-
-/***/ "./src/views/repositoriesView.ts":
-/*!***************************************!*\
-  !*** ./src/views/repositoriesView.ts ***!
-  \***************************************/
-/*! exports provided: RepositoriesView */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RepositoriesView", function() { return RepositoriesView; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../app */ "./src/app.ts");
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services */ "./src/services/index.ts");
-/* harmony import */ var _services_helper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/helper */ "./src/services/helper.ts");
-/* harmony import */ var _nodes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./nodes */ "./src/views/nodes/index.ts");
-/* harmony import */ var _viewBase__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./viewBase */ "./src/views/viewBase.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
-};
-
-
-
-
-
-
-
-var RepositoriesView = /** @class */ (function (_super) {
-    __extends(RepositoriesView, _super);
-    function RepositoriesView() {
-        return _super.call(this, 'facility.views.repositories', 'Repositories') || this;
+    async onSymbolSticked(symbolNode) {
+        return symbolNode.triggerSymbolSticked();
     }
-    RepositoriesView.prototype.getRoot = function () {
-        return new _nodes__WEBPACK_IMPORTED_MODULE_5__["RepositoriesNode"](this, _config__WEBPACK_IMPORTED_MODULE_2__["configuration"].appFolder(), null);
-    };
-    RepositoriesView.prototype.registerCommands = function () {
-        // TODO: 程序级命令
-        // void App.viewCommands();
-        var _this = this;
-        vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].registerCommand(this.getQualifiedCommand('stick'), function (node) { return _this.onSticked(node); }, this);
-    };
-    RepositoriesView.prototype.onConfigurationChanged = function (e) {
-        if (_config__WEBPACK_IMPORTED_MODULE_2__["configuration"].changed(e, 'views', 'repositories', 'location')) {
-            this.initialize('facility', { showCollapseAll: true });
-        }
-        if (!_config__WEBPACK_IMPORTED_MODULE_2__["configuration"].initializing(e) && this._root !== undefined) {
-            void this.refresh(true);
-        }
-    };
-    // get config(): ViewsConfig & RepositoriesViewConfig {
-    // 	return { ...Container.config.views, ...Container.config.views.repositories };
-    // }
-    RepositoriesView.prototype.onSticked = function (node) {
-        return __awaiter(this, void 0, void 0, function () {
-            var path, content;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        path = node.repo.path;
-                        content = _services__WEBPACK_IMPORTED_MODULE_3__["fs"].getFileText(path);
-                        if (!_services_helper__WEBPACK_IMPORTED_MODULE_4__["helper"].doubleClick(node)) return [3 /*break*/, 1];
-                        node.triggerStick(content);
-                        return [3 /*break*/, 3];
-                    case 1:
-                        _app__WEBPACK_IMPORTED_MODULE_1__["App"].outlineView.registerTree(node.tree);
-                        return [4 /*yield*/, node.tree.analyze()];
-                    case 2:
-                        _a.sent();
-                        _app__WEBPACK_IMPORTED_MODULE_1__["App"].outlineView.triggerNodeChange();
-                        _app__WEBPACK_IMPORTED_MODULE_1__["App"].outlineView.refresh();
-                        _a.label = 3;
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return RepositoriesView;
-}(_viewBase__WEBPACK_IMPORTED_MODULE_6__["ViewBase"]));
-
+}
 
 
 /***/ }),
@@ -32012,156 +29530,78 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../app */ "./src/app.ts");
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "./node_modules/_lodash@4.17.20@lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
-var __assign = (undefined && undefined.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 
 
 
 
-var ViewBase = /** @class */ (function () {
-    function ViewBase(id, name) {
-        var _this = this;
+class ViewBase {
+    constructor(id, name) {
         this.id = id;
         this.name = name;
         this._onDidChangeTreeData = new vscode__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this._onDidChangeVisibility = new vscode__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.registerCommands();
         _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.subscriptions.push(_config__WEBPACK_IMPORTED_MODULE_2__["configuration"].onDidChange(this.onConfigurationChanged, this));
-        setImmediate(function () {
-            return _this.onConfigurationChanged(_config__WEBPACK_IMPORTED_MODULE_2__["configuration"].initializingChangeEvent);
-        });
+        setImmediate(() => this.onConfigurationChanged(_config__WEBPACK_IMPORTED_MODULE_2__["configuration"].initializingChangeEvent));
     }
-    Object.defineProperty(ViewBase.prototype, "onDidChangeTreeData", {
-        get: function () {
-            return this._onDidChangeTreeData.event;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ViewBase.prototype, "onDidChangeVisibility", {
-        get: function () {
-            return this._onDidChangeVisibility.event;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ViewBase.prototype.dispose = function () {
+    get onDidChangeTreeData() {
+        return this._onDidChangeTreeData.event;
+    }
+    get onDidChangeVisibility() {
+        return this._onDidChangeVisibility.event;
+    }
+    dispose() {
         this._disposable && this._disposable.dispose();
-    };
-    ViewBase.prototype.getQualifiedCommand = function (command) {
-        return this.id + "." + command;
-    };
-    ViewBase.prototype.initialize = function (container, options) {
-        var _this = this;
-        if (options === void 0) { options = {}; }
+    }
+    getQualifiedCommand(command) {
+        return `${this.id}.${command}`;
+    }
+    initialize(container, options = {}) {
         if (this._disposable) {
             this._disposable.dispose();
             this._onDidChangeTreeData = new vscode__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         }
-        this._tree = vscode__WEBPACK_IMPORTED_MODULE_0__["window"].createTreeView("" + this.id + (container ? ":" + container : ''), __assign(__assign({}, options), { treeDataProvider: this }));
-        this._disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(this._tree, this._tree.onDidChangeVisibility(Object(lodash__WEBPACK_IMPORTED_MODULE_3__["debounce"])(this.onVisibilityChanged, 250), this), this._tree.onDidCollapseElement(function () { return _this.toBeDevelop(2); }, this), this._tree.onDidExpandElement(function () { return _this.toBeDevelop(3); }, this));
-    };
-    ViewBase.prototype.ensureRoot = function () {
+        this._tree = vscode__WEBPACK_IMPORTED_MODULE_0__["window"].createTreeView(`${this.id}${container ? `:${container}` : ''}`, {
+            ...options,
+            treeDataProvider: this,
+        });
+        this._disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(this._tree, this._tree.onDidChangeVisibility(Object(lodash__WEBPACK_IMPORTED_MODULE_3__["debounce"])(this.onVisibilityChanged, 250), this));
+    }
+    ensureRoot() {
         if (this._root === undefined) {
             this._root = this.getRoot();
         }
         return this._root;
-    };
-    ViewBase.prototype.getChildren = function (node) {
+    }
+    getChildren(node) {
         if (node !== undefined)
             return node.getChildren();
         // TODO： 获取根节点root
-        var root = this.ensureRoot();
+        const root = this.ensureRoot();
         return root.getChildren();
-    };
-    ViewBase.prototype.getTreeItem = function (node) {
+    }
+    getTreeItem(node) {
         return node.getTreeItem();
-    };
-    ViewBase.prototype.onVisibilityChanged = function (e) {
+    }
+    onVisibilityChanged(e) {
         this._onDidChangeVisibility.fire(e);
-    };
-    ViewBase.prototype.refresh = function (reset) {
-        if (reset === void 0) { reset = false; }
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!(this._root !== undefined && this._root.refresh !== undefined)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, this._root.refresh(reset)];
-                    case 1:
-                        _a.sent();
-                        _a.label = 2;
-                    case 2:
-                        this.triggerNodeChange();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    ViewBase.prototype.refreshNode = function (node) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                this.triggerNodeChange(node);
-                return [2 /*return*/];
-            });
-        });
-    };
-    ViewBase.prototype.triggerNodeChange = function (node) {
-        this._onDidChangeTreeData.fire(node !== undefined && node !== this._root ? node : undefined);
-    };
-    ViewBase.prototype.toBeDevelop = function (id) {
-        console.log(id, '功能待开发');
-    };
-    return ViewBase;
-}());
-
+    }
+    async refresh(reset = false) {
+        if (this._root !== undefined && this._root.refresh !== undefined) {
+            await this._root.refresh(reset);
+        }
+        this.triggerNodeChange();
+    }
+    async refreshNode(node) {
+        this.triggerNodeChange(node);
+    }
+    triggerNodeChange(node) {
+        const data = node !== undefined && node !== this._root ? node : undefined;
+        this._onDidChangeTreeData.fire(data);
+    }
+}
 
 
 /***/ }),
@@ -32185,17 +29625,6 @@ module.exports = require("assert");
 /***/ (function(module, exports) {
 
 module.exports = require("constants");
-
-/***/ }),
-
-/***/ "crypto":
-/*!*************************!*\
-  !*** external "crypto" ***!
-  \*************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("crypto");
 
 /***/ }),
 

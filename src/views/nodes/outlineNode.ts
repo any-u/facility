@@ -2,18 +2,27 @@ import { Disposable, TreeItem, TreeItemCollapsibleState } from 'vscode'
 import { App } from '../../app'
 
 import { OutlineView } from '../outlineView'
-import { ModuleNode } from './moduleNode'
+import { MessageNode } from './common'
+import { getSymbol, SymbolNode } from './symbolNode'
 import { ContextValues, SubscribeableViewNode } from './viewNode'
 
 export class OutlineNode extends SubscribeableViewNode<OutlineView> {
-  private _children: ModuleNode[] | undefined
+  private _children: (SymbolNode | MessageNode)[] | undefined
 
   constructor(view: OutlineView) {
-    super(view, '')
+    super(view)
   }
 
-  async getChildren() {
-    this._children =   [new ModuleNode(this.view, '')]
+  async getChildren(): Promise<(SymbolNode | MessageNode)[]> {
+    const symbols = await getSymbol(this.view.path)
+
+    if (symbols.children.length === 0) {
+      return [new MessageNode(this.view, this, 'No Node could be found.')]
+    }
+    this._children = symbols.children.map(
+      (item) => new SymbolNode(this.view, item.symbol)
+    )
+
     return this._children
   }
 
@@ -23,21 +32,26 @@ export class OutlineNode extends SubscribeableViewNode<OutlineView> {
     return item
   }
 
+  onSymbolChanged() {
+    // 细节优化，节约性能
+    void this.triggerChange()
+  }
+
   refresh() {
     if (this._children === undefined) return
 
-    this._children.forEach((item) => item.refresh())
+    this._children.forEach((item: any) => item.refresh())
   }
 
   subscribe() {
-    const subscriptions = [
-      App.tree.onDidChangeOutline(this.onOutlineChanged, this),
+    const subscriptions: any[] = [
+      App.explorerTree.onDidChangeNodes(this.onSymbolChanged, this),
     ]
     return Disposable.from(...subscriptions)
   }
 
   async onOutlineChanged() {
-    await this.view.tree.analyze()
+    // await this.view.tree.analyze()
     void this.triggerChange()
   }
 }

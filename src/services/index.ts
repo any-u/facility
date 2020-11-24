@@ -1,4 +1,3 @@
-export * from '../config/configuration'
+export * from '../config'
 export * from './fileSystem'
 export * from './windowService'
-export * from './icon'

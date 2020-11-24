@@ -1,10 +1,14 @@
 import * as path from 'path'
 import { ExtensionContext, ConfigurationChangeEvent, Uri } from 'vscode'
-import { configuration, ConfigurationWillChangeEvent, fs } from './services'
+import {
+  configuration,
+  ConfigurationWillChangeEvent,
+  fileSystem,
+} from './services'
 import { Config } from './config'
-import { RepositoriesView } from './views/repositoriesView'
-import { TreeService } from './repo/tree'
+import { ExplorerView } from './views/explorerView'
 import { OutlineView } from './views/outlineView'
+import { ExplorerTree, GistElement } from './tree/explorerTree'
 
 export class App {
   private static _onConfigurationSetting: Map<string, boolean> | undefined
@@ -26,16 +30,15 @@ export class App {
     return this._config
   }
 
-
-  private static _repositoriesView: RepositoriesView | undefined
-  static get repositoriesView(): RepositoriesView {
-    if (this._repositoriesView === undefined) {
+  private static _explorerView: ExplorerView | undefined
+  static get ExplorerView(): ExplorerView {
+    if (this._explorerView === undefined) {
       this._context.subscriptions.push(
-        (this._repositoriesView = new RepositoriesView())
+        (this._explorerView = new ExplorerView())
       )
     }
 
-    return this._repositoriesView
+    return this._explorerView
   }
 
   private static _outlineView: OutlineView | undefined
@@ -47,9 +50,14 @@ export class App {
     return this._outlineView
   }
 
-  private static _tree: TreeService
-  static get tree() {
-    return this._tree
+  // private static _tree: TreeService
+  // static get tree() {
+  //   return this._tree
+  // }
+
+  private static _explorerTree: ExplorerTree<GistElement>
+  static get explorerTree() {
+    return this._explorerTree
   }
 
   static initialize(context: ExtensionContext, config: Config) {
@@ -60,17 +68,16 @@ export class App {
       configuration.onWillChange(this.onConfigurationChanging, this)
     )
 
-    context.subscriptions.push((this._tree = new TreeService()))
-
+    // context.subscriptions.push((this._tree = new TreeService()))
     context.subscriptions.push(
-      (this._repositoriesView = new RepositoriesView())
+      (this._explorerTree = new ExplorerTree<GistElement>())
     )
-    context.subscriptions.push((this._outlineView = new OutlineView()))
 
+    context.subscriptions.push((this._explorerView = new ExplorerView()))
+    context.subscriptions.push((this._outlineView = new OutlineView()))
   }
 
   private static onConfigurationChanging(e: ConfigurationWillChangeEvent) {
-
     if (configuration.changed(e.change, 'workspaceFolder')) {
       // 路径输入后执行函数未执行完之前， 不允许再次执行
       const onConfigurationSetting = this._onConfigurationSetting?.get(
@@ -97,7 +104,7 @@ export class App {
           ? path.join(config, '.fl')
           : configuration.defaultFolder()
 
-        fs.workspaceFolderMigrate(cfg, config)
+        fileSystem.migrateWorkspaceFolder(cfg, config)
 
         this._config = configuration.get()
         e.transform = this._applyModeConfigurationTransformBound

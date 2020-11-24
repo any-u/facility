@@ -9,7 +9,11 @@ import {
   Event,
   Uri,
 } from 'vscode'
-import { Config } from '../config'
+
+export interface Config {
+  workspaceFolder: string | null
+  keywords: object | null
+}
 
 export interface ConfigurationWillChangeEvent {
   change: ConfigurationChangeEvent
@@ -17,7 +21,7 @@ export interface ConfigurationWillChangeEvent {
 }
 
 export const extensionId = 'facility'
-
+export const extensionQualifiedId = `sillyy.${extensionId}`;
 export class Configuration {
   static configure(ctx: ExtensionContext) {
     // 配置项加上防抖，否则input输出会频繁触发
@@ -53,10 +57,6 @@ export class Configuration {
     return process.env.HOME || process.env.USERPROFILE || ''
   }
 
-  private getToggleClick(): string {
-    return this.getWorkspaceConfiguration().get<string>('toggleClick', '')
-  }
-
   private onConfigurationChanged(e: ConfigurationChangeEvent) {
     const evt: ConfigurationWillChangeEvent = {
       change: e,
@@ -75,9 +75,9 @@ export class Configuration {
   }
 
   initializing(e: ConfigurationChangeEvent) {
-		return e === this.initializingChangeEvent;
+    return e === this.initializingChangeEvent
   }
-  
+
   /**
    * @description: 获取插件首页目录
    * @return: 插件首页目录-带隐藏.tl
@@ -101,12 +101,8 @@ export class Configuration {
     return path.join(this.userHomeFolder(), '.fl')
   }
 
-  public defaultFile(): string {
-    return path.join(this.defaultFolder(), 'default.js')
-  }
-
-  public checkDoubleClick(): boolean {
-    return this.getToggleClick() === '双击'
+  public cacheHandleFile(): string {
+    return path.join(this.defaultFolder(), '.cache-handle.js')
   }
 
   get(): Config

@@ -1,6 +1,61 @@
-export enum Commands {}
+import { commands, Disposable, ExtensionContext } from 'vscode'
 
-export enum CLICK_METHOD {
-  CLICK = 'click',
-  DOUBLE_CLICK = 'double_click',
+export enum Commands {
+  StickGist = 'facility.views.explorer.stick',
+  StickGistOnOutline = 'facility.views.outline.stick',
+  Save = 'facility.save',
+  Paste = 'facility.paste'
+}
+
+interface CommandConstructor {
+  new (): Command
+}
+
+const registrableCommands: CommandConstructor[] = []
+
+export function command(): ClassDecorator {
+  return (target: any) => {
+    registrableCommands.push(target)
+  }
+}
+
+export function registerCommands(context: ExtensionContext): void {
+  for (const c of registrableCommands) {
+    context.subscriptions.push(new c())
+  }
+}
+
+export abstract class Command implements Disposable {
+  private readonly _disposable: Disposable
+
+  constructor(command: Commands | Commands[]) {
+    if (typeof command === 'string') {
+      this._disposable = commands.registerCommand(
+        command,
+        (...args: any[]) => this._execute(command, ...args),
+        this
+      )
+      return
+    }
+
+    const subscriptions = command.map((cmd) =>
+      commands.registerCommand(
+        cmd,
+        (...args: any[]) => this._execute(cmd, ...args),
+        this
+      )
+    )
+    this._disposable = Disposable.from(...subscriptions)
+  }
+
+  
+  dispose() {
+    this._disposable.dispose()
+  }
+
+  abstract execute(...args: any[]): any
+  protected _execute(command: string, ...args: any[]): any {
+    this.execute(args)
+  }
+
 }

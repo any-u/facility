@@ -1,12 +1,21 @@
-import { commands, ConfigurationChangeEvent, workspace } from 'vscode'
+import { commands, ConfigurationChangeEvent, } from 'vscode'
 import { configuration } from '../config'
-import { GistTree } from '../repo/gistTree'
-import { FunctionNode } from './nodes/fuctionNode'
+
 import { OutlineNode } from './nodes/outlineNode'
+import { SymbolNode } from './nodes/symbolNode'
 import { ViewBase } from './viewBase'
 
 export class OutlineView extends ViewBase<OutlineNode> {
-  public tree: GistTree
+  private _path: string = ''
+  get path() {
+    return this._path
+  }
+  set path(val) {
+    this.refresh(true)
+
+    this._path = val
+  }
+
   constructor() {
     super('facility.views.outline', 'Outline')
   }
@@ -20,13 +29,9 @@ export class OutlineView extends ViewBase<OutlineNode> {
     // void App.viewCommands();
     commands.registerCommand(
       this.getQualifiedCommand('stick'),
-      (node: FunctionNode) => this.onSticked(node),
+      (node: SymbolNode) => this.onSymbolSticked(node),
       this
     )
-  }
-
-  registerTree(tree: GistTree) {
-    this.tree = tree
   }
 
   onConfigurationChanged(e: ConfigurationChangeEvent) {
@@ -38,11 +43,7 @@ export class OutlineView extends ViewBase<OutlineNode> {
     }
   }
 
-  async onSticked(gistNode: FunctionNode) {
-    const { node } = gistNode.repo
-    const { uri, range } = node.symbol.location
-
-    const document = await workspace.openTextDocument(uri.path)
-    gistNode.triggerStick(document.getText(range))
+  async onSymbolSticked(symbolNode: SymbolNode) {
+    return symbolNode.triggerSymbolSticked()
   }
 }

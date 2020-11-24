@@ -1,13 +1,15 @@
-import { Disposable, TreeItem } from 'vscode'
+import { Disposable, FileType, ThemeIcon, TreeItem } from 'vscode'
 import { App } from '../../app'
 import { FILENAME, FILE_EXTENSION } from '../../config/icon'
 import { View } from '../viewBase'
-import path from 'path'
+import * as path from 'path'
+import { appLibaryName } from '../../constants'
 
 export enum ContextValues {
   Repositories = 'facility:repositories',
   Outline = 'facility:outline',
   Message = 'facility:message',
+  Explorer = 'facility:explorer',
 }
 
 export interface ViewNode {
@@ -17,8 +19,7 @@ export interface ViewNode {
 export abstract class ViewNode<TView extends View = View> {
   constructor(
     public readonly view: TView,
-    protected readonly path?: string,
-    protected readonly parent?: ViewNode | null,
+    protected readonly parent?: ViewNode | null
   ) {}
 
   abstract getChildren(): ViewNode[] | Promise<ViewNode[]>
@@ -27,22 +28,33 @@ export abstract class ViewNode<TView extends View = View> {
 
   refresh?(reset?: boolean): void | boolean | Promise<void> | Promise<boolean>
 
-  triggerChange() {
+  triggerChange(): any {
     return this.view.refreshNode(this)
   }
 
-  adaptIcon(name: string) {
+  adaptIcon(name: string, fileType: FileType) {
     const arr = name.split('.'),
       fileExtension = arr[arr.length - 1]
 
-    const checkFileExtension = FILE_EXTENSION[fileExtension]
+    if (fileType === FileType.Directory) {
+      return name === appLibaryName
+        ? {
+            dark: App.context.asAbsolutePath(`images/dark/icon-repo.svg`),
+            light: App.context.asAbsolutePath(`images/light/icon-repo.svg`),
+          }
+        : ThemeIcon.Folder
+    }
+
+    const checkFileExtension = (FILE_EXTENSION as any)[fileExtension]
     if (!checkFileExtension)
       return App.context.asAbsolutePath(
         path.join('images/icons', FILE_EXTENSION.DEFAULT)
       )
 
-    return FILENAME[name]
-      ? App.context.asAbsolutePath(path.join('images/icons', FILENAME[name]))
+    return (FILENAME as any)[name]
+      ? App.context.asAbsolutePath(
+          path.join('images/icons', (FILENAME as any)[name])
+        )
       : App.context.asAbsolutePath(
           path.join('images/icons', checkFileExtension)
         )
@@ -57,14 +69,10 @@ export abstract class SubscribeableViewNode<
 
   private _loaded: boolean = false
 
-  constructor(
-    view: TView,
-    protected readonly path?: string,
-    protected readonly parent?: ViewNode | null,
-  ) {
-    super(view, path, parent)
+  constructor(view: TView, protected readonly parent?: ViewNode | null) {
+    super(view, parent)
 
-    const disposables = [
+    const disposables: any[] = [
       // this.view
     ]
 

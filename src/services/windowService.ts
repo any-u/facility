@@ -58,3 +58,4 @@ class WindowService {
 }
 
 export const win = new WindowService();
+

@@ -1,8 +1,19 @@
 import { Uri, FileType, window, TextEditorEdit, Position } from 'vscode'
 import * as path from 'path'
-import { file } from '../utils'
+import {
+  getDirent,
+  readdirWithFileTypes,
+  fullname,
+  mv,
+  remove,
+  data,
+  mkdir,
+  stat,
+  write,
+  listFile,
+  move,
+} from '../utils'
 import { win } from './index'
-import { getDirent, readdirWithFileTypes } from '../file/pfs'
 import { Dirent } from 'fs-extra'
 
 export enum FolderType {
@@ -23,82 +34,9 @@ export interface RepoFileType {
  */
 
 class FileSystem {
-  async getFileOrFolder(
-    fullpath: string
-  ): Promise<[string, FileType][] | (string | FileType)[][]> {
-    // ensure folder path exist
-    this.ensureFolderExist(fullpath)
-
-    const files = file.listFile(fullpath)
-    return files
-      ? files.map((item: string) => {
-          const stat = file.stat(fullpath + path.sep + item)
-          return [item, stat.isDirectory() ? 2 : 1]
-        })
-      : []
-  }
-
-  private ensureFolderExist(fullpath) {
-    return file.mkdir(fullpath)
-  }
-
-  async createDirent(path): Promise<RepoFileType> {
-    const dirent = await getDirent(path)
-    return this.normalize(dirent, path, dirent.isDirectory())
-  }
-  private async normalize(
-    dirent: Dirent,
-    fullpath: string,
-    directory: boolean
-  ): Promise<RepoFileType> {
-    return {
-      name: dirent.name,
-      type: directory ? FolderType.DIRECTORY : FolderType.FILE,
-      path: fullpath,
-    }
-    /**
-     *  name
-     *  type
-     *  path
-     *  parent
-     */
-  }
-  // TODO: 补充返回类型
-  async getFileList(fullpath: string) {
-    try {
-      let result: any = {
-        directory: [],
-        file: [],
-      }
-      const files = await readdirWithFileTypes(fullpath)
-
-      let r = await Promise.all(
-        files.map(
-          async (item) =>
-            await this.normalize(
-              item,
-              path.resolve(fullpath, item.name),
-              item.isDirectory()
-            )
-        )
-      )
-
-      for (let item of r) {
-        if (item.type === FolderType.DIRECTORY) {
-          result.directory.push(item)
-        }
-        if (item.type === FolderType.FILE) {
-          result.file.push(item)
-        }
-      }
-      return result
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
   getFileText(fullpath: string): string {
-    const text = file.data(fullpath)
+    const text = data(fullpath)
     return text ? text : ''
   }
 
@@ -129,31 +67,20 @@ class FileSystem {
       console.log(error)
     }
   }
-  async openText(fullpath: string) {
-    return await window.showTextDocument(Uri.file(fullpath))
+
+  migrateWorkspaceFolder(cfg: string, config: string) {
+    move(cfg, config)
+    cfg && remove(cfg)
   }
 
-  async createAndInsertFile(fullpath: string, data: string) {
-    this.ensureFolderExist(path.dirname(fullpath))
-    return file.write(fullpath, data)
+  fullname(fullpath: string) {
+    return fullname(fullpath)
   }
 
-  async renameFile(oldPath: string, newPath: string) {
-    return file.mv(oldPath, newPath)
-  }
-
-  deleteFile(fullpath: string) {
-    return file.remove(fullpath)
-  }
-
-  workspaceFolderMigrate(cfg: string, config: string) {
-    file.move(cfg, config)
-    cfg && file.remove(cfg)
-  }
-
-  extname(fullpath: string) {
-    return file.basename(fullpath)
+  isDirectory(fullpath: string) {
+    const statInfo = stat(fullpath)
+    return statInfo.isDirectory()
   }
 }
 
-export const fs = new FileSystem()
+export const fileSystem = new FileSystem()

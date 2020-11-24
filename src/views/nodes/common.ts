@@ -1,9 +1,10 @@
 import { ThemeIcon, TreeItem, TreeItemCollapsibleState, Uri } from 'vscode'
 import { ContextValues, ViewNode } from './viewNode'
+import { View } from '../viewBase'
 
 export class MessageNode extends ViewNode {
   constructor(
-    view,
+    view: View,
     parent: ViewNode,
     private readonly _message: string,
     private readonly _description?: string,
@@ -18,7 +19,7 @@ export class MessageNode extends ViewNode {
       | ThemeIcon,
     private readonly _contextValue?: string
   ) {
-    super(view, '', parent)
+    super(view, parent)
   }
 
   getChildren(): ViewNode[] | Promise<ViewNode[]> {

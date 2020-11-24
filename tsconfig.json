@@ -1,28 +1,21 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["es6", "dom", "dom.iterable", "esnext"],
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "rootDir": ".",
-    "outDir": "out",
-    "sourceMap": true,
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "noUnusedLocals": true,
-    "noImplicitThis": true,
-    "noImplicitReturns": true,
-    "strictNullChecks": true,
-    "noUnusedParameters": true,
-    "alwaysStrict": true,
-    "jsx": "react",
-    "noEmit": true,
-    "downlevelIteration": true
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", ".vscode-test", "webview", "src/test"]
+	"compilerOptions": {
+		"experimentalDecorators": true,
+		"forceConsistentCasingInFileNames": true,
+		"incremental": true,
+		"lib": ["es2019"],
+		"module": "esnext",
+		"moduleResolution": "node",
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true,
+		"noUnusedLocals": false,
+		"outDir": "dist",
+		"resolveJsonModule": true,
+		"rootDir": "src",
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"strict": true,
+		"target": "es2019"
+	},
+	"exclude": ["node_modules", "test", "src/webviews/apps"]
 }

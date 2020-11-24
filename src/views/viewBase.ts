@@ -11,12 +11,12 @@ import {
 } from 'vscode'
 import { App } from '../app'
 import { configuration } from '../config'
-import { RepositoriesView } from './repositoriesView'
 import { ViewNode } from './nodes/viewNode'
 import { debounce } from 'lodash'
 import { OutlineView } from './outlineView'
+import { ExplorerView } from './explorerView'
 
-export type View = RepositoriesView | OutlineView
+export type View = ExplorerView | OutlineView
 
 export abstract class ViewBase<TRoot extends ViewNode<View>>
   implements TreeDataProvider<ViewNode>, Disposable {
@@ -81,8 +81,8 @@ export abstract class ViewBase<TRoot extends ViewNode<View>>
         debounce(this.onVisibilityChanged, 250),
         this
       ),
-      this._tree.onDidCollapseElement(() => this.toBeDevelop(2), this),
-      this._tree.onDidExpandElement(() => this.toBeDevelop(3), this)
+      // this._tree.onDidCollapseElement(() => this.toBeDevelop(2), this),
+      // this._tree.onDidExpandElement(() => this.toBeDevelop(3), this)
     )
   }
 
@@ -119,17 +119,15 @@ export abstract class ViewBase<TRoot extends ViewNode<View>>
   }
 
   async refreshNode(node: ViewNode) {
-
-		this.triggerNodeChange(node);
-	}
+    this.triggerNodeChange(node)
+  }
 
   triggerNodeChange(node?: ViewNode) {
-    this._onDidChangeTreeData.fire(
-      node !== undefined && node !== this._root ? node : undefined
-    )
+    const data = node !== undefined && node !== this._root ? node : undefined
+    this._onDidChangeTreeData.fire(data as any)
   }
 
-  toBeDevelop(id) {
-    console.log(id, '功能待开发')
-  }
+  // toBeDevelop(id: any) {
+  //   console.log(id, '功能待开发')
+  // }
 }
