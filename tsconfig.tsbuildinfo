@@ -518,7 +518,7 @@
       },
       "./src/views/nodes/common.ts": {
         "version": "1a84226572e13b8d3daec2f0afe6bab910014f3b974890d9b135f511ede3c871",
-        "signature": "0f6cf1a3cc2692076b823b61bf3aea50daac02a360709a2c6c86dd08812b65c8",
+        "signature": "557c46a91c5ea42302e597d945a135d440df7312b52c51c4bab169b6ab4ca981",
         "affectsGlobalScope": false
       },
       "./src/views/nodes/symbolnode.ts": {
@@ -527,7 +527,7 @@
         "affectsGlobalScope": false
       },
       "./src/views/nodes/outlinenode.ts": {
-        "version": "c88922e000bde5856209abfaec6d7394d76ccb3813af81f9e8867c0f570ac883",
+        "version": "dbe85d96b8028a5d7f95e1343f8b99054c41defa88719fe69d594de88c74d75e",
         "signature": "0374f8c3118604393e3bb4f076966787859a1e1ea1c70cbf2d90cfe72bcb3634",
         "affectsGlobalScope": false
       },
@@ -622,8 +622,8 @@
         "affectsGlobalScope": false
       },
       "./src/views/nodes/explorernode.ts": {
-        "version": "20ca299be2fe3dee990cea29cad6c5117f1d07087bd730d7c66edf9652190fbb",
-        "signature": "b1c6ce968490ff7865d21bafb5f594c0a15318a326ac782dc5621af3f992ff17",
+        "version": "442104fd59198ede42d573ac8ebc7840fd159ff30042f82debba77d5b3eaeac0",
+        "signature": "6cd88a7fa66d677861736237de387c0a1367a5cb2e8f4a2b90e92a05c07629b8",
         "affectsGlobalScope": false
       },
       "./src/views/explorerview.ts": {

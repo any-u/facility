@@ -35,7 +35,13 @@ export class ExplorerNode extends SubscribeableViewNode<ExplorerView> {
     return item
   }
 
+  onExplorerTreeNodesChanged() {
+    void this.triggerChange()
+  }
+
   subscribe() {
-    return Disposable.from()
+    return Disposable.from(
+      App.explorerTree.onDidChangeNodes(this.onExplorerTreeNodesChanged, this)
+    )
   }
 }

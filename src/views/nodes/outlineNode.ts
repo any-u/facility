@@ -14,6 +14,9 @@ export class OutlineNode extends SubscribeableViewNode<OutlineView> {
   }
 
   async getChildren(): Promise<(SymbolNode | MessageNode)[]> {
+    if(!this.view.path) {
+      return [new MessageNode(this.view, this, 'Cannot provide outline information.')]
+    }
     const symbols = await getSymbol(this.view.path)
 
     if (symbols.children.length === 0) {

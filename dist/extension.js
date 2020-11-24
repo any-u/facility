@@ -29068,8 +29068,11 @@ class ExplorerNode extends _viewNode__WEBPACK_IMPORTED_MODULE_5__["Subscribeable
         item.contextValue = ___WEBPACK_IMPORTED_MODULE_1__["ContextValues"].Explorer;
         return item;
     }
+    onRepositoryChanged() {
+        void this.triggerChange();
+    }
     subscribe() {
-        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from();
+        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(_app__WEBPACK_IMPORTED_MODULE_2__["App"].explorerTree.onDidChangeNodes(this.onRepositoryChanged, this));
     }
 }
 
@@ -29123,6 +29126,9 @@ class OutlineNode extends _viewNode__WEBPACK_IMPORTED_MODULE_4__["SubscribeableV
         super(view);
     }
     async getChildren() {
+        if (this.view.path === '') {
+            return [new _common__WEBPACK_IMPORTED_MODULE_2__["MessageNode"](this.view, this, 'Cannot provide outline information.')];
+        }
         const symbols = await Object(_symbolNode__WEBPACK_IMPORTED_MODULE_3__["getSymbol"])(this.view.path);
         if (symbols.children.length === 0) {
             return [new _common__WEBPACK_IMPORTED_MODULE_2__["MessageNode"](this.view, this, 'No Node could be found.')];

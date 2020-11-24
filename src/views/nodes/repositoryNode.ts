@@ -61,13 +61,13 @@ export class RepositoryNode extends SubscribeableViewNode<ExplorerView> {
     return item
   }
 
-  onRepositoryChanged() {
+  onExplorerTreeNodesChanged() {
     void this.triggerChange()
   }
 
   subscribe() {
     return Disposable.from(
-      App.explorerTree.onDidChangeNodes(this.onRepositoryChanged, this)
+      App.explorerTree.onDidChangeNodes(this.onExplorerTreeNodesChanged, this)
     )
   }
 

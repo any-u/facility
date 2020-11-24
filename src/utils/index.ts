@@ -1,2 +1,2 @@
 export * from './file'
-export * from './check'
+export * from './libs'
