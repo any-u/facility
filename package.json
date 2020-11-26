@@ -111,9 +111,8 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile && npm run copy",
-    "compile": "tsc -p ./",
-    "copy": "node pack.js",
+    "vscode:prepublish": "npm run compile",
+    "compile": "webpack",
     "lint": "eslint src --ext ts",
     "watch": "webpack --watch --env.development --info-verbosity verbose",
     "pretest": "npm run compile && npm run lint",

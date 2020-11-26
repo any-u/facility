@@ -49,6 +49,7 @@ function getExtensionConfig(env) {
     },
     externals: {
       vscode: 'commonjs vscode',
+      fsevents: 'fsevents'
     },
     module: {
       rules: [
