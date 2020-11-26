@@ -1,5 +1,6 @@
 import { Disposable, TreeItem, TreeItemCollapsibleState } from 'vscode'
 import { App } from '../../app'
+import i18n from '../../i18n'
 
 import { OutlineView } from '../outlineView'
 import { MessageNode } from './common'
@@ -14,13 +15,24 @@ export class OutlineNode extends SubscribeableViewNode<OutlineView> {
   }
 
   async getChildren(): Promise<(SymbolNode | MessageNode)[]> {
-    if(!this.view.path) {
-      return [new MessageNode(this.view, this, 'Cannot provide outline information.')]
+    if (!this.view.path) {
+      const desc =  i18n.format(
+        'extension.facilityApp.Message.CannotProvideOutlineInformation'
+      )
+      return [
+        new MessageNode(
+          this.view,
+          this,
+          i18n.format(
+            'extension.facilityApp.Message.CannotProvideOutlineInformation'
+          )
+        ),
+      ]
     }
     const symbols = await getSymbol(this.view.path)
 
     if (symbols.children.length === 0) {
-      return [new MessageNode(this.view, this, 'No Node could be found.')]
+      return [new MessageNode(this.view, this, i18n.format('extension.facilityApp.Message.CannotFoundTreeNodes'))]
     }
     this._children = symbols.children.map(
       (item) => new SymbolNode(this.view, item.symbol)

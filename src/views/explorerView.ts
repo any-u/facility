@@ -6,7 +6,10 @@ import { ViewBase } from './viewBase'
 
 export class ExplorerView extends ViewBase<any> {
   constructor() {
-    super('facility.views.explorer', 'Explorer')
+    super(
+      'facility.views.explorer',
+      "Facility"
+    )
   }
 
   getRoot() {

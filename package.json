@@ -33,12 +33,17 @@
     "commands": [
       {
         "command": "facility.views.explorer.stick",
-        "title": "Stick Snippet",
+        "title": "%facilityApp.command.explorer.stick.title%",
+        "category": "Facility"
+      },
+      {
+        "command": "facility.views.outline.stick",
+        "title": "%facilityApp.command.outline.stick.title%",
         "category": "Facility"
       },
       {
         "command": "facility.save",
-        "title": "Save Snippet",
+        "title": "%facilityApp.command.save.title%",
         "category": "Facility",
         "icon": {
           "light": "images/light/save.svg",
@@ -47,7 +52,7 @@
       },
       {
         "command": "facility.paste",
-        "title": "Paste Gist",
+        "title": "%facilityApp.command.paste.title%",
         "category": "Facility"
       }
     ],
@@ -64,13 +69,13 @@
       "facility": [
         {
           "id": "facility.views.explorer:facility",
-          "name": "Explorer",
+          "name": "%facilityApp.view.explorer.name%",
           "contextualTitle": "Facility",
           "icon": "repo"
         },
         {
           "id": "facility.views.outline:facility",
-          "name": "Outline",
+          "name": "%facilityApp.view.outline.name%",
           "contextualTitle": "Facility",
           "icon": "repo"
         }
@@ -93,13 +98,13 @@
           "facility.workspaceFolder": {
             "type": "string",
             "scope": "application",
-            "description": "设置用于存储模板文件的工作区文件夹路径",
+            "markdownDescription": "%facilityApp.configuration.properties.facility.workspaceFolder.markdownDescription%",
             "default": ""
           },
-          "facility.keywords": {
+          "facility.keyword": {
             "type": "object",
             "default": null,
-            "markdownDeprecationMessage": "Specifies which keywords will be added to which paste commands"
+            "markdownDescription": "%facilityApp.configuration.properties.facility.keyword.markdownDescription%"
           }
         }
       }
@@ -115,6 +120,7 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
+    "@types/chalk": "^2.2.0",
     "@types/chokidar": "^2.1.3",
     "@types/fs-extra": "^8.1.0",
     "@types/glob": "^7.1.1",
@@ -133,11 +139,7 @@
     "eslint": "^6.8.0",
     "fork-ts-checker-webpack-plugin": "^5.2.0",
     "glob": "^7.1.6",
-    "html-webpack-plugin": "^4.5.0",
-    "mini-css-extract-plugin": "^0.9.0",
     "mocha": "^7.0.1",
-    "node-sass": "^4.14.1",
-    "sass-loader": "^8.0.2",
     "terser-webpack-plugin": "^4.2.3",
     "ts-loader": "^8.0.5",
     "typescript": "^3.7.5",

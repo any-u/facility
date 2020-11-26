@@ -1,0 +1,10 @@
+{
+  "facilityApp.view.explorer.name": "Explorer",
+  "facilityApp.view.outline.name": "Outline",
+  "facilityApp.command.explorer.stick.title": "Stick Snippet",
+  "facilityApp.command.outline.stick.title": "Stick Symbol",
+  "facilityApp.command.save.title": "Save Snippet",
+  "facilityApp.command.paste.title": "Paste Snippet",
+  "facilityApp.configuration.properties.facility.workspaceFolder.markdownDescription": "Specify the workspace folder path for storing code snippets",
+  "facilityApp.configuration.properties.facility.keyword.markdownDescription": "Specifies which keywords will be added to which paste commands"
+}

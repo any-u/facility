@@ -1,0 +1,18 @@
+{
+  "extension.facilityApp.Nodes.SaveAs.title": "另存为...",
+  "extension.facilityApp.command.paste.description": "请输入关键词",
+  "extension.facilityApp.Message.CannotFoundTreeNodes": "没有找到节点。",
+  "extension.facilityApp.Message.CannotProvideOutlineInformation": "活动编辑器无法提供大纲信息。",
+  "extension.facilityApp.WarningMessage.CancelSaveCodeSnippetToLocal": "取消保存代码片段到本地",
+  "extension.facilityApp.WarningMessage.CancelPasteCodeSnippetToCurrentFile": "取消将代码片段粘贴到当前文件",
+  "extension.facilityApp.ErrorMessage.CannotFoundConfigurationInformation": "没有找到配置信息",
+  "extension.facilityApp.ErrorMessage.CannotFoundContentToSave": "没有找到要保存的内容。",
+  "extension.facilityApp.ErrorMessage.CannotFoundActiveTextEditor": "没有找到活动编辑器。",
+  "extension.facilityApp.ErrorMessage.ErrorStick": "插入代码片段失败, 请重试或重启应用。",
+  "extension.facilityApp.ErrorMessage.ErrorFsWatch": "文件系统监测失败, 请重试或重启应用。",
+  "extension.facilityApp.ErrorMessage.CannotReadFile": "无法读取文件。路径： ",
+  "extension.facilityApp.ErrorMessage.CannotFoundPath": "未找到路径. 路径： ",
+  "extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet": "迁移代码片段库失败. 原因: ",
+  "extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider": "无法注册大纲服务，请重试或重启应用。",
+  "extension.facilityApp.ErrorMessage.AppFailedToStart": "App启动失败，请重试。"
+}

@@ -21,7 +21,7 @@ export interface ConfigurationWillChangeEvent {
 }
 
 export const extensionId = 'facility'
-export const extensionQualifiedId = `sillyy.${extensionId}`;
+export const extensionQualifiedId = `sillyy.${extensionId}`
 export class Configuration {
   static configure(ctx: ExtensionContext) {
     // 配置项加上防抖，否则input输出会频繁触发
@@ -86,6 +86,10 @@ export class Configuration {
     return path.join(this.getWorkspaceFolder() || this.userHomeFolder(), '.fl')
   }
 
+  public get homeOriginFolder(): string {
+    return path.join(this.userHomeFolder(), '.fl')
+  }
+
   /**
    * @description: 获取插件首页目录
    * @return: 插件首页目录-不带隐藏.tl
@@ -97,12 +101,15 @@ export class Configuration {
     )
   }
 
-  public defaultFolder(): string {
-    return path.join(this.userHomeFolder(), '.fl')
+  public get appOriginFolder(): string {
+    return path.join(
+      this.homeOriginFolder,
+      this.getAppFolder() || 'facility-library'
+    )
   }
 
-  public cacheHandleFile(): string {
-    return path.join(this.defaultFolder(), '.cache-handle.js')
+  public get defaultFile(): string {
+    return path.join(this.homeFolder(), '.cache-handle.js')
   }
 
   get(): Config

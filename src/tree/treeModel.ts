@@ -1,5 +1,3 @@
-import { FileType } from 'vscode'
-
 /**
  *
  *
@@ -13,7 +11,7 @@ export interface ITreeNode<T> {
   children: ITreeNode<T>[]
   readonly depth: number
   readonly visible: boolean
-  // TODO: 增加索引，便于删除处理
+  // TODO: Increase index attributes to improve performance
 }
 
 export class TreeModel<T> {

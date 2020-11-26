@@ -25,8 +25,6 @@ export class OutlineView extends ViewBase<OutlineNode> {
   }
 
   registerCommands() {
-    // TODO: 程序级命令
-    // void App.viewCommands();
     commands.registerCommand(
       this.getQualifiedCommand('stick'),
       (node: SymbolNode) => this.onSymbolSticked(node),

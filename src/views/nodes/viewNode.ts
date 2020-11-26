@@ -128,10 +128,7 @@ export abstract class SubscribeableViewNode<
   }
 
   async ensureSubscription() {
-    // if(!this.canSubscribe ) {
     await this.unsubscribe()
-    //   return
-    // }
 
     if (this.subscription != null) return
 

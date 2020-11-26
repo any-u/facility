@@ -7,6 +7,7 @@ import {
 import { ContextValues, ViewNode } from '.'
 import { App } from '../../app'
 import { Commands } from '../../commands'
+import i18n from '../../i18n'
 import { fileSystem } from '../../services'
 import { GistElement, TExplorerTreeNode } from '../../tree/explorerTree'
 import { isDblclick } from '../../utils'
@@ -32,7 +33,7 @@ export class RepositoryNode extends SubscribeableViewNode<ExplorerView> {
     )
 
     if (!root || !root.children.length)
-      return [new MessageNode(this.view, this, 'No nodes could be found')]
+      return [new MessageNode(this.view, this, i18n.format('extension.facilityApp.Message.CannotFoundTreeNodes'))]
 
     root.children.forEach((item) =>
       children.push(new RepositoryNode(this.view, item.element, item.children))
@@ -54,7 +55,7 @@ export class RepositoryNode extends SubscribeableViewNode<ExplorerView> {
     item.iconPath = this.adaptIcon(label, element.fileType)
     item.contextValue = ContextValues.Explorer
     item.command = {
-      title: 'Stick Gist',
+      title: 'Stick Snippet',
       command: Commands.StickGist,
       arguments: [this],
     }

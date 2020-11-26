@@ -3,11 +3,12 @@ import chokidar from 'chokidar'
 import {
   EventEmitter,
   Event,
-  Disposable,
   FileType,
   FileChangeType,
   ExtensionContext,
 } from 'vscode'
+import i18n from '../i18n'
+import { showErrorMessage } from '../utils'
 
 export enum FolderChangeEvent {
   ADDDIR = 'addDir',
@@ -44,6 +45,10 @@ export class Watcher {
 
   checkIgnore(path: string) {
     return path.includes('.DS_Store')
+  }
+
+  static close() {
+    watcher._watcher.close()
   }
 
   onFolderChanged(event: FolderChangeEvent, path: string) {
@@ -100,8 +105,12 @@ export class Watcher {
     }
     return changeType
   }
-  onDidWatcherError(error: any) {
-    console.log(`File system failure. Error: ${error}`)
+  onDidWatcherError(error: Error) {
+    showErrorMessage(
+      `${i18n.format(
+        'extension.facilityApp.ErrorMessage.ErrorFsWatch'
+      )} Error: ${error}`
+    )
   }
 }
 

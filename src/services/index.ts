@@ -1,3 +1,4 @@
-export * from '../config'
 export * from './fileSystem'
-export * from './windowService'
+export * from './i18n'
+export * from './prepare'
+export * from './workspaceFolder'

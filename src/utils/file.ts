@@ -2,33 +2,6 @@ import * as path from 'path'
 import * as fs from 'fs'
 import * as mkdirp from 'mkdirp'
 import * as fse from 'fs-extra'
-import { promisify } from 'util'
-
-export async function readdirWithFileTypes(
-  fullpath: string,
-  includes: string[] = [],
-  excludes: string[] = ['.DS_Store']
-): Promise<fs.Dirent[]> {
-  const res = await promisify(fs.readdir)(fullpath, { withFileTypes: true })
-  return includes.length
-    ? res.filter(
-        (item: fs.Dirent) =>
-          includes.includes(item.name) && !excludes.includes(item.name)
-      )
-    : res.filter((item: fs.Dirent) => !excludes.includes(item.name))
-}
-
-export function getExtname(fullpath: string): string {
-  return path.basename(fullpath)
-}
-
-export async function getDirent(fullpath: string): Promise<fs.Dirent> {
-  const root = path.resolve(fullpath, '../'),
-    name = path.basename(fullpath)
-
-  const res = await readdirWithFileTypes(root, [name])
-  return res[0]
-}
 
 export function fullname(fullpath: string): string {
   return path.basename(fullpath)
@@ -40,6 +13,10 @@ export function mv(src: string, dst: string) {
 
 export function remove(fullpath: string) {
   return fse.removeSync(fullpath)
+}
+
+export function exist(fullpath: string): boolean {
+  return fs.existsSync(fullpath)
 }
 
 export function data(fullpath: string): string | null {
@@ -61,12 +38,6 @@ export function write<T>(fullpath: string, data: T) {
 
 export function append<T>(fullpath: string, data: T) {
   return fs.appendFileSync(fullpath, data)
-}
-
-export function listFile(fullpath: string): string[] | null {
-  return fs.existsSync(fullpath)
-    ? fs.readdirSync(fullpath).filter((pathname) => pathname !== '.DS_Store')
-    : null
 }
 
 export function move(src: string, dest: string) {

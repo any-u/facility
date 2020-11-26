@@ -1,20 +1,18 @@
-import { Uri, FileType, window, TextEditorEdit, Position } from 'vscode'
-import * as path from 'path'
+import { window, Position } from 'vscode'
+import i18n from '../i18n'
+
 import {
-  getDirent,
-  readdirWithFileTypes,
   fullname,
-  mv,
   remove,
   data,
-  mkdir,
   stat,
-  write,
-  listFile,
   move,
+  showErrorMessage,
+  exist,
+  mkdir,
+  write,
 } from '../utils'
-import { win } from './index'
-import { Dirent } from 'fs-extra'
+import { showWarningMessage } from '../utils'
 
 export enum FolderType {
   DIRECTORY = 'directory',
@@ -27,59 +25,66 @@ export interface RepoFileType {
   name: string
 }
 
-/*
- * windows will throw error `vscode unable to resolve filesystem provider with relative file path "C:/..."`
- * it's a magic bug, and can not find method to resolve
- * use file.listFile instead of fs.readDirectory
- */
-
 class FileSystem {
-
-  getFileText(fullpath: string): string {
-    const text = data(fullpath)
+  getFileText(path: string): string {
+    const text = data(path)
     return text ? text : ''
   }
 
-  async edit(data: string): Promise<void> {
+  async edit(text: string): Promise<void> {
     try {
-      // FIXME:
-      // Make editor be the active textEditor all the time.
-      // because if oepn other file and close
-      // will not make the editor be the active textEditor.
       const editor = window.activeTextEditor
-
-      if (!editor) {
-        console.error('Failed to found Editor. Please open the Editor.')
-        win.showWarningMessage('未找到编辑窗口，请打开窗口重试!')
-        win.setStatusBarMessage('⚠未找到编辑窗口，请打开窗口重试!')
-        return
-      }
-      editor.edit((builder: TextEditorEdit) => {
-        builder.insert(
-          new Position(
-            editor!.selection.end.line,
-            editor!.selection.end.character
-          ),
-          data
+      if (editor) {
+        const selection = editor.selection
+        editor.edit((builder) => {
+          builder.insert(
+            new Position(selection.end.line, selection.end.character),
+            text
+          )
+        })
+      } else {
+        showWarningMessage(
+          i18n.format(
+            'extension.facilityApp.ErrorMessage.CannotFoundActiveTextEditor'
+          )
         )
-      })
+      }
     } catch (error) {
-      console.log(error)
+      showErrorMessage(
+        `${i18n.format(
+          'extension.facilityApp.ErrorMessage.ErrorStick'
+        )} Error: ${error}`
+      )
     }
   }
 
+  async remove(path: string) {
+    return remove(path)
+  }
+
+  mkdir(path: string) {
+    mkdir(path)
+  }
   migrateWorkspaceFolder(cfg: string, config: string) {
     move(cfg, config)
     cfg && remove(cfg)
   }
 
-  fullname(fullpath: string) {
-    return fullname(fullpath)
+  exist(path: string) {
+    return exist(path)
   }
 
-  isDirectory(fullpath: string) {
-    const statInfo = stat(fullpath)
+  fullname(path: string) {
+    return fullname(path)
+  }
+
+  isDirectory(path: string) {
+    const statInfo = stat(path)
     return statInfo.isDirectory()
+  }
+
+  write<T>(path: string, data: T) {
+    return write(path, data)
   }
 }
 

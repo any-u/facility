@@ -25,9 +25,7 @@ export abstract class ViewBase<TRoot extends ViewNode<View>>
     return this._onDidChangeTreeData.event
   }
 
-  private _onDidChangeVisibility = new EventEmitter<
-    TreeViewVisibilityChangeEvent
-  >()
+  private _onDidChangeVisibility = new EventEmitter<TreeViewVisibilityChangeEvent>()
   get onDidChangeVisibility(): Event<TreeViewVisibilityChangeEvent> {
     return this._onDidChangeVisibility.event
   }
@@ -80,9 +78,7 @@ export abstract class ViewBase<TRoot extends ViewNode<View>>
       this._tree.onDidChangeVisibility(
         debounce(this.onVisibilityChanged, 250),
         this
-      ),
-      // this._tree.onDidCollapseElement(() => this.toBeDevelop(2), this),
-      // this._tree.onDidExpandElement(() => this.toBeDevelop(3), this)
+      )
     )
   }
 
@@ -97,7 +93,6 @@ export abstract class ViewBase<TRoot extends ViewNode<View>>
   getChildren(node?: ViewNode): ViewNode[] | Promise<ViewNode[]> {
     if (node !== undefined) return node.getChildren()
 
-    // TODO： 获取根节点root
     const root = this.ensureRoot()
     return root.getChildren()
   }
@@ -126,8 +121,4 @@ export abstract class ViewBase<TRoot extends ViewNode<View>>
     const data = node !== undefined && node !== this._root ? node : undefined
     this._onDidChangeTreeData.fire(data as any)
   }
-
-  // toBeDevelop(id: any) {
-  //   console.log(id, '功能待开发')
-  // }
 }

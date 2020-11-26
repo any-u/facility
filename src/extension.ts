@@ -1,11 +1,11 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import { ExtensionContext, extensions } from 'vscode'
+import { ExtensionContext } from 'vscode'
 import { App } from './app'
-import { Configuration, configuration } from './services'
-import { Config, extensionQualifiedId } from './config'
+import { Config, configuration, Configuration } from './config'
 import { Watcher } from './reactive/watcher'
 import { registerCommands } from './commands'
+import { showErrorMessage } from './utils'
+import i18n from './i18n'
+import prepare from './prepare'
 
 export function getDurationMilliseconds(start: [number, number]) {
   const [secs, nanosecs] = process.hrtime(start)
@@ -13,10 +13,8 @@ export function getDurationMilliseconds(start: [number, number]) {
 }
 
 export async function activate(context: ExtensionContext) {
-  const start = process.hrtime()
+  prepare.runScript()
 
-  const facility = extensions.getExtension(extensionQualifiedId)
-  const facilityVersion = facility?.packageJSON.version
   try {
     Configuration.configure(context)
     Watcher.configure(context, configuration.appFolder())
@@ -26,13 +24,9 @@ export async function activate(context: ExtensionContext) {
     App.initialize(context, config)
 
     registerCommands(context)
-
-    console.log(
-      `Facility (v${facilityVersion}) activated \u2022 ${getDurationMilliseconds(
-        start
-      )} ms`
-    )
   } catch (err) {
-    console.log(err)
+    showErrorMessage(
+      i18n.format('extension.facilityApp.ErrorMessage.AppFailedToStart')
+    )
   }
 }

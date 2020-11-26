@@ -15,7 +15,7 @@ import { App } from '../app'
 export interface IGist {
   path: string
   fileType: FileType
-  // FIXME: gist 元素不需要文件操作类型
+  // TODO No FileChangeType required
   type: FileChangeType
 }
 
@@ -55,6 +55,11 @@ export class ExplorerTree<T> extends Tree<T> {
     return new ExplorerModel(null)
   }
 
+  clear() {
+    this.model = this.createModel()
+    this.nodes.clear()
+  }
+
   deleteNode(key: string, fileType: FileType) {
     const node = this.getNode(key, fileType)
     if (node) {
@@ -78,7 +83,7 @@ export class ExplorerTree<T> extends Tree<T> {
       type: FileChangeType.Created,
     })
 
-    // FIXME: 修复anyScript
+    // TODO: fix anyscript
     const value = this.nodes.get((element as any).name)
 
     return value
@@ -91,7 +96,7 @@ export class ExplorerTree<T> extends Tree<T> {
     const { path, fileType, type } = e
 
     if (type === FileChangeType.Created) {
-      // FIXME: 修复anyScript
+      // TODO: fix anyscript
       const node = new GistElement(this as any, path, e)
       // TODO: optimize the process
       this.model.setChildren(node as any, [], this.transform.bind(this))
@@ -144,7 +149,7 @@ export class ExplorerTree<T> extends Tree<T> {
             type: FileChangeType.Created,
           })
           const children = this.nodes.get(path)?.children
-          // FIXME: 修复anyScript
+          // TODO: fix anyscript
           return creatNode(
             element,
             parent,
@@ -207,7 +212,7 @@ export class ExplorerTree<T> extends Tree<T> {
       visible: boolean = true
     ) => {
       const node = { element, parent, children, depth, visible }
-      // FIXME: 修复anyscript
+      // TODO: fix anyscript
       !this.nodes.get(element.name) && this.nodes.set(element.name, node as any)
       return node
     }

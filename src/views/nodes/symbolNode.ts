@@ -9,7 +9,8 @@ import {
   SymbolKind,
 } from 'vscode'
 import { App } from '../../app'
-import { configuration, fileSystem } from '../../services'
+import { configuration } from '../../config'
+import { fileSystem } from '../../services'
 
 import { OutlineView } from '../outlineView'
 import { SubscribeableViewNode } from './viewNode'
@@ -32,9 +33,10 @@ export class SymbolModel {
 
 export async function getSymbolAfterTrimCache(path: string) {
   const tree = new SymbolModel()
+  const uri = Uri.file(path)
   let symbols = (await commands.executeCommand<SymbolInformation[]>(
     'vscode.executeDocumentSymbolProvider',
-    Uri.file(path)
+    uri
   )) as any
   if (!symbols) return tree
 
@@ -65,12 +67,10 @@ export async function getSymbolAfterTrimCache(path: string) {
 }
 
 export async function getSymbol(path: string) {
-  // magic bug.
-  // 获取真实路径文件symbol，需先获取其他路径文件的symbol
-  // 否则会存在缓存
-  // 附则bug, json文件(?)首次读不出来数据
-  // TODO: 调研此问题
-  await getSymbolAfterTrimCache(configuration.cacheHandleFile())
+  // TAG: Delay activation until a document symbol provider is registered
+  // For this, use a default file to detect the document symbol provider
+  // See details: src/services/waitProvider.ts
+  // Reference: https://www.gitmemory.com/issue/microsoft/vscode/100660/647840607
   return await getSymbolAfterTrimCache(path)
 }
 

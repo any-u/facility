@@ -1,8 +1,14 @@
-import { env, FileType, window } from 'vscode'
+import { env, FileType, Range, window } from 'vscode'
 import { App } from '../app'
-import { Language } from '../config/language'
-import { append, fullname, write } from '../utils'
-import { showSaveDiaglog, showWarningMessage } from '../utils/window'
+import i18n from '../i18n'
+import {
+  append,
+  fullname,
+  write,
+  showSaveDiaglog,
+  showWarningMessage,
+  showErrorMessage,
+} from '../utils'
 import { Command, command, Commands } from './common'
 
 @command()
@@ -12,14 +18,28 @@ export class Save extends Command {
   }
 
   async execute() {
-    const text = await env.clipboard.readText()
+    const text = await this.getText()
+    if (!text) {
+      showErrorMessage(
+        i18n.format(
+          'extension.facilityApp.ErrorMessage.CannotFoundContentToSave'
+        )
+      )
+      return
+    }
 
     const { paths, nodes } = await this.getNodes()
     const selectOption = await window.showQuickPick(nodes)
 
     if (selectOption === undefined) {
-      showWarningMessage('Unsave the code snippet to the local')
-    } else if (selectOption === Language.saveAs) {
+      showWarningMessage(
+        i18n.format(
+          'extension.facilityApp.WarningMessage.CancelSaveCodeSnippetToLocal'
+        )
+      )
+    } else if (
+      selectOption === i18n.format('extension.facilityApp.Nodes.SaveAs.title')
+    ) {
       await this.onSaveAsSelected(text)
     } else {
       await this.onAppendSelected(paths, selectOption, text)
@@ -35,10 +55,32 @@ export class Save extends Command {
       if (fileType !== FileType.File) return
       return name
     })
-    const nodes = [Language.saveAs, ...paths.map((item) => fullname(item))]
+    const nodes = [
+      i18n.format('extension.facilityApp.Nodes.SaveAs.title'),
+      ...paths.map((item) => fullname(item)),
+    ]
     return {
       paths,
       nodes,
+    }
+  }
+
+  private async getText(): Promise<string | undefined> {
+    // get text from clipboard
+    // return await env.clipboard.readText()
+
+    // get text from selection
+    const editor = window.activeTextEditor
+    if (editor) {
+      const { start, end } = editor.selection
+      return editor.document.getText(new Range(start, end))
+    } else {
+      showErrorMessage(
+        i18n.format(
+          'extension.facilityApp.ErrorMessage.CannotFoundActiveTextEditor'
+        )
+      )
+      return undefined
     }
   }
 
@@ -48,7 +90,11 @@ export class Save extends Command {
       text = '\n' + text
       await append(path, text)
     } else {
-      console.warn(`cannot found the path: ${path}`)
+      showWarningMessage(
+        `${i18n.format(
+          'extension.facilityApp.ErrorMessage.CannotFoundPath'
+        )}${path}`
+      )
     }
   }
   async onSaveAsSelected(text: string) {
@@ -56,7 +102,11 @@ export class Save extends Command {
     if (path) {
       write(path, text)
     } else {
-      console.warn(`cannot found the path: ${path}`)
+      showErrorMessage(
+        `${i18n.format(
+          'extension.facilityApp.ErrorMessage.CannotFoundPath'
+        )}${path}`
+      )
     }
   }
 }

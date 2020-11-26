@@ -6,8 +6,10 @@ import {
   showErrorMessage,
   showInputBox,
   showWarningMessage,
-} from '../utils/window'
+} from '../utils'
 import { command, Command, Commands } from './common'
+import { fileSystem } from '../services'
+import i18n from '../i18n'
 
 @command()
 export class Paste extends Command {
@@ -17,23 +19,34 @@ export class Paste extends Command {
 
   async execute() {
     const input = await showInputBox({
-      prompt: 'Please enter a keyword',
+      prompt: i18n.format('extension.facilityApp.command.paste.description'),
     })
 
     if (input) {
       await this.onKeywordInputed(input)
     } else {
-      showWarningMessage(`Unpaste the code snippet to the current file`)
+      showWarningMessage(
+        i18n.format(
+          'extension.facilityApp.WarningMessage.CancelPasteCodeSnippetToCurrentFile'
+        )
+      )
     }
   }
 
   async onKeywordInputed(input: string) {
     const config = configuration.get('keywords')
     if (config) {
-      const path = paths.resolve(configuration.appFolder(), Reflect.get(config, input))
+      const path = paths.resolve(
+        configuration.appFolder(),
+        Reflect.get(config, input)
+      )
       await this.paste(path)
     } else {
-      showWarningMessage(`Cannot found configuration information`)
+      showErrorMessage(
+        i18n.format(
+          'extension.facilityApp.ErrorMessage.CannotFoundConfigurationInformation'
+        )
+      )
     }
   }
 
@@ -43,19 +56,12 @@ export class Paste extends Command {
       const document = await openTextDocument(path)
       text = document.getText()
     } catch (error) {
-      showErrorMessage(`Cannot read file ${path}.`)
+      showErrorMessage(
+        `${i18n.format(
+          'extension.facilityApp.ErrorMessage.CannotReadFile'
+        )}${path}`
+      )
     }
-    const editor = window.activeTextEditor
-    if (editor) {
-      const selection = editor.selection
-      editor.edit((builder) => {
-        builder.insert(
-          new Position(selection.end.line, selection.end.character),
-          text
-        )
-      })
-    } else {
-      showWarningMessage('Cannot found active text editor')
-    }
+    await fileSystem.edit(text)
   }
 }
