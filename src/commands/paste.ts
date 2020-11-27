@@ -34,10 +34,10 @@ export class Paste extends Command {
   }
 
   async onKeywordInputed(input: string) {
-    const config = configuration.get('keywords')
+    const config = configuration.get('keyword')
     if (config) {
-      const path = paths.resolve(
-        configuration.appFolder(),
+      const path = paths.join(
+        configuration.appFolder,
         Reflect.get(config, input)
       )
       await this.paste(path)

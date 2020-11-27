@@ -41,5 +41,5 @@ export function append<T>(fullpath: string, data: T) {
 }
 
 export function move(src: string, dest: string) {
-  return fse.moveSync(src, dest)
+  return fse.moveSync(src, dest, { overwrite: true })
 }

@@ -20,7 +20,7 @@ export class WorkspaceFolder {
     return this._onConfigurationDidChanged.event
   }
 
-  constructor(public path = configuration.appFolder()) {}
+  constructor(public path = configuration.appFolder) {}
 
   get homeOriginFolder() {
     return configuration.homeOriginFolder

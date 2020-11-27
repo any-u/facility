@@ -72,7 +72,7 @@ export class RepositoryNode extends SubscribeableViewNode<ExplorerView> {
     )
   }
 
-  triggerGistSticked() {
+  triggerSnippetSticked() {
     const { name } = this.element
     const content = fileSystem.getFileText(name)
 

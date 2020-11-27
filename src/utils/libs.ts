@@ -1,3 +1,7 @@
+import * as path from 'path'
+export const isWindows = process.platform === 'win32'
+
+export const Separator = path.sep
 interface PrevSelection {
   node: any
   time: number

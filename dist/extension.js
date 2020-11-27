@@ -27455,10 +27455,13 @@ class App {
                 }
                 let cfg = (_c = this._config) === null || _c === void 0 ? void 0 : _c.workspaceFolder, config = _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].get('workspaceFolder');
                 cfg = cfg ? path__WEBPACK_IMPORTED_MODULE_0__["join"](cfg, '.fl') : _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].homeOriginFolder;
+                config = config
+                    ? path__WEBPACK_IMPORTED_MODULE_0__["join"](config, '.fl')
+                    : cfg;
                 await _prepare__WEBPACK_IMPORTED_MODULE_5__["workspaceFolder"].migrate(cfg, config || _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].homeOriginFolder);
                 this._explorerTree.clear();
                 await _reactive_watcher__WEBPACK_IMPORTED_MODULE_6__["Watcher"].close();
-                _reactive_watcher__WEBPACK_IMPORTED_MODULE_6__["Watcher"].configure(this._context, _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].appFolder());
+                _reactive_watcher__WEBPACK_IMPORTED_MODULE_6__["Watcher"].configure(this._context, _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].appFolder);
                 this._config = _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].get();
                 e.transform = this._applyModeConfigurationTransformBound;
                 (_d = this._onConfigurationSetting) === null || _d === void 0 ? void 0 : _d.set('workspaceFolder', false);
@@ -27618,9 +27621,9 @@ let Paste = class Paste extends _common__WEBPACK_IMPORTED_MODULE_3__["Command"] 
         }
     }
     async onKeywordInputed(input) {
-        const config = _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].get('keywords');
+        const config = _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].get('keyword');
         if (config) {
-            const path = path__WEBPACK_IMPORTED_MODULE_0__["resolve"](_config__WEBPACK_IMPORTED_MODULE_1__["configuration"].appFolder(), Reflect.get(config, input));
+            const path = path__WEBPACK_IMPORTED_MODULE_0__["join"](_config__WEBPACK_IMPORTED_MODULE_1__["configuration"].appFolder, Reflect.get(config, input));
             await this.paste(path);
         }
         else {
@@ -27808,19 +27811,6 @@ class Configuration {
     userHomeFolder() {
         return process.env.HOME || process.env.USERPROFILE || '';
     }
-    onConfigurationChanged(e) {
-        const evt = {
-            change: e,
-        };
-        this._onWillChange.fire(evt);
-        if (evt.transform !== undefined) {
-            e = evt.transform(e);
-        }
-        this._onDidChange.fire(e);
-    }
-    initializing(e) {
-        return e === this.initializingChangeEvent;
-    }
     /**
      * @description: 获取插件首页目录
      * @return: 插件首页目录-带隐藏.tl
@@ -27835,14 +27825,27 @@ class Configuration {
      * @description: 获取插件首页目录
      * @return: 插件首页目录-不带隐藏.tl
      */
-    appFolder() {
+    get appFolder() {
         return path__WEBPACK_IMPORTED_MODULE_0__["join"](this.homeFolder(), this.getAppFolder() || 'facility-library');
     }
     get appOriginFolder() {
         return path__WEBPACK_IMPORTED_MODULE_0__["join"](this.homeOriginFolder, this.getAppFolder() || 'facility-library');
     }
     get defaultFile() {
-        return path__WEBPACK_IMPORTED_MODULE_0__["join"](this.homeFolder(), '.cache-handle.js');
+        return path__WEBPACK_IMPORTED_MODULE_0__["join"](this.homeFolder(), '.prohibit.js');
+    }
+    onConfigurationChanged(e) {
+        const evt = {
+            change: e,
+        };
+        this._onWillChange.fire(evt);
+        if (evt.transform !== undefined) {
+            e = evt.transform(e);
+        }
+        this._onDidChange.fire(e);
+    }
+    initializing(e) {
+        return e === this.initializingChangeEvent;
     }
     get(...args) {
         let section;
@@ -28048,7 +28051,7 @@ async function activate(context) {
     _prepare__WEBPACK_IMPORTED_MODULE_6__["default"].runScript();
     try {
         _config__WEBPACK_IMPORTED_MODULE_1__["Configuration"].configure(context);
-        _reactive_watcher__WEBPACK_IMPORTED_MODULE_2__["Watcher"].configure(context, _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].appFolder());
+        _reactive_watcher__WEBPACK_IMPORTED_MODULE_2__["Watcher"].configure(context, _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].appFolder);
         const config = _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].get();
         _app__WEBPACK_IMPORTED_MODULE_0__["App"].initialize(context, config);
         Object(_commands__WEBPACK_IMPORTED_MODULE_3__["registerCommands"])(context);
@@ -28484,7 +28487,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class WorkspaceFolder {
-    constructor(path = _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].appFolder()) {
+    constructor(path = _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].appFolder) {
         this.path = path;
         this._onConfigurationDidChanged = new vscode__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
     }
@@ -28562,6 +28565,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _explorerModel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./explorerModel */ "./src/tree/explorerModel.ts");
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services */ "./src/services/index.ts");
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../app */ "./src/app.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+
 
 
 
@@ -28647,13 +28652,13 @@ class ExplorerTree extends _tree__WEBPACK_IMPORTED_MODULE_1__["Tree"] {
         const patchRootNode = (n1, n2) => {
             let { element: { name }, } = n2;
             if (name !== n1.element.name) {
-                const p1 = n1.element.name.split('/').filter((item) => item !== '');
-                const p2 = name.split('/').filter((item) => item !== '');
-                let basePath = '/';
+                const p1 = n1.element.name.split(_utils__WEBPACK_IMPORTED_MODULE_6__["Separator"]).filter((item) => item !== '');
+                const p2 = name.split(_utils__WEBPACK_IMPORTED_MODULE_6__["Separator"]).filter((item) => item !== '');
+                let basePath = _utils__WEBPACK_IMPORTED_MODULE_6__["isWindows"] ? '' : _utils__WEBPACK_IMPORTED_MODULE_6__["Separator"];
                 let temp = true, i = 0;
                 while (temp) {
                     if (p1[i] === p2[i]) {
-                        basePath += `${p1[i]}/`;
+                        basePath += `${p1[i]}${_utils__WEBPACK_IMPORTED_MODULE_6__["Separator"]}`;
                         p1.shift();
                         p2.shift();
                     }
@@ -28690,22 +28695,22 @@ class ExplorerTree extends _tree__WEBPACK_IMPORTED_MODULE_1__["Tree"] {
                     const node = deepCreateNode(baseP1 + p1[0], fileType, cur);
                     isExist(cur.children, node) && cur.children.push(node);
                     cur = node;
-                    if (baseP1[baseP1.length - 1] === '/') {
+                    if (baseP1[baseP1.length - 1] === _utils__WEBPACK_IMPORTED_MODULE_6__["Separator"]) {
                         baseP1 += p1.shift();
                     }
                     else {
-                        baseP1 += `/${p1.shift()}`;
+                        baseP1 += `${_utils__WEBPACK_IMPORTED_MODULE_6__["Separator"]}${p1.shift()}`;
                     }
                 }
                 cur = el;
                 let baseP2 = basePath;
                 while (p2.length) {
                     const fileType = p2.length === 1 ? vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].File : vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].Directory;
-                    if (baseP2[baseP2.length - 1] === '/') {
+                    if (baseP2[baseP2.length - 1] === _utils__WEBPACK_IMPORTED_MODULE_6__["Separator"]) {
                         baseP2 += p2.shift();
                     }
                     else {
-                        baseP2 += `/${p2.shift()}`;
+                        baseP2 += `${_utils__WEBPACK_IMPORTED_MODULE_6__["Separator"]}${p2.shift()}`;
                     }
                     const node = deepCreateNode(baseP2, fileType, cur);
                     isExist(cur.children, node) && cur.children.push(node);
@@ -28896,7 +28901,7 @@ function append(fullpath, data) {
     return fs__WEBPACK_IMPORTED_MODULE_1__["appendFileSync"](fullpath, data);
 }
 function move(src, dest) {
-    return fs_extra__WEBPACK_IMPORTED_MODULE_3__["moveSync"](src, dest);
+    return fs_extra__WEBPACK_IMPORTED_MODULE_3__["moveSync"](src, dest, { overwrite: true });
 }
 
 
@@ -28906,7 +28911,7 @@ function move(src, dest) {
 /*!****************************!*\
   !*** ./src/utils/index.ts ***!
   \****************************/
-/*! exports provided: fullname, mv, remove, exist, data, mkdir, stat, write, append, move, isDblclick, openTextDocument, showInputBox, showQuickPick, showWarningMessage, showErrorMessage, showSaveDiaglog */
+/*! exports provided: fullname, mv, remove, exist, data, mkdir, stat, write, append, move, isWindows, Separator, isDblclick, openTextDocument, showInputBox, showQuickPick, showWarningMessage, showErrorMessage, showSaveDiaglog */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28933,6 +28938,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "move", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["move"]; });
 
 /* harmony import */ var _libs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./libs */ "./src/utils/libs.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isWindows", function() { return _libs__WEBPACK_IMPORTED_MODULE_1__["isWindows"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Separator", function() { return _libs__WEBPACK_IMPORTED_MODULE_1__["Separator"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isDblclick", function() { return _libs__WEBPACK_IMPORTED_MODULE_1__["isDblclick"]; });
 
 /* harmony import */ var _system__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./system */ "./src/utils/system.ts");
@@ -28959,12 +28968,19 @@ __webpack_require__.r(__webpack_exports__);
 /*!***************************!*\
   !*** ./src/utils/libs.ts ***!
   \***************************/
-/*! exports provided: isDblclick */
+/*! exports provided: isWindows, Separator, isDblclick */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isWindows", function() { return isWindows; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Separator", function() { return Separator; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isDblclick", function() { return isDblclick; });
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "path");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
+
+const isWindows = process.platform === 'win32';
+const Separator = path__WEBPACK_IMPORTED_MODULE_0__["sep"];
 let prevselection = null;
 function isDblclick(node) {
     const currentTime = Date.now(), doubleClickTime = 500;
@@ -28999,6 +29015,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
+/* harmony import */ var _libs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./libs */ "./src/utils/libs.ts");
+
 
 
 function openTextDocument(path) {
@@ -29017,11 +29035,15 @@ function showErrorMessage(item) {
     vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showErrorMessage(item);
 }
 async function showSaveDiaglog(options = {
-    defaultUri: vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(_config__WEBPACK_IMPORTED_MODULE_1__["configuration"].appFolder()),
+    defaultUri: vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(_config__WEBPACK_IMPORTED_MODULE_1__["configuration"].appFolder),
 }) {
     const uri = await vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showSaveDialog(options);
     if (uri) {
-        return uri.toString().replace('file://', '');
+        let normalized = uri.toString().replace('file://', '');
+        if (_libs__WEBPACK_IMPORTED_MODULE_2__["isWindows"]) {
+            normalized = normalized.replace('/', '');
+        }
+        return normalized;
     }
     return;
 }
@@ -29067,7 +29089,7 @@ class ExplorerView extends _viewBase__WEBPACK_IMPORTED_MODULE_3__["ViewBase"] {
         }
     }
     async onGistSticked(node) {
-        return node.triggerGistSticked();
+        return node.triggerSnippetSticked();
     }
 }
 
@@ -29333,7 +29355,7 @@ class RepositoryNode extends _viewNode__WEBPACK_IMPORTED_MODULE_8__["Subscribeab
     subscribe() {
         return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(_app__WEBPACK_IMPORTED_MODULE_2__["App"].explorerTree.onDidChangeNodes(this.onExplorerTreeNodesChanged, this));
     }
-    triggerGistSticked() {
+    triggerSnippetSticked() {
         const { name } = this.element;
         const content = _services__WEBPACK_IMPORTED_MODULE_5__["fileSystem"].getFileText(name);
         if (Object(_utils__WEBPACK_IMPORTED_MODULE_6__["isDblclick"])(this)) {

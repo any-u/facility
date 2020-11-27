@@ -17,7 +17,7 @@ export async function activate(context: ExtensionContext) {
 
   try {
     Configuration.configure(context)
-    Watcher.configure(context, configuration.appFolder())
+    Watcher.configure(context, configuration.appFolder)
 
     const config: Config = configuration.get()
 

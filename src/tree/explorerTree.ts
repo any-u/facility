@@ -11,6 +11,7 @@ import { ExplorerModel } from './explorerModel'
 import { IExplorerTreeNode } from './explorerModel'
 import { fileSystem } from '../services'
 import { App } from '../app'
+import { isWindows, Separator } from '../utils'
 
 export interface IGist {
   path: string
@@ -120,15 +121,15 @@ export class ExplorerTree<T> extends Tree<T> {
         element: { name },
       } = n2
       if (name !== n1.element.name) {
-        const p1 = n1.element.name.split('/').filter((item) => item !== '')
-        const p2 = name.split('/').filter((item) => item !== '')
+        const p1 = n1.element.name.split(Separator).filter((item) => item !== '')
+        const p2 = name.split(Separator).filter((item) => item !== '')
 
-        let basePath = '/'
+        let basePath = isWindows ? '' : Separator
         let temp = true,
           i = 0
         while (temp) {
           if (p1[i] === p2[i]) {
-            basePath += `${p1[i]}/`
+            basePath += `${p1[i]}${Separator}`
             p1.shift()
             p2.shift()
           } else {
@@ -178,10 +179,10 @@ export class ExplorerTree<T> extends Tree<T> {
           const node = deepCreateNode(baseP1 + p1[0], fileType, cur)
           isExist(cur.children, node) && cur.children.push(node)
           cur = node
-          if (baseP1[baseP1.length - 1] === '/') {
+          if (baseP1[baseP1.length - 1] === Separator) {
             baseP1 += p1.shift()
           } else {
-            baseP1 += `/${p1.shift()}`
+            baseP1 += `${Separator}${p1.shift()}`
           }
         }
 
@@ -189,10 +190,10 @@ export class ExplorerTree<T> extends Tree<T> {
         let baseP2 = basePath
         while (p2.length) {
           const fileType = p2.length === 1 ? FileType.File : FileType.Directory
-          if (baseP2[baseP2.length - 1] === '/') {
+          if (baseP2[baseP2.length - 1] === Separator) {
             baseP2 += p2.shift()
           } else {
-            baseP2 += `/${p2.shift()}`
+            baseP2 += `${Separator}${p2.shift()}`
           }
           const node = deepCreateNode(baseP2, fileType, cur)
           isExist(cur.children, node) && cur.children.push(node)

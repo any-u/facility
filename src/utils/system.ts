@@ -7,6 +7,7 @@ import {
   workspace,
 } from 'vscode'
 import { configuration } from '../config'
+import { isWindows } from './libs'
 
 export function openTextDocument(path: string) {
   return workspace.openTextDocument(path)
@@ -30,12 +31,18 @@ export function showErrorMessage(item: string) {
 
 export async function showSaveDiaglog(
   options: SaveDialogOptions = {
-    defaultUri: Uri.file(configuration.appFolder()),
+    defaultUri: Uri.file(configuration.appFolder),
   }
 ): Promise<string | undefined> {
   const uri = await window.showSaveDialog(options)
   if (uri) {
-    return uri.toString().replace('file://', '')
+    let normalized = uri.toString().replace('file://', '')
+
+    if (isWindows) {
+      normalized = normalized.replace('/', '')
+    }
+
+    return normalized
   }
 
   return

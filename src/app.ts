@@ -95,6 +95,9 @@ export class App {
           config = configuration.get('workspaceFolder')
 
         cfg = cfg ? path.join(cfg, '.fl') : configuration.homeOriginFolder
+        config = config
+          ? path.join(config, '.fl')
+          : cfg
         await workspaceFolder.migrate(
           cfg,
           config || configuration.homeOriginFolder
@@ -103,7 +106,7 @@ export class App {
         this._explorerTree.clear()
 
         await Watcher.close()
-        Watcher.configure(this._context, configuration.appFolder())
+        Watcher.configure(this._context, configuration.appFolder)
 
         this._config = configuration.get()
         e.transform = this._applyModeConfigurationTransformBound

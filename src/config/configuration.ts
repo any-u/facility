@@ -12,7 +12,7 @@ import {
 
 export interface Config {
   workspaceFolder: string | null
-  keywords: object | null
+  keyword: object | null
 }
 
 export interface ConfigurationWillChangeEvent {
@@ -22,6 +22,7 @@ export interface ConfigurationWillChangeEvent {
 
 export const extensionId = 'facility'
 export const extensionQualifiedId = `sillyy.${extensionId}`
+
 export class Configuration {
   static configure(ctx: ExtensionContext) {
     // 配置项加上防抖，否则input输出会频繁触发
@@ -57,6 +58,40 @@ export class Configuration {
     return process.env.HOME || process.env.USERPROFILE || ''
   }
 
+  /**
+   * @description: 获取插件首页目录
+   * @return: 插件首页目录-带隐藏.tl
+   */
+  public homeFolder(): string {
+    return path.join(this.getWorkspaceFolder() || this.userHomeFolder(), '.fl')
+  }
+
+  public get homeOriginFolder(): string {
+    return path.join(this.userHomeFolder(), '.fl')
+  }
+
+  /**
+   * @description: 获取插件首页目录
+   * @return: 插件首页目录-不带隐藏.tl
+   */
+  public get appFolder(): string {
+    return path.join(
+      this.homeFolder(),
+      this.getAppFolder() || 'facility-library'
+    )
+  }
+
+  public get appOriginFolder(): string {
+    return path.join(
+      this.homeOriginFolder,
+      this.getAppFolder() || 'facility-library'
+    )
+  }
+
+  public get defaultFile(): string {
+    return path.join(this.homeFolder(), '.prohibit.js')
+  }
+
   private onConfigurationChanged(e: ConfigurationChangeEvent) {
     const evt: ConfigurationWillChangeEvent = {
       change: e,
@@ -76,40 +111,6 @@ export class Configuration {
 
   initializing(e: ConfigurationChangeEvent) {
     return e === this.initializingChangeEvent
-  }
-
-  /**
-   * @description: 获取插件首页目录
-   * @return: 插件首页目录-带隐藏.tl
-   */
-  public homeFolder(): string {
-    return path.join(this.getWorkspaceFolder() || this.userHomeFolder(), '.fl')
-  }
-
-  public get homeOriginFolder(): string {
-    return path.join(this.userHomeFolder(), '.fl')
-  }
-
-  /**
-   * @description: 获取插件首页目录
-   * @return: 插件首页目录-不带隐藏.tl
-   */
-  public appFolder(): string {
-    return path.join(
-      this.homeFolder(),
-      this.getAppFolder() || 'facility-library'
-    )
-  }
-
-  public get appOriginFolder(): string {
-    return path.join(
-      this.homeOriginFolder,
-      this.getAppFolder() || 'facility-library'
-    )
-  }
-
-  public get defaultFile(): string {
-    return path.join(this.homeFolder(), '.cache-handle.js')
   }
 
   get(): Config

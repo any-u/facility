@@ -34,6 +34,6 @@ export class ExplorerView extends ViewBase<any> {
   }
 
   async onGistSticked(node: RepositoryNode) {
-    return node.triggerGistSticked()
+    return node.triggerSnippetSticked()
   }
 }
