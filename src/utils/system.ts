@@ -42,7 +42,7 @@ export async function showSaveDiaglog(
       normalized = normalized.replace('/', '')
     }
 
-    return normalized
+    return decodeURIComponent(normalized)
   }
 
   return
