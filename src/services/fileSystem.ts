@@ -6,7 +6,6 @@ import {
   remove,
   data,
   stat,
-  move,
   showErrorMessage,
   exist,
   mkdir,
@@ -67,7 +66,15 @@ class FileSystem {
     mkdir(path)
   }
   migrateWorkspaceFolder(cfg: string, config: string) {
-    copy(cfg, config)
+    try {
+      copy(cfg, config)
+    } catch (error) {
+      showErrorMessage(
+        `${i18n.format(
+          'extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet'
+        )}${error}`
+      )
+    }
     cfg && remove(cfg)
   }
 

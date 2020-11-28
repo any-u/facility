@@ -34,19 +34,11 @@ export class WorkspaceFolder {
     from: string = this.homeOriginFolder,
     to: string = this.homeOriginFolder
   ) {
-    try {
-      await fileSystem.migrateWorkspaceFolder(from, to)
-      this._onConfigurationDidChanged.fire({
-        from,
-        to,
-      })
-    } catch (error) {
-      showErrorMessage(
-        `${i18n.format(
-          'extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet'
-        )}${error}`
-      )
-    }
+    await fileSystem.migrateWorkspaceFolder(from, to)
+    this._onConfigurationDidChanged.fire({
+      from,
+      to,
+    })
   }
 
   async run() {
