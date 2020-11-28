@@ -28307,7 +28307,12 @@ class FileSystem {
         Object(_utils__WEBPACK_IMPORTED_MODULE_2__["mkdir"])(path);
     }
     migrateWorkspaceFolder(cfg, config) {
-        Object(_utils__WEBPACK_IMPORTED_MODULE_2__["copy"])(cfg, config);
+        try {
+            Object(_utils__WEBPACK_IMPORTED_MODULE_2__["copy"])(cfg, config);
+        }
+        catch (error) {
+            Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showErrorMessage"])(`${_i18n__WEBPACK_IMPORTED_MODULE_1__["default"].format('extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet')}${error}`);
+        }
         cfg && Object(_utils__WEBPACK_IMPORTED_MODULE_2__["remove"])(cfg);
     }
     exist(path) {
@@ -28478,11 +28483,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
-/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../i18n */ "./src/i18n.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
-/* harmony import */ var _fileSystem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fileSystem */ "./src/services/fileSystem.ts");
-
-
+/* harmony import */ var _fileSystem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fileSystem */ "./src/services/fileSystem.ts");
 
 
 
@@ -28501,24 +28502,19 @@ class WorkspaceFolder {
         return _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].defaultFile;
     }
     async migrate(from = this.homeOriginFolder, to = this.homeOriginFolder) {
-        try {
-            await _fileSystem__WEBPACK_IMPORTED_MODULE_4__["fileSystem"].migrateWorkspaceFolder(from, to);
-            this._onConfigurationDidChanged.fire({
-                from,
-                to,
-            });
-        }
-        catch (error) {
-            Object(_utils__WEBPACK_IMPORTED_MODULE_3__["showErrorMessage"])(`${_i18n__WEBPACK_IMPORTED_MODULE_2__["default"].format('extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet')}${error}`);
-        }
+        await _fileSystem__WEBPACK_IMPORTED_MODULE_2__["fileSystem"].migrateWorkspaceFolder(from, to);
+        this._onConfigurationDidChanged.fire({
+            from,
+            to,
+        });
     }
     async run() {
         // 检查系统默认文件夹是否存在
-        const isExist = _fileSystem__WEBPACK_IMPORTED_MODULE_4__["fileSystem"].exist(this.path);
+        const isExist = _fileSystem__WEBPACK_IMPORTED_MODULE_2__["fileSystem"].exist(this.path);
         if (isExist)
             return;
-        _fileSystem__WEBPACK_IMPORTED_MODULE_4__["fileSystem"].mkdir(this.path);
-        _fileSystem__WEBPACK_IMPORTED_MODULE_4__["fileSystem"].write(this.defaultFile, '');
+        _fileSystem__WEBPACK_IMPORTED_MODULE_2__["fileSystem"].mkdir(this.path);
+        _fileSystem__WEBPACK_IMPORTED_MODULE_2__["fileSystem"].write(this.defaultFile, '');
     }
 }
 

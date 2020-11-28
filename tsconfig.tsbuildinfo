@@ -527,7 +527,7 @@
         "affectsGlobalScope": false
       },
       "./src/services/filesystem.ts": {
-        "version": "7119797093ef342a8ea86726a7977a59c3806dc7df0e0449b10f71ac1d61b56f",
+        "version": "2200701865e9b79209f43d2155351d3e2d5c3a0ca52d5cc2a8c7adebbadd4260",
         "signature": "876372b8b7226b22aa15e3d3bf008090056a1f545537b3b6be8dc151ff263c6c",
         "affectsGlobalScope": false
       },
@@ -537,7 +537,7 @@
         "affectsGlobalScope": false
       },
       "./src/services/workspacefolder.ts": {
-        "version": "1ec66797db060b2f777166012da2528de6a16d464bd43e84e4b16fcfc1d2d128",
+        "version": "2a54aa6fd9be598fceb4864c8bfcf073cb8d5b0dff8efaf7e8cdb44d6ef3e6fc",
         "signature": "5c5c4b1b0293533d8b28940263374a781dcada564f708a6c99629a6147854b1c",
         "affectsGlobalScope": false
       },
