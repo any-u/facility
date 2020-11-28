@@ -11,6 +11,7 @@ import {
   exist,
   mkdir,
   write,
+  copy,
 } from '../utils'
 import { showWarningMessage } from '../utils'
 
@@ -66,7 +67,7 @@ class FileSystem {
     mkdir(path)
   }
   migrateWorkspaceFolder(cfg: string, config: string) {
-    move(cfg, config)
+    copy(cfg, config)
     cfg && remove(cfg)
   }
 

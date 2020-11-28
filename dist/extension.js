@@ -28307,7 +28307,7 @@ class FileSystem {
         Object(_utils__WEBPACK_IMPORTED_MODULE_2__["mkdir"])(path);
     }
     migrateWorkspaceFolder(cfg, config) {
-        Object(_utils__WEBPACK_IMPORTED_MODULE_2__["move"])(cfg, config);
+        Object(_utils__WEBPACK_IMPORTED_MODULE_2__["copy"])(cfg, config);
         cfg && Object(_utils__WEBPACK_IMPORTED_MODULE_2__["remove"])(cfg);
     }
     exist(path) {
@@ -28507,7 +28507,6 @@ class WorkspaceFolder {
                 from,
                 to,
             });
-            await _fileSystem__WEBPACK_IMPORTED_MODULE_4__["fileSystem"].remove(from);
         }
         catch (error) {
             Object(_utils__WEBPACK_IMPORTED_MODULE_3__["showErrorMessage"])(`${_i18n__WEBPACK_IMPORTED_MODULE_2__["default"].format('extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet')}${error}`);
@@ -28844,7 +28843,7 @@ class TreeModel {
 /*!***************************!*\
   !*** ./src/utils/file.ts ***!
   \***************************/
-/*! exports provided: fullname, mv, remove, exist, data, mkdir, stat, write, append, move */
+/*! exports provided: fullname, mv, remove, exist, data, mkdir, stat, write, append, move, copy */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28859,6 +28858,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "write", function() { return write; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "append", function() { return append; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "move", function() { return move; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "copy", function() { return copy; });
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "path");
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! fs */ "fs");
@@ -28903,6 +28903,9 @@ function append(fullpath, data) {
 function move(src, dest) {
     return fs_extra__WEBPACK_IMPORTED_MODULE_3__["moveSync"](src, dest, { overwrite: true });
 }
+function copy(src, dest) {
+    return fs_extra__WEBPACK_IMPORTED_MODULE_3__["copySync"](src, dest, { overwrite: true });
+}
 
 
 /***/ }),
@@ -28911,7 +28914,7 @@ function move(src, dest) {
 /*!****************************!*\
   !*** ./src/utils/index.ts ***!
   \****************************/
-/*! exports provided: fullname, mv, remove, exist, data, mkdir, stat, write, append, move, isWindows, Separator, isDblclick, openTextDocument, showInputBox, showQuickPick, showWarningMessage, showErrorMessage, showSaveDiaglog */
+/*! exports provided: fullname, mv, remove, exist, data, mkdir, stat, write, append, move, copy, isWindows, Separator, isDblclick, openTextDocument, showInputBox, showQuickPick, showWarningMessage, showErrorMessage, showSaveDiaglog */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28936,6 +28939,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "append", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["append"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "move", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["move"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "copy", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["copy"]; });
 
 /* harmony import */ var _libs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./libs */ "./src/utils/libs.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isWindows", function() { return _libs__WEBPACK_IMPORTED_MODULE_1__["isWindows"]; });

@@ -40,7 +40,6 @@ export class WorkspaceFolder {
         from,
         to,
       })
-      await fileSystem.remove(from)
     } catch (error) {
       showErrorMessage(
         `${i18n.format(
