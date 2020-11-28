@@ -27457,7 +27457,7 @@ class App {
                 cfg = cfg ? path__WEBPACK_IMPORTED_MODULE_0__["join"](cfg, '.fl') : _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].homeOriginFolder;
                 config = config
                     ? path__WEBPACK_IMPORTED_MODULE_0__["join"](config, '.fl')
-                    : cfg;
+                    : _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].homeOriginFolder;
                 await _prepare__WEBPACK_IMPORTED_MODULE_5__["workspaceFolder"].migrate(cfg, config || _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].homeOriginFolder);
                 this._explorerTree.clear();
                 await _reactive_watcher__WEBPACK_IMPORTED_MODULE_6__["Watcher"].close();
@@ -29043,7 +29043,7 @@ async function showSaveDiaglog(options = {
         if (_libs__WEBPACK_IMPORTED_MODULE_2__["isWindows"]) {
             normalized = normalized.replace('/', '');
         }
-        return normalized;
+        return decodeURIComponent(normalized);
     }
     return;
 }
@@ -29386,8 +29386,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services */ "./src/services/index.ts");
-/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../config */ "./src/config/index.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services */ "./src/services/index.ts");
+/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
+
 
 
 
@@ -29433,9 +29435,10 @@ async function getSymbol(path) {
     // For this, use a default file to detect the document symbol provider
     // See details: src/services/waitProvider.ts
     // Reference: https://www.gitmemory.com/issue/microsoft/vscode/100660/647840607
+    await getSymbolAfterTrimCache(_config__WEBPACK_IMPORTED_MODULE_2__["configuration"].defaultFile); // Cancel the file symbol cache
     return await getSymbolAfterTrimCache(path);
 }
-class SymbolNode extends _viewNode__WEBPACK_IMPORTED_MODULE_3__["SubscribeableViewNode"] {
+class SymbolNode extends _viewNode__WEBPACK_IMPORTED_MODULE_4__["SubscribeableViewNode"] {
     constructor(view, symbol) {
         super(view);
         this.symbol = symbol;
@@ -29460,7 +29463,7 @@ class SymbolNode extends _viewNode__WEBPACK_IMPORTED_MODULE_3__["SubscribeableVi
     async triggerSymbolSticked() {
         const { uri, range } = this.symbol.location;
         const document = await vscode__WEBPACK_IMPORTED_MODULE_0__["workspace"].openTextDocument(uri.path);
-        _services__WEBPACK_IMPORTED_MODULE_2__["fileSystem"].edit(document.getText(range));
+        _services__WEBPACK_IMPORTED_MODULE_3__["fileSystem"].edit(document.getText(range));
     }
     refresh() {
         return;

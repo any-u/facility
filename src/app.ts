@@ -97,7 +97,7 @@ export class App {
         cfg = cfg ? path.join(cfg, '.fl') : configuration.homeOriginFolder
         config = config
           ? path.join(config, '.fl')
-          : cfg
+          : configuration.homeOriginFolder
         await workspaceFolder.migrate(
           cfg,
           config || configuration.homeOriginFolder

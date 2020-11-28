@@ -71,6 +71,8 @@ export async function getSymbol(path: string) {
   // For this, use a default file to detect the document symbol provider
   // See details: src/services/waitProvider.ts
   // Reference: https://www.gitmemory.com/issue/microsoft/vscode/100660/647840607
+
+  await getSymbolAfterTrimCache(configuration.defaultFile)   // Cancel the file symbol cache
   return await getSymbolAfterTrimCache(path)
 }
 
