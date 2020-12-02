@@ -1,7 +1,7 @@
 {
   "name": "facility",
   "displayName": "Facility",
-  "description": "灵巧、便捷",
+  "description": "Easily use Code Snippets in Programming",
   "version": "0.3.0",
   "author": "sillyY",
   "publisher": "sillyY",
@@ -31,16 +31,6 @@
   "main": "dist/extension",
   "contributes": {
     "commands": [
-      {
-        "command": "facility.views.explorer.stick",
-        "title": "%facilityApp.command.explorer.stick.title%",
-        "category": "Facility"
-      },
-      {
-        "command": "facility.views.outline.stick",
-        "title": "%facilityApp.command.outline.stick.title%",
-        "category": "Facility"
-      },
       {
         "command": "facility.save",
         "title": "%facilityApp.command.save.title%",

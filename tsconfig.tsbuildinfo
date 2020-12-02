@@ -652,7 +652,7 @@
         "affectsGlobalScope": false
       },
       "./src/services/waitprovider.ts": {
-        "version": "daa8a8a27f38e82b3f4fb196537c8171103d8899c12a8c75597be7ee4feb23f9",
+        "version": "a8a496f31b90fb42a2020fbc2761ea88ccddd5cd4ea0368eee53989f8e4029f7",
         "signature": "4857f630444a043ef3b314fafb628b796a83465ad20d1756b877fb272427c0ae",
         "affectsGlobalScope": false
       },
@@ -667,7 +667,7 @@
         "affectsGlobalScope": false
       },
       "./src/extension.ts": {
-        "version": "9351772ea2732fe702f490a53e16a7833983ac296b3e2560ce9b8e3b98a8789c",
+        "version": "057ba3ccfc9eb2a394afe9653cf017a99f5e07d203b197f404a7445c71df8984",
         "signature": "0db88c22f461e22e922a83b56284a64b43187ad41e448a465e9531ecbc3ad7d6",
         "affectsGlobalScope": false
       }

@@ -28029,13 +28029,16 @@ const appLibaryName = 'facility-library';
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDurationMilliseconds", function() { return getDurationMilliseconds; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "activate", function() { return activate; });
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./src/app.ts");
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./config */ "./src/config/index.ts");
-/* harmony import */ var _reactive_watcher__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./reactive/watcher */ "./src/reactive/watcher.ts");
-/* harmony import */ var _commands__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./commands */ "./src/commands.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils */ "./src/utils/index.ts");
-/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./i18n */ "./src/i18n.ts");
-/* harmony import */ var _prepare__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./prepare */ "./src/prepare.ts");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app */ "./src/app.ts");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./config */ "./src/config/index.ts");
+/* harmony import */ var _reactive_watcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./reactive/watcher */ "./src/reactive/watcher.ts");
+/* harmony import */ var _commands__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./commands */ "./src/commands.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils */ "./src/utils/index.ts");
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./i18n */ "./src/i18n.ts");
+/* harmony import */ var _prepare__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./prepare */ "./src/prepare.ts");
+
 
 
 
@@ -28048,16 +28051,17 @@ function getDurationMilliseconds(start) {
     return secs * 1000 + Math.floor(nanosecs / 1000000);
 }
 async function activate(context) {
-    _prepare__WEBPACK_IMPORTED_MODULE_6__["default"].runScript();
+    const app = vscode__WEBPACK_IMPORTED_MODULE_0__["extensions"].getExtension(_config__WEBPACK_IMPORTED_MODULE_2__["extensionQualifiedId"]);
+    app.isActive && _prepare__WEBPACK_IMPORTED_MODULE_7__["default"].runScript();
     try {
-        _config__WEBPACK_IMPORTED_MODULE_1__["Configuration"].configure(context);
-        _reactive_watcher__WEBPACK_IMPORTED_MODULE_2__["Watcher"].configure(context, _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].appFolder);
-        const config = _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].get();
-        _app__WEBPACK_IMPORTED_MODULE_0__["App"].initialize(context, config);
-        Object(_commands__WEBPACK_IMPORTED_MODULE_3__["registerCommands"])(context);
+        _config__WEBPACK_IMPORTED_MODULE_2__["Configuration"].configure(context);
+        _reactive_watcher__WEBPACK_IMPORTED_MODULE_3__["Watcher"].configure(context, _config__WEBPACK_IMPORTED_MODULE_2__["configuration"].appFolder);
+        const config = _config__WEBPACK_IMPORTED_MODULE_2__["configuration"].get();
+        _app__WEBPACK_IMPORTED_MODULE_1__["App"].initialize(context, config);
+        Object(_commands__WEBPACK_IMPORTED_MODULE_4__["registerCommands"])(context);
     }
     catch (err) {
-        Object(_utils__WEBPACK_IMPORTED_MODULE_4__["showErrorMessage"])(_i18n__WEBPACK_IMPORTED_MODULE_5__["default"].format('extension.facilityApp.ErrorMessage.AppFailedToStart'));
+        Object(_utils__WEBPACK_IMPORTED_MODULE_5__["showErrorMessage"])(_i18n__WEBPACK_IMPORTED_MODULE_6__["default"].format('extension.facilityApp.ErrorMessage.AppFailedToStart'));
     }
 }
 

@@ -1,7 +1,7 @@
-import { commands, Uri } from 'vscode'
-import { configuration } from '../config'
+import { commands, extensions, Uri } from 'vscode'
+import { configuration, extensionQualifiedId } from '../config'
 import i18n from '../i18n'
-import { showErrorMessage, showWarningMessage } from '../utils'
+import { showErrorMessage } from '../utils'
 import { fileSystem } from './fileSystem'
 
 export class WaitProvider {

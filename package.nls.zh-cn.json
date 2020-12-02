@@ -1,8 +1,6 @@
 {
   "facilityApp.view.explorer.name": "资源管理器",
   "facilityApp.view.outline.name": "大纲",
-  "facilityApp.command.explorer.stick.title": "插入片段",
-  "facilityApp.command.outline.stick.title": "插入特定片段",
   "facilityApp.command.save.title": "保存片段",
   "facilityApp.command.paste.title": "粘贴片段",
   "facilityApp.configuration.properties.facility.workspaceFolder.markdownDescription": "指定设置用于存储代码片段的工作区文件夹路径",

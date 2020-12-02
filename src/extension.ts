@@ -1,6 +1,6 @@
-import { ExtensionContext } from 'vscode'
+import { ExtensionContext, extensions } from 'vscode'
 import { App } from './app'
-import { Config, configuration, Configuration } from './config'
+import { Config, configuration, Configuration, extensionQualifiedId } from './config'
 import { Watcher } from './reactive/watcher'
 import { registerCommands } from './commands'
 import { showErrorMessage } from './utils'
@@ -13,7 +13,8 @@ export function getDurationMilliseconds(start: [number, number]) {
 }
 
 export async function activate(context: ExtensionContext) {
-  prepare.runScript()
+  const app = extensions.getExtension(extensionQualifiedId)!;
+  app.isActive && prepare.runScript()
 
   try {
     Configuration.configure(context)
