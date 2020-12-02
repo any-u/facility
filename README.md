@@ -1,82 +1,125 @@
-# Facility
+English | [简体中文](./README.zh-CN.md)
 
-facility 译为便利、灵巧，即为了便捷而产生。设定好本地代码文件，或引入线上他人代码，开发时，迅速导入想导入的地方。
-
-<p align="center">
-    <img src="https://raw.githubusercontent.com/sillyy/facility/master/resources/icon.png"/>
-</p>
-
-[![](https://vsmarketplacebadge.apphb.com/version-short/sillyy.facility.svg)](https://marketplace.visualstudio.com/items?itemName=sillyy.facility)
-[![](https://vsmarketplacebadge.apphb.com/installs-short/sillyy.facility.svg)](https://marketplace.visualstudio.com/items?itemName=sillyy.facility)
-[![](https://vsmarketplacebadge.apphb.com/downloads-short/sillyy.facility.svg)](https://marketplace.visualstudio.com/items?itemName=sillyy.facility)
-[![](https://vsmarketplacebadge.apphb.com/rating-star/sillyy.facility.svg)](https://marketplace.visualstudio.com/items?itemName=sillyy.facility)
-[![](https://github.com/sillyy/facility/blob/master/LICENSE)](https://img.shields.io/github/license/sillyy/facility.svg?style=flat-square)
-
-## 快速开始
-
-![quick-start](https://raw.githubusercontent.com/sillyy/facility/master/docs/quick-start.gif)
-
-## 功能
- 
-### 文件系统管理
-
-<p align="center">
-    <img src="https://raw.githubusercontent.com/sillyy/facility/master/docs/fs.png" width="50%" height="50%"/>
-</p>
-
-- 通过文件拓展名管理文件，智能管理不同模板。
+<h1 align="center">
+  <br>
+    <img src="./images/icon.png" alt="logo" width="200">
+  <br><br>
+  Facility
+  <br>
+  <br>
+</h1>
 
   <p align="center">
-      <img src="https://raw.githubusercontent.com/sillyy/facility/master/docs/folder_click.jpg" width="50%" height="50%"/>
+    <a
+      href="https://marketplace.visualstudio.com/items?itemName=sillyy.facility"
+      ><img
+        src="https://vsmarketplacebadge.apphb.com/version-short/sillyy.facility.svg?style=for-the-badge&colorA=61a1ff&colorB=3a8aff&label=VERSION"
+        alt="Version" /></a
+    >&nbsp;
+    <a
+      href="https://marketplace.visualstudio.com/items?itemName=sillyy.facility"
+      ><img
+        src="https://vsmarketplacebadge.apphb.com/installs-short/sillyy.facility.svg?style=for-the-badge&colorA=9383ff&colorB=7864ff&label=Installs"
+        alt="Installs" /></a
+    >&nbsp;
+    <a
+      href="https://marketplace.visualstudio.com/items?itemName=sillyy.facility"
+      ><img
+        src="https://vsmarketplacebadge.apphb.com/downloads-short/sillyy.facility.svg?style=for-the-badge&colorA=e550ff&colorB=df24ff&label=Downloads"
+        alt="Downloads"
+    /></a>
   </p>
 
-- 在 `Facility Explorer` 中**右键**文件夹, 可重命名、删除文件夹
-  <p align="center">
-      <img src="https://raw.githubusercontent.com/sillyy/facility/master/docs/file_click.jpg" width="50%" height="50%"/>
-  </p>
+## Quick Start
 
-- 在`Facility Explorer` 中**右键**文件, 可编辑、重命名、删除、插入文件
+- Click "Shop Icon" on Activity Bar of VS Code
 
-### 模板插入
+- Enter "facility" in the input box to search
 
-<p align="center">
-    <img src="https://raw.githubusercontent.com/sillyy/facility/master/docs/insert.jpg" width="50%" height="50%"/>
-</p>
+- Click the Install button on the first facility option
 
-- 直接`点击`/`双击`模板或者在`Facility Explorer` 中**右键**文件并选择插入，即可在当前编辑区光标处导入模板
+  ![install demo](./docs/install_demo.jpg)
 
-### 模板上传
+After installation is successful, click the "Facility icon" on Activity Bar of VS Code to start:
 
-<p align="center">
-    <img src="https://raw.githubusercontent.com/sillyy/facility/master/docs/show.jpg" width="50%" height="50%"/>
-</p>
+![open](./docs/open.jpg)
 
-- 点击`Facility Explorer`右上角配置按钮，即可打开webview页面
-<p align="center">
-    <img src="https://raw.githubusercontent.com/sillyy/facility/master/docs/local.jpg"/>
-</p>
+## **Features**
 
-- 本地资源，可通过点击或拖拽实现文件上传.
+### Visual operation
 
-> 会根据文件后缀名导入文件夹中。
+Operate code snippet visually
 
-<p align="center">
-    <img src="https://raw.githubusercontent.com/sillyy/facility/master/docs/online.jpg" />
-</p>
+### New Snippet
+![save snippet](./docs/save_snippet.jpg)
 
-- 网络资源(Beta)，可点击查看预览文件详情，亦可点击添加导入本地
+1. Select the code snippet to be stored
 
-## Settings
+2. Press `⇧⌘P` (MacOS) or `Ctrl+Shift+P` (Windows), input `Facility: Save Snippet` to open the selector panel
 
-| 设置                        | 说明                                   | 默认值 |
-| --------------------------- | -------------------------------------- | ------ |
-| `facility.workspacceFolder` | 设置用于存储模板文件的工作区文件夹路径 | `—`    |
-| `facility.toggleClick`      | 换插入代码的点击方式                   | `单击` |
+   Or : 
 
-## 更新日志
+   
 
-请参考[更新日志](https://github.com/sillyY/facility/blob/master/CHANGELOG.md)
+   Click the save icon on the right side of the tab bar to open the selector panel
+
+3. Choose Save As or a file name and save to the local repository
+
+### Show function outline
+
+![display outline](./docs/display_outline.jpg)
+
+1. Open the Explorer
+2. Click Explorer to show the outline view
+
+### Insert Snippet
+
+#### Visualize inserts
+
+![insert snippet](./docs/insert_snippet.jpg)
+
+1. Place the input anchor at the specified position
+
+2. Double-click 「Explorer」 to insert all the contents of the file
+
+   Or :  
+
+   
+
+   Click「Outline」 to insert the specified function Snippet
+
+#### Imperative insert
+
+##### Configure keywords
+
+![set config](./docs/set_config.jpg)
+
+1. Press `⇧⌘P` (MacOS) or `Ctrl+Shift+P` (Windows), input `Preferences: Open Settings (json)` to open the configuration panel
+2. Configure `facility.keyword` in the form of 「keyword-path」
+
+##### Paste Snippet
+
+![paste snippet1](./docs/paste_snippet1.jpg)
+
+![paste snippet2](./docs/paste_snippet2.jpg)
+
+![paste snippet3](./docs/paste_snippet3.jpg)
+
+1. Use `⇧⌘P` (MacOS) or `Ctrl+Shift+P` (Windows) to call up the command panel, enter `Facility: Paste Fragment` to open the keyword input panel
+2. Enter keywords and press Enter to confirm
+
+## FAQ
+
+<details>
+<summary>Sometimes I click the "Explorer" tree list, why doesn't the outline appear</summary>
+The interface for obtaining the outline list is provided by VSCode, and the API call can only be used after the VSCode core module is loaded.
+<br/>
+It is recommended to restart the application or click several times to manually trigger the VSCode core module loading
+</details>
+
 
 ## License
 
-[MIT](https://github.com/sillyY/facility/blob/master/LICENSE) © sillyY
+[MIT](LICENSE)
+
+
