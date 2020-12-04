@@ -4,7 +4,8 @@ export enum Commands {
   StickGist = 'facility.views.explorer.stick',
   StickGistOnOutline = 'facility.views.outline.stick',
   Save = 'facility.save',
-  Paste = 'facility.paste'
+  Paste = 'facility.paste',
+  Open = 'facility.open'
 }
 
 interface CommandConstructor {

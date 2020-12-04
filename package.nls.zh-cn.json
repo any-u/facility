@@ -3,6 +3,7 @@
   "facilityApp.view.outline.name": "大纲",
   "facilityApp.command.save.title": "保存片段",
   "facilityApp.command.paste.title": "粘贴片段",
+  "facilityApp.command.open.title": "打开仓库",
   "facilityApp.configuration.properties.facility.workspaceFolder.markdownDescription": "指定设置用于存储代码片段的工作区文件夹路径",
   "facilityApp.configuration.properties.facility.keyword.markdownDescription": "指定将哪些关键字添加到哪些粘贴命令"
 

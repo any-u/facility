@@ -22,6 +22,9 @@ export class ExplorerView extends ViewBase<any> {
       (node: RepositoryNode) => this.onGistSticked(node),
       this
     )
+    // commands.registerCommand(
+    //   this
+    // )
   }
 
   onConfigurationChanged(e: ConfigurationChangeEvent) {

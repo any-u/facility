@@ -44,6 +44,15 @@
         "command": "facility.paste",
         "title": "%facilityApp.command.paste.title%",
         "category": "Facility"
+      },
+      {
+        "command": "facility.open",
+        "title": "%facilityApp.command.open.title%",
+        "category": "Facility",
+        "icon": {
+          "light": "images/light/open.svg",
+          "dark": "images/dark/open.svg"
+        }
       }
     ],
     "viewsContainers": {
@@ -72,7 +81,13 @@
       ]
     },
     "menus": {
-      "view/title": [],
+      "view/title": [
+        {
+          "command": "facility.open",
+          "when": "view == facility.views.explorer:facility",
+          "group": "navigation"
+        }
+      ],
       "view/item/context": [],
       "editor/title": [
         {

@@ -27495,7 +27495,7 @@ class App {
 /*!*************************!*\
   !*** ./src/commands.ts ***!
   \*************************/
-/*! exports provided: Commands, command, registerCommands, Command, Save, Paste */
+/*! exports provided: Commands, command, registerCommands, Command, Save, Paste, Open */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27514,6 +27514,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _commands_paste__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./commands/paste */ "./src/commands/paste.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Paste", function() { return _commands_paste__WEBPACK_IMPORTED_MODULE_2__["Paste"]; });
+
+/* harmony import */ var _commands_open__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./commands/open */ "./src/commands/open.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Open", function() { return _commands_open__WEBPACK_IMPORTED_MODULE_3__["Open"]; });
+
 
 
 
@@ -27544,6 +27548,7 @@ var Commands;
     Commands["StickGistOnOutline"] = "facility.views.outline.stick";
     Commands["Save"] = "facility.save";
     Commands["Paste"] = "facility.paste";
+    Commands["Open"] = "facility.open";
 })(Commands || (Commands = {}));
 const registrableCommands = [];
 function command() {
@@ -27572,6 +27577,46 @@ class Command {
         this.execute(args);
     }
 }
+
+
+/***/ }),
+
+/***/ "./src/commands/open.ts":
+/*!******************************!*\
+  !*** ./src/commands/open.ts ***!
+  \******************************/
+/*! exports provided: Open */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Open", function() { return Open; });
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common */ "./src/commands/common.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+let Open = class Open extends _common__WEBPACK_IMPORTED_MODULE_2__["Command"] {
+    constructor() {
+        super(_common__WEBPACK_IMPORTED_MODULE_2__["Commands"].Open);
+    }
+    async execute() {
+        const uri = vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(_config__WEBPACK_IMPORTED_MODULE_1__["configuration"].appFolder);
+        await vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].executeCommand('vscode.openFolder', uri, true);
+    }
+};
+Open = __decorate([
+    Object(_common__WEBPACK_IMPORTED_MODULE_2__["command"])()
+], Open);
+
 
 
 /***/ }),
@@ -29084,6 +29129,9 @@ class ExplorerView extends _viewBase__WEBPACK_IMPORTED_MODULE_3__["ViewBase"] {
     }
     registerCommands() {
         vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].registerCommand(this.getQualifiedCommand('stick'), (node) => this.onGistSticked(node), this);
+        // commands.registerCommand(
+        //   this
+        // )
     }
     onConfigurationChanged(e) {
         if (_config__WEBPACK_IMPORTED_MODULE_1__["configuration"].changed(e, 'views', 'repositories', 'location')) {

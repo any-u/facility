@@ -548,7 +548,7 @@
       },
       "./src/views/nodes/common.ts": {
         "version": "1a84226572e13b8d3daec2f0afe6bab910014f3b974890d9b135f511ede3c871",
-        "signature": "0f6cf1a3cc2692076b823b61bf3aea50daac02a360709a2c6c86dd08812b65c8",
+        "signature": "557c46a91c5ea42302e597d945a135d440df7312b52c51c4bab169b6ab4ca981",
         "affectsGlobalScope": false
       },
       "./src/views/nodes/symbolnode.ts": {
@@ -587,8 +587,8 @@
         "affectsGlobalScope": false
       },
       "./src/commands/common.ts": {
-        "version": "7a786bbdbecd31c5637ce09f554ee1951d951119f0e78b38f36cf82072a0a502",
-        "signature": "95ae2f31dec9f456b4001378672cdb3eb1b1b2e6d7f933fd73f69fb61e43775a",
+        "version": "6e295f3de6fced57dd93d0d4391e9de3ac72494c3d84bf6b30ae4f4c66469e1b",
+        "signature": "eb95601098ab1eeeb8fd9e1519551aa6cabdeaaafe69b5e0830e74d3b070cbb2",
         "affectsGlobalScope": false
       },
       "./src/commands/save.ts": {
@@ -601,9 +601,14 @@
         "signature": "0ee5bc459f5fe4d7d46d7fdce33319c575e63011d28a583fc317d61792cc17b5",
         "affectsGlobalScope": false
       },
+      "./src/commands/open.ts": {
+        "version": "2dfe732f15f9510ea9b102026324dd02da11943c679c347ff87188da8b85b70b",
+        "signature": "21b0c619c7fc527f502e2e8b65bcc543f9c9c2926ae3ad1042f82cf047f45626",
+        "affectsGlobalScope": false
+      },
       "./src/commands.ts": {
-        "version": "5ee649aa750ba8fd7f7e418158446637ba5d3b500a0113ea7f97ad02489bcb5e",
-        "signature": "7438fcb4484484f55b40285e2042c0ed7a24923129def3c824c3e40b533b3316",
+        "version": "fc856cfdd577f0ec93eb00bb33ee42caea7fba887aa32dd5fe2fafbcf35bcc2d",
+        "signature": "acc091db46db5086ba0aafa9af93e122353752bbf38effe3c518d808690176d9",
         "affectsGlobalScope": false
       },
       "./src/tree/treemodel.ts": {
@@ -647,7 +652,7 @@
         "affectsGlobalScope": false
       },
       "./src/views/explorerview.ts": {
-        "version": "1996e4bccd5c6547f8a952005c39e275cf3500ce1b44613aae59c7fe2626f2f6",
+        "version": "4a06b9f9ba39cbdf9c2d6ae45c0bc75852b533eee63060f2fce38f0838198886",
         "signature": "bae375377dd9d71daed9d553720ef39fa99d64ec4f5e7c3141eee8afe3cb8c6c",
         "affectsGlobalScope": false
       },
@@ -1054,11 +1059,17 @@
       ],
       "./src/commands.ts": [
         "./src/commands/common.ts",
+        "./src/commands/open.ts",
         "./src/commands/paste.ts",
         "./src/commands/save.ts"
       ],
       "./src/commands/common.ts": [
         "./node_modules/_@types_vscode@1.51.0@@types/vscode/index.d.ts"
+      ],
+      "./src/commands/open.ts": [
+        "./node_modules/_@types_vscode@1.51.0@@types/vscode/index.d.ts",
+        "./src/commands/common.ts",
+        "./src/config/index.ts"
       ],
       "./src/commands/paste.ts": [
         "./node_modules/_@types_node@12.19.7@@types/node/path.d.ts",
@@ -1610,11 +1621,15 @@
       ],
       "./src/commands.ts": [
         "./src/commands/common.ts",
+        "./src/commands/open.ts",
         "./src/commands/paste.ts",
         "./src/commands/save.ts"
       ],
       "./src/commands/common.ts": [
         "./node_modules/_@types_vscode@1.51.0@@types/vscode/index.d.ts"
+      ],
+      "./src/commands/open.ts": [
+        "./src/commands/common.ts"
       ],
       "./src/commands/paste.ts": [
         "./src/commands/common.ts"
@@ -1831,6 +1846,7 @@
       "./src/app.ts",
       "./src/commands.ts",
       "./src/commands/common.ts",
+      "./src/commands/open.ts",
       "./src/commands/paste.ts",
       "./src/commands/save.ts",
       "./src/config/configuration.ts",
