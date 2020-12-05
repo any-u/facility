@@ -22,7 +22,7 @@ export class WaitProvider {
       await new Promise((r) => setTimeout(r, 1000))
     }
 
-    showErrorMessage(
+    console.log(
       i18n.format(
         'extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider'
       )

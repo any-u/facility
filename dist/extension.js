@@ -28097,7 +28097,7 @@ function getDurationMilliseconds(start) {
 }
 async function activate(context) {
     const app = vscode__WEBPACK_IMPORTED_MODULE_0__["extensions"].getExtension(_config__WEBPACK_IMPORTED_MODULE_2__["extensionQualifiedId"]);
-    app.isActive && _prepare__WEBPACK_IMPORTED_MODULE_7__["default"].runScript();
+    _prepare__WEBPACK_IMPORTED_MODULE_7__["default"].runScript();
     try {
         _config__WEBPACK_IMPORTED_MODULE_2__["Configuration"].configure(context);
         _reactive_watcher__WEBPACK_IMPORTED_MODULE_3__["Watcher"].configure(context, _config__WEBPACK_IMPORTED_MODULE_2__["configuration"].appFolder);
@@ -28489,9 +28489,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
 /* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../i18n */ "./src/i18n.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
-/* harmony import */ var _fileSystem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fileSystem */ "./src/services/fileSystem.ts");
-
+/* harmony import */ var _fileSystem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fileSystem */ "./src/services/fileSystem.ts");
 
 
 
@@ -28501,14 +28499,14 @@ class WaitProvider {
     async waitSymbolProvider() {
         const tmp = _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].defaultFile;
         const tmpUri = vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(tmp);
-        await _fileSystem__WEBPACK_IMPORTED_MODULE_4__["fileSystem"].write(tmp, '');
+        await _fileSystem__WEBPACK_IMPORTED_MODULE_3__["fileSystem"].write(tmp, '');
         for (let i = 0; i < 30; i++) {
             const vsSyms = await vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].executeCommand('vscode.executeDocumentSymbolProvider', tmpUri);
             if (vsSyms)
                 return true;
             await new Promise((r) => setTimeout(r, 1000));
         }
-        Object(_utils__WEBPACK_IMPORTED_MODULE_3__["showErrorMessage"])(_i18n__WEBPACK_IMPORTED_MODULE_2__["default"].format('extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider'));
+        console.log(_i18n__WEBPACK_IMPORTED_MODULE_2__["default"].format('extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider'));
         return false;
     }
     async run() {

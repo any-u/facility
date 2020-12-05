@@ -14,7 +14,7 @@ export function getDurationMilliseconds(start: [number, number]) {
 
 export async function activate(context: ExtensionContext) {
   const app = extensions.getExtension(extensionQualifiedId)!;
-  app.isActive && prepare.runScript()
+  prepare.runScript()
 
   try {
     Configuration.configure(context)
