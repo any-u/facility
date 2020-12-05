@@ -59,8 +59,6 @@ Operate code snippet visually
 
    Or : 
 
-   
-
    Click the save icon on the right side of the tab bar to open the selector panel
 
 3. Choose Save As or a file name and save to the local repository
@@ -84,8 +82,6 @@ Operate code snippet visually
 
    Or :  
 
-   
-
    Click「Outline」 to insert the specified function Snippet
 
 #### Imperative insert
@@ -107,6 +103,16 @@ Operate code snippet visually
 
 1. Use `⇧⌘P` (MacOS) or `Ctrl+Shift+P` (Windows) to call up the command panel, enter `Facility: Paste Fragment` to open the keyword input panel
 2. Enter keywords and press Enter to confirm
+
+
+### Open Repository
+![open repository](./docs/open_repository.jpg)
+
+Use `⇧⌘P` (MacOS) or `Ctrl + Shift + P` (Windows) to call up the command panel, enter `Facility: Open Repository` to open the Repository window
+
+   Or :  
+
+Click「Open Repository」 to open the Repository window
 
 ## FAQ
 
