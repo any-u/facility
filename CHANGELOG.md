@@ -6,6 +6,10 @@ All notable changes to the "facility" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.3.3] - 2012/12/05
+### Changed
+* 🐞 Fix New users cannot automatically create repository directories.
+
 ## [0.3.2] - 2012/12/05
 ### Added
 - 🆕 Added 「Open Repository」 icon and command to quickly open the Repository Explorer Manager
