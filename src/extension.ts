@@ -6,6 +6,7 @@ import { registerCommands } from './commands'
 import { showErrorMessage } from './utils'
 import i18n from './i18n'
 import prepare from './prepare'
+import { profiles } from './services/profile'
 
 export function getDurationMilliseconds(start: [number, number]) {
   const [secs, nanosecs] = process.hrtime(start)
@@ -18,6 +19,7 @@ export async function activate(context: ExtensionContext) {
 
   try {
     Configuration.configure(context)
+    profiles.configure({ state: context.globalState });
     Watcher.configure(context, configuration.appFolder)
 
     const config: Config = configuration.get()

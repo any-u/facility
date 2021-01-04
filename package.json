@@ -53,6 +53,24 @@
           "light": "images/light/open.svg",
           "dark": "images/dark/open.svg"
         }
+      },
+      {
+        "command": "facility.push",
+        "title": "%facilityApp.command.push.title%",
+        "category": "Facility",
+        "icon": {
+          "light": "images/light/upload.svg",
+          "dark": "images/dark/upload.svg"
+        }
+      },
+      {
+        "command": "facility.pull",
+        "title": "%facilityApp.command.pull.title%",
+        "category": "Facility",
+        "icon": {
+          "light": "images/light/download.svg",
+          "dark": "images/dark/download.svg"
+        }
       }
     ],
     "viewsContainers": {
@@ -82,6 +100,16 @@
     },
     "menus": {
       "view/title": [
+        {
+          "command": "facility.push",
+          "when": "view == facility.views.explorer:facility",
+          "group": "navigation"
+        },
+        {
+          "command": "facility.pull",
+          "when": "view == facility.views.explorer:facility",
+          "group": "navigation"
+        },
         {
           "command": "facility.open",
           "when": "view == facility.views.explorer:facility",
@@ -158,6 +186,7 @@
     "chokidar": "^3.4.3",
     "fs-extra": "^9.0.0",
     "lodash": "^4.17.15",
-    "mkdirp": "^1.0.3"
+    "mkdirp": "^1.0.3",
+    "@octokit/rest": "^18.0.12"
   }
 }

@@ -5,7 +5,10 @@ export enum Commands {
   StickGistOnOutline = 'facility.views.outline.stick',
   Save = 'facility.save',
   Paste = 'facility.paste',
-  Open = 'facility.open'
+  Open = 'facility.open',
+  Pull = 'facility.pull',
+  Push = 'facility.push',
+  ProfileCreate = 'facility.profile.create'
 }
 
 interface CommandConstructor {

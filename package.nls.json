@@ -4,6 +4,8 @@
   "facilityApp.command.save.title": "Save Snippet",
   "facilityApp.command.paste.title": "Paste Snippet",
   "facilityApp.command.open.title": "Open Repository",
+  "facilityApp.command.push.title": "Push Gist",
+  "facilityApp.command.pull.title": "Pull Gist",
   "facilityApp.configuration.properties.facility.workspaceFolder.markdownDescription": "Specify the workspace folder path for storing code snippets",
   "facilityApp.configuration.properties.facility.keyword.markdownDescription": "Specifies which keywords will be added to which paste commands"
 }

@@ -1,5 +1,7 @@
 import {
   InputBoxOptions,
+  MessageItem,
+  MessageOptions,
   QuickPickOptions,
   SaveDialogOptions,
   Uri,
@@ -12,6 +14,10 @@ import { isWindows } from './libs'
 export function openTextDocument(path: string) {
   return workspace.openTextDocument(path)
 }
+
+// export function showInformationMessage(message: string, options: MessageOptions, ...items: string[]) {
+//   return window.showInformationMessage(message, options, ...items)
+// }
 
 export function showInputBox(options?: InputBoxOptions) {
   return window.showInputBox(options)
