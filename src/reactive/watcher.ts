@@ -8,7 +8,7 @@ import {
   ExtensionContext,
 } from 'vscode'
 import i18n from '../i18n'
-import { showErrorMessage } from '../utils'
+import { logger, showErrorMessage } from '../utils'
 
 export enum FolderChangeEvent {
   ADDDIR = 'addDir',
@@ -29,10 +29,13 @@ export interface IFoldersChangeEvent extends ITransformFileChangeType {
 
 export class Watcher {
   static configure(context: ExtensionContext, watchDir: string) {
+    logger.info(`Watch Dir ${watchDir}`)
     context.subscriptions.push(
       (watcher._watcher = chokidar
         .watch(watchDir)
-        .on('all', watcher.onFolderChanged.bind(watcher)))
+        .on('all', watcher.onFolderChanged.bind(watcher))
+        .on('error', watcher.onDidWatcherError.bind(watcher))
+      )
     )
   }
 
@@ -52,6 +55,7 @@ export class Watcher {
   }
 
   onFolderChanged(event: FolderChangeEvent, path: string) {
+    logger.info(event, path)
     if (this.checkIgnore(path)) return
 
     const e = this.transform(event)
@@ -106,6 +110,7 @@ export class Watcher {
     return changeType
   }
   onDidWatcherError(error: Error) {
+    logger.error(error.message)
     showErrorMessage(
       `${i18n.format(
         'extension.facilityApp.ErrorMessage.ErrorFsWatch'

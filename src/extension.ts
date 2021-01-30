@@ -1,12 +1,13 @@
-import { ExtensionContext, extensions } from 'vscode'
+import { ExtensionContext, extensions, window } from 'vscode'
 import { App } from './app'
 import { Config, configuration, Configuration, extensionQualifiedId } from './config'
 import { Watcher } from './reactive/watcher'
 import { registerCommands } from './commands'
-import { showErrorMessage } from './utils'
+import { Levels, logger, showErrorMessage } from './utils'
 import i18n from './i18n'
 import prepare from './prepare'
-import { profiles } from './services/profile'
+import { DEBUG } from './constants'
+
 
 export function getDurationMilliseconds(start: [number, number]) {
   const [secs, nanosecs] = process.hrtime(start)
@@ -14,12 +15,14 @@ export function getDurationMilliseconds(start: [number, number]) {
 }
 
 export async function activate(context: ExtensionContext) {
+  logger.setLevel(DEBUG ? Levels.DEBUG : Levels.ERROR);
+  logger.setOutput(window.createOutputChannel('Facility'));
+
   const app = extensions.getExtension(extensionQualifiedId)!;
   prepare.runScript()
 
   try {
     Configuration.configure(context)
-    profiles.configure({ state: context.globalState });
     Watcher.configure(context, configuration.appFolder)
 
     const config: Config = configuration.get()

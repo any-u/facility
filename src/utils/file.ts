@@ -6,6 +6,9 @@ import * as fse from 'fs-extra'
 export function fullname(fullpath: string): string {
   return path.basename(fullpath)
 }
+export function relative(from: string, to: string): string{
+  return path.relative(from, to)
+}
 
 export function mv(src: string, dst: string) {
   return fs.renameSync(src, dst)

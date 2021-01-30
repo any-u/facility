@@ -87,6 +87,2677 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/_@octokit_auth-token@2.4.4@@octokit/auth-token/dist-web/index.js":
+/*!***************************************************************************************!*\
+  !*** ./node_modules/_@octokit_auth-token@2.4.4@@octokit/auth-token/dist-web/index.js ***!
+  \***************************************************************************************/
+/*! exports provided: createTokenAuth */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTokenAuth", function() { return createTokenAuth; });
+async function auth(token) {
+    const tokenType = token.split(/\./).length === 3
+        ? "app"
+        : /^v\d+\./.test(token)
+            ? "installation"
+            : "oauth";
+    return {
+        type: "token",
+        token: token,
+        tokenType
+    };
+}
+
+/**
+ * Prefix token for usage in the Authorization header
+ *
+ * @param token OAuth token or JSON Web Token
+ */
+function withAuthorizationPrefix(token) {
+    if (token.split(/\./).length === 3) {
+        return `bearer ${token}`;
+    }
+    return `token ${token}`;
+}
+
+async function hook(token, request, route, parameters) {
+    const endpoint = request.endpoint.merge(route, parameters);
+    endpoint.headers.authorization = withAuthorizationPrefix(token);
+    return request(endpoint);
+}
+
+const createTokenAuth = function createTokenAuth(token) {
+    if (!token) {
+        throw new Error("[@octokit/auth-token] No token passed to createTokenAuth");
+    }
+    if (typeof token !== "string") {
+        throw new Error("[@octokit/auth-token] Token passed to createTokenAuth is not a string");
+    }
+    token = token.replace(/^(token|bearer) +/i, "");
+    return Object.assign(auth.bind(null, token), {
+        hook: hook.bind(null, token)
+    });
+};
+
+
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/_@octokit_core@3.2.4@@octokit/core/dist-web/index.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/_@octokit_core@3.2.4@@octokit/core/dist-web/index.js ***!
+  \***************************************************************************/
+/*! exports provided: Octokit */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Octokit", function() { return Octokit; });
+/* harmony import */ var universal_user_agent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! universal-user-agent */ "./node_modules/_universal-user-agent@6.0.0@universal-user-agent/dist-web/index.js");
+/* harmony import */ var before_after_hook__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! before-after-hook */ "./node_modules/_before-after-hook@2.1.0@before-after-hook/index.js");
+/* harmony import */ var before_after_hook__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(before_after_hook__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _octokit_request__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @octokit/request */ "./node_modules/_@octokit_request@5.4.12@@octokit/request/dist-web/index.js");
+/* harmony import */ var _octokit_graphql__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @octokit/graphql */ "./node_modules/_@octokit_graphql@4.5.8@@octokit/graphql/dist-web/index.js");
+/* harmony import */ var _octokit_auth_token__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @octokit/auth-token */ "./node_modules/_@octokit_auth-token@2.4.4@@octokit/auth-token/dist-web/index.js");
+
+
+
+
+
+
+const VERSION = "3.2.4";
+
+class Octokit {
+    constructor(options = {}) {
+        const hook = new before_after_hook__WEBPACK_IMPORTED_MODULE_1__["Collection"]();
+        const requestDefaults = {
+            baseUrl: _octokit_request__WEBPACK_IMPORTED_MODULE_2__["request"].endpoint.DEFAULTS.baseUrl,
+            headers: {},
+            request: Object.assign({}, options.request, {
+                hook: hook.bind(null, "request"),
+            }),
+            mediaType: {
+                previews: [],
+                format: "",
+            },
+        };
+        // prepend default user agent with `options.userAgent` if set
+        requestDefaults.headers["user-agent"] = [
+            options.userAgent,
+            `octokit-core.js/${VERSION} ${Object(universal_user_agent__WEBPACK_IMPORTED_MODULE_0__["getUserAgent"])()}`,
+        ]
+            .filter(Boolean)
+            .join(" ");
+        if (options.baseUrl) {
+            requestDefaults.baseUrl = options.baseUrl;
+        }
+        if (options.previews) {
+            requestDefaults.mediaType.previews = options.previews;
+        }
+        if (options.timeZone) {
+            requestDefaults.headers["time-zone"] = options.timeZone;
+        }
+        this.request = _octokit_request__WEBPACK_IMPORTED_MODULE_2__["request"].defaults(requestDefaults);
+        this.graphql = Object(_octokit_graphql__WEBPACK_IMPORTED_MODULE_3__["withCustomRequest"])(this.request).defaults(requestDefaults);
+        this.log = Object.assign({
+            debug: () => { },
+            info: () => { },
+            warn: console.warn.bind(console),
+            error: console.error.bind(console),
+        }, options.log);
+        this.hook = hook;
+        // (1) If neither `options.authStrategy` nor `options.auth` are set, the `octokit` instance
+        //     is unauthenticated. The `this.auth()` method is a no-op and no request hook is registered.
+        // (2) If only `options.auth` is set, use the default token authentication strategy.
+        // (3) If `options.authStrategy` is set then use it and pass in `options.auth`. Always pass own request as many strategies accept a custom request instance.
+        // TODO: type `options.auth` based on `options.authStrategy`.
+        if (!options.authStrategy) {
+            if (!options.auth) {
+                // (1)
+                this.auth = async () => ({
+                    type: "unauthenticated",
+                });
+            }
+            else {
+                // (2)
+                const auth = Object(_octokit_auth_token__WEBPACK_IMPORTED_MODULE_4__["createTokenAuth"])(options.auth);
+                // @ts-ignore  ¯\_(ツ)_/¯
+                hook.wrap("request", auth.hook);
+                this.auth = auth;
+            }
+        }
+        else {
+            const { authStrategy, ...otherOptions } = options;
+            const auth = authStrategy(Object.assign({
+                request: this.request,
+                log: this.log,
+                // we pass the current octokit instance as well as its constructor options
+                // to allow for authentication strategies that return a new octokit instance
+                // that shares the same internal state as the current one. The original
+                // requirement for this was the "event-octokit" authentication strategy
+                // of https://github.com/probot/octokit-auth-probot.
+                octokit: this,
+                octokitOptions: otherOptions,
+            }, options.auth));
+            // @ts-ignore  ¯\_(ツ)_/¯
+            hook.wrap("request", auth.hook);
+            this.auth = auth;
+        }
+        // apply plugins
+        // https://stackoverflow.com/a/16345172
+        const classConstructor = this.constructor;
+        classConstructor.plugins.forEach((plugin) => {
+            Object.assign(this, plugin(this, options));
+        });
+    }
+    static defaults(defaults) {
+        const OctokitWithDefaults = class extends this {
+            constructor(...args) {
+                const options = args[0] || {};
+                if (typeof defaults === "function") {
+                    super(defaults(options));
+                    return;
+                }
+                super(Object.assign({}, defaults, options, options.userAgent && defaults.userAgent
+                    ? {
+                        userAgent: `${options.userAgent} ${defaults.userAgent}`,
+                    }
+                    : null));
+            }
+        };
+        return OctokitWithDefaults;
+    }
+    /**
+     * Attach a plugin (or many) to your Octokit instance.
+     *
+     * @example
+     * const API = Octokit.plugin(plugin1, plugin2, plugin3, ...)
+     */
+    static plugin(...newPlugins) {
+        var _a;
+        const currentPlugins = this.plugins;
+        const NewOctokit = (_a = class extends this {
+            },
+            _a.plugins = currentPlugins.concat(newPlugins.filter((plugin) => !currentPlugins.includes(plugin))),
+            _a);
+        return NewOctokit;
+    }
+}
+Octokit.VERSION = VERSION;
+Octokit.plugins = [];
+
+
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/_@octokit_endpoint@6.0.10@@octokit/endpoint/dist-web/index.js":
+/*!************************************************************************************!*\
+  !*** ./node_modules/_@octokit_endpoint@6.0.10@@octokit/endpoint/dist-web/index.js ***!
+  \************************************************************************************/
+/*! exports provided: endpoint */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "endpoint", function() { return endpoint; });
+/* harmony import */ var is_plain_object__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is-plain-object */ "./node_modules/_is-plain-object@5.0.0@is-plain-object/dist/is-plain-object.mjs");
+/* harmony import */ var universal_user_agent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! universal-user-agent */ "./node_modules/_universal-user-agent@6.0.0@universal-user-agent/dist-web/index.js");
+
+
+
+function lowercaseKeys(object) {
+    if (!object) {
+        return {};
+    }
+    return Object.keys(object).reduce((newObj, key) => {
+        newObj[key.toLowerCase()] = object[key];
+        return newObj;
+    }, {});
+}
+
+function mergeDeep(defaults, options) {
+    const result = Object.assign({}, defaults);
+    Object.keys(options).forEach((key) => {
+        if (Object(is_plain_object__WEBPACK_IMPORTED_MODULE_0__["isPlainObject"])(options[key])) {
+            if (!(key in defaults))
+                Object.assign(result, { [key]: options[key] });
+            else
+                result[key] = mergeDeep(defaults[key], options[key]);
+        }
+        else {
+            Object.assign(result, { [key]: options[key] });
+        }
+    });
+    return result;
+}
+
+function removeUndefinedProperties(obj) {
+    for (const key in obj) {
+        if (obj[key] === undefined) {
+            delete obj[key];
+        }
+    }
+    return obj;
+}
+
+function merge(defaults, route, options) {
+    if (typeof route === "string") {
+        let [method, url] = route.split(" ");
+        options = Object.assign(url ? { method, url } : { url: method }, options);
+    }
+    else {
+        options = Object.assign({}, route);
+    }
+    // lowercase header names before merging with defaults to avoid duplicates
+    options.headers = lowercaseKeys(options.headers);
+    // remove properties with undefined values before merging
+    removeUndefinedProperties(options);
+    removeUndefinedProperties(options.headers);
+    const mergedOptions = mergeDeep(defaults || {}, options);
+    // mediaType.previews arrays are merged, instead of overwritten
+    if (defaults && defaults.mediaType.previews.length) {
+        mergedOptions.mediaType.previews = defaults.mediaType.previews
+            .filter((preview) => !mergedOptions.mediaType.previews.includes(preview))
+            .concat(mergedOptions.mediaType.previews);
+    }
+    mergedOptions.mediaType.previews = mergedOptions.mediaType.previews.map((preview) => preview.replace(/-preview/, ""));
+    return mergedOptions;
+}
+
+function addQueryParameters(url, parameters) {
+    const separator = /\?/.test(url) ? "&" : "?";
+    const names = Object.keys(parameters);
+    if (names.length === 0) {
+        return url;
+    }
+    return (url +
+        separator +
+        names
+            .map((name) => {
+            if (name === "q") {
+                return ("q=" + parameters.q.split("+").map(encodeURIComponent).join("+"));
+            }
+            return `${name}=${encodeURIComponent(parameters[name])}`;
+        })
+            .join("&"));
+}
+
+const urlVariableRegex = /\{[^}]+\}/g;
+function removeNonChars(variableName) {
+    return variableName.replace(/^\W+|\W+$/g, "").split(/,/);
+}
+function extractUrlVariableNames(url) {
+    const matches = url.match(urlVariableRegex);
+    if (!matches) {
+        return [];
+    }
+    return matches.map(removeNonChars).reduce((a, b) => a.concat(b), []);
+}
+
+function omit(object, keysToOmit) {
+    return Object.keys(object)
+        .filter((option) => !keysToOmit.includes(option))
+        .reduce((obj, key) => {
+        obj[key] = object[key];
+        return obj;
+    }, {});
+}
+
+// Based on https://github.com/bramstein/url-template, licensed under BSD
+// TODO: create separate package.
+//
+// Copyright (c) 2012-2014, Bram Stein
+// All rights reserved.
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions
+// are met:
+//  1. Redistributions of source code must retain the above copyright
+//     notice, this list of conditions and the following disclaimer.
+//  2. Redistributions in binary form must reproduce the above copyright
+//     notice, this list of conditions and the following disclaimer in the
+//     documentation and/or other materials provided with the distribution.
+//  3. The name of the author may not be used to endorse or promote products
+//     derived from this software without specific prior written permission.
+// THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
+// WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+// MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+// EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+// OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+// EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+/* istanbul ignore file */
+function encodeReserved(str) {
+    return str
+        .split(/(%[0-9A-Fa-f]{2})/g)
+        .map(function (part) {
+        if (!/%[0-9A-Fa-f]/.test(part)) {
+            part = encodeURI(part).replace(/%5B/g, "[").replace(/%5D/g, "]");
+        }
+        return part;
+    })
+        .join("");
+}
+function encodeUnreserved(str) {
+    return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
+        return "%" + c.charCodeAt(0).toString(16).toUpperCase();
+    });
+}
+function encodeValue(operator, value, key) {
+    value =
+        operator === "+" || operator === "#"
+            ? encodeReserved(value)
+            : encodeUnreserved(value);
+    if (key) {
+        return encodeUnreserved(key) + "=" + value;
+    }
+    else {
+        return value;
+    }
+}
+function isDefined(value) {
+    return value !== undefined && value !== null;
+}
+function isKeyOperator(operator) {
+    return operator === ";" || operator === "&" || operator === "?";
+}
+function getValues(context, operator, key, modifier) {
+    var value = context[key], result = [];
+    if (isDefined(value) && value !== "") {
+        if (typeof value === "string" ||
+            typeof value === "number" ||
+            typeof value === "boolean") {
+            value = value.toString();
+            if (modifier && modifier !== "*") {
+                value = value.substring(0, parseInt(modifier, 10));
+            }
+            result.push(encodeValue(operator, value, isKeyOperator(operator) ? key : ""));
+        }
+        else {
+            if (modifier === "*") {
+                if (Array.isArray(value)) {
+                    value.filter(isDefined).forEach(function (value) {
+                        result.push(encodeValue(operator, value, isKeyOperator(operator) ? key : ""));
+                    });
+                }
+                else {
+                    Object.keys(value).forEach(function (k) {
+                        if (isDefined(value[k])) {
+                            result.push(encodeValue(operator, value[k], k));
+                        }
+                    });
+                }
+            }
+            else {
+                const tmp = [];
+                if (Array.isArray(value)) {
+                    value.filter(isDefined).forEach(function (value) {
+                        tmp.push(encodeValue(operator, value));
+                    });
+                }
+                else {
+                    Object.keys(value).forEach(function (k) {
+                        if (isDefined(value[k])) {
+                            tmp.push(encodeUnreserved(k));
+                            tmp.push(encodeValue(operator, value[k].toString()));
+                        }
+                    });
+                }
+                if (isKeyOperator(operator)) {
+                    result.push(encodeUnreserved(key) + "=" + tmp.join(","));
+                }
+                else if (tmp.length !== 0) {
+                    result.push(tmp.join(","));
+                }
+            }
+        }
+    }
+    else {
+        if (operator === ";") {
+            if (isDefined(value)) {
+                result.push(encodeUnreserved(key));
+            }
+        }
+        else if (value === "" && (operator === "&" || operator === "?")) {
+            result.push(encodeUnreserved(key) + "=");
+        }
+        else if (value === "") {
+            result.push("");
+        }
+    }
+    return result;
+}
+function parseUrl(template) {
+    return {
+        expand: expand.bind(null, template),
+    };
+}
+function expand(template, context) {
+    var operators = ["+", "#", ".", "/", ";", "?", "&"];
+    return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, function (_, expression, literal) {
+        if (expression) {
+            let operator = "";
+            const values = [];
+            if (operators.indexOf(expression.charAt(0)) !== -1) {
+                operator = expression.charAt(0);
+                expression = expression.substr(1);
+            }
+            expression.split(/,/g).forEach(function (variable) {
+                var tmp = /([^:\*]*)(?::(\d+)|(\*))?/.exec(variable);
+                values.push(getValues(context, operator, tmp[1], tmp[2] || tmp[3]));
+            });
+            if (operator && operator !== "+") {
+                var separator = ",";
+                if (operator === "?") {
+                    separator = "&";
+                }
+                else if (operator !== "#") {
+                    separator = operator;
+                }
+                return (values.length !== 0 ? operator : "") + values.join(separator);
+            }
+            else {
+                return values.join(",");
+            }
+        }
+        else {
+            return encodeReserved(literal);
+        }
+    });
+}
+
+function parse(options) {
+    // https://fetch.spec.whatwg.org/#methods
+    let method = options.method.toUpperCase();
+    // replace :varname with {varname} to make it RFC 6570 compatible
+    let url = (options.url || "/").replace(/:([a-z]\w+)/g, "{$1}");
+    let headers = Object.assign({}, options.headers);
+    let body;
+    let parameters = omit(options, [
+        "method",
+        "baseUrl",
+        "url",
+        "headers",
+        "request",
+        "mediaType",
+    ]);
+    // extract variable names from URL to calculate remaining variables later
+    const urlVariableNames = extractUrlVariableNames(url);
+    url = parseUrl(url).expand(parameters);
+    if (!/^http/.test(url)) {
+        url = options.baseUrl + url;
+    }
+    const omittedParameters = Object.keys(options)
+        .filter((option) => urlVariableNames.includes(option))
+        .concat("baseUrl");
+    const remainingParameters = omit(parameters, omittedParameters);
+    const isBinaryRequest = /application\/octet-stream/i.test(headers.accept);
+    if (!isBinaryRequest) {
+        if (options.mediaType.format) {
+            // e.g. application/vnd.github.v3+json => application/vnd.github.v3.raw
+            headers.accept = headers.accept
+                .split(/,/)
+                .map((preview) => preview.replace(/application\/vnd(\.\w+)(\.v3)?(\.\w+)?(\+json)?$/, `application/vnd$1$2.${options.mediaType.format}`))
+                .join(",");
+        }
+        if (options.mediaType.previews.length) {
+            const previewsFromAcceptHeader = headers.accept.match(/[\w-]+(?=-preview)/g) || [];
+            headers.accept = previewsFromAcceptHeader
+                .concat(options.mediaType.previews)
+                .map((preview) => {
+                const format = options.mediaType.format
+                    ? `.${options.mediaType.format}`
+                    : "+json";
+                return `application/vnd.github.${preview}-preview${format}`;
+            })
+                .join(",");
+        }
+    }
+    // for GET/HEAD requests, set URL query parameters from remaining parameters
+    // for PATCH/POST/PUT/DELETE requests, set request body from remaining parameters
+    if (["GET", "HEAD"].includes(method)) {
+        url = addQueryParameters(url, remainingParameters);
+    }
+    else {
+        if ("data" in remainingParameters) {
+            body = remainingParameters.data;
+        }
+        else {
+            if (Object.keys(remainingParameters).length) {
+                body = remainingParameters;
+            }
+            else {
+                headers["content-length"] = 0;
+            }
+        }
+    }
+    // default content-type for JSON if body is set
+    if (!headers["content-type"] && typeof body !== "undefined") {
+        headers["content-type"] = "application/json; charset=utf-8";
+    }
+    // GitHub expects 'content-length: 0' header for PUT/PATCH requests without body.
+    // fetch does not allow to set `content-length` header, but we can set body to an empty string
+    if (["PATCH", "PUT"].includes(method) && typeof body === "undefined") {
+        body = "";
+    }
+    // Only return body/request keys if present
+    return Object.assign({ method, url, headers }, typeof body !== "undefined" ? { body } : null, options.request ? { request: options.request } : null);
+}
+
+function endpointWithDefaults(defaults, route, options) {
+    return parse(merge(defaults, route, options));
+}
+
+function withDefaults(oldDefaults, newDefaults) {
+    const DEFAULTS = merge(oldDefaults, newDefaults);
+    const endpoint = endpointWithDefaults.bind(null, DEFAULTS);
+    return Object.assign(endpoint, {
+        DEFAULTS,
+        defaults: withDefaults.bind(null, DEFAULTS),
+        merge: merge.bind(null, DEFAULTS),
+        parse,
+    });
+}
+
+const VERSION = "6.0.10";
+
+const userAgent = `octokit-endpoint.js/${VERSION} ${Object(universal_user_agent__WEBPACK_IMPORTED_MODULE_1__["getUserAgent"])()}`;
+// DEFAULTS has all properties set that EndpointOptions has, except url.
+// So we use RequestParameters and add method as additional required property.
+const DEFAULTS = {
+    method: "GET",
+    baseUrl: "https://api.github.com",
+    headers: {
+        accept: "application/vnd.github.v3+json",
+        "user-agent": userAgent,
+    },
+    mediaType: {
+        format: "",
+        previews: [],
+    },
+};
+
+const endpoint = withDefaults(null, DEFAULTS);
+
+
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/_@octokit_graphql@4.5.8@@octokit/graphql/dist-web/index.js":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/_@octokit_graphql@4.5.8@@octokit/graphql/dist-web/index.js ***!
+  \*********************************************************************************/
+/*! exports provided: graphql, withCustomRequest */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "graphql", function() { return graphql$1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "withCustomRequest", function() { return withCustomRequest; });
+/* harmony import */ var _octokit_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @octokit/request */ "./node_modules/_@octokit_request@5.4.12@@octokit/request/dist-web/index.js");
+/* harmony import */ var universal_user_agent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! universal-user-agent */ "./node_modules/_universal-user-agent@6.0.0@universal-user-agent/dist-web/index.js");
+
+
+
+const VERSION = "4.5.8";
+
+class GraphqlError extends Error {
+    constructor(request, response) {
+        const message = response.data.errors[0].message;
+        super(message);
+        Object.assign(this, response.data);
+        Object.assign(this, { headers: response.headers });
+        this.name = "GraphqlError";
+        this.request = request;
+        // Maintains proper stack trace (only available on V8)
+        /* istanbul ignore next */
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, this.constructor);
+        }
+    }
+}
+
+const NON_VARIABLE_OPTIONS = [
+    "method",
+    "baseUrl",
+    "url",
+    "headers",
+    "request",
+    "query",
+    "mediaType",
+];
+const GHES_V3_SUFFIX_REGEX = /\/api\/v3\/?$/;
+function graphql(request, query, options) {
+    if (typeof query === "string" && options && "query" in options) {
+        return Promise.reject(new Error(`[@octokit/graphql] "query" cannot be used as variable name`));
+    }
+    const parsedOptions = typeof query === "string" ? Object.assign({ query }, options) : query;
+    const requestOptions = Object.keys(parsedOptions).reduce((result, key) => {
+        if (NON_VARIABLE_OPTIONS.includes(key)) {
+            result[key] = parsedOptions[key];
+            return result;
+        }
+        if (!result.variables) {
+            result.variables = {};
+        }
+        result.variables[key] = parsedOptions[key];
+        return result;
+    }, {});
+    // workaround for GitHub Enterprise baseUrl set with /api/v3 suffix
+    // https://github.com/octokit/auth-app.js/issues/111#issuecomment-657610451
+    const baseUrl = parsedOptions.baseUrl || request.endpoint.DEFAULTS.baseUrl;
+    if (GHES_V3_SUFFIX_REGEX.test(baseUrl)) {
+        requestOptions.url = baseUrl.replace(GHES_V3_SUFFIX_REGEX, "/api/graphql");
+    }
+    return request(requestOptions).then((response) => {
+        if (response.data.errors) {
+            const headers = {};
+            for (const key of Object.keys(response.headers)) {
+                headers[key] = response.headers[key];
+            }
+            throw new GraphqlError(requestOptions, {
+                headers,
+                data: response.data,
+            });
+        }
+        return response.data.data;
+    });
+}
+
+function withDefaults(request$1, newDefaults) {
+    const newRequest = request$1.defaults(newDefaults);
+    const newApi = (query, options) => {
+        return graphql(newRequest, query, options);
+    };
+    return Object.assign(newApi, {
+        defaults: withDefaults.bind(null, newRequest),
+        endpoint: _octokit_request__WEBPACK_IMPORTED_MODULE_0__["request"].endpoint,
+    });
+}
+
+const graphql$1 = withDefaults(_octokit_request__WEBPACK_IMPORTED_MODULE_0__["request"], {
+    headers: {
+        "user-agent": `octokit-graphql.js/${VERSION} ${Object(universal_user_agent__WEBPACK_IMPORTED_MODULE_1__["getUserAgent"])()}`,
+    },
+    method: "POST",
+    url: "/graphql",
+});
+function withCustomRequest(customRequest) {
+    return withDefaults(customRequest, {
+        method: "POST",
+        url: "/graphql",
+    });
+}
+
+
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/_@octokit_plugin-paginate-rest@2.7.1@@octokit/plugin-paginate-rest/dist-web/index.js":
+/*!***********************************************************************************************************!*\
+  !*** ./node_modules/_@octokit_plugin-paginate-rest@2.7.1@@octokit/plugin-paginate-rest/dist-web/index.js ***!
+  \***********************************************************************************************************/
+/*! exports provided: composePaginateRest, paginateRest */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "composePaginateRest", function() { return composePaginateRest; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "paginateRest", function() { return paginateRest; });
+const VERSION = "2.7.1";
+
+/**
+ * Some “list” response that can be paginated have a different response structure
+ *
+ * They have a `total_count` key in the response (search also has `incomplete_results`,
+ * /installation/repositories also has `repository_selection`), as well as a key with
+ * the list of the items which name varies from endpoint to endpoint.
+ *
+ * Octokit normalizes these responses so that paginated results are always returned following
+ * the same structure. One challenge is that if the list response has only one page, no Link
+ * header is provided, so this header alone is not sufficient to check wether a response is
+ * paginated or not.
+ *
+ * We check if a "total_count" key is present in the response data, but also make sure that
+ * a "url" property is not, as the "Get the combined status for a specific ref" endpoint would
+ * otherwise match: https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref
+ */
+function normalizePaginatedListResponse(response) {
+    const responseNeedsNormalization = "total_count" in response.data && !("url" in response.data);
+    if (!responseNeedsNormalization)
+        return response;
+    // keep the additional properties intact as there is currently no other way
+    // to retrieve the same information.
+    const incompleteResults = response.data.incomplete_results;
+    const repositorySelection = response.data.repository_selection;
+    const totalCount = response.data.total_count;
+    delete response.data.incomplete_results;
+    delete response.data.repository_selection;
+    delete response.data.total_count;
+    const namespaceKey = Object.keys(response.data)[0];
+    const data = response.data[namespaceKey];
+    response.data = data;
+    if (typeof incompleteResults !== "undefined") {
+        response.data.incomplete_results = incompleteResults;
+    }
+    if (typeof repositorySelection !== "undefined") {
+        response.data.repository_selection = repositorySelection;
+    }
+    response.data.total_count = totalCount;
+    return response;
+}
+
+function iterator(octokit, route, parameters) {
+    const options = typeof route === "function"
+        ? route.endpoint(parameters)
+        : octokit.request.endpoint(route, parameters);
+    const requestMethod = typeof route === "function" ? route : octokit.request;
+    const method = options.method;
+    const headers = options.headers;
+    let url = options.url;
+    return {
+        [Symbol.asyncIterator]: () => ({
+            async next() {
+                if (!url)
+                    return { done: true };
+                const response = await requestMethod({ method, url, headers });
+                const normalizedResponse = normalizePaginatedListResponse(response);
+                // `response.headers.link` format:
+                // '<https://api.github.com/users/aseemk/followers?page=2>; rel="next", <https://api.github.com/users/aseemk/followers?page=2>; rel="last"'
+                // sets `url` to undefined if "next" URL is not present or `link` header is not set
+                url = ((normalizedResponse.headers.link || "").match(/<([^>]+)>;\s*rel="next"/) || [])[1];
+                return { value: normalizedResponse };
+            },
+        }),
+    };
+}
+
+function paginate(octokit, route, parameters, mapFn) {
+    if (typeof parameters === "function") {
+        mapFn = parameters;
+        parameters = undefined;
+    }
+    return gather(octokit, [], iterator(octokit, route, parameters)[Symbol.asyncIterator](), mapFn);
+}
+function gather(octokit, results, iterator, mapFn) {
+    return iterator.next().then((result) => {
+        if (result.done) {
+            return results;
+        }
+        let earlyExit = false;
+        function done() {
+            earlyExit = true;
+        }
+        results = results.concat(mapFn ? mapFn(result.value, done) : result.value.data);
+        if (earlyExit) {
+            return results;
+        }
+        return gather(octokit, results, iterator, mapFn);
+    });
+}
+
+const composePaginateRest = Object.assign(paginate, {
+    iterator,
+});
+
+/**
+ * @param octokit Octokit instance
+ * @param options Options passed to Octokit constructor
+ */
+function paginateRest(octokit) {
+    return {
+        paginate: Object.assign(paginate.bind(null, octokit), {
+            iterator: iterator.bind(null, octokit),
+        }),
+    };
+}
+paginateRest.VERSION = VERSION;
+
+
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/_@octokit_plugin-request-log@1.0.2@@octokit/plugin-request-log/dist-web/index.js":
+/*!*******************************************************************************************************!*\
+  !*** ./node_modules/_@octokit_plugin-request-log@1.0.2@@octokit/plugin-request-log/dist-web/index.js ***!
+  \*******************************************************************************************************/
+/*! exports provided: requestLog */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestLog", function() { return requestLog; });
+const VERSION = "1.0.2";
+
+/**
+ * @param octokit Octokit instance
+ * @param options Options passed to Octokit constructor
+ */
+function requestLog(octokit) {
+    octokit.hook.wrap("request", (request, options) => {
+        octokit.log.debug("request", options);
+        const start = Date.now();
+        const requestOptions = octokit.request.endpoint.parse(options);
+        const path = requestOptions.url.replace(options.baseUrl, "");
+        return request(options)
+            .then((response) => {
+            octokit.log.info(`${requestOptions.method} ${path} - ${response.status} in ${Date.now() - start}ms`);
+            return response;
+        })
+            .catch((error) => {
+            octokit.log.info(`${requestOptions.method} ${path} - ${error.status} in ${Date.now() - start}ms`);
+            throw error;
+        });
+    });
+}
+requestLog.VERSION = VERSION;
+
+
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/_@octokit_plugin-rest-endpoint-methods@4.4.1@@octokit/plugin-rest-endpoint-methods/dist-web/index.js":
+/*!***************************************************************************************************************************!*\
+  !*** ./node_modules/_@octokit_plugin-rest-endpoint-methods@4.4.1@@octokit/plugin-rest-endpoint-methods/dist-web/index.js ***!
+  \***************************************************************************************************************************/
+/*! exports provided: restEndpointMethods */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restEndpointMethods", function() { return restEndpointMethods; });
+const Endpoints = {
+    actions: {
+        addSelectedRepoToOrgSecret: [
+            "PUT /orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        ],
+        cancelWorkflowRun: [
+            "POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel",
+        ],
+        createOrUpdateOrgSecret: ["PUT /orgs/{org}/actions/secrets/{secret_name}"],
+        createOrUpdateRepoSecret: [
+            "PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}",
+        ],
+        createRegistrationTokenForOrg: [
+            "POST /orgs/{org}/actions/runners/registration-token",
+        ],
+        createRegistrationTokenForRepo: [
+            "POST /repos/{owner}/{repo}/actions/runners/registration-token",
+        ],
+        createRemoveTokenForOrg: ["POST /orgs/{org}/actions/runners/remove-token"],
+        createRemoveTokenForRepo: [
+            "POST /repos/{owner}/{repo}/actions/runners/remove-token",
+        ],
+        createWorkflowDispatch: [
+            "POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches",
+        ],
+        deleteArtifact: [
+            "DELETE /repos/{owner}/{repo}/actions/artifacts/{artifact_id}",
+        ],
+        deleteOrgSecret: ["DELETE /orgs/{org}/actions/secrets/{secret_name}"],
+        deleteRepoSecret: [
+            "DELETE /repos/{owner}/{repo}/actions/secrets/{secret_name}",
+        ],
+        deleteSelfHostedRunnerFromOrg: [
+            "DELETE /orgs/{org}/actions/runners/{runner_id}",
+        ],
+        deleteSelfHostedRunnerFromRepo: [
+            "DELETE /repos/{owner}/{repo}/actions/runners/{runner_id}",
+        ],
+        deleteWorkflowRun: ["DELETE /repos/{owner}/{repo}/actions/runs/{run_id}"],
+        deleteWorkflowRunLogs: [
+            "DELETE /repos/{owner}/{repo}/actions/runs/{run_id}/logs",
+        ],
+        disableSelectedRepositoryGithubActionsOrganization: [
+            "DELETE /orgs/{org}/actions/permissions/repositories/{repository_id}",
+        ],
+        disableWorkflow: [
+            "PUT /repos/{owner}/{repo}/actions/workflows/{workflow_id}/disable",
+        ],
+        downloadArtifact: [
+            "GET /repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        ],
+        downloadJobLogsForWorkflowRun: [
+            "GET /repos/{owner}/{repo}/actions/jobs/{job_id}/logs",
+        ],
+        downloadWorkflowRunLogs: [
+            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/logs",
+        ],
+        enableSelectedRepositoryGithubActionsOrganization: [
+            "PUT /orgs/{org}/actions/permissions/repositories/{repository_id}",
+        ],
+        enableWorkflow: [
+            "PUT /repos/{owner}/{repo}/actions/workflows/{workflow_id}/enable",
+        ],
+        getAllowedActionsOrganization: [
+            "GET /orgs/{org}/actions/permissions/selected-actions",
+        ],
+        getAllowedActionsRepository: [
+            "GET /repos/{owner}/{repo}/actions/permissions/selected-actions",
+        ],
+        getArtifact: ["GET /repos/{owner}/{repo}/actions/artifacts/{artifact_id}"],
+        getGithubActionsPermissionsOrganization: [
+            "GET /orgs/{org}/actions/permissions",
+        ],
+        getGithubActionsPermissionsRepository: [
+            "GET /repos/{owner}/{repo}/actions/permissions",
+        ],
+        getJobForWorkflowRun: ["GET /repos/{owner}/{repo}/actions/jobs/{job_id}"],
+        getOrgPublicKey: ["GET /orgs/{org}/actions/secrets/public-key"],
+        getOrgSecret: ["GET /orgs/{org}/actions/secrets/{secret_name}"],
+        getRepoPermissions: [
+            "GET /repos/{owner}/{repo}/actions/permissions",
+            {},
+            { renamed: ["actions", "getGithubActionsPermissionsRepository"] },
+        ],
+        getRepoPublicKey: ["GET /repos/{owner}/{repo}/actions/secrets/public-key"],
+        getRepoSecret: ["GET /repos/{owner}/{repo}/actions/secrets/{secret_name}"],
+        getSelfHostedRunnerForOrg: ["GET /orgs/{org}/actions/runners/{runner_id}"],
+        getSelfHostedRunnerForRepo: [
+            "GET /repos/{owner}/{repo}/actions/runners/{runner_id}",
+        ],
+        getWorkflow: ["GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}"],
+        getWorkflowRun: ["GET /repos/{owner}/{repo}/actions/runs/{run_id}"],
+        getWorkflowRunUsage: [
+            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/timing",
+        ],
+        getWorkflowUsage: [
+            "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/timing",
+        ],
+        listArtifactsForRepo: ["GET /repos/{owner}/{repo}/actions/artifacts"],
+        listJobsForWorkflowRun: [
+            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs",
+        ],
+        listOrgSecrets: ["GET /orgs/{org}/actions/secrets"],
+        listRepoSecrets: ["GET /repos/{owner}/{repo}/actions/secrets"],
+        listRepoWorkflows: ["GET /repos/{owner}/{repo}/actions/workflows"],
+        listRunnerApplicationsForOrg: ["GET /orgs/{org}/actions/runners/downloads"],
+        listRunnerApplicationsForRepo: [
+            "GET /repos/{owner}/{repo}/actions/runners/downloads",
+        ],
+        listSelectedReposForOrgSecret: [
+            "GET /orgs/{org}/actions/secrets/{secret_name}/repositories",
+        ],
+        listSelectedRepositoriesEnabledGithubActionsOrganization: [
+            "GET /orgs/{org}/actions/permissions/repositories",
+        ],
+        listSelfHostedRunnersForOrg: ["GET /orgs/{org}/actions/runners"],
+        listSelfHostedRunnersForRepo: ["GET /repos/{owner}/{repo}/actions/runners"],
+        listWorkflowRunArtifacts: [
+            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/artifacts",
+        ],
+        listWorkflowRuns: [
+            "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs",
+        ],
+        listWorkflowRunsForRepo: ["GET /repos/{owner}/{repo}/actions/runs"],
+        reRunWorkflow: ["POST /repos/{owner}/{repo}/actions/runs/{run_id}/rerun"],
+        removeSelectedRepoFromOrgSecret: [
+            "DELETE /orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        ],
+        setAllowedActionsOrganization: [
+            "PUT /orgs/{org}/actions/permissions/selected-actions",
+        ],
+        setAllowedActionsRepository: [
+            "PUT /repos/{owner}/{repo}/actions/permissions/selected-actions",
+        ],
+        setGithubActionsPermissionsOrganization: [
+            "PUT /orgs/{org}/actions/permissions",
+        ],
+        setGithubActionsPermissionsRepository: [
+            "PUT /repos/{owner}/{repo}/actions/permissions",
+        ],
+        setSelectedReposForOrgSecret: [
+            "PUT /orgs/{org}/actions/secrets/{secret_name}/repositories",
+        ],
+        setSelectedRepositoriesEnabledGithubActionsOrganization: [
+            "PUT /orgs/{org}/actions/permissions/repositories",
+        ],
+    },
+    activity: {
+        checkRepoIsStarredByAuthenticatedUser: ["GET /user/starred/{owner}/{repo}"],
+        deleteRepoSubscription: ["DELETE /repos/{owner}/{repo}/subscription"],
+        deleteThreadSubscription: [
+            "DELETE /notifications/threads/{thread_id}/subscription",
+        ],
+        getFeeds: ["GET /feeds"],
+        getRepoSubscription: ["GET /repos/{owner}/{repo}/subscription"],
+        getThread: ["GET /notifications/threads/{thread_id}"],
+        getThreadSubscriptionForAuthenticatedUser: [
+            "GET /notifications/threads/{thread_id}/subscription",
+        ],
+        listEventsForAuthenticatedUser: ["GET /users/{username}/events"],
+        listNotificationsForAuthenticatedUser: ["GET /notifications"],
+        listOrgEventsForAuthenticatedUser: [
+            "GET /users/{username}/events/orgs/{org}",
+        ],
+        listPublicEvents: ["GET /events"],
+        listPublicEventsForRepoNetwork: ["GET /networks/{owner}/{repo}/events"],
+        listPublicEventsForUser: ["GET /users/{username}/events/public"],
+        listPublicOrgEvents: ["GET /orgs/{org}/events"],
+        listReceivedEventsForUser: ["GET /users/{username}/received_events"],
+        listReceivedPublicEventsForUser: [
+            "GET /users/{username}/received_events/public",
+        ],
+        listRepoEvents: ["GET /repos/{owner}/{repo}/events"],
+        listRepoNotificationsForAuthenticatedUser: [
+            "GET /repos/{owner}/{repo}/notifications",
+        ],
+        listReposStarredByAuthenticatedUser: ["GET /user/starred"],
+        listReposStarredByUser: ["GET /users/{username}/starred"],
+        listReposWatchedByUser: ["GET /users/{username}/subscriptions"],
+        listStargazersForRepo: ["GET /repos/{owner}/{repo}/stargazers"],
+        listWatchedReposForAuthenticatedUser: ["GET /user/subscriptions"],
+        listWatchersForRepo: ["GET /repos/{owner}/{repo}/subscribers"],
+        markNotificationsAsRead: ["PUT /notifications"],
+        markRepoNotificationsAsRead: ["PUT /repos/{owner}/{repo}/notifications"],
+        markThreadAsRead: ["PATCH /notifications/threads/{thread_id}"],
+        setRepoSubscription: ["PUT /repos/{owner}/{repo}/subscription"],
+        setThreadSubscription: [
+            "PUT /notifications/threads/{thread_id}/subscription",
+        ],
+        starRepoForAuthenticatedUser: ["PUT /user/starred/{owner}/{repo}"],
+        unstarRepoForAuthenticatedUser: ["DELETE /user/starred/{owner}/{repo}"],
+    },
+    apps: {
+        addRepoToInstallation: [
+            "PUT /user/installations/{installation_id}/repositories/{repository_id}",
+        ],
+        checkToken: ["POST /applications/{client_id}/token"],
+        createContentAttachment: [
+            "POST /content_references/{content_reference_id}/attachments",
+            { mediaType: { previews: ["corsair"] } },
+        ],
+        createFromManifest: ["POST /app-manifests/{code}/conversions"],
+        createInstallationAccessToken: [
+            "POST /app/installations/{installation_id}/access_tokens",
+        ],
+        deleteAuthorization: ["DELETE /applications/{client_id}/grant"],
+        deleteInstallation: ["DELETE /app/installations/{installation_id}"],
+        deleteToken: ["DELETE /applications/{client_id}/token"],
+        getAuthenticated: ["GET /app"],
+        getBySlug: ["GET /apps/{app_slug}"],
+        getInstallation: ["GET /app/installations/{installation_id}"],
+        getOrgInstallation: ["GET /orgs/{org}/installation"],
+        getRepoInstallation: ["GET /repos/{owner}/{repo}/installation"],
+        getSubscriptionPlanForAccount: [
+            "GET /marketplace_listing/accounts/{account_id}",
+        ],
+        getSubscriptionPlanForAccountStubbed: [
+            "GET /marketplace_listing/stubbed/accounts/{account_id}",
+        ],
+        getUserInstallation: ["GET /users/{username}/installation"],
+        getWebhookConfigForApp: ["GET /app/hook/config"],
+        listAccountsForPlan: ["GET /marketplace_listing/plans/{plan_id}/accounts"],
+        listAccountsForPlanStubbed: [
+            "GET /marketplace_listing/stubbed/plans/{plan_id}/accounts",
+        ],
+        listInstallationReposForAuthenticatedUser: [
+            "GET /user/installations/{installation_id}/repositories",
+        ],
+        listInstallations: ["GET /app/installations"],
+        listInstallationsForAuthenticatedUser: ["GET /user/installations"],
+        listPlans: ["GET /marketplace_listing/plans"],
+        listPlansStubbed: ["GET /marketplace_listing/stubbed/plans"],
+        listReposAccessibleToInstallation: ["GET /installation/repositories"],
+        listSubscriptionsForAuthenticatedUser: ["GET /user/marketplace_purchases"],
+        listSubscriptionsForAuthenticatedUserStubbed: [
+            "GET /user/marketplace_purchases/stubbed",
+        ],
+        removeRepoFromInstallation: [
+            "DELETE /user/installations/{installation_id}/repositories/{repository_id}",
+        ],
+        resetToken: ["PATCH /applications/{client_id}/token"],
+        revokeInstallationAccessToken: ["DELETE /installation/token"],
+        suspendInstallation: ["PUT /app/installations/{installation_id}/suspended"],
+        unsuspendInstallation: [
+            "DELETE /app/installations/{installation_id}/suspended",
+        ],
+        updateWebhookConfigForApp: ["PATCH /app/hook/config"],
+    },
+    billing: {
+        getGithubActionsBillingOrg: ["GET /orgs/{org}/settings/billing/actions"],
+        getGithubActionsBillingUser: [
+            "GET /users/{username}/settings/billing/actions",
+        ],
+        getGithubPackagesBillingOrg: ["GET /orgs/{org}/settings/billing/packages"],
+        getGithubPackagesBillingUser: [
+            "GET /users/{username}/settings/billing/packages",
+        ],
+        getSharedStorageBillingOrg: [
+            "GET /orgs/{org}/settings/billing/shared-storage",
+        ],
+        getSharedStorageBillingUser: [
+            "GET /users/{username}/settings/billing/shared-storage",
+        ],
+    },
+    checks: {
+        create: ["POST /repos/{owner}/{repo}/check-runs"],
+        createSuite: ["POST /repos/{owner}/{repo}/check-suites"],
+        get: ["GET /repos/{owner}/{repo}/check-runs/{check_run_id}"],
+        getSuite: ["GET /repos/{owner}/{repo}/check-suites/{check_suite_id}"],
+        listAnnotations: [
+            "GET /repos/{owner}/{repo}/check-runs/{check_run_id}/annotations",
+        ],
+        listForRef: ["GET /repos/{owner}/{repo}/commits/{ref}/check-runs"],
+        listForSuite: [
+            "GET /repos/{owner}/{repo}/check-suites/{check_suite_id}/check-runs",
+        ],
+        listSuitesForRef: ["GET /repos/{owner}/{repo}/commits/{ref}/check-suites"],
+        rerequestSuite: [
+            "POST /repos/{owner}/{repo}/check-suites/{check_suite_id}/rerequest",
+        ],
+        setSuitesPreferences: [
+            "PATCH /repos/{owner}/{repo}/check-suites/preferences",
+        ],
+        update: ["PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}"],
+    },
+    codeScanning: {
+        getAlert: [
+            "GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}",
+            {},
+            { renamedParameters: { alert_id: "alert_number" } },
+        ],
+        listAlertsForRepo: ["GET /repos/{owner}/{repo}/code-scanning/alerts"],
+        listRecentAnalyses: ["GET /repos/{owner}/{repo}/code-scanning/analyses"],
+        updateAlert: [
+            "PATCH /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}",
+        ],
+        uploadSarif: ["POST /repos/{owner}/{repo}/code-scanning/sarifs"],
+    },
+    codesOfConduct: {
+        getAllCodesOfConduct: [
+            "GET /codes_of_conduct",
+            { mediaType: { previews: ["scarlet-witch"] } },
+        ],
+        getConductCode: [
+            "GET /codes_of_conduct/{key}",
+            { mediaType: { previews: ["scarlet-witch"] } },
+        ],
+        getForRepo: [
+            "GET /repos/{owner}/{repo}/community/code_of_conduct",
+            { mediaType: { previews: ["scarlet-witch"] } },
+        ],
+    },
+    emojis: { get: ["GET /emojis"] },
+    enterpriseAdmin: {
+        disableSelectedOrganizationGithubActionsEnterprise: [
+            "DELETE /enterprises/{enterprise}/actions/permissions/organizations/{org_id}",
+        ],
+        enableSelectedOrganizationGithubActionsEnterprise: [
+            "PUT /enterprises/{enterprise}/actions/permissions/organizations/{org_id}",
+        ],
+        getAllowedActionsEnterprise: [
+            "GET /enterprises/{enterprise}/actions/permissions/selected-actions",
+        ],
+        getGithubActionsPermissionsEnterprise: [
+            "GET /enterprises/{enterprise}/actions/permissions",
+        ],
+        listSelectedOrganizationsEnabledGithubActionsEnterprise: [
+            "GET /enterprises/{enterprise}/actions/permissions/organizations",
+        ],
+        setAllowedActionsEnterprise: [
+            "PUT /enterprises/{enterprise}/actions/permissions/selected-actions",
+        ],
+        setGithubActionsPermissionsEnterprise: [
+            "PUT /enterprises/{enterprise}/actions/permissions",
+        ],
+        setSelectedOrganizationsEnabledGithubActionsEnterprise: [
+            "PUT /enterprises/{enterprise}/actions/permissions/organizations",
+        ],
+    },
+    gists: {
+        checkIsStarred: ["GET /gists/{gist_id}/star"],
+        create: ["POST /gists"],
+        createComment: ["POST /gists/{gist_id}/comments"],
+        delete: ["DELETE /gists/{gist_id}"],
+        deleteComment: ["DELETE /gists/{gist_id}/comments/{comment_id}"],
+        fork: ["POST /gists/{gist_id}/forks"],
+        get: ["GET /gists/{gist_id}"],
+        getComment: ["GET /gists/{gist_id}/comments/{comment_id}"],
+        getRevision: ["GET /gists/{gist_id}/{sha}"],
+        list: ["GET /gists"],
+        listComments: ["GET /gists/{gist_id}/comments"],
+        listCommits: ["GET /gists/{gist_id}/commits"],
+        listForUser: ["GET /users/{username}/gists"],
+        listForks: ["GET /gists/{gist_id}/forks"],
+        listPublic: ["GET /gists/public"],
+        listStarred: ["GET /gists/starred"],
+        star: ["PUT /gists/{gist_id}/star"],
+        unstar: ["DELETE /gists/{gist_id}/star"],
+        update: ["PATCH /gists/{gist_id}"],
+        updateComment: ["PATCH /gists/{gist_id}/comments/{comment_id}"],
+    },
+    git: {
+        createBlob: ["POST /repos/{owner}/{repo}/git/blobs"],
+        createCommit: ["POST /repos/{owner}/{repo}/git/commits"],
+        createRef: ["POST /repos/{owner}/{repo}/git/refs"],
+        createTag: ["POST /repos/{owner}/{repo}/git/tags"],
+        createTree: ["POST /repos/{owner}/{repo}/git/trees"],
+        deleteRef: ["DELETE /repos/{owner}/{repo}/git/refs/{ref}"],
+        getBlob: ["GET /repos/{owner}/{repo}/git/blobs/{file_sha}"],
+        getCommit: ["GET /repos/{owner}/{repo}/git/commits/{commit_sha}"],
+        getRef: ["GET /repos/{owner}/{repo}/git/ref/{ref}"],
+        getTag: ["GET /repos/{owner}/{repo}/git/tags/{tag_sha}"],
+        getTree: ["GET /repos/{owner}/{repo}/git/trees/{tree_sha}"],
+        listMatchingRefs: ["GET /repos/{owner}/{repo}/git/matching-refs/{ref}"],
+        updateRef: ["PATCH /repos/{owner}/{repo}/git/refs/{ref}"],
+    },
+    gitignore: {
+        getAllTemplates: ["GET /gitignore/templates"],
+        getTemplate: ["GET /gitignore/templates/{name}"],
+    },
+    interactions: {
+        getRestrictionsForOrg: ["GET /orgs/{org}/interaction-limits"],
+        getRestrictionsForRepo: ["GET /repos/{owner}/{repo}/interaction-limits"],
+        getRestrictionsForYourPublicRepos: ["GET /user/interaction-limits"],
+        removeRestrictionsForOrg: ["DELETE /orgs/{org}/interaction-limits"],
+        removeRestrictionsForRepo: [
+            "DELETE /repos/{owner}/{repo}/interaction-limits",
+        ],
+        removeRestrictionsForYourPublicRepos: ["DELETE /user/interaction-limits"],
+        setRestrictionsForOrg: ["PUT /orgs/{org}/interaction-limits"],
+        setRestrictionsForRepo: ["PUT /repos/{owner}/{repo}/interaction-limits"],
+        setRestrictionsForYourPublicRepos: ["PUT /user/interaction-limits"],
+    },
+    issues: {
+        addAssignees: [
+            "POST /repos/{owner}/{repo}/issues/{issue_number}/assignees",
+        ],
+        addLabels: ["POST /repos/{owner}/{repo}/issues/{issue_number}/labels"],
+        checkUserCanBeAssigned: ["GET /repos/{owner}/{repo}/assignees/{assignee}"],
+        create: ["POST /repos/{owner}/{repo}/issues"],
+        createComment: [
+            "POST /repos/{owner}/{repo}/issues/{issue_number}/comments",
+        ],
+        createLabel: ["POST /repos/{owner}/{repo}/labels"],
+        createMilestone: ["POST /repos/{owner}/{repo}/milestones"],
+        deleteComment: [
+            "DELETE /repos/{owner}/{repo}/issues/comments/{comment_id}",
+        ],
+        deleteLabel: ["DELETE /repos/{owner}/{repo}/labels/{name}"],
+        deleteMilestone: [
+            "DELETE /repos/{owner}/{repo}/milestones/{milestone_number}",
+        ],
+        get: ["GET /repos/{owner}/{repo}/issues/{issue_number}"],
+        getComment: ["GET /repos/{owner}/{repo}/issues/comments/{comment_id}"],
+        getEvent: ["GET /repos/{owner}/{repo}/issues/events/{event_id}"],
+        getLabel: ["GET /repos/{owner}/{repo}/labels/{name}"],
+        getMilestone: ["GET /repos/{owner}/{repo}/milestones/{milestone_number}"],
+        list: ["GET /issues"],
+        listAssignees: ["GET /repos/{owner}/{repo}/assignees"],
+        listComments: ["GET /repos/{owner}/{repo}/issues/{issue_number}/comments"],
+        listCommentsForRepo: ["GET /repos/{owner}/{repo}/issues/comments"],
+        listEvents: ["GET /repos/{owner}/{repo}/issues/{issue_number}/events"],
+        listEventsForRepo: ["GET /repos/{owner}/{repo}/issues/events"],
+        listEventsForTimeline: [
+            "GET /repos/{owner}/{repo}/issues/{issue_number}/timeline",
+            { mediaType: { previews: ["mockingbird"] } },
+        ],
+        listForAuthenticatedUser: ["GET /user/issues"],
+        listForOrg: ["GET /orgs/{org}/issues"],
+        listForRepo: ["GET /repos/{owner}/{repo}/issues"],
+        listLabelsForMilestone: [
+            "GET /repos/{owner}/{repo}/milestones/{milestone_number}/labels",
+        ],
+        listLabelsForRepo: ["GET /repos/{owner}/{repo}/labels"],
+        listLabelsOnIssue: [
+            "GET /repos/{owner}/{repo}/issues/{issue_number}/labels",
+        ],
+        listMilestones: ["GET /repos/{owner}/{repo}/milestones"],
+        lock: ["PUT /repos/{owner}/{repo}/issues/{issue_number}/lock"],
+        removeAllLabels: [
+            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/labels",
+        ],
+        removeAssignees: [
+            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/assignees",
+        ],
+        removeLabel: [
+            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/labels/{name}",
+        ],
+        setLabels: ["PUT /repos/{owner}/{repo}/issues/{issue_number}/labels"],
+        unlock: ["DELETE /repos/{owner}/{repo}/issues/{issue_number}/lock"],
+        update: ["PATCH /repos/{owner}/{repo}/issues/{issue_number}"],
+        updateComment: ["PATCH /repos/{owner}/{repo}/issues/comments/{comment_id}"],
+        updateLabel: ["PATCH /repos/{owner}/{repo}/labels/{name}"],
+        updateMilestone: [
+            "PATCH /repos/{owner}/{repo}/milestones/{milestone_number}",
+        ],
+    },
+    licenses: {
+        get: ["GET /licenses/{license}"],
+        getAllCommonlyUsed: ["GET /licenses"],
+        getForRepo: ["GET /repos/{owner}/{repo}/license"],
+    },
+    markdown: {
+        render: ["POST /markdown"],
+        renderRaw: [
+            "POST /markdown/raw",
+            { headers: { "content-type": "text/plain; charset=utf-8" } },
+        ],
+    },
+    meta: {
+        get: ["GET /meta"],
+        getOctocat: ["GET /octocat"],
+        getZen: ["GET /zen"],
+        root: ["GET /"],
+    },
+    migrations: {
+        cancelImport: ["DELETE /repos/{owner}/{repo}/import"],
+        deleteArchiveForAuthenticatedUser: [
+            "DELETE /user/migrations/{migration_id}/archive",
+            { mediaType: { previews: ["wyandotte"] } },
+        ],
+        deleteArchiveForOrg: [
+            "DELETE /orgs/{org}/migrations/{migration_id}/archive",
+            { mediaType: { previews: ["wyandotte"] } },
+        ],
+        downloadArchiveForOrg: [
+            "GET /orgs/{org}/migrations/{migration_id}/archive",
+            { mediaType: { previews: ["wyandotte"] } },
+        ],
+        getArchiveForAuthenticatedUser: [
+            "GET /user/migrations/{migration_id}/archive",
+            { mediaType: { previews: ["wyandotte"] } },
+        ],
+        getCommitAuthors: ["GET /repos/{owner}/{repo}/import/authors"],
+        getImportStatus: ["GET /repos/{owner}/{repo}/import"],
+        getLargeFiles: ["GET /repos/{owner}/{repo}/import/large_files"],
+        getStatusForAuthenticatedUser: [
+            "GET /user/migrations/{migration_id}",
+            { mediaType: { previews: ["wyandotte"] } },
+        ],
+        getStatusForOrg: [
+            "GET /orgs/{org}/migrations/{migration_id}",
+            { mediaType: { previews: ["wyandotte"] } },
+        ],
+        listForAuthenticatedUser: [
+            "GET /user/migrations",
+            { mediaType: { previews: ["wyandotte"] } },
+        ],
+        listForOrg: [
+            "GET /orgs/{org}/migrations",
+            { mediaType: { previews: ["wyandotte"] } },
+        ],
+        listReposForOrg: [
+            "GET /orgs/{org}/migrations/{migration_id}/repositories",
+            { mediaType: { previews: ["wyandotte"] } },
+        ],
+        listReposForUser: [
+            "GET /user/migrations/{migration_id}/repositories",
+            { mediaType: { previews: ["wyandotte"] } },
+        ],
+        mapCommitAuthor: ["PATCH /repos/{owner}/{repo}/import/authors/{author_id}"],
+        setLfsPreference: ["PATCH /repos/{owner}/{repo}/import/lfs"],
+        startForAuthenticatedUser: ["POST /user/migrations"],
+        startForOrg: ["POST /orgs/{org}/migrations"],
+        startImport: ["PUT /repos/{owner}/{repo}/import"],
+        unlockRepoForAuthenticatedUser: [
+            "DELETE /user/migrations/{migration_id}/repos/{repo_name}/lock",
+            { mediaType: { previews: ["wyandotte"] } },
+        ],
+        unlockRepoForOrg: [
+            "DELETE /orgs/{org}/migrations/{migration_id}/repos/{repo_name}/lock",
+            { mediaType: { previews: ["wyandotte"] } },
+        ],
+        updateImport: ["PATCH /repos/{owner}/{repo}/import"],
+    },
+    orgs: {
+        blockUser: ["PUT /orgs/{org}/blocks/{username}"],
+        checkBlockedUser: ["GET /orgs/{org}/blocks/{username}"],
+        checkMembershipForUser: ["GET /orgs/{org}/members/{username}"],
+        checkPublicMembershipForUser: ["GET /orgs/{org}/public_members/{username}"],
+        convertMemberToOutsideCollaborator: [
+            "PUT /orgs/{org}/outside_collaborators/{username}",
+        ],
+        createInvitation: ["POST /orgs/{org}/invitations"],
+        createWebhook: ["POST /orgs/{org}/hooks"],
+        deleteWebhook: ["DELETE /orgs/{org}/hooks/{hook_id}"],
+        get: ["GET /orgs/{org}"],
+        getMembershipForAuthenticatedUser: ["GET /user/memberships/orgs/{org}"],
+        getMembershipForUser: ["GET /orgs/{org}/memberships/{username}"],
+        getWebhook: ["GET /orgs/{org}/hooks/{hook_id}"],
+        getWebhookConfigForOrg: ["GET /orgs/{org}/hooks/{hook_id}/config"],
+        list: ["GET /organizations"],
+        listAppInstallations: ["GET /orgs/{org}/installations"],
+        listBlockedUsers: ["GET /orgs/{org}/blocks"],
+        listForAuthenticatedUser: ["GET /user/orgs"],
+        listForUser: ["GET /users/{username}/orgs"],
+        listInvitationTeams: ["GET /orgs/{org}/invitations/{invitation_id}/teams"],
+        listMembers: ["GET /orgs/{org}/members"],
+        listMembershipsForAuthenticatedUser: ["GET /user/memberships/orgs"],
+        listOutsideCollaborators: ["GET /orgs/{org}/outside_collaborators"],
+        listPendingInvitations: ["GET /orgs/{org}/invitations"],
+        listPublicMembers: ["GET /orgs/{org}/public_members"],
+        listWebhooks: ["GET /orgs/{org}/hooks"],
+        pingWebhook: ["POST /orgs/{org}/hooks/{hook_id}/pings"],
+        removeMember: ["DELETE /orgs/{org}/members/{username}"],
+        removeMembershipForUser: ["DELETE /orgs/{org}/memberships/{username}"],
+        removeOutsideCollaborator: [
+            "DELETE /orgs/{org}/outside_collaborators/{username}",
+        ],
+        removePublicMembershipForAuthenticatedUser: [
+            "DELETE /orgs/{org}/public_members/{username}",
+        ],
+        setMembershipForUser: ["PUT /orgs/{org}/memberships/{username}"],
+        setPublicMembershipForAuthenticatedUser: [
+            "PUT /orgs/{org}/public_members/{username}",
+        ],
+        unblockUser: ["DELETE /orgs/{org}/blocks/{username}"],
+        update: ["PATCH /orgs/{org}"],
+        updateMembershipForAuthenticatedUser: [
+            "PATCH /user/memberships/orgs/{org}",
+        ],
+        updateWebhook: ["PATCH /orgs/{org}/hooks/{hook_id}"],
+        updateWebhookConfigForOrg: ["PATCH /orgs/{org}/hooks/{hook_id}/config"],
+    },
+    projects: {
+        addCollaborator: [
+            "PUT /projects/{project_id}/collaborators/{username}",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        createCard: [
+            "POST /projects/columns/{column_id}/cards",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        createColumn: [
+            "POST /projects/{project_id}/columns",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        createForAuthenticatedUser: [
+            "POST /user/projects",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        createForOrg: [
+            "POST /orgs/{org}/projects",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        createForRepo: [
+            "POST /repos/{owner}/{repo}/projects",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        delete: [
+            "DELETE /projects/{project_id}",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        deleteCard: [
+            "DELETE /projects/columns/cards/{card_id}",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        deleteColumn: [
+            "DELETE /projects/columns/{column_id}",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        get: [
+            "GET /projects/{project_id}",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        getCard: [
+            "GET /projects/columns/cards/{card_id}",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        getColumn: [
+            "GET /projects/columns/{column_id}",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        getPermissionForUser: [
+            "GET /projects/{project_id}/collaborators/{username}/permission",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        listCards: [
+            "GET /projects/columns/{column_id}/cards",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        listCollaborators: [
+            "GET /projects/{project_id}/collaborators",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        listColumns: [
+            "GET /projects/{project_id}/columns",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        listForOrg: [
+            "GET /orgs/{org}/projects",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        listForRepo: [
+            "GET /repos/{owner}/{repo}/projects",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        listForUser: [
+            "GET /users/{username}/projects",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        moveCard: [
+            "POST /projects/columns/cards/{card_id}/moves",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        moveColumn: [
+            "POST /projects/columns/{column_id}/moves",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        removeCollaborator: [
+            "DELETE /projects/{project_id}/collaborators/{username}",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        update: [
+            "PATCH /projects/{project_id}",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        updateCard: [
+            "PATCH /projects/columns/cards/{card_id}",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        updateColumn: [
+            "PATCH /projects/columns/{column_id}",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+    },
+    pulls: {
+        checkIfMerged: ["GET /repos/{owner}/{repo}/pulls/{pull_number}/merge"],
+        create: ["POST /repos/{owner}/{repo}/pulls"],
+        createReplyForReviewComment: [
+            "POST /repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}/replies",
+        ],
+        createReview: ["POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews"],
+        createReviewComment: [
+            "POST /repos/{owner}/{repo}/pulls/{pull_number}/comments",
+        ],
+        deletePendingReview: [
+            "DELETE /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}",
+        ],
+        deleteReviewComment: [
+            "DELETE /repos/{owner}/{repo}/pulls/comments/{comment_id}",
+        ],
+        dismissReview: [
+            "PUT /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/dismissals",
+        ],
+        get: ["GET /repos/{owner}/{repo}/pulls/{pull_number}"],
+        getReview: [
+            "GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}",
+        ],
+        getReviewComment: ["GET /repos/{owner}/{repo}/pulls/comments/{comment_id}"],
+        list: ["GET /repos/{owner}/{repo}/pulls"],
+        listCommentsForReview: [
+            "GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/comments",
+        ],
+        listCommits: ["GET /repos/{owner}/{repo}/pulls/{pull_number}/commits"],
+        listFiles: ["GET /repos/{owner}/{repo}/pulls/{pull_number}/files"],
+        listRequestedReviewers: [
+            "GET /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers",
+        ],
+        listReviewComments: [
+            "GET /repos/{owner}/{repo}/pulls/{pull_number}/comments",
+        ],
+        listReviewCommentsForRepo: ["GET /repos/{owner}/{repo}/pulls/comments"],
+        listReviews: ["GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews"],
+        merge: ["PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge"],
+        removeRequestedReviewers: [
+            "DELETE /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers",
+        ],
+        requestReviewers: [
+            "POST /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers",
+        ],
+        submitReview: [
+            "POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/events",
+        ],
+        update: ["PATCH /repos/{owner}/{repo}/pulls/{pull_number}"],
+        updateBranch: [
+            "PUT /repos/{owner}/{repo}/pulls/{pull_number}/update-branch",
+            { mediaType: { previews: ["lydian"] } },
+        ],
+        updateReview: [
+            "PUT /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}",
+        ],
+        updateReviewComment: [
+            "PATCH /repos/{owner}/{repo}/pulls/comments/{comment_id}",
+        ],
+    },
+    rateLimit: { get: ["GET /rate_limit"] },
+    reactions: {
+        createForCommitComment: [
+            "POST /repos/{owner}/{repo}/comments/{comment_id}/reactions",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        createForIssue: [
+            "POST /repos/{owner}/{repo}/issues/{issue_number}/reactions",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        createForIssueComment: [
+            "POST /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        createForPullRequestReviewComment: [
+            "POST /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        createForTeamDiscussionCommentInOrg: [
+            "POST /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        createForTeamDiscussionInOrg: [
+            "POST /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        deleteForCommitComment: [
+            "DELETE /repos/{owner}/{repo}/comments/{comment_id}/reactions/{reaction_id}",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        deleteForIssue: [
+            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/reactions/{reaction_id}",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        deleteForIssueComment: [
+            "DELETE /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions/{reaction_id}",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        deleteForPullRequestComment: [
+            "DELETE /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions/{reaction_id}",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        deleteForTeamDiscussion: [
+            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions/{reaction_id}",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        deleteForTeamDiscussionComment: [
+            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions/{reaction_id}",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        deleteLegacy: [
+            "DELETE /reactions/{reaction_id}",
+            { mediaType: { previews: ["squirrel-girl"] } },
+            {
+                deprecated: "octokit.reactions.deleteLegacy() is deprecated, see https://docs.github.com/v3/reactions/#delete-a-reaction-legacy",
+            },
+        ],
+        listForCommitComment: [
+            "GET /repos/{owner}/{repo}/comments/{comment_id}/reactions",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        listForIssue: [
+            "GET /repos/{owner}/{repo}/issues/{issue_number}/reactions",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        listForIssueComment: [
+            "GET /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        listForPullRequestReviewComment: [
+            "GET /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        listForTeamDiscussionCommentInOrg: [
+            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+        listForTeamDiscussionInOrg: [
+            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions",
+            { mediaType: { previews: ["squirrel-girl"] } },
+        ],
+    },
+    repos: {
+        acceptInvitation: ["PATCH /user/repository_invitations/{invitation_id}"],
+        addAppAccessRestrictions: [
+            "POST /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps",
+            {},
+            { mapToData: "apps" },
+        ],
+        addCollaborator: ["PUT /repos/{owner}/{repo}/collaborators/{username}"],
+        addStatusCheckContexts: [
+            "POST /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts",
+            {},
+            { mapToData: "contexts" },
+        ],
+        addTeamAccessRestrictions: [
+            "POST /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams",
+            {},
+            { mapToData: "teams" },
+        ],
+        addUserAccessRestrictions: [
+            "POST /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users",
+            {},
+            { mapToData: "users" },
+        ],
+        checkCollaborator: ["GET /repos/{owner}/{repo}/collaborators/{username}"],
+        checkVulnerabilityAlerts: [
+            "GET /repos/{owner}/{repo}/vulnerability-alerts",
+            { mediaType: { previews: ["dorian"] } },
+        ],
+        compareCommits: ["GET /repos/{owner}/{repo}/compare/{base}...{head}"],
+        createCommitComment: [
+            "POST /repos/{owner}/{repo}/commits/{commit_sha}/comments",
+        ],
+        createCommitSignatureProtection: [
+            "POST /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures",
+            { mediaType: { previews: ["zzzax"] } },
+        ],
+        createCommitStatus: ["POST /repos/{owner}/{repo}/statuses/{sha}"],
+        createDeployKey: ["POST /repos/{owner}/{repo}/keys"],
+        createDeployment: ["POST /repos/{owner}/{repo}/deployments"],
+        createDeploymentStatus: [
+            "POST /repos/{owner}/{repo}/deployments/{deployment_id}/statuses",
+        ],
+        createDispatchEvent: ["POST /repos/{owner}/{repo}/dispatches"],
+        createForAuthenticatedUser: ["POST /user/repos"],
+        createFork: ["POST /repos/{owner}/{repo}/forks"],
+        createInOrg: ["POST /orgs/{org}/repos"],
+        createOrUpdateFileContents: ["PUT /repos/{owner}/{repo}/contents/{path}"],
+        createPagesSite: [
+            "POST /repos/{owner}/{repo}/pages",
+            { mediaType: { previews: ["switcheroo"] } },
+        ],
+        createRelease: ["POST /repos/{owner}/{repo}/releases"],
+        createUsingTemplate: [
+            "POST /repos/{template_owner}/{template_repo}/generate",
+            { mediaType: { previews: ["baptiste"] } },
+        ],
+        createWebhook: ["POST /repos/{owner}/{repo}/hooks"],
+        declineInvitation: ["DELETE /user/repository_invitations/{invitation_id}"],
+        delete: ["DELETE /repos/{owner}/{repo}"],
+        deleteAccessRestrictions: [
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions",
+        ],
+        deleteAdminBranchProtection: [
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins",
+        ],
+        deleteBranchProtection: [
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection",
+        ],
+        deleteCommitComment: ["DELETE /repos/{owner}/{repo}/comments/{comment_id}"],
+        deleteCommitSignatureProtection: [
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures",
+            { mediaType: { previews: ["zzzax"] } },
+        ],
+        deleteDeployKey: ["DELETE /repos/{owner}/{repo}/keys/{key_id}"],
+        deleteDeployment: [
+            "DELETE /repos/{owner}/{repo}/deployments/{deployment_id}",
+        ],
+        deleteFile: ["DELETE /repos/{owner}/{repo}/contents/{path}"],
+        deleteInvitation: [
+            "DELETE /repos/{owner}/{repo}/invitations/{invitation_id}",
+        ],
+        deletePagesSite: [
+            "DELETE /repos/{owner}/{repo}/pages",
+            { mediaType: { previews: ["switcheroo"] } },
+        ],
+        deletePullRequestReviewProtection: [
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews",
+        ],
+        deleteRelease: ["DELETE /repos/{owner}/{repo}/releases/{release_id}"],
+        deleteReleaseAsset: [
+            "DELETE /repos/{owner}/{repo}/releases/assets/{asset_id}",
+        ],
+        deleteWebhook: ["DELETE /repos/{owner}/{repo}/hooks/{hook_id}"],
+        disableAutomatedSecurityFixes: [
+            "DELETE /repos/{owner}/{repo}/automated-security-fixes",
+            { mediaType: { previews: ["london"] } },
+        ],
+        disableVulnerabilityAlerts: [
+            "DELETE /repos/{owner}/{repo}/vulnerability-alerts",
+            { mediaType: { previews: ["dorian"] } },
+        ],
+        downloadArchive: [
+            "GET /repos/{owner}/{repo}/zipball/{ref}",
+            {},
+            { renamed: ["repos", "downloadZipballArchive"] },
+        ],
+        downloadTarballArchive: ["GET /repos/{owner}/{repo}/tarball/{ref}"],
+        downloadZipballArchive: ["GET /repos/{owner}/{repo}/zipball/{ref}"],
+        enableAutomatedSecurityFixes: [
+            "PUT /repos/{owner}/{repo}/automated-security-fixes",
+            { mediaType: { previews: ["london"] } },
+        ],
+        enableVulnerabilityAlerts: [
+            "PUT /repos/{owner}/{repo}/vulnerability-alerts",
+            { mediaType: { previews: ["dorian"] } },
+        ],
+        get: ["GET /repos/{owner}/{repo}"],
+        getAccessRestrictions: [
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions",
+        ],
+        getAdminBranchProtection: [
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins",
+        ],
+        getAllStatusCheckContexts: [
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts",
+        ],
+        getAllTopics: [
+            "GET /repos/{owner}/{repo}/topics",
+            { mediaType: { previews: ["mercy"] } },
+        ],
+        getAppsWithAccessToProtectedBranch: [
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps",
+        ],
+        getBranch: ["GET /repos/{owner}/{repo}/branches/{branch}"],
+        getBranchProtection: [
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection",
+        ],
+        getClones: ["GET /repos/{owner}/{repo}/traffic/clones"],
+        getCodeFrequencyStats: ["GET /repos/{owner}/{repo}/stats/code_frequency"],
+        getCollaboratorPermissionLevel: [
+            "GET /repos/{owner}/{repo}/collaborators/{username}/permission",
+        ],
+        getCombinedStatusForRef: ["GET /repos/{owner}/{repo}/commits/{ref}/status"],
+        getCommit: ["GET /repos/{owner}/{repo}/commits/{ref}"],
+        getCommitActivityStats: ["GET /repos/{owner}/{repo}/stats/commit_activity"],
+        getCommitComment: ["GET /repos/{owner}/{repo}/comments/{comment_id}"],
+        getCommitSignatureProtection: [
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures",
+            { mediaType: { previews: ["zzzax"] } },
+        ],
+        getCommunityProfileMetrics: ["GET /repos/{owner}/{repo}/community/profile"],
+        getContent: ["GET /repos/{owner}/{repo}/contents/{path}"],
+        getContributorsStats: ["GET /repos/{owner}/{repo}/stats/contributors"],
+        getDeployKey: ["GET /repos/{owner}/{repo}/keys/{key_id}"],
+        getDeployment: ["GET /repos/{owner}/{repo}/deployments/{deployment_id}"],
+        getDeploymentStatus: [
+            "GET /repos/{owner}/{repo}/deployments/{deployment_id}/statuses/{status_id}",
+        ],
+        getLatestPagesBuild: ["GET /repos/{owner}/{repo}/pages/builds/latest"],
+        getLatestRelease: ["GET /repos/{owner}/{repo}/releases/latest"],
+        getPages: ["GET /repos/{owner}/{repo}/pages"],
+        getPagesBuild: ["GET /repos/{owner}/{repo}/pages/builds/{build_id}"],
+        getParticipationStats: ["GET /repos/{owner}/{repo}/stats/participation"],
+        getPullRequestReviewProtection: [
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews",
+        ],
+        getPunchCardStats: ["GET /repos/{owner}/{repo}/stats/punch_card"],
+        getReadme: ["GET /repos/{owner}/{repo}/readme"],
+        getRelease: ["GET /repos/{owner}/{repo}/releases/{release_id}"],
+        getReleaseAsset: ["GET /repos/{owner}/{repo}/releases/assets/{asset_id}"],
+        getReleaseByTag: ["GET /repos/{owner}/{repo}/releases/tags/{tag}"],
+        getStatusChecksProtection: [
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks",
+        ],
+        getTeamsWithAccessToProtectedBranch: [
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams",
+        ],
+        getTopPaths: ["GET /repos/{owner}/{repo}/traffic/popular/paths"],
+        getTopReferrers: ["GET /repos/{owner}/{repo}/traffic/popular/referrers"],
+        getUsersWithAccessToProtectedBranch: [
+            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users",
+        ],
+        getViews: ["GET /repos/{owner}/{repo}/traffic/views"],
+        getWebhook: ["GET /repos/{owner}/{repo}/hooks/{hook_id}"],
+        getWebhookConfigForRepo: [
+            "GET /repos/{owner}/{repo}/hooks/{hook_id}/config",
+        ],
+        listBranches: ["GET /repos/{owner}/{repo}/branches"],
+        listBranchesForHeadCommit: [
+            "GET /repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head",
+            { mediaType: { previews: ["groot"] } },
+        ],
+        listCollaborators: ["GET /repos/{owner}/{repo}/collaborators"],
+        listCommentsForCommit: [
+            "GET /repos/{owner}/{repo}/commits/{commit_sha}/comments",
+        ],
+        listCommitCommentsForRepo: ["GET /repos/{owner}/{repo}/comments"],
+        listCommitStatusesForRef: [
+            "GET /repos/{owner}/{repo}/commits/{ref}/statuses",
+        ],
+        listCommits: ["GET /repos/{owner}/{repo}/commits"],
+        listContributors: ["GET /repos/{owner}/{repo}/contributors"],
+        listDeployKeys: ["GET /repos/{owner}/{repo}/keys"],
+        listDeploymentStatuses: [
+            "GET /repos/{owner}/{repo}/deployments/{deployment_id}/statuses",
+        ],
+        listDeployments: ["GET /repos/{owner}/{repo}/deployments"],
+        listForAuthenticatedUser: ["GET /user/repos"],
+        listForOrg: ["GET /orgs/{org}/repos"],
+        listForUser: ["GET /users/{username}/repos"],
+        listForks: ["GET /repos/{owner}/{repo}/forks"],
+        listInvitations: ["GET /repos/{owner}/{repo}/invitations"],
+        listInvitationsForAuthenticatedUser: ["GET /user/repository_invitations"],
+        listLanguages: ["GET /repos/{owner}/{repo}/languages"],
+        listPagesBuilds: ["GET /repos/{owner}/{repo}/pages/builds"],
+        listPublic: ["GET /repositories"],
+        listPullRequestsAssociatedWithCommit: [
+            "GET /repos/{owner}/{repo}/commits/{commit_sha}/pulls",
+            { mediaType: { previews: ["groot"] } },
+        ],
+        listReleaseAssets: [
+            "GET /repos/{owner}/{repo}/releases/{release_id}/assets",
+        ],
+        listReleases: ["GET /repos/{owner}/{repo}/releases"],
+        listTags: ["GET /repos/{owner}/{repo}/tags"],
+        listTeams: ["GET /repos/{owner}/{repo}/teams"],
+        listWebhooks: ["GET /repos/{owner}/{repo}/hooks"],
+        merge: ["POST /repos/{owner}/{repo}/merges"],
+        pingWebhook: ["POST /repos/{owner}/{repo}/hooks/{hook_id}/pings"],
+        removeAppAccessRestrictions: [
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps",
+            {},
+            { mapToData: "apps" },
+        ],
+        removeCollaborator: [
+            "DELETE /repos/{owner}/{repo}/collaborators/{username}",
+        ],
+        removeStatusCheckContexts: [
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts",
+            {},
+            { mapToData: "contexts" },
+        ],
+        removeStatusCheckProtection: [
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks",
+        ],
+        removeTeamAccessRestrictions: [
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams",
+            {},
+            { mapToData: "teams" },
+        ],
+        removeUserAccessRestrictions: [
+            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users",
+            {},
+            { mapToData: "users" },
+        ],
+        replaceAllTopics: [
+            "PUT /repos/{owner}/{repo}/topics",
+            { mediaType: { previews: ["mercy"] } },
+        ],
+        requestPagesBuild: ["POST /repos/{owner}/{repo}/pages/builds"],
+        setAdminBranchProtection: [
+            "POST /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins",
+        ],
+        setAppAccessRestrictions: [
+            "PUT /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps",
+            {},
+            { mapToData: "apps" },
+        ],
+        setStatusCheckContexts: [
+            "PUT /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts",
+            {},
+            { mapToData: "contexts" },
+        ],
+        setTeamAccessRestrictions: [
+            "PUT /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams",
+            {},
+            { mapToData: "teams" },
+        ],
+        setUserAccessRestrictions: [
+            "PUT /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users",
+            {},
+            { mapToData: "users" },
+        ],
+        testPushWebhook: ["POST /repos/{owner}/{repo}/hooks/{hook_id}/tests"],
+        transfer: ["POST /repos/{owner}/{repo}/transfer"],
+        update: ["PATCH /repos/{owner}/{repo}"],
+        updateBranchProtection: [
+            "PUT /repos/{owner}/{repo}/branches/{branch}/protection",
+        ],
+        updateCommitComment: ["PATCH /repos/{owner}/{repo}/comments/{comment_id}"],
+        updateInformationAboutPagesSite: ["PUT /repos/{owner}/{repo}/pages"],
+        updateInvitation: [
+            "PATCH /repos/{owner}/{repo}/invitations/{invitation_id}",
+        ],
+        updatePullRequestReviewProtection: [
+            "PATCH /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews",
+        ],
+        updateRelease: ["PATCH /repos/{owner}/{repo}/releases/{release_id}"],
+        updateReleaseAsset: [
+            "PATCH /repos/{owner}/{repo}/releases/assets/{asset_id}",
+        ],
+        updateStatusCheckPotection: [
+            "PATCH /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks",
+            {},
+            { renamed: ["repos", "updateStatusCheckProtection"] },
+        ],
+        updateStatusCheckProtection: [
+            "PATCH /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks",
+        ],
+        updateWebhook: ["PATCH /repos/{owner}/{repo}/hooks/{hook_id}"],
+        updateWebhookConfigForRepo: [
+            "PATCH /repos/{owner}/{repo}/hooks/{hook_id}/config",
+        ],
+        uploadReleaseAsset: [
+            "POST /repos/{owner}/{repo}/releases/{release_id}/assets{?name,label}",
+            { baseUrl: "https://uploads.github.com" },
+        ],
+    },
+    search: {
+        code: ["GET /search/code"],
+        commits: ["GET /search/commits", { mediaType: { previews: ["cloak"] } }],
+        issuesAndPullRequests: ["GET /search/issues"],
+        labels: ["GET /search/labels"],
+        repos: ["GET /search/repositories"],
+        topics: ["GET /search/topics", { mediaType: { previews: ["mercy"] } }],
+        users: ["GET /search/users"],
+    },
+    secretScanning: {
+        getAlert: [
+            "GET /repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}",
+        ],
+        listAlertsForRepo: ["GET /repos/{owner}/{repo}/secret-scanning/alerts"],
+        updateAlert: [
+            "PATCH /repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}",
+        ],
+    },
+    teams: {
+        addOrUpdateMembershipForUserInOrg: [
+            "PUT /orgs/{org}/teams/{team_slug}/memberships/{username}",
+        ],
+        addOrUpdateProjectPermissionsInOrg: [
+            "PUT /orgs/{org}/teams/{team_slug}/projects/{project_id}",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        addOrUpdateRepoPermissionsInOrg: [
+            "PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        ],
+        checkPermissionsForProjectInOrg: [
+            "GET /orgs/{org}/teams/{team_slug}/projects/{project_id}",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        checkPermissionsForRepoInOrg: [
+            "GET /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        ],
+        create: ["POST /orgs/{org}/teams"],
+        createDiscussionCommentInOrg: [
+            "POST /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        ],
+        createDiscussionInOrg: ["POST /orgs/{org}/teams/{team_slug}/discussions"],
+        deleteDiscussionCommentInOrg: [
+            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}",
+        ],
+        deleteDiscussionInOrg: [
+            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}",
+        ],
+        deleteInOrg: ["DELETE /orgs/{org}/teams/{team_slug}"],
+        getByName: ["GET /orgs/{org}/teams/{team_slug}"],
+        getDiscussionCommentInOrg: [
+            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}",
+        ],
+        getDiscussionInOrg: [
+            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}",
+        ],
+        getMembershipForUserInOrg: [
+            "GET /orgs/{org}/teams/{team_slug}/memberships/{username}",
+        ],
+        list: ["GET /orgs/{org}/teams"],
+        listChildInOrg: ["GET /orgs/{org}/teams/{team_slug}/teams"],
+        listDiscussionCommentsInOrg: [
+            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        ],
+        listDiscussionsInOrg: ["GET /orgs/{org}/teams/{team_slug}/discussions"],
+        listForAuthenticatedUser: ["GET /user/teams"],
+        listMembersInOrg: ["GET /orgs/{org}/teams/{team_slug}/members"],
+        listPendingInvitationsInOrg: [
+            "GET /orgs/{org}/teams/{team_slug}/invitations",
+        ],
+        listProjectsInOrg: [
+            "GET /orgs/{org}/teams/{team_slug}/projects",
+            { mediaType: { previews: ["inertia"] } },
+        ],
+        listReposInOrg: ["GET /orgs/{org}/teams/{team_slug}/repos"],
+        removeMembershipForUserInOrg: [
+            "DELETE /orgs/{org}/teams/{team_slug}/memberships/{username}",
+        ],
+        removeProjectInOrg: [
+            "DELETE /orgs/{org}/teams/{team_slug}/projects/{project_id}",
+        ],
+        removeRepoInOrg: [
+            "DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        ],
+        updateDiscussionCommentInOrg: [
+            "PATCH /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}",
+        ],
+        updateDiscussionInOrg: [
+            "PATCH /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}",
+        ],
+        updateInOrg: ["PATCH /orgs/{org}/teams/{team_slug}"],
+    },
+    users: {
+        addEmailForAuthenticated: ["POST /user/emails"],
+        block: ["PUT /user/blocks/{username}"],
+        checkBlocked: ["GET /user/blocks/{username}"],
+        checkFollowingForUser: ["GET /users/{username}/following/{target_user}"],
+        checkPersonIsFollowedByAuthenticated: ["GET /user/following/{username}"],
+        createGpgKeyForAuthenticated: ["POST /user/gpg_keys"],
+        createPublicSshKeyForAuthenticated: ["POST /user/keys"],
+        deleteEmailForAuthenticated: ["DELETE /user/emails"],
+        deleteGpgKeyForAuthenticated: ["DELETE /user/gpg_keys/{gpg_key_id}"],
+        deletePublicSshKeyForAuthenticated: ["DELETE /user/keys/{key_id}"],
+        follow: ["PUT /user/following/{username}"],
+        getAuthenticated: ["GET /user"],
+        getByUsername: ["GET /users/{username}"],
+        getContextForUser: ["GET /users/{username}/hovercard"],
+        getGpgKeyForAuthenticated: ["GET /user/gpg_keys/{gpg_key_id}"],
+        getPublicSshKeyForAuthenticated: ["GET /user/keys/{key_id}"],
+        list: ["GET /users"],
+        listBlockedByAuthenticated: ["GET /user/blocks"],
+        listEmailsForAuthenticated: ["GET /user/emails"],
+        listFollowedByAuthenticated: ["GET /user/following"],
+        listFollowersForAuthenticatedUser: ["GET /user/followers"],
+        listFollowersForUser: ["GET /users/{username}/followers"],
+        listFollowingForUser: ["GET /users/{username}/following"],
+        listGpgKeysForAuthenticated: ["GET /user/gpg_keys"],
+        listGpgKeysForUser: ["GET /users/{username}/gpg_keys"],
+        listPublicEmailsForAuthenticated: ["GET /user/public_emails"],
+        listPublicKeysForUser: ["GET /users/{username}/keys"],
+        listPublicSshKeysForAuthenticated: ["GET /user/keys"],
+        setPrimaryEmailVisibilityForAuthenticated: ["PATCH /user/email/visibility"],
+        unblock: ["DELETE /user/blocks/{username}"],
+        unfollow: ["DELETE /user/following/{username}"],
+        updateAuthenticated: ["PATCH /user"],
+    },
+};
+
+const VERSION = "4.4.1";
+
+function endpointsToMethods(octokit, endpointsMap) {
+    const newMethods = {};
+    for (const [scope, endpoints] of Object.entries(endpointsMap)) {
+        for (const [methodName, endpoint] of Object.entries(endpoints)) {
+            const [route, defaults, decorations] = endpoint;
+            const [method, url] = route.split(/ /);
+            const endpointDefaults = Object.assign({ method, url }, defaults);
+            if (!newMethods[scope]) {
+                newMethods[scope] = {};
+            }
+            const scopeMethods = newMethods[scope];
+            if (decorations) {
+                scopeMethods[methodName] = decorate(octokit, scope, methodName, endpointDefaults, decorations);
+                continue;
+            }
+            scopeMethods[methodName] = octokit.request.defaults(endpointDefaults);
+        }
+    }
+    return newMethods;
+}
+function decorate(octokit, scope, methodName, defaults, decorations) {
+    const requestWithDefaults = octokit.request.defaults(defaults);
+    /* istanbul ignore next */
+    function withDecorations(...args) {
+        // @ts-ignore https://github.com/microsoft/TypeScript/issues/25488
+        let options = requestWithDefaults.endpoint.merge(...args);
+        // There are currently no other decorations than `.mapToData`
+        if (decorations.mapToData) {
+            options = Object.assign({}, options, {
+                data: options[decorations.mapToData],
+                [decorations.mapToData]: undefined,
+            });
+            return requestWithDefaults(options);
+        }
+        if (decorations.renamed) {
+            const [newScope, newMethodName] = decorations.renamed;
+            octokit.log.warn(`octokit.${scope}.${methodName}() has been renamed to octokit.${newScope}.${newMethodName}()`);
+        }
+        if (decorations.deprecated) {
+            octokit.log.warn(decorations.deprecated);
+        }
+        if (decorations.renamedParameters) {
+            // @ts-ignore https://github.com/microsoft/TypeScript/issues/25488
+            const options = requestWithDefaults.endpoint.merge(...args);
+            for (const [name, alias] of Object.entries(decorations.renamedParameters)) {
+                if (name in options) {
+                    octokit.log.warn(`"${name}" parameter is deprecated for "octokit.${scope}.${methodName}()". Use "${alias}" instead`);
+                    if (!(alias in options)) {
+                        options[alias] = options[name];
+                    }
+                    delete options[name];
+                }
+            }
+            return requestWithDefaults(options);
+        }
+        // @ts-ignore https://github.com/microsoft/TypeScript/issues/25488
+        return requestWithDefaults(...args);
+    }
+    return Object.assign(withDecorations, requestWithDefaults);
+}
+
+/**
+ * This plugin is a 1:1 copy of internal @octokit/rest plugins. The primary
+ * goal is to rebuild @octokit/rest on top of @octokit/core. Once that is
+ * done, we will remove the registerEndpoints methods and return the methods
+ * directly as with the other plugins. At that point we will also remove the
+ * legacy workarounds and deprecations.
+ *
+ * See the plan at
+ * https://github.com/octokit/plugin-rest-endpoint-methods.js/pull/1
+ */
+function restEndpointMethods(octokit) {
+    return endpointsToMethods(octokit, Endpoints);
+}
+restEndpointMethods.VERSION = VERSION;
+
+
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/_@octokit_request-error@2.0.4@@octokit/request-error/dist-web/index.js":
+/*!*********************************************************************************************!*\
+  !*** ./node_modules/_@octokit_request-error@2.0.4@@octokit/request-error/dist-web/index.js ***!
+  \*********************************************************************************************/
+/*! exports provided: RequestError */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RequestError", function() { return RequestError; });
+/* harmony import */ var deprecation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deprecation */ "./node_modules/_deprecation@2.3.1@deprecation/dist-web/index.js");
+/* harmony import */ var once__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! once */ "./node_modules/_once@1.4.0@once/once.js");
+/* harmony import */ var once__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(once__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+const logOnce = once__WEBPACK_IMPORTED_MODULE_1___default()((deprecation) => console.warn(deprecation));
+/**
+ * Error with extra properties to help with debugging
+ */
+class RequestError extends Error {
+    constructor(message, statusCode, options) {
+        super(message);
+        // Maintains proper stack trace (only available on V8)
+        /* istanbul ignore next */
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, this.constructor);
+        }
+        this.name = "HttpError";
+        this.status = statusCode;
+        Object.defineProperty(this, "code", {
+            get() {
+                logOnce(new deprecation__WEBPACK_IMPORTED_MODULE_0__["Deprecation"]("[@octokit/request-error] `error.code` is deprecated, use `error.status`."));
+                return statusCode;
+            },
+        });
+        this.headers = options.headers || {};
+        // redact request credentials without mutating original request options
+        const requestCopy = Object.assign({}, options.request);
+        if (options.request.headers.authorization) {
+            requestCopy.headers = Object.assign({}, options.request.headers, {
+                authorization: options.request.headers.authorization.replace(/ .*$/, " [REDACTED]"),
+            });
+        }
+        requestCopy.url = requestCopy.url
+            // client_id & client_secret can be passed as URL query parameters to increase rate limit
+            // see https://developer.github.com/v3/#increasing-the-unauthenticated-rate-limit-for-oauth-applications
+            .replace(/\bclient_secret=\w+/g, "client_secret=[REDACTED]")
+            // OAuth tokens can be passed as URL query parameters, although it is not recommended
+            // see https://developer.github.com/v3/#oauth2-token-sent-in-a-header
+            .replace(/\baccess_token=\w+/g, "access_token=[REDACTED]");
+        this.request = requestCopy;
+    }
+}
+
+
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/_@octokit_request@5.4.12@@octokit/request/dist-web/index.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/_@octokit_request@5.4.12@@octokit/request/dist-web/index.js ***!
+  \**********************************************************************************/
+/*! exports provided: request */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "request", function() { return request; });
+/* harmony import */ var _octokit_endpoint__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @octokit/endpoint */ "./node_modules/_@octokit_endpoint@6.0.10@@octokit/endpoint/dist-web/index.js");
+/* harmony import */ var universal_user_agent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! universal-user-agent */ "./node_modules/_universal-user-agent@6.0.0@universal-user-agent/dist-web/index.js");
+/* harmony import */ var is_plain_object__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! is-plain-object */ "./node_modules/_is-plain-object@5.0.0@is-plain-object/dist/is-plain-object.mjs");
+/* harmony import */ var node_fetch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! node-fetch */ "./node_modules/_node-fetch@2.6.1@node-fetch/lib/index.mjs");
+/* harmony import */ var _octokit_request_error__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @octokit/request-error */ "./node_modules/_@octokit_request-error@2.0.4@@octokit/request-error/dist-web/index.js");
+
+
+
+
+
+
+const VERSION = "5.4.12";
+
+function getBufferResponse(response) {
+    return response.arrayBuffer();
+}
+
+function fetchWrapper(requestOptions) {
+    if (Object(is_plain_object__WEBPACK_IMPORTED_MODULE_2__["isPlainObject"])(requestOptions.body) ||
+        Array.isArray(requestOptions.body)) {
+        requestOptions.body = JSON.stringify(requestOptions.body);
+    }
+    let headers = {};
+    let status;
+    let url;
+    const fetch = (requestOptions.request && requestOptions.request.fetch) || node_fetch__WEBPACK_IMPORTED_MODULE_3__["default"];
+    return fetch(requestOptions.url, Object.assign({
+        method: requestOptions.method,
+        body: requestOptions.body,
+        headers: requestOptions.headers,
+        redirect: requestOptions.redirect,
+    }, requestOptions.request))
+        .then((response) => {
+        url = response.url;
+        status = response.status;
+        for (const keyAndValue of response.headers) {
+            headers[keyAndValue[0]] = keyAndValue[1];
+        }
+        if (status === 204 || status === 205) {
+            return;
+        }
+        // GitHub API returns 200 for HEAD requests
+        if (requestOptions.method === "HEAD") {
+            if (status < 400) {
+                return;
+            }
+            throw new _octokit_request_error__WEBPACK_IMPORTED_MODULE_4__["RequestError"](response.statusText, status, {
+                headers,
+                request: requestOptions,
+            });
+        }
+        if (status === 304) {
+            throw new _octokit_request_error__WEBPACK_IMPORTED_MODULE_4__["RequestError"]("Not modified", status, {
+                headers,
+                request: requestOptions,
+            });
+        }
+        if (status >= 400) {
+            return response
+                .text()
+                .then((message) => {
+                const error = new _octokit_request_error__WEBPACK_IMPORTED_MODULE_4__["RequestError"](message, status, {
+                    headers,
+                    request: requestOptions,
+                });
+                try {
+                    let responseBody = JSON.parse(error.message);
+                    Object.assign(error, responseBody);
+                    let errors = responseBody.errors;
+                    // Assumption `errors` would always be in Array format
+                    error.message =
+                        error.message + ": " + errors.map(JSON.stringify).join(", ");
+                }
+                catch (e) {
+                    // ignore, see octokit/rest.js#684
+                }
+                throw error;
+            });
+        }
+        const contentType = response.headers.get("content-type");
+        if (/application\/json/.test(contentType)) {
+            return response.json();
+        }
+        if (!contentType || /^text\/|charset=utf-8$/.test(contentType)) {
+            return response.text();
+        }
+        return getBufferResponse(response);
+    })
+        .then((data) => {
+        return {
+            status,
+            url,
+            headers,
+            data,
+        };
+    })
+        .catch((error) => {
+        if (error instanceof _octokit_request_error__WEBPACK_IMPORTED_MODULE_4__["RequestError"]) {
+            throw error;
+        }
+        throw new _octokit_request_error__WEBPACK_IMPORTED_MODULE_4__["RequestError"](error.message, 500, {
+            headers,
+            request: requestOptions,
+        });
+    });
+}
+
+function withDefaults(oldEndpoint, newDefaults) {
+    const endpoint = oldEndpoint.defaults(newDefaults);
+    const newApi = function (route, parameters) {
+        const endpointOptions = endpoint.merge(route, parameters);
+        if (!endpointOptions.request || !endpointOptions.request.hook) {
+            return fetchWrapper(endpoint.parse(endpointOptions));
+        }
+        const request = (route, parameters) => {
+            return fetchWrapper(endpoint.parse(endpoint.merge(route, parameters)));
+        };
+        Object.assign(request, {
+            endpoint,
+            defaults: withDefaults.bind(null, endpoint),
+        });
+        return endpointOptions.request.hook(request, endpointOptions);
+    };
+    return Object.assign(newApi, {
+        endpoint,
+        defaults: withDefaults.bind(null, endpoint),
+    });
+}
+
+const request = withDefaults(_octokit_endpoint__WEBPACK_IMPORTED_MODULE_0__["endpoint"], {
+    headers: {
+        "user-agent": `octokit-request.js/${VERSION} ${Object(universal_user_agent__WEBPACK_IMPORTED_MODULE_1__["getUserAgent"])()}`,
+    },
+});
+
+
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/_@octokit_rest@18.0.12@@octokit/rest/dist-web/index.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/_@octokit_rest@18.0.12@@octokit/rest/dist-web/index.js ***!
+  \*****************************************************************************/
+/*! exports provided: Octokit */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Octokit", function() { return Octokit; });
+/* harmony import */ var _octokit_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @octokit/core */ "./node_modules/_@octokit_core@3.2.4@@octokit/core/dist-web/index.js");
+/* harmony import */ var _octokit_plugin_request_log__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @octokit/plugin-request-log */ "./node_modules/_@octokit_plugin-request-log@1.0.2@@octokit/plugin-request-log/dist-web/index.js");
+/* harmony import */ var _octokit_plugin_paginate_rest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @octokit/plugin-paginate-rest */ "./node_modules/_@octokit_plugin-paginate-rest@2.7.1@@octokit/plugin-paginate-rest/dist-web/index.js");
+/* harmony import */ var _octokit_plugin_rest_endpoint_methods__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @octokit/plugin-rest-endpoint-methods */ "./node_modules/_@octokit_plugin-rest-endpoint-methods@4.4.1@@octokit/plugin-rest-endpoint-methods/dist-web/index.js");
+
+
+
+
+
+const VERSION = "18.0.12";
+
+const Octokit = _octokit_core__WEBPACK_IMPORTED_MODULE_0__["Octokit"].plugin(_octokit_plugin_request_log__WEBPACK_IMPORTED_MODULE_1__["requestLog"], _octokit_plugin_rest_endpoint_methods__WEBPACK_IMPORTED_MODULE_3__["restEndpointMethods"], _octokit_plugin_paginate_rest__WEBPACK_IMPORTED_MODULE_2__["paginateRest"]).defaults({
+    userAgent: `octokit-rest.js/${VERSION}`,
+});
+
+
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/_ansi-styles@4.3.0@ansi-styles/index.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/_ansi-styles@4.3.0@ansi-styles/index.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module) {
+
+const wrapAnsi16 = (fn, offset) => (...args) => {
+	const code = fn(...args);
+	return `\u001B[${code + offset}m`;
+};
+
+const wrapAnsi256 = (fn, offset) => (...args) => {
+	const code = fn(...args);
+	return `\u001B[${38 + offset};5;${code}m`;
+};
+
+const wrapAnsi16m = (fn, offset) => (...args) => {
+	const rgb = fn(...args);
+	return `\u001B[${38 + offset};2;${rgb[0]};${rgb[1]};${rgb[2]}m`;
+};
+
+const ansi2ansi = n => n;
+const rgb2rgb = (r, g, b) => [r, g, b];
+
+const setLazyProperty = (object, property, get) => {
+	Object.defineProperty(object, property, {
+		get: () => {
+			const value = get();
+
+			Object.defineProperty(object, property, {
+				value,
+				enumerable: true,
+				configurable: true
+			});
+
+			return value;
+		},
+		enumerable: true,
+		configurable: true
+	});
+};
+
+/** @type {typeof import('color-convert')} */
+let colorConvert;
+const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
+	if (colorConvert === undefined) {
+		colorConvert = __webpack_require__(/*! color-convert */ "./node_modules/_color-convert@2.0.1@color-convert/index.js");
+	}
+
+	const offset = isBackground ? 10 : 0;
+	const styles = {};
+
+	for (const [sourceSpace, suite] of Object.entries(colorConvert)) {
+		const name = sourceSpace === 'ansi16' ? 'ansi' : sourceSpace;
+		if (sourceSpace === targetSpace) {
+			styles[name] = wrap(identity, offset);
+		} else if (typeof suite === 'object') {
+			styles[name] = wrap(suite[targetSpace], offset);
+		}
+	}
+
+	return styles;
+};
+
+function assembleStyles() {
+	const codes = new Map();
+	const styles = {
+		modifier: {
+			reset: [0, 0],
+			// 21 isn't widely supported and 22 does the same thing
+			bold: [1, 22],
+			dim: [2, 22],
+			italic: [3, 23],
+			underline: [4, 24],
+			inverse: [7, 27],
+			hidden: [8, 28],
+			strikethrough: [9, 29]
+		},
+		color: {
+			black: [30, 39],
+			red: [31, 39],
+			green: [32, 39],
+			yellow: [33, 39],
+			blue: [34, 39],
+			magenta: [35, 39],
+			cyan: [36, 39],
+			white: [37, 39],
+
+			// Bright color
+			blackBright: [90, 39],
+			redBright: [91, 39],
+			greenBright: [92, 39],
+			yellowBright: [93, 39],
+			blueBright: [94, 39],
+			magentaBright: [95, 39],
+			cyanBright: [96, 39],
+			whiteBright: [97, 39]
+		},
+		bgColor: {
+			bgBlack: [40, 49],
+			bgRed: [41, 49],
+			bgGreen: [42, 49],
+			bgYellow: [43, 49],
+			bgBlue: [44, 49],
+			bgMagenta: [45, 49],
+			bgCyan: [46, 49],
+			bgWhite: [47, 49],
+
+			// Bright color
+			bgBlackBright: [100, 49],
+			bgRedBright: [101, 49],
+			bgGreenBright: [102, 49],
+			bgYellowBright: [103, 49],
+			bgBlueBright: [104, 49],
+			bgMagentaBright: [105, 49],
+			bgCyanBright: [106, 49],
+			bgWhiteBright: [107, 49]
+		}
+	};
+
+	// Alias bright black as gray (and grey)
+	styles.color.gray = styles.color.blackBright;
+	styles.bgColor.bgGray = styles.bgColor.bgBlackBright;
+	styles.color.grey = styles.color.blackBright;
+	styles.bgColor.bgGrey = styles.bgColor.bgBlackBright;
+
+	for (const [groupName, group] of Object.entries(styles)) {
+		for (const [styleName, style] of Object.entries(group)) {
+			styles[styleName] = {
+				open: `\u001B[${style[0]}m`,
+				close: `\u001B[${style[1]}m`
+			};
+
+			group[styleName] = styles[styleName];
+
+			codes.set(style[0], style[1]);
+		}
+
+		Object.defineProperty(styles, groupName, {
+			value: group,
+			enumerable: false
+		});
+	}
+
+	Object.defineProperty(styles, 'codes', {
+		value: codes,
+		enumerable: false
+	});
+
+	styles.color.close = '\u001B[39m';
+	styles.bgColor.close = '\u001B[49m';
+
+	setLazyProperty(styles.color, 'ansi', () => makeDynamicStyles(wrapAnsi16, 'ansi16', ansi2ansi, false));
+	setLazyProperty(styles.color, 'ansi256', () => makeDynamicStyles(wrapAnsi256, 'ansi256', ansi2ansi, false));
+	setLazyProperty(styles.color, 'ansi16m', () => makeDynamicStyles(wrapAnsi16m, 'rgb', rgb2rgb, false));
+	setLazyProperty(styles.bgColor, 'ansi', () => makeDynamicStyles(wrapAnsi16, 'ansi16', ansi2ansi, true));
+	setLazyProperty(styles.bgColor, 'ansi256', () => makeDynamicStyles(wrapAnsi256, 'ansi256', ansi2ansi, true));
+	setLazyProperty(styles.bgColor, 'ansi16m', () => makeDynamicStyles(wrapAnsi16m, 'rgb', rgb2rgb, true));
+
+	return styles;
+}
+
+// Make the export immutable
+Object.defineProperty(module, 'exports', {
+	enumerable: true,
+	get: assembleStyles
+});
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../_webpack@4.46.0@webpack/buildin/module.js */ "./node_modules/_webpack@4.46.0@webpack/buildin/module.js")(module)))
+
+/***/ }),
+
 /***/ "./node_modules/_anymatch@3.1.1@anymatch/index.js":
 /*!********************************************************!*\
   !*** ./node_modules/_anymatch@3.1.1@anymatch/index.js ***!
@@ -217,25 +2888,217 @@ module.exports = r => {
 
 /***/ }),
 
-/***/ "./node_modules/_binary-extensions@2.1.0@binary-extensions/binary-extensions.json":
-/*!****************************************************************************************!*\
-  !*** ./node_modules/_binary-extensions@2.1.0@binary-extensions/binary-extensions.json ***!
-  \****************************************************************************************/
-/*! exports provided: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, default */
-/***/ (function(module) {
-
-module.exports = JSON.parse("[\"3dm\",\"3ds\",\"3g2\",\"3gp\",\"7z\",\"a\",\"aac\",\"adp\",\"ai\",\"aif\",\"aiff\",\"alz\",\"ape\",\"apk\",\"appimage\",\"ar\",\"arj\",\"asf\",\"au\",\"avi\",\"bak\",\"baml\",\"bh\",\"bin\",\"bk\",\"bmp\",\"btif\",\"bz2\",\"bzip2\",\"cab\",\"caf\",\"cgm\",\"class\",\"cmx\",\"cpio\",\"cr2\",\"cur\",\"dat\",\"dcm\",\"deb\",\"dex\",\"djvu\",\"dll\",\"dmg\",\"dng\",\"doc\",\"docm\",\"docx\",\"dot\",\"dotm\",\"dra\",\"DS_Store\",\"dsk\",\"dts\",\"dtshd\",\"dvb\",\"dwg\",\"dxf\",\"ecelp4800\",\"ecelp7470\",\"ecelp9600\",\"egg\",\"eol\",\"eot\",\"epub\",\"exe\",\"f4v\",\"fbs\",\"fh\",\"fla\",\"flac\",\"flatpak\",\"fli\",\"flv\",\"fpx\",\"fst\",\"fvt\",\"g3\",\"gh\",\"gif\",\"graffle\",\"gz\",\"gzip\",\"h261\",\"h263\",\"h264\",\"icns\",\"ico\",\"ief\",\"img\",\"ipa\",\"iso\",\"jar\",\"jpeg\",\"jpg\",\"jpgv\",\"jpm\",\"jxr\",\"key\",\"ktx\",\"lha\",\"lib\",\"lvp\",\"lz\",\"lzh\",\"lzma\",\"lzo\",\"m3u\",\"m4a\",\"m4v\",\"mar\",\"mdi\",\"mht\",\"mid\",\"midi\",\"mj2\",\"mka\",\"mkv\",\"mmr\",\"mng\",\"mobi\",\"mov\",\"movie\",\"mp3\",\"mp4\",\"mp4a\",\"mpeg\",\"mpg\",\"mpga\",\"mxu\",\"nef\",\"npx\",\"numbers\",\"nupkg\",\"o\",\"oga\",\"ogg\",\"ogv\",\"otf\",\"pages\",\"pbm\",\"pcx\",\"pdb\",\"pdf\",\"pea\",\"pgm\",\"pic\",\"png\",\"pnm\",\"pot\",\"potm\",\"potx\",\"ppa\",\"ppam\",\"ppm\",\"pps\",\"ppsm\",\"ppsx\",\"ppt\",\"pptm\",\"pptx\",\"psd\",\"pya\",\"pyc\",\"pyo\",\"pyv\",\"qt\",\"rar\",\"ras\",\"raw\",\"resources\",\"rgb\",\"rip\",\"rlc\",\"rmf\",\"rmvb\",\"rpm\",\"rtf\",\"rz\",\"s3m\",\"s7z\",\"scpt\",\"sgi\",\"shar\",\"snap\",\"sil\",\"sketch\",\"slk\",\"smv\",\"snk\",\"so\",\"stl\",\"suo\",\"sub\",\"swf\",\"tar\",\"tbz\",\"tbz2\",\"tga\",\"tgz\",\"thmx\",\"tif\",\"tiff\",\"tlz\",\"ttc\",\"ttf\",\"txz\",\"udf\",\"uvh\",\"uvi\",\"uvm\",\"uvp\",\"uvs\",\"uvu\",\"viv\",\"vob\",\"war\",\"wav\",\"wax\",\"wbmp\",\"wdp\",\"weba\",\"webm\",\"webp\",\"whl\",\"wim\",\"wm\",\"wma\",\"wmv\",\"wmx\",\"woff\",\"woff2\",\"wrm\",\"wvx\",\"xbm\",\"xif\",\"xla\",\"xlam\",\"xls\",\"xlsb\",\"xlsm\",\"xlsx\",\"xlt\",\"xltm\",\"xltx\",\"xm\",\"xmind\",\"xpi\",\"xpm\",\"xwd\",\"xz\",\"z\",\"zip\",\"zipx\"]");
-
-/***/ }),
-
-/***/ "./node_modules/_binary-extensions@2.1.0@binary-extensions/index.js":
+/***/ "./node_modules/_before-after-hook@2.1.0@before-after-hook/index.js":
 /*!**************************************************************************!*\
-  !*** ./node_modules/_binary-extensions@2.1.0@binary-extensions/index.js ***!
+  !*** ./node_modules/_before-after-hook@2.1.0@before-after-hook/index.js ***!
   \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./binary-extensions.json */ "./node_modules/_binary-extensions@2.1.0@binary-extensions/binary-extensions.json");
+var register = __webpack_require__(/*! ./lib/register */ "./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/register.js")
+var addHook = __webpack_require__(/*! ./lib/add */ "./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/add.js")
+var removeHook = __webpack_require__(/*! ./lib/remove */ "./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/remove.js")
+
+// bind with array of arguments: https://stackoverflow.com/a/21792913
+var bind = Function.bind
+var bindable = bind.bind(bind)
+
+function bindApi (hook, state, name) {
+  var removeHookRef = bindable(removeHook, null).apply(null, name ? [state, name] : [state])
+  hook.api = { remove: removeHookRef }
+  hook.remove = removeHookRef
+
+  ;['before', 'error', 'after', 'wrap'].forEach(function (kind) {
+    var args = name ? [state, kind, name] : [state, kind]
+    hook[kind] = hook.api[kind] = bindable(addHook, null).apply(null, args)
+  })
+}
+
+function HookSingular () {
+  var singularHookName = 'h'
+  var singularHookState = {
+    registry: {}
+  }
+  var singularHook = register.bind(null, singularHookState, singularHookName)
+  bindApi(singularHook, singularHookState, singularHookName)
+  return singularHook
+}
+
+function HookCollection () {
+  var state = {
+    registry: {}
+  }
+
+  var hook = register.bind(null, state)
+  bindApi(hook, state)
+
+  return hook
+}
+
+var collectionHookDeprecationMessageDisplayed = false
+function Hook () {
+  if (!collectionHookDeprecationMessageDisplayed) {
+    console.warn('[before-after-hook]: "Hook()" repurposing warning, use "Hook.Collection()". Read more: https://git.io/upgrade-before-after-hook-to-1.4')
+    collectionHookDeprecationMessageDisplayed = true
+  }
+  return HookCollection()
+}
+
+Hook.Singular = HookSingular.bind()
+Hook.Collection = HookCollection.bind()
+
+module.exports = Hook
+// expose constructors as a named property for TypeScript
+module.exports.Hook = Hook
+module.exports.Singular = Hook.Singular
+module.exports.Collection = Hook.Collection
+
+
+/***/ }),
+
+/***/ "./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/add.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/add.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = addHook
+
+function addHook (state, kind, name, hook) {
+  var orig = hook
+  if (!state.registry[name]) {
+    state.registry[name] = []
+  }
+
+  if (kind === 'before') {
+    hook = function (method, options) {
+      return Promise.resolve()
+        .then(orig.bind(null, options))
+        .then(method.bind(null, options))
+    }
+  }
+
+  if (kind === 'after') {
+    hook = function (method, options) {
+      var result
+      return Promise.resolve()
+        .then(method.bind(null, options))
+        .then(function (result_) {
+          result = result_
+          return orig(result, options)
+        })
+        .then(function () {
+          return result
+        })
+    }
+  }
+
+  if (kind === 'error') {
+    hook = function (method, options) {
+      return Promise.resolve()
+        .then(method.bind(null, options))
+        .catch(function (error) {
+          return orig(error, options)
+        })
+    }
+  }
+
+  state.registry[name].push({
+    hook: hook,
+    orig: orig
+  })
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/register.js":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/register.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = register
+
+function register (state, name, method, options) {
+  if (typeof method !== 'function') {
+    throw new Error('method for before hook must be a function')
+  }
+
+  if (!options) {
+    options = {}
+  }
+
+  if (Array.isArray(name)) {
+    return name.reverse().reduce(function (callback, name) {
+      return register.bind(null, state, name, callback, options)
+    }, method)()
+  }
+
+  return Promise.resolve()
+    .then(function () {
+      if (!state.registry[name]) {
+        return method(options)
+      }
+
+      return (state.registry[name]).reduce(function (method, registered) {
+        return registered.hook.bind(null, method, options)
+      }, method)()
+    })
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/remove.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/remove.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = removeHook
+
+function removeHook (state, name, method) {
+  if (!state.registry[name]) {
+    return
+  }
+
+  var index = state.registry[name]
+    .map(function (registered) { return registered.orig })
+    .indexOf(method)
+
+  if (index === -1) {
+    return
+  }
+
+  state.registry[name].splice(index, 1)
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/_binary-extensions@2.2.0@binary-extensions/binary-extensions.json":
+/*!****************************************************************************************!*\
+  !*** ./node_modules/_binary-extensions@2.2.0@binary-extensions/binary-extensions.json ***!
+  \****************************************************************************************/
+/*! exports provided: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("[\"3dm\",\"3ds\",\"3g2\",\"3gp\",\"7z\",\"a\",\"aac\",\"adp\",\"ai\",\"aif\",\"aiff\",\"alz\",\"ape\",\"apk\",\"appimage\",\"ar\",\"arj\",\"asf\",\"au\",\"avi\",\"bak\",\"baml\",\"bh\",\"bin\",\"bk\",\"bmp\",\"btif\",\"bz2\",\"bzip2\",\"cab\",\"caf\",\"cgm\",\"class\",\"cmx\",\"cpio\",\"cr2\",\"cur\",\"dat\",\"dcm\",\"deb\",\"dex\",\"djvu\",\"dll\",\"dmg\",\"dng\",\"doc\",\"docm\",\"docx\",\"dot\",\"dotm\",\"dra\",\"DS_Store\",\"dsk\",\"dts\",\"dtshd\",\"dvb\",\"dwg\",\"dxf\",\"ecelp4800\",\"ecelp7470\",\"ecelp9600\",\"egg\",\"eol\",\"eot\",\"epub\",\"exe\",\"f4v\",\"fbs\",\"fh\",\"fla\",\"flac\",\"flatpak\",\"fli\",\"flv\",\"fpx\",\"fst\",\"fvt\",\"g3\",\"gh\",\"gif\",\"graffle\",\"gz\",\"gzip\",\"h261\",\"h263\",\"h264\",\"icns\",\"ico\",\"ief\",\"img\",\"ipa\",\"iso\",\"jar\",\"jpeg\",\"jpg\",\"jpgv\",\"jpm\",\"jxr\",\"key\",\"ktx\",\"lha\",\"lib\",\"lvp\",\"lz\",\"lzh\",\"lzma\",\"lzo\",\"m3u\",\"m4a\",\"m4v\",\"mar\",\"mdi\",\"mht\",\"mid\",\"midi\",\"mj2\",\"mka\",\"mkv\",\"mmr\",\"mng\",\"mobi\",\"mov\",\"movie\",\"mp3\",\"mp4\",\"mp4a\",\"mpeg\",\"mpg\",\"mpga\",\"mxu\",\"nef\",\"npx\",\"numbers\",\"nupkg\",\"o\",\"odp\",\"ods\",\"odt\",\"oga\",\"ogg\",\"ogv\",\"otf\",\"ott\",\"pages\",\"pbm\",\"pcx\",\"pdb\",\"pdf\",\"pea\",\"pgm\",\"pic\",\"png\",\"pnm\",\"pot\",\"potm\",\"potx\",\"ppa\",\"ppam\",\"ppm\",\"pps\",\"ppsm\",\"ppsx\",\"ppt\",\"pptm\",\"pptx\",\"psd\",\"pya\",\"pyc\",\"pyo\",\"pyv\",\"qt\",\"rar\",\"ras\",\"raw\",\"resources\",\"rgb\",\"rip\",\"rlc\",\"rmf\",\"rmvb\",\"rpm\",\"rtf\",\"rz\",\"s3m\",\"s7z\",\"scpt\",\"sgi\",\"shar\",\"snap\",\"sil\",\"sketch\",\"slk\",\"smv\",\"snk\",\"so\",\"stl\",\"suo\",\"sub\",\"swf\",\"tar\",\"tbz\",\"tbz2\",\"tga\",\"tgz\",\"thmx\",\"tif\",\"tiff\",\"tlz\",\"ttc\",\"ttf\",\"txz\",\"udf\",\"uvh\",\"uvi\",\"uvm\",\"uvp\",\"uvs\",\"uvu\",\"viv\",\"vob\",\"war\",\"wav\",\"wax\",\"wbmp\",\"wdp\",\"weba\",\"webm\",\"webp\",\"whl\",\"wim\",\"wm\",\"wma\",\"wmv\",\"wmx\",\"woff\",\"woff2\",\"wrm\",\"wvx\",\"xbm\",\"xif\",\"xla\",\"xlam\",\"xls\",\"xlsb\",\"xlsm\",\"xlsx\",\"xlt\",\"xltm\",\"xltx\",\"xm\",\"xmind\",\"xpi\",\"xpm\",\"xwd\",\"xz\",\"z\",\"zip\",\"zipx\"]");
+
+/***/ }),
+
+/***/ "./node_modules/_binary-extensions@2.2.0@binary-extensions/index.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/_binary-extensions@2.2.0@binary-extensions/index.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./binary-extensions.json */ "./node_modules/_binary-extensions@2.2.0@binary-extensions/binary-extensions.json");
 
 
 /***/ }),
@@ -1198,9 +4061,447 @@ exports.flatten = (...args) => {
 
 /***/ }),
 
-/***/ "./node_modules/_chokidar@3.4.3@chokidar/index.js":
+/***/ "./node_modules/_chalk@4.1.0@chalk/source/index.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/_chalk@4.1.0@chalk/source/index.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+const ansiStyles = __webpack_require__(/*! ansi-styles */ "./node_modules/_ansi-styles@4.3.0@ansi-styles/index.js");
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(/*! supports-color */ "./node_modules/_supports-color@7.2.0@supports-color/index.js");
+const {
+	stringReplaceAll,
+	stringEncaseCRLFWithFirstIndex
+} = __webpack_require__(/*! ./util */ "./node_modules/_chalk@4.1.0@chalk/source/util.js");
+
+const {isArray} = Array;
+
+// `supportsColor.level` → `ansiStyles.color[name]` mapping
+const levelMapping = [
+	'ansi',
+	'ansi',
+	'ansi256',
+	'ansi16m'
+];
+
+const styles = Object.create(null);
+
+const applyOptions = (object, options = {}) => {
+	if (options.level && !(Number.isInteger(options.level) && options.level >= 0 && options.level <= 3)) {
+		throw new Error('The `level` option should be an integer from 0 to 3');
+	}
+
+	// Detect level if not set manually
+	const colorLevel = stdoutColor ? stdoutColor.level : 0;
+	object.level = options.level === undefined ? colorLevel : options.level;
+};
+
+class ChalkClass {
+	constructor(options) {
+		// eslint-disable-next-line no-constructor-return
+		return chalkFactory(options);
+	}
+}
+
+const chalkFactory = options => {
+	const chalk = {};
+	applyOptions(chalk, options);
+
+	chalk.template = (...arguments_) => chalkTag(chalk.template, ...arguments_);
+
+	Object.setPrototypeOf(chalk, Chalk.prototype);
+	Object.setPrototypeOf(chalk.template, chalk);
+
+	chalk.template.constructor = () => {
+		throw new Error('`chalk.constructor()` is deprecated. Use `new chalk.Instance()` instead.');
+	};
+
+	chalk.template.Instance = ChalkClass;
+
+	return chalk.template;
+};
+
+function Chalk(options) {
+	return chalkFactory(options);
+}
+
+for (const [styleName, style] of Object.entries(ansiStyles)) {
+	styles[styleName] = {
+		get() {
+			const builder = createBuilder(this, createStyler(style.open, style.close, this._styler), this._isEmpty);
+			Object.defineProperty(this, styleName, {value: builder});
+			return builder;
+		}
+	};
+}
+
+styles.visible = {
+	get() {
+		const builder = createBuilder(this, this._styler, true);
+		Object.defineProperty(this, 'visible', {value: builder});
+		return builder;
+	}
+};
+
+const usedModels = ['rgb', 'hex', 'keyword', 'hsl', 'hsv', 'hwb', 'ansi', 'ansi256'];
+
+for (const model of usedModels) {
+	styles[model] = {
+		get() {
+			const {level} = this;
+			return function (...arguments_) {
+				const styler = createStyler(ansiStyles.color[levelMapping[level]][model](...arguments_), ansiStyles.color.close, this._styler);
+				return createBuilder(this, styler, this._isEmpty);
+			};
+		}
+	};
+}
+
+for (const model of usedModels) {
+	const bgModel = 'bg' + model[0].toUpperCase() + model.slice(1);
+	styles[bgModel] = {
+		get() {
+			const {level} = this;
+			return function (...arguments_) {
+				const styler = createStyler(ansiStyles.bgColor[levelMapping[level]][model](...arguments_), ansiStyles.bgColor.close, this._styler);
+				return createBuilder(this, styler, this._isEmpty);
+			};
+		}
+	};
+}
+
+const proto = Object.defineProperties(() => {}, {
+	...styles,
+	level: {
+		enumerable: true,
+		get() {
+			return this._generator.level;
+		},
+		set(level) {
+			this._generator.level = level;
+		}
+	}
+});
+
+const createStyler = (open, close, parent) => {
+	let openAll;
+	let closeAll;
+	if (parent === undefined) {
+		openAll = open;
+		closeAll = close;
+	} else {
+		openAll = parent.openAll + open;
+		closeAll = close + parent.closeAll;
+	}
+
+	return {
+		open,
+		close,
+		openAll,
+		closeAll,
+		parent
+	};
+};
+
+const createBuilder = (self, _styler, _isEmpty) => {
+	const builder = (...arguments_) => {
+		if (isArray(arguments_[0]) && isArray(arguments_[0].raw)) {
+			// Called as a template literal, for example: chalk.red`2 + 3 = {bold ${2+3}}`
+			return applyStyle(builder, chalkTag(builder, ...arguments_));
+		}
+
+		// Single argument is hot path, implicit coercion is faster than anything
+		// eslint-disable-next-line no-implicit-coercion
+		return applyStyle(builder, (arguments_.length === 1) ? ('' + arguments_[0]) : arguments_.join(' '));
+	};
+
+	// We alter the prototype because we must return a function, but there is
+	// no way to create a function with a different prototype
+	Object.setPrototypeOf(builder, proto);
+
+	builder._generator = self;
+	builder._styler = _styler;
+	builder._isEmpty = _isEmpty;
+
+	return builder;
+};
+
+const applyStyle = (self, string) => {
+	if (self.level <= 0 || !string) {
+		return self._isEmpty ? '' : string;
+	}
+
+	let styler = self._styler;
+
+	if (styler === undefined) {
+		return string;
+	}
+
+	const {openAll, closeAll} = styler;
+	if (string.indexOf('\u001B') !== -1) {
+		while (styler !== undefined) {
+			// Replace any instances already present with a re-opening code
+			// otherwise only the part of the string until said closing code
+			// will be colored, and the rest will simply be 'plain'.
+			string = stringReplaceAll(string, styler.close, styler.open);
+
+			styler = styler.parent;
+		}
+	}
+
+	// We can move both next actions out of loop, because remaining actions in loop won't have
+	// any/visible effect on parts we add here. Close the styling before a linebreak and reopen
+	// after next line to fix a bleed issue on macOS: https://github.com/chalk/chalk/pull/92
+	const lfIndex = string.indexOf('\n');
+	if (lfIndex !== -1) {
+		string = stringEncaseCRLFWithFirstIndex(string, closeAll, openAll, lfIndex);
+	}
+
+	return openAll + string + closeAll;
+};
+
+let template;
+const chalkTag = (chalk, ...strings) => {
+	const [firstString] = strings;
+
+	if (!isArray(firstString) || !isArray(firstString.raw)) {
+		// If chalk() was called by itself or with a string,
+		// return the string itself as a string.
+		return strings.join(' ');
+	}
+
+	const arguments_ = strings.slice(1);
+	const parts = [firstString.raw[0]];
+
+	for (let i = 1; i < firstString.length; i++) {
+		parts.push(
+			String(arguments_[i - 1]).replace(/[{}\\]/g, '\\$&'),
+			String(firstString.raw[i])
+		);
+	}
+
+	if (template === undefined) {
+		template = __webpack_require__(/*! ./templates */ "./node_modules/_chalk@4.1.0@chalk/source/templates.js");
+	}
+
+	return template(chalk, parts.join(''));
+};
+
+Object.defineProperties(Chalk.prototype, styles);
+
+const chalk = Chalk(); // eslint-disable-line new-cap
+chalk.supportsColor = stdoutColor;
+chalk.stderr = Chalk({level: stderrColor ? stderrColor.level : 0}); // eslint-disable-line new-cap
+chalk.stderr.supportsColor = stderrColor;
+
+module.exports = chalk;
+
+
+/***/ }),
+
+/***/ "./node_modules/_chalk@4.1.0@chalk/source/templates.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/_chalk@4.1.0@chalk/source/templates.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+const TEMPLATE_REGEX = /(?:\\(u(?:[a-f\d]{4}|\{[a-f\d]{1,6}\})|x[a-f\d]{2}|.))|(?:\{(~)?(\w+(?:\([^)]*\))?(?:\.\w+(?:\([^)]*\))?)*)(?:[ \t]|(?=\r?\n)))|(\})|((?:.|[\r\n\f])+?)/gi;
+const STYLE_REGEX = /(?:^|\.)(\w+)(?:\(([^)]*)\))?/g;
+const STRING_REGEX = /^(['"])((?:\\.|(?!\1)[^\\])*)\1$/;
+const ESCAPE_REGEX = /\\(u(?:[a-f\d]{4}|{[a-f\d]{1,6}})|x[a-f\d]{2}|.)|([^\\])/gi;
+
+const ESCAPES = new Map([
+	['n', '\n'],
+	['r', '\r'],
+	['t', '\t'],
+	['b', '\b'],
+	['f', '\f'],
+	['v', '\v'],
+	['0', '\0'],
+	['\\', '\\'],
+	['e', '\u001B'],
+	['a', '\u0007']
+]);
+
+function unescape(c) {
+	const u = c[0] === 'u';
+	const bracket = c[1] === '{';
+
+	if ((u && !bracket && c.length === 5) || (c[0] === 'x' && c.length === 3)) {
+		return String.fromCharCode(parseInt(c.slice(1), 16));
+	}
+
+	if (u && bracket) {
+		return String.fromCodePoint(parseInt(c.slice(2, -1), 16));
+	}
+
+	return ESCAPES.get(c) || c;
+}
+
+function parseArguments(name, arguments_) {
+	const results = [];
+	const chunks = arguments_.trim().split(/\s*,\s*/g);
+	let matches;
+
+	for (const chunk of chunks) {
+		const number = Number(chunk);
+		if (!Number.isNaN(number)) {
+			results.push(number);
+		} else if ((matches = chunk.match(STRING_REGEX))) {
+			results.push(matches[2].replace(ESCAPE_REGEX, (m, escape, character) => escape ? unescape(escape) : character));
+		} else {
+			throw new Error(`Invalid Chalk template style argument: ${chunk} (in style '${name}')`);
+		}
+	}
+
+	return results;
+}
+
+function parseStyle(style) {
+	STYLE_REGEX.lastIndex = 0;
+
+	const results = [];
+	let matches;
+
+	while ((matches = STYLE_REGEX.exec(style)) !== null) {
+		const name = matches[1];
+
+		if (matches[2]) {
+			const args = parseArguments(name, matches[2]);
+			results.push([name].concat(args));
+		} else {
+			results.push([name]);
+		}
+	}
+
+	return results;
+}
+
+function buildStyle(chalk, styles) {
+	const enabled = {};
+
+	for (const layer of styles) {
+		for (const style of layer.styles) {
+			enabled[style[0]] = layer.inverse ? null : style.slice(1);
+		}
+	}
+
+	let current = chalk;
+	for (const [styleName, styles] of Object.entries(enabled)) {
+		if (!Array.isArray(styles)) {
+			continue;
+		}
+
+		if (!(styleName in current)) {
+			throw new Error(`Unknown Chalk style: ${styleName}`);
+		}
+
+		current = styles.length > 0 ? current[styleName](...styles) : current[styleName];
+	}
+
+	return current;
+}
+
+module.exports = (chalk, temporary) => {
+	const styles = [];
+	const chunks = [];
+	let chunk = [];
+
+	// eslint-disable-next-line max-params
+	temporary.replace(TEMPLATE_REGEX, (m, escapeCharacter, inverse, style, close, character) => {
+		if (escapeCharacter) {
+			chunk.push(unescape(escapeCharacter));
+		} else if (style) {
+			const string = chunk.join('');
+			chunk = [];
+			chunks.push(styles.length === 0 ? string : buildStyle(chalk, styles)(string));
+			styles.push({inverse, styles: parseStyle(style)});
+		} else if (close) {
+			if (styles.length === 0) {
+				throw new Error('Found extraneous } in Chalk template literal');
+			}
+
+			chunks.push(buildStyle(chalk, styles)(chunk.join('')));
+			chunk = [];
+			styles.pop();
+		} else {
+			chunk.push(character);
+		}
+	});
+
+	chunks.push(chunk.join(''));
+
+	if (styles.length > 0) {
+		const errMessage = `Chalk template literal is missing ${styles.length} closing bracket${styles.length === 1 ? '' : 's'} (\`}\`)`;
+		throw new Error(errMessage);
+	}
+
+	return chunks.join('');
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/_chalk@4.1.0@chalk/source/util.js":
 /*!********************************************************!*\
-  !*** ./node_modules/_chokidar@3.4.3@chokidar/index.js ***!
+  !*** ./node_modules/_chalk@4.1.0@chalk/source/util.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+const stringReplaceAll = (string, substring, replacer) => {
+	let index = string.indexOf(substring);
+	if (index === -1) {
+		return string;
+	}
+
+	const substringLength = substring.length;
+	let endIndex = 0;
+	let returnValue = '';
+	do {
+		returnValue += string.substr(endIndex, index - endIndex) + substring + replacer;
+		endIndex = index + substringLength;
+		index = string.indexOf(substring, endIndex);
+	} while (index !== -1);
+
+	returnValue += string.substr(endIndex);
+	return returnValue;
+};
+
+const stringEncaseCRLFWithFirstIndex = (string, prefix, postfix, index) => {
+	let endIndex = 0;
+	let returnValue = '';
+	do {
+		const gotCR = string[index - 1] === '\r';
+		returnValue += string.substr(endIndex, (gotCR ? index - 1 : index) - endIndex) + prefix + (gotCR ? '\r\n' : '\n') + postfix;
+		endIndex = index + 1;
+		index = string.indexOf('\n', endIndex);
+	} while (index !== -1);
+
+	returnValue += string.substr(endIndex);
+	return returnValue;
+};
+
+module.exports = {
+	stringReplaceAll,
+	stringEncaseCRLFWithFirstIndex
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/_chokidar@3.5.1@chokidar/index.js":
+/*!********************************************************!*\
+  !*** ./node_modules/_chokidar@3.5.1@chokidar/index.js ***!
   \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1219,8 +4520,8 @@ const isGlob = __webpack_require__(/*! is-glob */ "./node_modules/_is-glob@4.0.1
 const braces = __webpack_require__(/*! braces */ "./node_modules/_braces@3.0.2@braces/index.js");
 const normalizePath = __webpack_require__(/*! normalize-path */ "./node_modules/_normalize-path@3.0.0@normalize-path/index.js");
 
-const NodeFsHandler = __webpack_require__(/*! ./lib/nodefs-handler */ "./node_modules/_chokidar@3.4.3@chokidar/lib/nodefs-handler.js");
-const FsEventsHandler = __webpack_require__(/*! ./lib/fsevents-handler */ "./node_modules/_chokidar@3.4.3@chokidar/lib/fsevents-handler.js");
+const NodeFsHandler = __webpack_require__(/*! ./lib/nodefs-handler */ "./node_modules/_chokidar@3.5.1@chokidar/lib/nodefs-handler.js");
+const FsEventsHandler = __webpack_require__(/*! ./lib/fsevents-handler */ "./node_modules/_chokidar@3.5.1@chokidar/lib/fsevents-handler.js");
 const {
   EV_ALL,
   EV_READY,
@@ -1257,7 +4558,7 @@ const {
 
   isWindows,
   isMacos
-} = __webpack_require__(/*! ./lib/constants */ "./node_modules/_chokidar@3.4.3@chokidar/lib/constants.js");
+} = __webpack_require__(/*! ./lib/constants */ "./node_modules/_chokidar@3.5.1@chokidar/lib/constants.js");
 
 const stat = promisify(fs.stat);
 const readdir = promisify(fs.readdir);
@@ -2072,6 +5373,15 @@ _remove(directory, item, isDirectory) {
   const wasTracked = parent.has(item);
   parent.remove(item);
 
+  // Fixes issue #1042 -> Relative paths were detected and added as symlinks
+  // (https://github.com/paulmillr/chokidar/blob/e1753ddbc9571bdc33b4a4af172d52cb6e611c10/lib/nodefs-handler.js#L612),
+  // but never removed from the map in case the path was deleted.
+  // This leads to an incorrect state if the path was recreated:
+  // https://github.com/paulmillr/chokidar/blob/e1753ddbc9571bdc33b4a4af172d52cb6e611c10/lib/nodefs-handler.js#L553
+  if (this._symlinkPaths.has(fullPath)) {
+    this._symlinkPaths.delete(fullPath);
+  }
+
   // If we wait for this file to be fully written, cancel the wait.
   let relPath = path;
   if (this.options.cwd) relPath = sysPath.relative(this.options.cwd, path);
@@ -2168,9 +5478,9 @@ exports.watch = watch;
 
 /***/ }),
 
-/***/ "./node_modules/_chokidar@3.4.3@chokidar/lib/constants.js":
+/***/ "./node_modules/_chokidar@3.5.1@chokidar/lib/constants.js":
 /*!****************************************************************!*\
-  !*** ./node_modules/_chokidar@3.4.3@chokidar/lib/constants.js ***!
+  !*** ./node_modules/_chokidar@3.5.1@chokidar/lib/constants.js ***!
   \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -2243,9 +5553,9 @@ exports.isLinux = platform === 'linux';
 
 /***/ }),
 
-/***/ "./node_modules/_chokidar@3.4.3@chokidar/lib/fsevents-handler.js":
+/***/ "./node_modules/_chokidar@3.5.1@chokidar/lib/fsevents-handler.js":
 /*!***********************************************************************!*\
-  !*** ./node_modules/_chokidar@3.4.3@chokidar/lib/fsevents-handler.js ***!
+  !*** ./node_modules/_chokidar@3.5.1@chokidar/lib/fsevents-handler.js ***!
   \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -2300,7 +5610,7 @@ const {
   FUNCTION_TYPE,
   EMPTY_FN,
   IDENTITY_FN
-} = __webpack_require__(/*! ./constants */ "./node_modules/_chokidar@3.4.3@chokidar/lib/constants.js");
+} = __webpack_require__(/*! ./constants */ "./node_modules/_chokidar@3.5.1@chokidar/lib/constants.js");
 
 const Depth = (value) => isNaN(value) ? {} : {depth: value};
 
@@ -2552,8 +5862,7 @@ handleEvent(event, path, fullPath, realPath, parent, watchedDir, item, info, opt
  * @returns {Function} closer for the watcher instance
 */
 _watchWithFsEvents(watchPath, realPath, transform, globFilter) {
-  if (this.fsw.closed) return;
-  if (this.fsw._isIgnored(watchPath)) return;
+  if (this.fsw.closed || this.fsw._isIgnored(watchPath)) return;
   const opts = this.fsw.options;
   const watchCallback = async (fullPath, flags, info) => {
     if (this.fsw.closed) return;
@@ -2779,9 +6088,9 @@ module.exports.canUse = canUse;
 
 /***/ }),
 
-/***/ "./node_modules/_chokidar@3.4.3@chokidar/lib/nodefs-handler.js":
+/***/ "./node_modules/_chokidar@3.5.1@chokidar/lib/nodefs-handler.js":
 /*!*********************************************************************!*\
-  !*** ./node_modules/_chokidar@3.4.3@chokidar/lib/nodefs-handler.js ***!
+  !*** ./node_modules/_chokidar@3.5.1@chokidar/lib/nodefs-handler.js ***!
   \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -2810,7 +6119,7 @@ const {
   STR_END,
   BRACE_START,
   STAR
-} = __webpack_require__(/*! ./constants */ "./node_modules/_chokidar@3.4.3@chokidar/lib/constants.js");
+} = __webpack_require__(/*! ./constants */ "./node_modules/_chokidar@3.5.1@chokidar/lib/constants.js");
 
 const THROTTLE_MODE_WATCH = 'watch';
 
@@ -3392,13 +6701,14 @@ async _addToNodeFs(path, initialAdd, priorWh, depth, target) {
     const follow = this.fsw.options.followSymlinks && !path.includes(STAR) && !path.includes(BRACE_START);
     let closer;
     if (stats.isDirectory()) {
+      const absPath = sysPath.resolve(path);
       const targetPath = follow ? await fsrealpath(path) : path;
       if (this.fsw.closed) return;
       closer = await this._handleDir(wh.watchPath, stats, initialAdd, depth, target, wh, targetPath);
       if (this.fsw.closed) return;
       // preserve this symlink's target path
-      if (path !== targetPath && targetPath !== undefined) {
-        this.fsw._symlinkPaths.set(targetPath, true);
+      if (absPath !== targetPath && targetPath !== undefined) {
+        this.fsw._symlinkPaths.set(absPath, targetPath);
       }
     } else if (stats.isSymbolicLink()) {
       const targetPath = follow ? await fsrealpath(path) : path;
@@ -3432,6 +6742,1262 @@ async _addToNodeFs(path, initialAdd, priorWh, depth, target) {
 }
 
 module.exports = NodeFsHandler;
+
+
+/***/ }),
+
+/***/ "./node_modules/_color-convert@2.0.1@color-convert/conversions.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/_color-convert@2.0.1@color-convert/conversions.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* MIT license */
+/* eslint-disable no-mixed-operators */
+const cssKeywords = __webpack_require__(/*! color-name */ "./node_modules/_color-name@1.1.4@color-name/index.js");
+
+// NOTE: conversions should only return primitive values (i.e. arrays, or
+//       values that give correct `typeof` results).
+//       do not use box values types (i.e. Number(), String(), etc.)
+
+const reverseKeywords = {};
+for (const key of Object.keys(cssKeywords)) {
+	reverseKeywords[cssKeywords[key]] = key;
+}
+
+const convert = {
+	rgb: {channels: 3, labels: 'rgb'},
+	hsl: {channels: 3, labels: 'hsl'},
+	hsv: {channels: 3, labels: 'hsv'},
+	hwb: {channels: 3, labels: 'hwb'},
+	cmyk: {channels: 4, labels: 'cmyk'},
+	xyz: {channels: 3, labels: 'xyz'},
+	lab: {channels: 3, labels: 'lab'},
+	lch: {channels: 3, labels: 'lch'},
+	hex: {channels: 1, labels: ['hex']},
+	keyword: {channels: 1, labels: ['keyword']},
+	ansi16: {channels: 1, labels: ['ansi16']},
+	ansi256: {channels: 1, labels: ['ansi256']},
+	hcg: {channels: 3, labels: ['h', 'c', 'g']},
+	apple: {channels: 3, labels: ['r16', 'g16', 'b16']},
+	gray: {channels: 1, labels: ['gray']}
+};
+
+module.exports = convert;
+
+// Hide .channels and .labels properties
+for (const model of Object.keys(convert)) {
+	if (!('channels' in convert[model])) {
+		throw new Error('missing channels property: ' + model);
+	}
+
+	if (!('labels' in convert[model])) {
+		throw new Error('missing channel labels property: ' + model);
+	}
+
+	if (convert[model].labels.length !== convert[model].channels) {
+		throw new Error('channel and label counts mismatch: ' + model);
+	}
+
+	const {channels, labels} = convert[model];
+	delete convert[model].channels;
+	delete convert[model].labels;
+	Object.defineProperty(convert[model], 'channels', {value: channels});
+	Object.defineProperty(convert[model], 'labels', {value: labels});
+}
+
+convert.rgb.hsl = function (rgb) {
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+	const min = Math.min(r, g, b);
+	const max = Math.max(r, g, b);
+	const delta = max - min;
+	let h;
+	let s;
+
+	if (max === min) {
+		h = 0;
+	} else if (r === max) {
+		h = (g - b) / delta;
+	} else if (g === max) {
+		h = 2 + (b - r) / delta;
+	} else if (b === max) {
+		h = 4 + (r - g) / delta;
+	}
+
+	h = Math.min(h * 60, 360);
+
+	if (h < 0) {
+		h += 360;
+	}
+
+	const l = (min + max) / 2;
+
+	if (max === min) {
+		s = 0;
+	} else if (l <= 0.5) {
+		s = delta / (max + min);
+	} else {
+		s = delta / (2 - max - min);
+	}
+
+	return [h, s * 100, l * 100];
+};
+
+convert.rgb.hsv = function (rgb) {
+	let rdif;
+	let gdif;
+	let bdif;
+	let h;
+	let s;
+
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+	const v = Math.max(r, g, b);
+	const diff = v - Math.min(r, g, b);
+	const diffc = function (c) {
+		return (v - c) / 6 / diff + 1 / 2;
+	};
+
+	if (diff === 0) {
+		h = 0;
+		s = 0;
+	} else {
+		s = diff / v;
+		rdif = diffc(r);
+		gdif = diffc(g);
+		bdif = diffc(b);
+
+		if (r === v) {
+			h = bdif - gdif;
+		} else if (g === v) {
+			h = (1 / 3) + rdif - bdif;
+		} else if (b === v) {
+			h = (2 / 3) + gdif - rdif;
+		}
+
+		if (h < 0) {
+			h += 1;
+		} else if (h > 1) {
+			h -= 1;
+		}
+	}
+
+	return [
+		h * 360,
+		s * 100,
+		v * 100
+	];
+};
+
+convert.rgb.hwb = function (rgb) {
+	const r = rgb[0];
+	const g = rgb[1];
+	let b = rgb[2];
+	const h = convert.rgb.hsl(rgb)[0];
+	const w = 1 / 255 * Math.min(r, Math.min(g, b));
+
+	b = 1 - 1 / 255 * Math.max(r, Math.max(g, b));
+
+	return [h, w * 100, b * 100];
+};
+
+convert.rgb.cmyk = function (rgb) {
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+
+	const k = Math.min(1 - r, 1 - g, 1 - b);
+	const c = (1 - r - k) / (1 - k) || 0;
+	const m = (1 - g - k) / (1 - k) || 0;
+	const y = (1 - b - k) / (1 - k) || 0;
+
+	return [c * 100, m * 100, y * 100, k * 100];
+};
+
+function comparativeDistance(x, y) {
+	/*
+		See https://en.m.wikipedia.org/wiki/Euclidean_distance#Squared_Euclidean_distance
+	*/
+	return (
+		((x[0] - y[0]) ** 2) +
+		((x[1] - y[1]) ** 2) +
+		((x[2] - y[2]) ** 2)
+	);
+}
+
+convert.rgb.keyword = function (rgb) {
+	const reversed = reverseKeywords[rgb];
+	if (reversed) {
+		return reversed;
+	}
+
+	let currentClosestDistance = Infinity;
+	let currentClosestKeyword;
+
+	for (const keyword of Object.keys(cssKeywords)) {
+		const value = cssKeywords[keyword];
+
+		// Compute comparative distance
+		const distance = comparativeDistance(rgb, value);
+
+		// Check if its less, if so set as closest
+		if (distance < currentClosestDistance) {
+			currentClosestDistance = distance;
+			currentClosestKeyword = keyword;
+		}
+	}
+
+	return currentClosestKeyword;
+};
+
+convert.keyword.rgb = function (keyword) {
+	return cssKeywords[keyword];
+};
+
+convert.rgb.xyz = function (rgb) {
+	let r = rgb[0] / 255;
+	let g = rgb[1] / 255;
+	let b = rgb[2] / 255;
+
+	// Assume sRGB
+	r = r > 0.04045 ? (((r + 0.055) / 1.055) ** 2.4) : (r / 12.92);
+	g = g > 0.04045 ? (((g + 0.055) / 1.055) ** 2.4) : (g / 12.92);
+	b = b > 0.04045 ? (((b + 0.055) / 1.055) ** 2.4) : (b / 12.92);
+
+	const x = (r * 0.4124) + (g * 0.3576) + (b * 0.1805);
+	const y = (r * 0.2126) + (g * 0.7152) + (b * 0.0722);
+	const z = (r * 0.0193) + (g * 0.1192) + (b * 0.9505);
+
+	return [x * 100, y * 100, z * 100];
+};
+
+convert.rgb.lab = function (rgb) {
+	const xyz = convert.rgb.xyz(rgb);
+	let x = xyz[0];
+	let y = xyz[1];
+	let z = xyz[2];
+
+	x /= 95.047;
+	y /= 100;
+	z /= 108.883;
+
+	x = x > 0.008856 ? (x ** (1 / 3)) : (7.787 * x) + (16 / 116);
+	y = y > 0.008856 ? (y ** (1 / 3)) : (7.787 * y) + (16 / 116);
+	z = z > 0.008856 ? (z ** (1 / 3)) : (7.787 * z) + (16 / 116);
+
+	const l = (116 * y) - 16;
+	const a = 500 * (x - y);
+	const b = 200 * (y - z);
+
+	return [l, a, b];
+};
+
+convert.hsl.rgb = function (hsl) {
+	const h = hsl[0] / 360;
+	const s = hsl[1] / 100;
+	const l = hsl[2] / 100;
+	let t2;
+	let t3;
+	let val;
+
+	if (s === 0) {
+		val = l * 255;
+		return [val, val, val];
+	}
+
+	if (l < 0.5) {
+		t2 = l * (1 + s);
+	} else {
+		t2 = l + s - l * s;
+	}
+
+	const t1 = 2 * l - t2;
+
+	const rgb = [0, 0, 0];
+	for (let i = 0; i < 3; i++) {
+		t3 = h + 1 / 3 * -(i - 1);
+		if (t3 < 0) {
+			t3++;
+		}
+
+		if (t3 > 1) {
+			t3--;
+		}
+
+		if (6 * t3 < 1) {
+			val = t1 + (t2 - t1) * 6 * t3;
+		} else if (2 * t3 < 1) {
+			val = t2;
+		} else if (3 * t3 < 2) {
+			val = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
+		} else {
+			val = t1;
+		}
+
+		rgb[i] = val * 255;
+	}
+
+	return rgb;
+};
+
+convert.hsl.hsv = function (hsl) {
+	const h = hsl[0];
+	let s = hsl[1] / 100;
+	let l = hsl[2] / 100;
+	let smin = s;
+	const lmin = Math.max(l, 0.01);
+
+	l *= 2;
+	s *= (l <= 1) ? l : 2 - l;
+	smin *= lmin <= 1 ? lmin : 2 - lmin;
+	const v = (l + s) / 2;
+	const sv = l === 0 ? (2 * smin) / (lmin + smin) : (2 * s) / (l + s);
+
+	return [h, sv * 100, v * 100];
+};
+
+convert.hsv.rgb = function (hsv) {
+	const h = hsv[0] / 60;
+	const s = hsv[1] / 100;
+	let v = hsv[2] / 100;
+	const hi = Math.floor(h) % 6;
+
+	const f = h - Math.floor(h);
+	const p = 255 * v * (1 - s);
+	const q = 255 * v * (1 - (s * f));
+	const t = 255 * v * (1 - (s * (1 - f)));
+	v *= 255;
+
+	switch (hi) {
+		case 0:
+			return [v, t, p];
+		case 1:
+			return [q, v, p];
+		case 2:
+			return [p, v, t];
+		case 3:
+			return [p, q, v];
+		case 4:
+			return [t, p, v];
+		case 5:
+			return [v, p, q];
+	}
+};
+
+convert.hsv.hsl = function (hsv) {
+	const h = hsv[0];
+	const s = hsv[1] / 100;
+	const v = hsv[2] / 100;
+	const vmin = Math.max(v, 0.01);
+	let sl;
+	let l;
+
+	l = (2 - s) * v;
+	const lmin = (2 - s) * vmin;
+	sl = s * vmin;
+	sl /= (lmin <= 1) ? lmin : 2 - lmin;
+	sl = sl || 0;
+	l /= 2;
+
+	return [h, sl * 100, l * 100];
+};
+
+// http://dev.w3.org/csswg/css-color/#hwb-to-rgb
+convert.hwb.rgb = function (hwb) {
+	const h = hwb[0] / 360;
+	let wh = hwb[1] / 100;
+	let bl = hwb[2] / 100;
+	const ratio = wh + bl;
+	let f;
+
+	// Wh + bl cant be > 1
+	if (ratio > 1) {
+		wh /= ratio;
+		bl /= ratio;
+	}
+
+	const i = Math.floor(6 * h);
+	const v = 1 - bl;
+	f = 6 * h - i;
+
+	if ((i & 0x01) !== 0) {
+		f = 1 - f;
+	}
+
+	const n = wh + f * (v - wh); // Linear interpolation
+
+	let r;
+	let g;
+	let b;
+	/* eslint-disable max-statements-per-line,no-multi-spaces */
+	switch (i) {
+		default:
+		case 6:
+		case 0: r = v;  g = n;  b = wh; break;
+		case 1: r = n;  g = v;  b = wh; break;
+		case 2: r = wh; g = v;  b = n; break;
+		case 3: r = wh; g = n;  b = v; break;
+		case 4: r = n;  g = wh; b = v; break;
+		case 5: r = v;  g = wh; b = n; break;
+	}
+	/* eslint-enable max-statements-per-line,no-multi-spaces */
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.cmyk.rgb = function (cmyk) {
+	const c = cmyk[0] / 100;
+	const m = cmyk[1] / 100;
+	const y = cmyk[2] / 100;
+	const k = cmyk[3] / 100;
+
+	const r = 1 - Math.min(1, c * (1 - k) + k);
+	const g = 1 - Math.min(1, m * (1 - k) + k);
+	const b = 1 - Math.min(1, y * (1 - k) + k);
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.xyz.rgb = function (xyz) {
+	const x = xyz[0] / 100;
+	const y = xyz[1] / 100;
+	const z = xyz[2] / 100;
+	let r;
+	let g;
+	let b;
+
+	r = (x * 3.2406) + (y * -1.5372) + (z * -0.4986);
+	g = (x * -0.9689) + (y * 1.8758) + (z * 0.0415);
+	b = (x * 0.0557) + (y * -0.2040) + (z * 1.0570);
+
+	// Assume sRGB
+	r = r > 0.0031308
+		? ((1.055 * (r ** (1.0 / 2.4))) - 0.055)
+		: r * 12.92;
+
+	g = g > 0.0031308
+		? ((1.055 * (g ** (1.0 / 2.4))) - 0.055)
+		: g * 12.92;
+
+	b = b > 0.0031308
+		? ((1.055 * (b ** (1.0 / 2.4))) - 0.055)
+		: b * 12.92;
+
+	r = Math.min(Math.max(0, r), 1);
+	g = Math.min(Math.max(0, g), 1);
+	b = Math.min(Math.max(0, b), 1);
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.xyz.lab = function (xyz) {
+	let x = xyz[0];
+	let y = xyz[1];
+	let z = xyz[2];
+
+	x /= 95.047;
+	y /= 100;
+	z /= 108.883;
+
+	x = x > 0.008856 ? (x ** (1 / 3)) : (7.787 * x) + (16 / 116);
+	y = y > 0.008856 ? (y ** (1 / 3)) : (7.787 * y) + (16 / 116);
+	z = z > 0.008856 ? (z ** (1 / 3)) : (7.787 * z) + (16 / 116);
+
+	const l = (116 * y) - 16;
+	const a = 500 * (x - y);
+	const b = 200 * (y - z);
+
+	return [l, a, b];
+};
+
+convert.lab.xyz = function (lab) {
+	const l = lab[0];
+	const a = lab[1];
+	const b = lab[2];
+	let x;
+	let y;
+	let z;
+
+	y = (l + 16) / 116;
+	x = a / 500 + y;
+	z = y - b / 200;
+
+	const y2 = y ** 3;
+	const x2 = x ** 3;
+	const z2 = z ** 3;
+	y = y2 > 0.008856 ? y2 : (y - 16 / 116) / 7.787;
+	x = x2 > 0.008856 ? x2 : (x - 16 / 116) / 7.787;
+	z = z2 > 0.008856 ? z2 : (z - 16 / 116) / 7.787;
+
+	x *= 95.047;
+	y *= 100;
+	z *= 108.883;
+
+	return [x, y, z];
+};
+
+convert.lab.lch = function (lab) {
+	const l = lab[0];
+	const a = lab[1];
+	const b = lab[2];
+	let h;
+
+	const hr = Math.atan2(b, a);
+	h = hr * 360 / 2 / Math.PI;
+
+	if (h < 0) {
+		h += 360;
+	}
+
+	const c = Math.sqrt(a * a + b * b);
+
+	return [l, c, h];
+};
+
+convert.lch.lab = function (lch) {
+	const l = lch[0];
+	const c = lch[1];
+	const h = lch[2];
+
+	const hr = h / 360 * 2 * Math.PI;
+	const a = c * Math.cos(hr);
+	const b = c * Math.sin(hr);
+
+	return [l, a, b];
+};
+
+convert.rgb.ansi16 = function (args, saturation = null) {
+	const [r, g, b] = args;
+	let value = saturation === null ? convert.rgb.hsv(args)[2] : saturation; // Hsv -> ansi16 optimization
+
+	value = Math.round(value / 50);
+
+	if (value === 0) {
+		return 30;
+	}
+
+	let ansi = 30
+		+ ((Math.round(b / 255) << 2)
+		| (Math.round(g / 255) << 1)
+		| Math.round(r / 255));
+
+	if (value === 2) {
+		ansi += 60;
+	}
+
+	return ansi;
+};
+
+convert.hsv.ansi16 = function (args) {
+	// Optimization here; we already know the value and don't need to get
+	// it converted for us.
+	return convert.rgb.ansi16(convert.hsv.rgb(args), args[2]);
+};
+
+convert.rgb.ansi256 = function (args) {
+	const r = args[0];
+	const g = args[1];
+	const b = args[2];
+
+	// We use the extended greyscale palette here, with the exception of
+	// black and white. normal palette only has 4 greyscale shades.
+	if (r === g && g === b) {
+		if (r < 8) {
+			return 16;
+		}
+
+		if (r > 248) {
+			return 231;
+		}
+
+		return Math.round(((r - 8) / 247) * 24) + 232;
+	}
+
+	const ansi = 16
+		+ (36 * Math.round(r / 255 * 5))
+		+ (6 * Math.round(g / 255 * 5))
+		+ Math.round(b / 255 * 5);
+
+	return ansi;
+};
+
+convert.ansi16.rgb = function (args) {
+	let color = args % 10;
+
+	// Handle greyscale
+	if (color === 0 || color === 7) {
+		if (args > 50) {
+			color += 3.5;
+		}
+
+		color = color / 10.5 * 255;
+
+		return [color, color, color];
+	}
+
+	const mult = (~~(args > 50) + 1) * 0.5;
+	const r = ((color & 1) * mult) * 255;
+	const g = (((color >> 1) & 1) * mult) * 255;
+	const b = (((color >> 2) & 1) * mult) * 255;
+
+	return [r, g, b];
+};
+
+convert.ansi256.rgb = function (args) {
+	// Handle greyscale
+	if (args >= 232) {
+		const c = (args - 232) * 10 + 8;
+		return [c, c, c];
+	}
+
+	args -= 16;
+
+	let rem;
+	const r = Math.floor(args / 36) / 5 * 255;
+	const g = Math.floor((rem = args % 36) / 6) / 5 * 255;
+	const b = (rem % 6) / 5 * 255;
+
+	return [r, g, b];
+};
+
+convert.rgb.hex = function (args) {
+	const integer = ((Math.round(args[0]) & 0xFF) << 16)
+		+ ((Math.round(args[1]) & 0xFF) << 8)
+		+ (Math.round(args[2]) & 0xFF);
+
+	const string = integer.toString(16).toUpperCase();
+	return '000000'.substring(string.length) + string;
+};
+
+convert.hex.rgb = function (args) {
+	const match = args.toString(16).match(/[a-f0-9]{6}|[a-f0-9]{3}/i);
+	if (!match) {
+		return [0, 0, 0];
+	}
+
+	let colorString = match[0];
+
+	if (match[0].length === 3) {
+		colorString = colorString.split('').map(char => {
+			return char + char;
+		}).join('');
+	}
+
+	const integer = parseInt(colorString, 16);
+	const r = (integer >> 16) & 0xFF;
+	const g = (integer >> 8) & 0xFF;
+	const b = integer & 0xFF;
+
+	return [r, g, b];
+};
+
+convert.rgb.hcg = function (rgb) {
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+	const max = Math.max(Math.max(r, g), b);
+	const min = Math.min(Math.min(r, g), b);
+	const chroma = (max - min);
+	let grayscale;
+	let hue;
+
+	if (chroma < 1) {
+		grayscale = min / (1 - chroma);
+	} else {
+		grayscale = 0;
+	}
+
+	if (chroma <= 0) {
+		hue = 0;
+	} else
+	if (max === r) {
+		hue = ((g - b) / chroma) % 6;
+	} else
+	if (max === g) {
+		hue = 2 + (b - r) / chroma;
+	} else {
+		hue = 4 + (r - g) / chroma;
+	}
+
+	hue /= 6;
+	hue %= 1;
+
+	return [hue * 360, chroma * 100, grayscale * 100];
+};
+
+convert.hsl.hcg = function (hsl) {
+	const s = hsl[1] / 100;
+	const l = hsl[2] / 100;
+
+	const c = l < 0.5 ? (2.0 * s * l) : (2.0 * s * (1.0 - l));
+
+	let f = 0;
+	if (c < 1.0) {
+		f = (l - 0.5 * c) / (1.0 - c);
+	}
+
+	return [hsl[0], c * 100, f * 100];
+};
+
+convert.hsv.hcg = function (hsv) {
+	const s = hsv[1] / 100;
+	const v = hsv[2] / 100;
+
+	const c = s * v;
+	let f = 0;
+
+	if (c < 1.0) {
+		f = (v - c) / (1 - c);
+	}
+
+	return [hsv[0], c * 100, f * 100];
+};
+
+convert.hcg.rgb = function (hcg) {
+	const h = hcg[0] / 360;
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+
+	if (c === 0.0) {
+		return [g * 255, g * 255, g * 255];
+	}
+
+	const pure = [0, 0, 0];
+	const hi = (h % 1) * 6;
+	const v = hi % 1;
+	const w = 1 - v;
+	let mg = 0;
+
+	/* eslint-disable max-statements-per-line */
+	switch (Math.floor(hi)) {
+		case 0:
+			pure[0] = 1; pure[1] = v; pure[2] = 0; break;
+		case 1:
+			pure[0] = w; pure[1] = 1; pure[2] = 0; break;
+		case 2:
+			pure[0] = 0; pure[1] = 1; pure[2] = v; break;
+		case 3:
+			pure[0] = 0; pure[1] = w; pure[2] = 1; break;
+		case 4:
+			pure[0] = v; pure[1] = 0; pure[2] = 1; break;
+		default:
+			pure[0] = 1; pure[1] = 0; pure[2] = w;
+	}
+	/* eslint-enable max-statements-per-line */
+
+	mg = (1.0 - c) * g;
+
+	return [
+		(c * pure[0] + mg) * 255,
+		(c * pure[1] + mg) * 255,
+		(c * pure[2] + mg) * 255
+	];
+};
+
+convert.hcg.hsv = function (hcg) {
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+
+	const v = c + g * (1.0 - c);
+	let f = 0;
+
+	if (v > 0.0) {
+		f = c / v;
+	}
+
+	return [hcg[0], f * 100, v * 100];
+};
+
+convert.hcg.hsl = function (hcg) {
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+
+	const l = g * (1.0 - c) + 0.5 * c;
+	let s = 0;
+
+	if (l > 0.0 && l < 0.5) {
+		s = c / (2 * l);
+	} else
+	if (l >= 0.5 && l < 1.0) {
+		s = c / (2 * (1 - l));
+	}
+
+	return [hcg[0], s * 100, l * 100];
+};
+
+convert.hcg.hwb = function (hcg) {
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+	const v = c + g * (1.0 - c);
+	return [hcg[0], (v - c) * 100, (1 - v) * 100];
+};
+
+convert.hwb.hcg = function (hwb) {
+	const w = hwb[1] / 100;
+	const b = hwb[2] / 100;
+	const v = 1 - b;
+	const c = v - w;
+	let g = 0;
+
+	if (c < 1) {
+		g = (v - c) / (1 - c);
+	}
+
+	return [hwb[0], c * 100, g * 100];
+};
+
+convert.apple.rgb = function (apple) {
+	return [(apple[0] / 65535) * 255, (apple[1] / 65535) * 255, (apple[2] / 65535) * 255];
+};
+
+convert.rgb.apple = function (rgb) {
+	return [(rgb[0] / 255) * 65535, (rgb[1] / 255) * 65535, (rgb[2] / 255) * 65535];
+};
+
+convert.gray.rgb = function (args) {
+	return [args[0] / 100 * 255, args[0] / 100 * 255, args[0] / 100 * 255];
+};
+
+convert.gray.hsl = function (args) {
+	return [0, 0, args[0]];
+};
+
+convert.gray.hsv = convert.gray.hsl;
+
+convert.gray.hwb = function (gray) {
+	return [0, 100, gray[0]];
+};
+
+convert.gray.cmyk = function (gray) {
+	return [0, 0, 0, gray[0]];
+};
+
+convert.gray.lab = function (gray) {
+	return [gray[0], 0, 0];
+};
+
+convert.gray.hex = function (gray) {
+	const val = Math.round(gray[0] / 100 * 255) & 0xFF;
+	const integer = (val << 16) + (val << 8) + val;
+
+	const string = integer.toString(16).toUpperCase();
+	return '000000'.substring(string.length) + string;
+};
+
+convert.rgb.gray = function (rgb) {
+	const val = (rgb[0] + rgb[1] + rgb[2]) / 3;
+	return [val / 255 * 100];
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/_color-convert@2.0.1@color-convert/index.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/_color-convert@2.0.1@color-convert/index.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const conversions = __webpack_require__(/*! ./conversions */ "./node_modules/_color-convert@2.0.1@color-convert/conversions.js");
+const route = __webpack_require__(/*! ./route */ "./node_modules/_color-convert@2.0.1@color-convert/route.js");
+
+const convert = {};
+
+const models = Object.keys(conversions);
+
+function wrapRaw(fn) {
+	const wrappedFn = function (...args) {
+		const arg0 = args[0];
+		if (arg0 === undefined || arg0 === null) {
+			return arg0;
+		}
+
+		if (arg0.length > 1) {
+			args = arg0;
+		}
+
+		return fn(args);
+	};
+
+	// Preserve .conversion property if there is one
+	if ('conversion' in fn) {
+		wrappedFn.conversion = fn.conversion;
+	}
+
+	return wrappedFn;
+}
+
+function wrapRounded(fn) {
+	const wrappedFn = function (...args) {
+		const arg0 = args[0];
+
+		if (arg0 === undefined || arg0 === null) {
+			return arg0;
+		}
+
+		if (arg0.length > 1) {
+			args = arg0;
+		}
+
+		const result = fn(args);
+
+		// We're assuming the result is an array here.
+		// see notice in conversions.js; don't use box types
+		// in conversion functions.
+		if (typeof result === 'object') {
+			for (let len = result.length, i = 0; i < len; i++) {
+				result[i] = Math.round(result[i]);
+			}
+		}
+
+		return result;
+	};
+
+	// Preserve .conversion property if there is one
+	if ('conversion' in fn) {
+		wrappedFn.conversion = fn.conversion;
+	}
+
+	return wrappedFn;
+}
+
+models.forEach(fromModel => {
+	convert[fromModel] = {};
+
+	Object.defineProperty(convert[fromModel], 'channels', {value: conversions[fromModel].channels});
+	Object.defineProperty(convert[fromModel], 'labels', {value: conversions[fromModel].labels});
+
+	const routes = route(fromModel);
+	const routeModels = Object.keys(routes);
+
+	routeModels.forEach(toModel => {
+		const fn = routes[toModel];
+
+		convert[fromModel][toModel] = wrapRounded(fn);
+		convert[fromModel][toModel].raw = wrapRaw(fn);
+	});
+});
+
+module.exports = convert;
+
+
+/***/ }),
+
+/***/ "./node_modules/_color-convert@2.0.1@color-convert/route.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/_color-convert@2.0.1@color-convert/route.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const conversions = __webpack_require__(/*! ./conversions */ "./node_modules/_color-convert@2.0.1@color-convert/conversions.js");
+
+/*
+	This function routes a model to all other models.
+
+	all functions that are routed have a property `.conversion` attached
+	to the returned synthetic function. This property is an array
+	of strings, each with the steps in between the 'from' and 'to'
+	color models (inclusive).
+
+	conversions that are not possible simply are not included.
+*/
+
+function buildGraph() {
+	const graph = {};
+	// https://jsperf.com/object-keys-vs-for-in-with-closure/3
+	const models = Object.keys(conversions);
+
+	for (let len = models.length, i = 0; i < len; i++) {
+		graph[models[i]] = {
+			// http://jsperf.com/1-vs-infinity
+			// micro-opt, but this is simple.
+			distance: -1,
+			parent: null
+		};
+	}
+
+	return graph;
+}
+
+// https://en.wikipedia.org/wiki/Breadth-first_search
+function deriveBFS(fromModel) {
+	const graph = buildGraph();
+	const queue = [fromModel]; // Unshift -> queue -> pop
+
+	graph[fromModel].distance = 0;
+
+	while (queue.length) {
+		const current = queue.pop();
+		const adjacents = Object.keys(conversions[current]);
+
+		for (let len = adjacents.length, i = 0; i < len; i++) {
+			const adjacent = adjacents[i];
+			const node = graph[adjacent];
+
+			if (node.distance === -1) {
+				node.distance = graph[current].distance + 1;
+				node.parent = current;
+				queue.unshift(adjacent);
+			}
+		}
+	}
+
+	return graph;
+}
+
+function link(from, to) {
+	return function (args) {
+		return to(from(args));
+	};
+}
+
+function wrapConversion(toModel, graph) {
+	const path = [graph[toModel].parent, toModel];
+	let fn = conversions[graph[toModel].parent][toModel];
+
+	let cur = graph[toModel].parent;
+	while (graph[cur].parent) {
+		path.unshift(graph[cur].parent);
+		fn = link(conversions[graph[cur].parent][cur], fn);
+		cur = graph[cur].parent;
+	}
+
+	fn.conversion = path;
+	return fn;
+}
+
+module.exports = function (fromModel) {
+	const graph = deriveBFS(fromModel);
+	const conversion = {};
+
+	const models = Object.keys(graph);
+	for (let len = models.length, i = 0; i < len; i++) {
+		const toModel = models[i];
+		const node = graph[toModel];
+
+		if (node.parent === null) {
+			// No possible conversion, or this node is the source model.
+			continue;
+		}
+
+		conversion[toModel] = wrapConversion(toModel, graph);
+	}
+
+	return conversion;
+};
+
+
+
+/***/ }),
+
+/***/ "./node_modules/_color-name@1.1.4@color-name/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/_color-name@1.1.4@color-name/index.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = {
+	"aliceblue": [240, 248, 255],
+	"antiquewhite": [250, 235, 215],
+	"aqua": [0, 255, 255],
+	"aquamarine": [127, 255, 212],
+	"azure": [240, 255, 255],
+	"beige": [245, 245, 220],
+	"bisque": [255, 228, 196],
+	"black": [0, 0, 0],
+	"blanchedalmond": [255, 235, 205],
+	"blue": [0, 0, 255],
+	"blueviolet": [138, 43, 226],
+	"brown": [165, 42, 42],
+	"burlywood": [222, 184, 135],
+	"cadetblue": [95, 158, 160],
+	"chartreuse": [127, 255, 0],
+	"chocolate": [210, 105, 30],
+	"coral": [255, 127, 80],
+	"cornflowerblue": [100, 149, 237],
+	"cornsilk": [255, 248, 220],
+	"crimson": [220, 20, 60],
+	"cyan": [0, 255, 255],
+	"darkblue": [0, 0, 139],
+	"darkcyan": [0, 139, 139],
+	"darkgoldenrod": [184, 134, 11],
+	"darkgray": [169, 169, 169],
+	"darkgreen": [0, 100, 0],
+	"darkgrey": [169, 169, 169],
+	"darkkhaki": [189, 183, 107],
+	"darkmagenta": [139, 0, 139],
+	"darkolivegreen": [85, 107, 47],
+	"darkorange": [255, 140, 0],
+	"darkorchid": [153, 50, 204],
+	"darkred": [139, 0, 0],
+	"darksalmon": [233, 150, 122],
+	"darkseagreen": [143, 188, 143],
+	"darkslateblue": [72, 61, 139],
+	"darkslategray": [47, 79, 79],
+	"darkslategrey": [47, 79, 79],
+	"darkturquoise": [0, 206, 209],
+	"darkviolet": [148, 0, 211],
+	"deeppink": [255, 20, 147],
+	"deepskyblue": [0, 191, 255],
+	"dimgray": [105, 105, 105],
+	"dimgrey": [105, 105, 105],
+	"dodgerblue": [30, 144, 255],
+	"firebrick": [178, 34, 34],
+	"floralwhite": [255, 250, 240],
+	"forestgreen": [34, 139, 34],
+	"fuchsia": [255, 0, 255],
+	"gainsboro": [220, 220, 220],
+	"ghostwhite": [248, 248, 255],
+	"gold": [255, 215, 0],
+	"goldenrod": [218, 165, 32],
+	"gray": [128, 128, 128],
+	"green": [0, 128, 0],
+	"greenyellow": [173, 255, 47],
+	"grey": [128, 128, 128],
+	"honeydew": [240, 255, 240],
+	"hotpink": [255, 105, 180],
+	"indianred": [205, 92, 92],
+	"indigo": [75, 0, 130],
+	"ivory": [255, 255, 240],
+	"khaki": [240, 230, 140],
+	"lavender": [230, 230, 250],
+	"lavenderblush": [255, 240, 245],
+	"lawngreen": [124, 252, 0],
+	"lemonchiffon": [255, 250, 205],
+	"lightblue": [173, 216, 230],
+	"lightcoral": [240, 128, 128],
+	"lightcyan": [224, 255, 255],
+	"lightgoldenrodyellow": [250, 250, 210],
+	"lightgray": [211, 211, 211],
+	"lightgreen": [144, 238, 144],
+	"lightgrey": [211, 211, 211],
+	"lightpink": [255, 182, 193],
+	"lightsalmon": [255, 160, 122],
+	"lightseagreen": [32, 178, 170],
+	"lightskyblue": [135, 206, 250],
+	"lightslategray": [119, 136, 153],
+	"lightslategrey": [119, 136, 153],
+	"lightsteelblue": [176, 196, 222],
+	"lightyellow": [255, 255, 224],
+	"lime": [0, 255, 0],
+	"limegreen": [50, 205, 50],
+	"linen": [250, 240, 230],
+	"magenta": [255, 0, 255],
+	"maroon": [128, 0, 0],
+	"mediumaquamarine": [102, 205, 170],
+	"mediumblue": [0, 0, 205],
+	"mediumorchid": [186, 85, 211],
+	"mediumpurple": [147, 112, 219],
+	"mediumseagreen": [60, 179, 113],
+	"mediumslateblue": [123, 104, 238],
+	"mediumspringgreen": [0, 250, 154],
+	"mediumturquoise": [72, 209, 204],
+	"mediumvioletred": [199, 21, 133],
+	"midnightblue": [25, 25, 112],
+	"mintcream": [245, 255, 250],
+	"mistyrose": [255, 228, 225],
+	"moccasin": [255, 228, 181],
+	"navajowhite": [255, 222, 173],
+	"navy": [0, 0, 128],
+	"oldlace": [253, 245, 230],
+	"olive": [128, 128, 0],
+	"olivedrab": [107, 142, 35],
+	"orange": [255, 165, 0],
+	"orangered": [255, 69, 0],
+	"orchid": [218, 112, 214],
+	"palegoldenrod": [238, 232, 170],
+	"palegreen": [152, 251, 152],
+	"paleturquoise": [175, 238, 238],
+	"palevioletred": [219, 112, 147],
+	"papayawhip": [255, 239, 213],
+	"peachpuff": [255, 218, 185],
+	"peru": [205, 133, 63],
+	"pink": [255, 192, 203],
+	"plum": [221, 160, 221],
+	"powderblue": [176, 224, 230],
+	"purple": [128, 0, 128],
+	"rebeccapurple": [102, 51, 153],
+	"red": [255, 0, 0],
+	"rosybrown": [188, 143, 143],
+	"royalblue": [65, 105, 225],
+	"saddlebrown": [139, 69, 19],
+	"salmon": [250, 128, 114],
+	"sandybrown": [244, 164, 96],
+	"seagreen": [46, 139, 87],
+	"seashell": [255, 245, 238],
+	"sienna": [160, 82, 45],
+	"silver": [192, 192, 192],
+	"skyblue": [135, 206, 235],
+	"slateblue": [106, 90, 205],
+	"slategray": [112, 128, 144],
+	"slategrey": [112, 128, 144],
+	"snow": [255, 250, 250],
+	"springgreen": [0, 255, 127],
+	"steelblue": [70, 130, 180],
+	"tan": [210, 180, 140],
+	"teal": [0, 128, 128],
+	"thistle": [216, 191, 216],
+	"tomato": [255, 99, 71],
+	"turquoise": [64, 224, 208],
+	"violet": [238, 130, 238],
+	"wheat": [245, 222, 179],
+	"white": [255, 255, 255],
+	"whitesmoke": [245, 245, 245],
+	"yellow": [255, 255, 0],
+	"yellowgreen": [154, 205, 50]
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/_dayjs@1.10.4@dayjs/dayjs.min.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/_dayjs@1.10.4@dayjs/dayjs.min.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(t,e){ true?module.exports=e():undefined}(this,function(){"use strict";var t="millisecond",e="second",n="minute",r="hour",i="day",s="week",u="month",a="quarter",o="year",f="date",h=/^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[^0-9]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/,c=/\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,d={name:"en",weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_")},$=function(t,e,n){var r=String(t);return!r||r.length>=e?t:""+Array(e+1-r.length).join(n)+t},l={s:$,z:function(t){var e=-t.utcOffset(),n=Math.abs(e),r=Math.floor(n/60),i=n%60;return(e<=0?"+":"-")+$(r,2,"0")+":"+$(i,2,"0")},m:function t(e,n){if(e.date()<n.date())return-t(n,e);var r=12*(n.year()-e.year())+(n.month()-e.month()),i=e.clone().add(r,u),s=n-i<0,a=e.clone().add(r+(s?-1:1),u);return+(-(r+(n-i)/(s?i-a:a-i))||0)},a:function(t){return t<0?Math.ceil(t)||0:Math.floor(t)},p:function(h){return{M:u,y:o,w:s,d:i,D:f,h:r,m:n,s:e,ms:t,Q:a}[h]||String(h||"").toLowerCase().replace(/s$/,"")},u:function(t){return void 0===t}},y="en",M={};M[y]=d;var m=function(t){return t instanceof S},D=function(t,e,n){var r;if(!t)return y;if("string"==typeof t)M[t]&&(r=t),e&&(M[t]=e,r=t);else{var i=t.name;M[i]=t,r=i}return!n&&r&&(y=r),r||!n&&y},v=function(t,e){if(m(t))return t.clone();var n="object"==typeof e?e:{};return n.date=t,n.args=arguments,new S(n)},g=l;g.l=D,g.i=m,g.w=function(t,e){return v(t,{locale:e.$L,utc:e.$u,x:e.$x,$offset:e.$offset})};var S=function(){function d(t){this.$L=D(t.locale,null,!0),this.parse(t)}var $=d.prototype;return $.parse=function(t){this.$d=function(t){var e=t.date,n=t.utc;if(null===e)return new Date(NaN);if(g.u(e))return new Date;if(e instanceof Date)return new Date(e);if("string"==typeof e&&!/Z$/i.test(e)){var r=e.match(h);if(r){var i=r[2]-1||0,s=(r[7]||"0").substring(0,3);return n?new Date(Date.UTC(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)):new Date(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)}}return new Date(e)}(t),this.$x=t.x||{},this.init()},$.init=function(){var t=this.$d;this.$y=t.getFullYear(),this.$M=t.getMonth(),this.$D=t.getDate(),this.$W=t.getDay(),this.$H=t.getHours(),this.$m=t.getMinutes(),this.$s=t.getSeconds(),this.$ms=t.getMilliseconds()},$.$utils=function(){return g},$.isValid=function(){return!("Invalid Date"===this.$d.toString())},$.isSame=function(t,e){var n=v(t);return this.startOf(e)<=n&&n<=this.endOf(e)},$.isAfter=function(t,e){return v(t)<this.startOf(e)},$.isBefore=function(t,e){return this.endOf(e)<v(t)},$.$g=function(t,e,n){return g.u(t)?this[e]:this.set(n,t)},$.unix=function(){return Math.floor(this.valueOf()/1e3)},$.valueOf=function(){return this.$d.getTime()},$.startOf=function(t,a){var h=this,c=!!g.u(a)||a,d=g.p(t),$=function(t,e){var n=g.w(h.$u?Date.UTC(h.$y,e,t):new Date(h.$y,e,t),h);return c?n:n.endOf(i)},l=function(t,e){return g.w(h.toDate()[t].apply(h.toDate("s"),(c?[0,0,0,0]:[23,59,59,999]).slice(e)),h)},y=this.$W,M=this.$M,m=this.$D,D="set"+(this.$u?"UTC":"");switch(d){case o:return c?$(1,0):$(31,11);case u:return c?$(1,M):$(0,M+1);case s:var v=this.$locale().weekStart||0,S=(y<v?y+7:y)-v;return $(c?m-S:m+(6-S),M);case i:case f:return l(D+"Hours",0);case r:return l(D+"Minutes",1);case n:return l(D+"Seconds",2);case e:return l(D+"Milliseconds",3);default:return this.clone()}},$.endOf=function(t){return this.startOf(t,!1)},$.$set=function(s,a){var h,c=g.p(s),d="set"+(this.$u?"UTC":""),$=(h={},h[i]=d+"Date",h[f]=d+"Date",h[u]=d+"Month",h[o]=d+"FullYear",h[r]=d+"Hours",h[n]=d+"Minutes",h[e]=d+"Seconds",h[t]=d+"Milliseconds",h)[c],l=c===i?this.$D+(a-this.$W):a;if(c===u||c===o){var y=this.clone().set(f,1);y.$d[$](l),y.init(),this.$d=y.set(f,Math.min(this.$D,y.daysInMonth())).$d}else $&&this.$d[$](l);return this.init(),this},$.set=function(t,e){return this.clone().$set(t,e)},$.get=function(t){return this[g.p(t)]()},$.add=function(t,a){var f,h=this;t=Number(t);var c=g.p(a),d=function(e){var n=v(h);return g.w(n.date(n.date()+Math.round(e*t)),h)};if(c===u)return this.set(u,this.$M+t);if(c===o)return this.set(o,this.$y+t);if(c===i)return d(1);if(c===s)return d(7);var $=(f={},f[n]=6e4,f[r]=36e5,f[e]=1e3,f)[c]||1,l=this.$d.getTime()+t*$;return g.w(l,this)},$.subtract=function(t,e){return this.add(-1*t,e)},$.format=function(t){var e=this;if(!this.isValid())return"Invalid Date";var n=t||"YYYY-MM-DDTHH:mm:ssZ",r=g.z(this),i=this.$locale(),s=this.$H,u=this.$m,a=this.$M,o=i.weekdays,f=i.months,h=function(t,r,i,s){return t&&(t[r]||t(e,n))||i[r].substr(0,s)},d=function(t){return g.s(s%12||12,t,"0")},$=i.meridiem||function(t,e,n){var r=t<12?"AM":"PM";return n?r.toLowerCase():r},l={YY:String(this.$y).slice(-2),YYYY:this.$y,M:a+1,MM:g.s(a+1,2,"0"),MMM:h(i.monthsShort,a,f,3),MMMM:h(f,a),D:this.$D,DD:g.s(this.$D,2,"0"),d:String(this.$W),dd:h(i.weekdaysMin,this.$W,o,2),ddd:h(i.weekdaysShort,this.$W,o,3),dddd:o[this.$W],H:String(s),HH:g.s(s,2,"0"),h:d(1),hh:d(2),a:$(s,u,!0),A:$(s,u,!1),m:String(u),mm:g.s(u,2,"0"),s:String(this.$s),ss:g.s(this.$s,2,"0"),SSS:g.s(this.$ms,3,"0"),Z:r};return n.replace(c,function(t,e){return e||l[t]||r.replace(":","")})},$.utcOffset=function(){return 15*-Math.round(this.$d.getTimezoneOffset()/15)},$.diff=function(t,f,h){var c,d=g.p(f),$=v(t),l=6e4*($.utcOffset()-this.utcOffset()),y=this-$,M=g.m(this,$);return M=(c={},c[o]=M/12,c[u]=M,c[a]=M/3,c[s]=(y-l)/6048e5,c[i]=(y-l)/864e5,c[r]=y/36e5,c[n]=y/6e4,c[e]=y/1e3,c)[d]||y,h?M:g.a(M)},$.daysInMonth=function(){return this.endOf(u).$D},$.$locale=function(){return M[this.$L]},$.locale=function(t,e){if(!t)return this.$L;var n=this.clone(),r=D(t,e,!0);return r&&(n.$L=r),n},$.clone=function(){return g.w(this.$d,this)},$.toDate=function(){return new Date(this.valueOf())},$.toJSON=function(){return this.isValid()?this.toISOString():null},$.toISOString=function(){return this.$d.toISOString()},$.toString=function(){return this.$d.toUTCString()},d}(),p=S.prototype;return v.prototype=p,[["$ms",t],["$s",e],["$m",n],["$H",r],["$W",i],["$M",u],["$y",o],["$D",f]].forEach(function(t){p[t[1]]=function(e){return this.$g(e,t[0],t[1])}}),v.extend=function(t,e){return t.$i||(t(e,S,v),t.$i=!0),v},v.locale=D,v.isDayjs=m,v.unix=function(t){return v(1e3*t)},v.en=M[y],v.Ls=M,v.p={},v});
+
+
+/***/ }),
+
+/***/ "./node_modules/_deprecation@2.3.1@deprecation/dist-web/index.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/_deprecation@2.3.1@deprecation/dist-web/index.js ***!
+  \***********************************************************************/
+/*! exports provided: Deprecation */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Deprecation", function() { return Deprecation; });
+class Deprecation extends Error {
+  constructor(message) {
+    super(message); // Maintains proper stack trace (only available on V8)
+
+    /* istanbul ignore next */
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, this.constructor);
+    }
+
+    this.name = 'Deprecation';
+  }
+
+}
+
+
 
 
 /***/ }),
@@ -6791,6 +11357,26 @@ function patch (fs) {
 
 /***/ }),
 
+/***/ "./node_modules/_has-flag@4.0.0@has-flag/index.js":
+/*!********************************************************!*\
+  !*** ./node_modules/_has-flag@4.0.0@has-flag/index.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = (flag, argv = process.argv) => {
+	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
+	const position = argv.indexOf(prefix + flag);
+	const terminatorPosition = argv.indexOf('--');
+	return position !== -1 && (terminatorPosition === -1 || position < terminatorPosition);
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/_is-binary-path@2.1.0@is-binary-path/index.js":
 /*!********************************************************************!*\
   !*** ./node_modules/_is-binary-path@2.1.0@is-binary-path/index.js ***!
@@ -6801,7 +11387,7 @@ function patch (fs) {
 "use strict";
 
 const path = __webpack_require__(/*! path */ "path");
-const binaryExtensions = __webpack_require__(/*! binary-extensions */ "./node_modules/_binary-extensions@2.1.0@binary-extensions/index.js");
+const binaryExtensions = __webpack_require__(/*! binary-extensions */ "./node_modules/_binary-extensions@2.2.0@binary-extensions/index.js");
 
 const extensions = new Set(binaryExtensions);
 
@@ -6926,6 +11512,54 @@ module.exports = function(num) {
   }
   return false;
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/_is-plain-object@5.0.0@is-plain-object/dist/is-plain-object.mjs":
+/*!**************************************************************************************!*\
+  !*** ./node_modules/_is-plain-object@5.0.0@is-plain-object/dist/is-plain-object.mjs ***!
+  \**************************************************************************************/
+/*! exports provided: isPlainObject */
+/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPlainObject", function() { return isPlainObject; });
+/*!
+ * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
+ *
+ * Copyright (c) 2014-2017, Jon Schlinkert.
+ * Released under the MIT License.
+ */
+
+function isObject(o) {
+  return Object.prototype.toString.call(o) === '[object Object]';
+}
+
+function isPlainObject(o) {
+  var ctor,prot;
+
+  if (isObject(o) === false) return false;
+
+  // If has modified constructor
+  ctor = o.constructor;
+  if (ctor === undefined) return true;
+
+  // If has modified prototype
+  prot = ctor.prototype;
+  if (isObject(prot) === false) return false;
+
+  // If constructor does not have an Object-specific method
+  if (prot.hasOwnProperty('isPrototypeOf') === false) {
+    return false;
+  }
+
+  // Most likely a plain Object
+  return true;
+}
+
+
 
 
 /***/ }),
@@ -24215,7 +28849,7 @@ module.exports = { stringify, stripBom }
   else {}
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../_webpack@4.44.2@webpack/buildin/module.js */ "./node_modules/_webpack@4.44.2@webpack/buildin/module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../_webpack@4.46.0@webpack/buildin/module.js */ "./node_modules/_webpack@4.46.0@webpack/buildin/module.js")(module)))
 
 /***/ }),
 
@@ -24521,6 +29155,1666 @@ module.exports = {useNative, useNativeSync}
 
 /***/ }),
 
+/***/ "./node_modules/_node-fetch@2.6.1@node-fetch/lib/index.mjs":
+/*!*****************************************************************!*\
+  !*** ./node_modules/_node-fetch@2.6.1@node-fetch/lib/index.mjs ***!
+  \*****************************************************************/
+/*! exports provided: default, Headers, Request, Response, FetchError */
+/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Headers", function() { return Headers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Request", function() { return Request; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Response", function() { return Response; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FetchError", function() { return FetchError; });
+/* harmony import */ var stream__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! stream */ "stream");
+/* harmony import */ var http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! http */ "http");
+/* harmony import */ var url__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! url */ "url");
+/* harmony import */ var https__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! https */ "https");
+/* harmony import */ var zlib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! zlib */ "zlib");
+
+
+
+
+
+
+// Based on https://github.com/tmpvar/jsdom/blob/aa85b2abf07766ff7bf5c1f6daafb3726f2f2db5/lib/jsdom/living/blob.js
+
+// fix for "Readable" isn't a named export issue
+const Readable = stream__WEBPACK_IMPORTED_MODULE_0__.Readable;
+
+const BUFFER = Symbol('buffer');
+const TYPE = Symbol('type');
+
+class Blob {
+	constructor() {
+		this[TYPE] = '';
+
+		const blobParts = arguments[0];
+		const options = arguments[1];
+
+		const buffers = [];
+		let size = 0;
+
+		if (blobParts) {
+			const a = blobParts;
+			const length = Number(a.length);
+			for (let i = 0; i < length; i++) {
+				const element = a[i];
+				let buffer;
+				if (element instanceof Buffer) {
+					buffer = element;
+				} else if (ArrayBuffer.isView(element)) {
+					buffer = Buffer.from(element.buffer, element.byteOffset, element.byteLength);
+				} else if (element instanceof ArrayBuffer) {
+					buffer = Buffer.from(element);
+				} else if (element instanceof Blob) {
+					buffer = element[BUFFER];
+				} else {
+					buffer = Buffer.from(typeof element === 'string' ? element : String(element));
+				}
+				size += buffer.length;
+				buffers.push(buffer);
+			}
+		}
+
+		this[BUFFER] = Buffer.concat(buffers);
+
+		let type = options && options.type !== undefined && String(options.type).toLowerCase();
+		if (type && !/[^\u0020-\u007E]/.test(type)) {
+			this[TYPE] = type;
+		}
+	}
+	get size() {
+		return this[BUFFER].length;
+	}
+	get type() {
+		return this[TYPE];
+	}
+	text() {
+		return Promise.resolve(this[BUFFER].toString());
+	}
+	arrayBuffer() {
+		const buf = this[BUFFER];
+		const ab = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
+		return Promise.resolve(ab);
+	}
+	stream() {
+		const readable = new Readable();
+		readable._read = function () {};
+		readable.push(this[BUFFER]);
+		readable.push(null);
+		return readable;
+	}
+	toString() {
+		return '[object Blob]';
+	}
+	slice() {
+		const size = this.size;
+
+		const start = arguments[0];
+		const end = arguments[1];
+		let relativeStart, relativeEnd;
+		if (start === undefined) {
+			relativeStart = 0;
+		} else if (start < 0) {
+			relativeStart = Math.max(size + start, 0);
+		} else {
+			relativeStart = Math.min(start, size);
+		}
+		if (end === undefined) {
+			relativeEnd = size;
+		} else if (end < 0) {
+			relativeEnd = Math.max(size + end, 0);
+		} else {
+			relativeEnd = Math.min(end, size);
+		}
+		const span = Math.max(relativeEnd - relativeStart, 0);
+
+		const buffer = this[BUFFER];
+		const slicedBuffer = buffer.slice(relativeStart, relativeStart + span);
+		const blob = new Blob([], { type: arguments[2] });
+		blob[BUFFER] = slicedBuffer;
+		return blob;
+	}
+}
+
+Object.defineProperties(Blob.prototype, {
+	size: { enumerable: true },
+	type: { enumerable: true },
+	slice: { enumerable: true }
+});
+
+Object.defineProperty(Blob.prototype, Symbol.toStringTag, {
+	value: 'Blob',
+	writable: false,
+	enumerable: false,
+	configurable: true
+});
+
+/**
+ * fetch-error.js
+ *
+ * FetchError interface for operational errors
+ */
+
+/**
+ * Create FetchError instance
+ *
+ * @param   String      message      Error message for human
+ * @param   String      type         Error type for machine
+ * @param   String      systemError  For Node.js system error
+ * @return  FetchError
+ */
+function FetchError(message, type, systemError) {
+  Error.call(this, message);
+
+  this.message = message;
+  this.type = type;
+
+  // when err.type is `system`, err.code contains system error code
+  if (systemError) {
+    this.code = this.errno = systemError.code;
+  }
+
+  // hide custom error implementation details from end-users
+  Error.captureStackTrace(this, this.constructor);
+}
+
+FetchError.prototype = Object.create(Error.prototype);
+FetchError.prototype.constructor = FetchError;
+FetchError.prototype.name = 'FetchError';
+
+let convert;
+try {
+	convert = require('encoding').convert;
+} catch (e) {}
+
+const INTERNALS = Symbol('Body internals');
+
+// fix an issue where "PassThrough" isn't a named export for node <10
+const PassThrough = stream__WEBPACK_IMPORTED_MODULE_0__.PassThrough;
+
+/**
+ * Body mixin
+ *
+ * Ref: https://fetch.spec.whatwg.org/#body
+ *
+ * @param   Stream  body  Readable stream
+ * @param   Object  opts  Response options
+ * @return  Void
+ */
+function Body(body) {
+	var _this = this;
+
+	var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+	    _ref$size = _ref.size;
+
+	let size = _ref$size === undefined ? 0 : _ref$size;
+	var _ref$timeout = _ref.timeout;
+	let timeout = _ref$timeout === undefined ? 0 : _ref$timeout;
+
+	if (body == null) {
+		// body is undefined or null
+		body = null;
+	} else if (isURLSearchParams(body)) {
+		// body is a URLSearchParams
+		body = Buffer.from(body.toString());
+	} else if (isBlob(body)) ; else if (Buffer.isBuffer(body)) ; else if (Object.prototype.toString.call(body) === '[object ArrayBuffer]') {
+		// body is ArrayBuffer
+		body = Buffer.from(body);
+	} else if (ArrayBuffer.isView(body)) {
+		// body is ArrayBufferView
+		body = Buffer.from(body.buffer, body.byteOffset, body.byteLength);
+	} else if (body instanceof stream__WEBPACK_IMPORTED_MODULE_0__) ; else {
+		// none of the above
+		// coerce to string then buffer
+		body = Buffer.from(String(body));
+	}
+	this[INTERNALS] = {
+		body,
+		disturbed: false,
+		error: null
+	};
+	this.size = size;
+	this.timeout = timeout;
+
+	if (body instanceof stream__WEBPACK_IMPORTED_MODULE_0__) {
+		body.on('error', function (err) {
+			const error = err.name === 'AbortError' ? err : new FetchError(`Invalid response body while trying to fetch ${_this.url}: ${err.message}`, 'system', err);
+			_this[INTERNALS].error = error;
+		});
+	}
+}
+
+Body.prototype = {
+	get body() {
+		return this[INTERNALS].body;
+	},
+
+	get bodyUsed() {
+		return this[INTERNALS].disturbed;
+	},
+
+	/**
+  * Decode response as ArrayBuffer
+  *
+  * @return  Promise
+  */
+	arrayBuffer() {
+		return consumeBody.call(this).then(function (buf) {
+			return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
+		});
+	},
+
+	/**
+  * Return raw response as Blob
+  *
+  * @return Promise
+  */
+	blob() {
+		let ct = this.headers && this.headers.get('content-type') || '';
+		return consumeBody.call(this).then(function (buf) {
+			return Object.assign(
+			// Prevent copying
+			new Blob([], {
+				type: ct.toLowerCase()
+			}), {
+				[BUFFER]: buf
+			});
+		});
+	},
+
+	/**
+  * Decode response as json
+  *
+  * @return  Promise
+  */
+	json() {
+		var _this2 = this;
+
+		return consumeBody.call(this).then(function (buffer) {
+			try {
+				return JSON.parse(buffer.toString());
+			} catch (err) {
+				return Body.Promise.reject(new FetchError(`invalid json response body at ${_this2.url} reason: ${err.message}`, 'invalid-json'));
+			}
+		});
+	},
+
+	/**
+  * Decode response as text
+  *
+  * @return  Promise
+  */
+	text() {
+		return consumeBody.call(this).then(function (buffer) {
+			return buffer.toString();
+		});
+	},
+
+	/**
+  * Decode response as buffer (non-spec api)
+  *
+  * @return  Promise
+  */
+	buffer() {
+		return consumeBody.call(this);
+	},
+
+	/**
+  * Decode response as text, while automatically detecting the encoding and
+  * trying to decode to UTF-8 (non-spec api)
+  *
+  * @return  Promise
+  */
+	textConverted() {
+		var _this3 = this;
+
+		return consumeBody.call(this).then(function (buffer) {
+			return convertBody(buffer, _this3.headers);
+		});
+	}
+};
+
+// In browsers, all properties are enumerable.
+Object.defineProperties(Body.prototype, {
+	body: { enumerable: true },
+	bodyUsed: { enumerable: true },
+	arrayBuffer: { enumerable: true },
+	blob: { enumerable: true },
+	json: { enumerable: true },
+	text: { enumerable: true }
+});
+
+Body.mixIn = function (proto) {
+	for (const name of Object.getOwnPropertyNames(Body.prototype)) {
+		// istanbul ignore else: future proof
+		if (!(name in proto)) {
+			const desc = Object.getOwnPropertyDescriptor(Body.prototype, name);
+			Object.defineProperty(proto, name, desc);
+		}
+	}
+};
+
+/**
+ * Consume and convert an entire Body to a Buffer.
+ *
+ * Ref: https://fetch.spec.whatwg.org/#concept-body-consume-body
+ *
+ * @return  Promise
+ */
+function consumeBody() {
+	var _this4 = this;
+
+	if (this[INTERNALS].disturbed) {
+		return Body.Promise.reject(new TypeError(`body used already for: ${this.url}`));
+	}
+
+	this[INTERNALS].disturbed = true;
+
+	if (this[INTERNALS].error) {
+		return Body.Promise.reject(this[INTERNALS].error);
+	}
+
+	let body = this.body;
+
+	// body is null
+	if (body === null) {
+		return Body.Promise.resolve(Buffer.alloc(0));
+	}
+
+	// body is blob
+	if (isBlob(body)) {
+		body = body.stream();
+	}
+
+	// body is buffer
+	if (Buffer.isBuffer(body)) {
+		return Body.Promise.resolve(body);
+	}
+
+	// istanbul ignore if: should never happen
+	if (!(body instanceof stream__WEBPACK_IMPORTED_MODULE_0__)) {
+		return Body.Promise.resolve(Buffer.alloc(0));
+	}
+
+	// body is stream
+	// get ready to actually consume the body
+	let accum = [];
+	let accumBytes = 0;
+	let abort = false;
+
+	return new Body.Promise(function (resolve, reject) {
+		let resTimeout;
+
+		// allow timeout on slow response body
+		if (_this4.timeout) {
+			resTimeout = setTimeout(function () {
+				abort = true;
+				reject(new FetchError(`Response timeout while trying to fetch ${_this4.url} (over ${_this4.timeout}ms)`, 'body-timeout'));
+			}, _this4.timeout);
+		}
+
+		// handle stream errors
+		body.on('error', function (err) {
+			if (err.name === 'AbortError') {
+				// if the request was aborted, reject with this Error
+				abort = true;
+				reject(err);
+			} else {
+				// other errors, such as incorrect content-encoding
+				reject(new FetchError(`Invalid response body while trying to fetch ${_this4.url}: ${err.message}`, 'system', err));
+			}
+		});
+
+		body.on('data', function (chunk) {
+			if (abort || chunk === null) {
+				return;
+			}
+
+			if (_this4.size && accumBytes + chunk.length > _this4.size) {
+				abort = true;
+				reject(new FetchError(`content size at ${_this4.url} over limit: ${_this4.size}`, 'max-size'));
+				return;
+			}
+
+			accumBytes += chunk.length;
+			accum.push(chunk);
+		});
+
+		body.on('end', function () {
+			if (abort) {
+				return;
+			}
+
+			clearTimeout(resTimeout);
+
+			try {
+				resolve(Buffer.concat(accum, accumBytes));
+			} catch (err) {
+				// handle streams that have accumulated too much data (issue #414)
+				reject(new FetchError(`Could not create Buffer from response body for ${_this4.url}: ${err.message}`, 'system', err));
+			}
+		});
+	});
+}
+
+/**
+ * Detect buffer encoding and convert to target encoding
+ * ref: http://www.w3.org/TR/2011/WD-html5-20110113/parsing.html#determining-the-character-encoding
+ *
+ * @param   Buffer  buffer    Incoming buffer
+ * @param   String  encoding  Target encoding
+ * @return  String
+ */
+function convertBody(buffer, headers) {
+	if (typeof convert !== 'function') {
+		throw new Error('The package `encoding` must be installed to use the textConverted() function');
+	}
+
+	const ct = headers.get('content-type');
+	let charset = 'utf-8';
+	let res, str;
+
+	// header
+	if (ct) {
+		res = /charset=([^;]*)/i.exec(ct);
+	}
+
+	// no charset in content type, peek at response body for at most 1024 bytes
+	str = buffer.slice(0, 1024).toString();
+
+	// html5
+	if (!res && str) {
+		res = /<meta.+?charset=(['"])(.+?)\1/i.exec(str);
+	}
+
+	// html4
+	if (!res && str) {
+		res = /<meta[\s]+?http-equiv=(['"])content-type\1[\s]+?content=(['"])(.+?)\2/i.exec(str);
+		if (!res) {
+			res = /<meta[\s]+?content=(['"])(.+?)\1[\s]+?http-equiv=(['"])content-type\3/i.exec(str);
+			if (res) {
+				res.pop(); // drop last quote
+			}
+		}
+
+		if (res) {
+			res = /charset=(.*)/i.exec(res.pop());
+		}
+	}
+
+	// xml
+	if (!res && str) {
+		res = /<\?xml.+?encoding=(['"])(.+?)\1/i.exec(str);
+	}
+
+	// found charset
+	if (res) {
+		charset = res.pop();
+
+		// prevent decode issues when sites use incorrect encoding
+		// ref: https://hsivonen.fi/encoding-menu/
+		if (charset === 'gb2312' || charset === 'gbk') {
+			charset = 'gb18030';
+		}
+	}
+
+	// turn raw buffers into a single utf-8 buffer
+	return convert(buffer, 'UTF-8', charset).toString();
+}
+
+/**
+ * Detect a URLSearchParams object
+ * ref: https://github.com/bitinn/node-fetch/issues/296#issuecomment-307598143
+ *
+ * @param   Object  obj     Object to detect by type or brand
+ * @return  String
+ */
+function isURLSearchParams(obj) {
+	// Duck-typing as a necessary condition.
+	if (typeof obj !== 'object' || typeof obj.append !== 'function' || typeof obj.delete !== 'function' || typeof obj.get !== 'function' || typeof obj.getAll !== 'function' || typeof obj.has !== 'function' || typeof obj.set !== 'function') {
+		return false;
+	}
+
+	// Brand-checking and more duck-typing as optional condition.
+	return obj.constructor.name === 'URLSearchParams' || Object.prototype.toString.call(obj) === '[object URLSearchParams]' || typeof obj.sort === 'function';
+}
+
+/**
+ * Check if `obj` is a W3C `Blob` object (which `File` inherits from)
+ * @param  {*} obj
+ * @return {boolean}
+ */
+function isBlob(obj) {
+	return typeof obj === 'object' && typeof obj.arrayBuffer === 'function' && typeof obj.type === 'string' && typeof obj.stream === 'function' && typeof obj.constructor === 'function' && typeof obj.constructor.name === 'string' && /^(Blob|File)$/.test(obj.constructor.name) && /^(Blob|File)$/.test(obj[Symbol.toStringTag]);
+}
+
+/**
+ * Clone body given Res/Req instance
+ *
+ * @param   Mixed  instance  Response or Request instance
+ * @return  Mixed
+ */
+function clone(instance) {
+	let p1, p2;
+	let body = instance.body;
+
+	// don't allow cloning a used body
+	if (instance.bodyUsed) {
+		throw new Error('cannot clone body after it is used');
+	}
+
+	// check that body is a stream and not form-data object
+	// note: we can't clone the form-data object without having it as a dependency
+	if (body instanceof stream__WEBPACK_IMPORTED_MODULE_0__ && typeof body.getBoundary !== 'function') {
+		// tee instance body
+		p1 = new PassThrough();
+		p2 = new PassThrough();
+		body.pipe(p1);
+		body.pipe(p2);
+		// set instance body to teed body and return the other teed body
+		instance[INTERNALS].body = p1;
+		body = p2;
+	}
+
+	return body;
+}
+
+/**
+ * Performs the operation "extract a `Content-Type` value from |object|" as
+ * specified in the specification:
+ * https://fetch.spec.whatwg.org/#concept-bodyinit-extract
+ *
+ * This function assumes that instance.body is present.
+ *
+ * @param   Mixed  instance  Any options.body input
+ */
+function extractContentType(body) {
+	if (body === null) {
+		// body is null
+		return null;
+	} else if (typeof body === 'string') {
+		// body is string
+		return 'text/plain;charset=UTF-8';
+	} else if (isURLSearchParams(body)) {
+		// body is a URLSearchParams
+		return 'application/x-www-form-urlencoded;charset=UTF-8';
+	} else if (isBlob(body)) {
+		// body is blob
+		return body.type || null;
+	} else if (Buffer.isBuffer(body)) {
+		// body is buffer
+		return null;
+	} else if (Object.prototype.toString.call(body) === '[object ArrayBuffer]') {
+		// body is ArrayBuffer
+		return null;
+	} else if (ArrayBuffer.isView(body)) {
+		// body is ArrayBufferView
+		return null;
+	} else if (typeof body.getBoundary === 'function') {
+		// detect form data input from form-data module
+		return `multipart/form-data;boundary=${body.getBoundary()}`;
+	} else if (body instanceof stream__WEBPACK_IMPORTED_MODULE_0__) {
+		// body is stream
+		// can't really do much about this
+		return null;
+	} else {
+		// Body constructor defaults other things to string
+		return 'text/plain;charset=UTF-8';
+	}
+}
+
+/**
+ * The Fetch Standard treats this as if "total bytes" is a property on the body.
+ * For us, we have to explicitly get it with a function.
+ *
+ * ref: https://fetch.spec.whatwg.org/#concept-body-total-bytes
+ *
+ * @param   Body    instance   Instance of Body
+ * @return  Number?            Number of bytes, or null if not possible
+ */
+function getTotalBytes(instance) {
+	const body = instance.body;
+
+
+	if (body === null) {
+		// body is null
+		return 0;
+	} else if (isBlob(body)) {
+		return body.size;
+	} else if (Buffer.isBuffer(body)) {
+		// body is buffer
+		return body.length;
+	} else if (body && typeof body.getLengthSync === 'function') {
+		// detect form data input from form-data module
+		if (body._lengthRetrievers && body._lengthRetrievers.length == 0 || // 1.x
+		body.hasKnownLength && body.hasKnownLength()) {
+			// 2.x
+			return body.getLengthSync();
+		}
+		return null;
+	} else {
+		// body is stream
+		return null;
+	}
+}
+
+/**
+ * Write a Body to a Node.js WritableStream (e.g. http.Request) object.
+ *
+ * @param   Body    instance   Instance of Body
+ * @return  Void
+ */
+function writeToStream(dest, instance) {
+	const body = instance.body;
+
+
+	if (body === null) {
+		// body is null
+		dest.end();
+	} else if (isBlob(body)) {
+		body.stream().pipe(dest);
+	} else if (Buffer.isBuffer(body)) {
+		// body is buffer
+		dest.write(body);
+		dest.end();
+	} else {
+		// body is stream
+		body.pipe(dest);
+	}
+}
+
+// expose Promise
+Body.Promise = global.Promise;
+
+/**
+ * headers.js
+ *
+ * Headers class offers convenient helpers
+ */
+
+const invalidTokenRegex = /[^\^_`a-zA-Z\-0-9!#$%&'*+.|~]/;
+const invalidHeaderCharRegex = /[^\t\x20-\x7e\x80-\xff]/;
+
+function validateName(name) {
+	name = `${name}`;
+	if (invalidTokenRegex.test(name) || name === '') {
+		throw new TypeError(`${name} is not a legal HTTP header name`);
+	}
+}
+
+function validateValue(value) {
+	value = `${value}`;
+	if (invalidHeaderCharRegex.test(value)) {
+		throw new TypeError(`${value} is not a legal HTTP header value`);
+	}
+}
+
+/**
+ * Find the key in the map object given a header name.
+ *
+ * Returns undefined if not found.
+ *
+ * @param   String  name  Header name
+ * @return  String|Undefined
+ */
+function find(map, name) {
+	name = name.toLowerCase();
+	for (const key in map) {
+		if (key.toLowerCase() === name) {
+			return key;
+		}
+	}
+	return undefined;
+}
+
+const MAP = Symbol('map');
+class Headers {
+	/**
+  * Headers class
+  *
+  * @param   Object  headers  Response headers
+  * @return  Void
+  */
+	constructor() {
+		let init = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+
+		this[MAP] = Object.create(null);
+
+		if (init instanceof Headers) {
+			const rawHeaders = init.raw();
+			const headerNames = Object.keys(rawHeaders);
+
+			for (const headerName of headerNames) {
+				for (const value of rawHeaders[headerName]) {
+					this.append(headerName, value);
+				}
+			}
+
+			return;
+		}
+
+		// We don't worry about converting prop to ByteString here as append()
+		// will handle it.
+		if (init == null) ; else if (typeof init === 'object') {
+			const method = init[Symbol.iterator];
+			if (method != null) {
+				if (typeof method !== 'function') {
+					throw new TypeError('Header pairs must be iterable');
+				}
+
+				// sequence<sequence<ByteString>>
+				// Note: per spec we have to first exhaust the lists then process them
+				const pairs = [];
+				for (const pair of init) {
+					if (typeof pair !== 'object' || typeof pair[Symbol.iterator] !== 'function') {
+						throw new TypeError('Each header pair must be iterable');
+					}
+					pairs.push(Array.from(pair));
+				}
+
+				for (const pair of pairs) {
+					if (pair.length !== 2) {
+						throw new TypeError('Each header pair must be a name/value tuple');
+					}
+					this.append(pair[0], pair[1]);
+				}
+			} else {
+				// record<ByteString, ByteString>
+				for (const key of Object.keys(init)) {
+					const value = init[key];
+					this.append(key, value);
+				}
+			}
+		} else {
+			throw new TypeError('Provided initializer must be an object');
+		}
+	}
+
+	/**
+  * Return combined header value given name
+  *
+  * @param   String  name  Header name
+  * @return  Mixed
+  */
+	get(name) {
+		name = `${name}`;
+		validateName(name);
+		const key = find(this[MAP], name);
+		if (key === undefined) {
+			return null;
+		}
+
+		return this[MAP][key].join(', ');
+	}
+
+	/**
+  * Iterate over all headers
+  *
+  * @param   Function  callback  Executed for each item with parameters (value, name, thisArg)
+  * @param   Boolean   thisArg   `this` context for callback function
+  * @return  Void
+  */
+	forEach(callback) {
+		let thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+
+		let pairs = getHeaders(this);
+		let i = 0;
+		while (i < pairs.length) {
+			var _pairs$i = pairs[i];
+			const name = _pairs$i[0],
+			      value = _pairs$i[1];
+
+			callback.call(thisArg, value, name, this);
+			pairs = getHeaders(this);
+			i++;
+		}
+	}
+
+	/**
+  * Overwrite header values given name
+  *
+  * @param   String  name   Header name
+  * @param   String  value  Header value
+  * @return  Void
+  */
+	set(name, value) {
+		name = `${name}`;
+		value = `${value}`;
+		validateName(name);
+		validateValue(value);
+		const key = find(this[MAP], name);
+		this[MAP][key !== undefined ? key : name] = [value];
+	}
+
+	/**
+  * Append a value onto existing header
+  *
+  * @param   String  name   Header name
+  * @param   String  value  Header value
+  * @return  Void
+  */
+	append(name, value) {
+		name = `${name}`;
+		value = `${value}`;
+		validateName(name);
+		validateValue(value);
+		const key = find(this[MAP], name);
+		if (key !== undefined) {
+			this[MAP][key].push(value);
+		} else {
+			this[MAP][name] = [value];
+		}
+	}
+
+	/**
+  * Check for header name existence
+  *
+  * @param   String   name  Header name
+  * @return  Boolean
+  */
+	has(name) {
+		name = `${name}`;
+		validateName(name);
+		return find(this[MAP], name) !== undefined;
+	}
+
+	/**
+  * Delete all header values given name
+  *
+  * @param   String  name  Header name
+  * @return  Void
+  */
+	delete(name) {
+		name = `${name}`;
+		validateName(name);
+		const key = find(this[MAP], name);
+		if (key !== undefined) {
+			delete this[MAP][key];
+		}
+	}
+
+	/**
+  * Return raw headers (non-spec api)
+  *
+  * @return  Object
+  */
+	raw() {
+		return this[MAP];
+	}
+
+	/**
+  * Get an iterator on keys.
+  *
+  * @return  Iterator
+  */
+	keys() {
+		return createHeadersIterator(this, 'key');
+	}
+
+	/**
+  * Get an iterator on values.
+  *
+  * @return  Iterator
+  */
+	values() {
+		return createHeadersIterator(this, 'value');
+	}
+
+	/**
+  * Get an iterator on entries.
+  *
+  * This is the default iterator of the Headers object.
+  *
+  * @return  Iterator
+  */
+	[Symbol.iterator]() {
+		return createHeadersIterator(this, 'key+value');
+	}
+}
+Headers.prototype.entries = Headers.prototype[Symbol.iterator];
+
+Object.defineProperty(Headers.prototype, Symbol.toStringTag, {
+	value: 'Headers',
+	writable: false,
+	enumerable: false,
+	configurable: true
+});
+
+Object.defineProperties(Headers.prototype, {
+	get: { enumerable: true },
+	forEach: { enumerable: true },
+	set: { enumerable: true },
+	append: { enumerable: true },
+	has: { enumerable: true },
+	delete: { enumerable: true },
+	keys: { enumerable: true },
+	values: { enumerable: true },
+	entries: { enumerable: true }
+});
+
+function getHeaders(headers) {
+	let kind = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'key+value';
+
+	const keys = Object.keys(headers[MAP]).sort();
+	return keys.map(kind === 'key' ? function (k) {
+		return k.toLowerCase();
+	} : kind === 'value' ? function (k) {
+		return headers[MAP][k].join(', ');
+	} : function (k) {
+		return [k.toLowerCase(), headers[MAP][k].join(', ')];
+	});
+}
+
+const INTERNAL = Symbol('internal');
+
+function createHeadersIterator(target, kind) {
+	const iterator = Object.create(HeadersIteratorPrototype);
+	iterator[INTERNAL] = {
+		target,
+		kind,
+		index: 0
+	};
+	return iterator;
+}
+
+const HeadersIteratorPrototype = Object.setPrototypeOf({
+	next() {
+		// istanbul ignore if
+		if (!this || Object.getPrototypeOf(this) !== HeadersIteratorPrototype) {
+			throw new TypeError('Value of `this` is not a HeadersIterator');
+		}
+
+		var _INTERNAL = this[INTERNAL];
+		const target = _INTERNAL.target,
+		      kind = _INTERNAL.kind,
+		      index = _INTERNAL.index;
+
+		const values = getHeaders(target, kind);
+		const len = values.length;
+		if (index >= len) {
+			return {
+				value: undefined,
+				done: true
+			};
+		}
+
+		this[INTERNAL].index = index + 1;
+
+		return {
+			value: values[index],
+			done: false
+		};
+	}
+}, Object.getPrototypeOf(Object.getPrototypeOf([][Symbol.iterator]())));
+
+Object.defineProperty(HeadersIteratorPrototype, Symbol.toStringTag, {
+	value: 'HeadersIterator',
+	writable: false,
+	enumerable: false,
+	configurable: true
+});
+
+/**
+ * Export the Headers object in a form that Node.js can consume.
+ *
+ * @param   Headers  headers
+ * @return  Object
+ */
+function exportNodeCompatibleHeaders(headers) {
+	const obj = Object.assign({ __proto__: null }, headers[MAP]);
+
+	// http.request() only supports string as Host header. This hack makes
+	// specifying custom Host header possible.
+	const hostHeaderKey = find(headers[MAP], 'Host');
+	if (hostHeaderKey !== undefined) {
+		obj[hostHeaderKey] = obj[hostHeaderKey][0];
+	}
+
+	return obj;
+}
+
+/**
+ * Create a Headers object from an object of headers, ignoring those that do
+ * not conform to HTTP grammar productions.
+ *
+ * @param   Object  obj  Object of headers
+ * @return  Headers
+ */
+function createHeadersLenient(obj) {
+	const headers = new Headers();
+	for (const name of Object.keys(obj)) {
+		if (invalidTokenRegex.test(name)) {
+			continue;
+		}
+		if (Array.isArray(obj[name])) {
+			for (const val of obj[name]) {
+				if (invalidHeaderCharRegex.test(val)) {
+					continue;
+				}
+				if (headers[MAP][name] === undefined) {
+					headers[MAP][name] = [val];
+				} else {
+					headers[MAP][name].push(val);
+				}
+			}
+		} else if (!invalidHeaderCharRegex.test(obj[name])) {
+			headers[MAP][name] = [obj[name]];
+		}
+	}
+	return headers;
+}
+
+const INTERNALS$1 = Symbol('Response internals');
+
+// fix an issue where "STATUS_CODES" aren't a named export for node <10
+const STATUS_CODES = http__WEBPACK_IMPORTED_MODULE_1__.STATUS_CODES;
+
+/**
+ * Response class
+ *
+ * @param   Stream  body  Readable stream
+ * @param   Object  opts  Response options
+ * @return  Void
+ */
+class Response {
+	constructor() {
+		let body = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+		let opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+		Body.call(this, body, opts);
+
+		const status = opts.status || 200;
+		const headers = new Headers(opts.headers);
+
+		if (body != null && !headers.has('Content-Type')) {
+			const contentType = extractContentType(body);
+			if (contentType) {
+				headers.append('Content-Type', contentType);
+			}
+		}
+
+		this[INTERNALS$1] = {
+			url: opts.url,
+			status,
+			statusText: opts.statusText || STATUS_CODES[status],
+			headers,
+			counter: opts.counter
+		};
+	}
+
+	get url() {
+		return this[INTERNALS$1].url || '';
+	}
+
+	get status() {
+		return this[INTERNALS$1].status;
+	}
+
+	/**
+  * Convenience property representing if the request ended normally
+  */
+	get ok() {
+		return this[INTERNALS$1].status >= 200 && this[INTERNALS$1].status < 300;
+	}
+
+	get redirected() {
+		return this[INTERNALS$1].counter > 0;
+	}
+
+	get statusText() {
+		return this[INTERNALS$1].statusText;
+	}
+
+	get headers() {
+		return this[INTERNALS$1].headers;
+	}
+
+	/**
+  * Clone this response
+  *
+  * @return  Response
+  */
+	clone() {
+		return new Response(clone(this), {
+			url: this.url,
+			status: this.status,
+			statusText: this.statusText,
+			headers: this.headers,
+			ok: this.ok,
+			redirected: this.redirected
+		});
+	}
+}
+
+Body.mixIn(Response.prototype);
+
+Object.defineProperties(Response.prototype, {
+	url: { enumerable: true },
+	status: { enumerable: true },
+	ok: { enumerable: true },
+	redirected: { enumerable: true },
+	statusText: { enumerable: true },
+	headers: { enumerable: true },
+	clone: { enumerable: true }
+});
+
+Object.defineProperty(Response.prototype, Symbol.toStringTag, {
+	value: 'Response',
+	writable: false,
+	enumerable: false,
+	configurable: true
+});
+
+const INTERNALS$2 = Symbol('Request internals');
+
+// fix an issue where "format", "parse" aren't a named export for node <10
+const parse_url = url__WEBPACK_IMPORTED_MODULE_2__.parse;
+const format_url = url__WEBPACK_IMPORTED_MODULE_2__.format;
+
+const streamDestructionSupported = 'destroy' in stream__WEBPACK_IMPORTED_MODULE_0__.Readable.prototype;
+
+/**
+ * Check if a value is an instance of Request.
+ *
+ * @param   Mixed   input
+ * @return  Boolean
+ */
+function isRequest(input) {
+	return typeof input === 'object' && typeof input[INTERNALS$2] === 'object';
+}
+
+function isAbortSignal(signal) {
+	const proto = signal && typeof signal === 'object' && Object.getPrototypeOf(signal);
+	return !!(proto && proto.constructor.name === 'AbortSignal');
+}
+
+/**
+ * Request class
+ *
+ * @param   Mixed   input  Url or Request instance
+ * @param   Object  init   Custom options
+ * @return  Void
+ */
+class Request {
+	constructor(input) {
+		let init = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+		let parsedURL;
+
+		// normalize input
+		if (!isRequest(input)) {
+			if (input && input.href) {
+				// in order to support Node.js' Url objects; though WHATWG's URL objects
+				// will fall into this branch also (since their `toString()` will return
+				// `href` property anyway)
+				parsedURL = parse_url(input.href);
+			} else {
+				// coerce input to a string before attempting to parse
+				parsedURL = parse_url(`${input}`);
+			}
+			input = {};
+		} else {
+			parsedURL = parse_url(input.url);
+		}
+
+		let method = init.method || input.method || 'GET';
+		method = method.toUpperCase();
+
+		if ((init.body != null || isRequest(input) && input.body !== null) && (method === 'GET' || method === 'HEAD')) {
+			throw new TypeError('Request with GET/HEAD method cannot have body');
+		}
+
+		let inputBody = init.body != null ? init.body : isRequest(input) && input.body !== null ? clone(input) : null;
+
+		Body.call(this, inputBody, {
+			timeout: init.timeout || input.timeout || 0,
+			size: init.size || input.size || 0
+		});
+
+		const headers = new Headers(init.headers || input.headers || {});
+
+		if (inputBody != null && !headers.has('Content-Type')) {
+			const contentType = extractContentType(inputBody);
+			if (contentType) {
+				headers.append('Content-Type', contentType);
+			}
+		}
+
+		let signal = isRequest(input) ? input.signal : null;
+		if ('signal' in init) signal = init.signal;
+
+		if (signal != null && !isAbortSignal(signal)) {
+			throw new TypeError('Expected signal to be an instanceof AbortSignal');
+		}
+
+		this[INTERNALS$2] = {
+			method,
+			redirect: init.redirect || input.redirect || 'follow',
+			headers,
+			parsedURL,
+			signal
+		};
+
+		// node-fetch-only options
+		this.follow = init.follow !== undefined ? init.follow : input.follow !== undefined ? input.follow : 20;
+		this.compress = init.compress !== undefined ? init.compress : input.compress !== undefined ? input.compress : true;
+		this.counter = init.counter || input.counter || 0;
+		this.agent = init.agent || input.agent;
+	}
+
+	get method() {
+		return this[INTERNALS$2].method;
+	}
+
+	get url() {
+		return format_url(this[INTERNALS$2].parsedURL);
+	}
+
+	get headers() {
+		return this[INTERNALS$2].headers;
+	}
+
+	get redirect() {
+		return this[INTERNALS$2].redirect;
+	}
+
+	get signal() {
+		return this[INTERNALS$2].signal;
+	}
+
+	/**
+  * Clone this request
+  *
+  * @return  Request
+  */
+	clone() {
+		return new Request(this);
+	}
+}
+
+Body.mixIn(Request.prototype);
+
+Object.defineProperty(Request.prototype, Symbol.toStringTag, {
+	value: 'Request',
+	writable: false,
+	enumerable: false,
+	configurable: true
+});
+
+Object.defineProperties(Request.prototype, {
+	method: { enumerable: true },
+	url: { enumerable: true },
+	headers: { enumerable: true },
+	redirect: { enumerable: true },
+	clone: { enumerable: true },
+	signal: { enumerable: true }
+});
+
+/**
+ * Convert a Request to Node.js http request options.
+ *
+ * @param   Request  A Request instance
+ * @return  Object   The options object to be passed to http.request
+ */
+function getNodeRequestOptions(request) {
+	const parsedURL = request[INTERNALS$2].parsedURL;
+	const headers = new Headers(request[INTERNALS$2].headers);
+
+	// fetch step 1.3
+	if (!headers.has('Accept')) {
+		headers.set('Accept', '*/*');
+	}
+
+	// Basic fetch
+	if (!parsedURL.protocol || !parsedURL.hostname) {
+		throw new TypeError('Only absolute URLs are supported');
+	}
+
+	if (!/^https?:$/.test(parsedURL.protocol)) {
+		throw new TypeError('Only HTTP(S) protocols are supported');
+	}
+
+	if (request.signal && request.body instanceof stream__WEBPACK_IMPORTED_MODULE_0__.Readable && !streamDestructionSupported) {
+		throw new Error('Cancellation of streamed requests with AbortSignal is not supported in node < 8');
+	}
+
+	// HTTP-network-or-cache fetch steps 2.4-2.7
+	let contentLengthValue = null;
+	if (request.body == null && /^(POST|PUT)$/i.test(request.method)) {
+		contentLengthValue = '0';
+	}
+	if (request.body != null) {
+		const totalBytes = getTotalBytes(request);
+		if (typeof totalBytes === 'number') {
+			contentLengthValue = String(totalBytes);
+		}
+	}
+	if (contentLengthValue) {
+		headers.set('Content-Length', contentLengthValue);
+	}
+
+	// HTTP-network-or-cache fetch step 2.11
+	if (!headers.has('User-Agent')) {
+		headers.set('User-Agent', 'node-fetch/1.0 (+https://github.com/bitinn/node-fetch)');
+	}
+
+	// HTTP-network-or-cache fetch step 2.15
+	if (request.compress && !headers.has('Accept-Encoding')) {
+		headers.set('Accept-Encoding', 'gzip,deflate');
+	}
+
+	let agent = request.agent;
+	if (typeof agent === 'function') {
+		agent = agent(parsedURL);
+	}
+
+	if (!headers.has('Connection') && !agent) {
+		headers.set('Connection', 'close');
+	}
+
+	// HTTP-network fetch step 4.2
+	// chunked encoding is handled by Node.js
+
+	return Object.assign({}, parsedURL, {
+		method: request.method,
+		headers: exportNodeCompatibleHeaders(headers),
+		agent
+	});
+}
+
+/**
+ * abort-error.js
+ *
+ * AbortError interface for cancelled requests
+ */
+
+/**
+ * Create AbortError instance
+ *
+ * @param   String      message      Error message for human
+ * @return  AbortError
+ */
+function AbortError(message) {
+  Error.call(this, message);
+
+  this.type = 'aborted';
+  this.message = message;
+
+  // hide custom error implementation details from end-users
+  Error.captureStackTrace(this, this.constructor);
+}
+
+AbortError.prototype = Object.create(Error.prototype);
+AbortError.prototype.constructor = AbortError;
+AbortError.prototype.name = 'AbortError';
+
+// fix an issue where "PassThrough", "resolve" aren't a named export for node <10
+const PassThrough$1 = stream__WEBPACK_IMPORTED_MODULE_0__.PassThrough;
+const resolve_url = url__WEBPACK_IMPORTED_MODULE_2__.resolve;
+
+/**
+ * Fetch function
+ *
+ * @param   Mixed    url   Absolute url or Request instance
+ * @param   Object   opts  Fetch options
+ * @return  Promise
+ */
+function fetch(url, opts) {
+
+	// allow custom promise
+	if (!fetch.Promise) {
+		throw new Error('native promise missing, set fetch.Promise to your favorite alternative');
+	}
+
+	Body.Promise = fetch.Promise;
+
+	// wrap http.request into fetch
+	return new fetch.Promise(function (resolve, reject) {
+		// build request object
+		const request = new Request(url, opts);
+		const options = getNodeRequestOptions(request);
+
+		const send = (options.protocol === 'https:' ? https__WEBPACK_IMPORTED_MODULE_3__ : http__WEBPACK_IMPORTED_MODULE_1__).request;
+		const signal = request.signal;
+
+		let response = null;
+
+		const abort = function abort() {
+			let error = new AbortError('The user aborted a request.');
+			reject(error);
+			if (request.body && request.body instanceof stream__WEBPACK_IMPORTED_MODULE_0__.Readable) {
+				request.body.destroy(error);
+			}
+			if (!response || !response.body) return;
+			response.body.emit('error', error);
+		};
+
+		if (signal && signal.aborted) {
+			abort();
+			return;
+		}
+
+		const abortAndFinalize = function abortAndFinalize() {
+			abort();
+			finalize();
+		};
+
+		// send request
+		const req = send(options);
+		let reqTimeout;
+
+		if (signal) {
+			signal.addEventListener('abort', abortAndFinalize);
+		}
+
+		function finalize() {
+			req.abort();
+			if (signal) signal.removeEventListener('abort', abortAndFinalize);
+			clearTimeout(reqTimeout);
+		}
+
+		if (request.timeout) {
+			req.once('socket', function (socket) {
+				reqTimeout = setTimeout(function () {
+					reject(new FetchError(`network timeout at: ${request.url}`, 'request-timeout'));
+					finalize();
+				}, request.timeout);
+			});
+		}
+
+		req.on('error', function (err) {
+			reject(new FetchError(`request to ${request.url} failed, reason: ${err.message}`, 'system', err));
+			finalize();
+		});
+
+		req.on('response', function (res) {
+			clearTimeout(reqTimeout);
+
+			const headers = createHeadersLenient(res.headers);
+
+			// HTTP fetch step 5
+			if (fetch.isRedirect(res.statusCode)) {
+				// HTTP fetch step 5.2
+				const location = headers.get('Location');
+
+				// HTTP fetch step 5.3
+				const locationURL = location === null ? null : resolve_url(request.url, location);
+
+				// HTTP fetch step 5.5
+				switch (request.redirect) {
+					case 'error':
+						reject(new FetchError(`uri requested responds with a redirect, redirect mode is set to error: ${request.url}`, 'no-redirect'));
+						finalize();
+						return;
+					case 'manual':
+						// node-fetch-specific step: make manual redirect a bit easier to use by setting the Location header value to the resolved URL.
+						if (locationURL !== null) {
+							// handle corrupted header
+							try {
+								headers.set('Location', locationURL);
+							} catch (err) {
+								// istanbul ignore next: nodejs server prevent invalid response headers, we can't test this through normal request
+								reject(err);
+							}
+						}
+						break;
+					case 'follow':
+						// HTTP-redirect fetch step 2
+						if (locationURL === null) {
+							break;
+						}
+
+						// HTTP-redirect fetch step 5
+						if (request.counter >= request.follow) {
+							reject(new FetchError(`maximum redirect reached at: ${request.url}`, 'max-redirect'));
+							finalize();
+							return;
+						}
+
+						// HTTP-redirect fetch step 6 (counter increment)
+						// Create a new Request object.
+						const requestOpts = {
+							headers: new Headers(request.headers),
+							follow: request.follow,
+							counter: request.counter + 1,
+							agent: request.agent,
+							compress: request.compress,
+							method: request.method,
+							body: request.body,
+							signal: request.signal,
+							timeout: request.timeout,
+							size: request.size
+						};
+
+						// HTTP-redirect fetch step 9
+						if (res.statusCode !== 303 && request.body && getTotalBytes(request) === null) {
+							reject(new FetchError('Cannot follow redirect with body being a readable stream', 'unsupported-redirect'));
+							finalize();
+							return;
+						}
+
+						// HTTP-redirect fetch step 11
+						if (res.statusCode === 303 || (res.statusCode === 301 || res.statusCode === 302) && request.method === 'POST') {
+							requestOpts.method = 'GET';
+							requestOpts.body = undefined;
+							requestOpts.headers.delete('content-length');
+						}
+
+						// HTTP-redirect fetch step 15
+						resolve(fetch(new Request(locationURL, requestOpts)));
+						finalize();
+						return;
+				}
+			}
+
+			// prepare response
+			res.once('end', function () {
+				if (signal) signal.removeEventListener('abort', abortAndFinalize);
+			});
+			let body = res.pipe(new PassThrough$1());
+
+			const response_options = {
+				url: request.url,
+				status: res.statusCode,
+				statusText: res.statusMessage,
+				headers: headers,
+				size: request.size,
+				timeout: request.timeout,
+				counter: request.counter
+			};
+
+			// HTTP-network fetch step 12.1.1.3
+			const codings = headers.get('Content-Encoding');
+
+			// HTTP-network fetch step 12.1.1.4: handle content codings
+
+			// in following scenarios we ignore compression support
+			// 1. compression support is disabled
+			// 2. HEAD request
+			// 3. no Content-Encoding header
+			// 4. no content response (204)
+			// 5. content not modified response (304)
+			if (!request.compress || request.method === 'HEAD' || codings === null || res.statusCode === 204 || res.statusCode === 304) {
+				response = new Response(body, response_options);
+				resolve(response);
+				return;
+			}
+
+			// For Node v6+
+			// Be less strict when decoding compressed responses, since sometimes
+			// servers send slightly invalid responses that are still accepted
+			// by common browsers.
+			// Always using Z_SYNC_FLUSH is what cURL does.
+			const zlibOptions = {
+				flush: zlib__WEBPACK_IMPORTED_MODULE_4__.Z_SYNC_FLUSH,
+				finishFlush: zlib__WEBPACK_IMPORTED_MODULE_4__.Z_SYNC_FLUSH
+			};
+
+			// for gzip
+			if (codings == 'gzip' || codings == 'x-gzip') {
+				body = body.pipe(zlib__WEBPACK_IMPORTED_MODULE_4__.createGunzip(zlibOptions));
+				response = new Response(body, response_options);
+				resolve(response);
+				return;
+			}
+
+			// for deflate
+			if (codings == 'deflate' || codings == 'x-deflate') {
+				// handle the infamous raw deflate response from old servers
+				// a hack for old IIS and Apache servers
+				const raw = res.pipe(new PassThrough$1());
+				raw.once('data', function (chunk) {
+					// see http://stackoverflow.com/questions/37519828
+					if ((chunk[0] & 0x0F) === 0x08) {
+						body = body.pipe(zlib__WEBPACK_IMPORTED_MODULE_4__.createInflate());
+					} else {
+						body = body.pipe(zlib__WEBPACK_IMPORTED_MODULE_4__.createInflateRaw());
+					}
+					response = new Response(body, response_options);
+					resolve(response);
+				});
+				return;
+			}
+
+			// for br
+			if (codings == 'br' && typeof zlib__WEBPACK_IMPORTED_MODULE_4__.createBrotliDecompress === 'function') {
+				body = body.pipe(zlib__WEBPACK_IMPORTED_MODULE_4__.createBrotliDecompress());
+				response = new Response(body, response_options);
+				resolve(response);
+				return;
+			}
+
+			// otherwise, use response as-is
+			response = new Response(body, response_options);
+			resolve(response);
+		});
+
+		writeToStream(req, request);
+	});
+}
+/**
+ * Redirect code matching
+ *
+ * @param   Number   code  Status code
+ * @return  Boolean
+ */
+fetch.isRedirect = function (code) {
+	return code === 301 || code === 302 || code === 303 || code === 307 || code === 308;
+};
+
+// expose Promise
+fetch.Promise = global.Promise;
+
+/* harmony default export */ __webpack_exports__["default"] = (fetch);
+
+
+
+/***/ }),
+
 /***/ "./node_modules/_normalize-path@3.0.0@normalize-path/index.js":
 /*!********************************************************************!*\
   !*** ./node_modules/_normalize-path@3.0.0@normalize-path/index.js ***!
@@ -24563,6 +30857,59 @@ module.exports = function(path, stripTrailing) {
   }
   return prefix + segs.join('/');
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/_once@1.4.0@once/once.js":
+/*!***********************************************!*\
+  !*** ./node_modules/_once@1.4.0@once/once.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var wrappy = __webpack_require__(/*! wrappy */ "./node_modules/_wrappy@1.0.2@wrappy/wrappy.js")
+module.exports = wrappy(once)
+module.exports.strict = wrappy(onceStrict)
+
+once.proto = once(function () {
+  Object.defineProperty(Function.prototype, 'once', {
+    value: function () {
+      return once(this)
+    },
+    configurable: true
+  })
+
+  Object.defineProperty(Function.prototype, 'onceStrict', {
+    value: function () {
+      return onceStrict(this)
+    },
+    configurable: true
+  })
+})
+
+function once (fn) {
+  var f = function () {
+    if (f.called) return f.value
+    f.called = true
+    return f.value = fn.apply(this, arguments)
+  }
+  f.called = false
+  return f
+}
+
+function onceStrict (fn) {
+  var f = function () {
+    if (f.called)
+      throw new Error(f.onceError)
+    f.called = true
+    return f.value = fn.apply(this, arguments)
+  }
+  var name = fn.name || 'Function wrapped with `once`'
+  f.onceError = name + " shouldn't be called more than once"
+  f.called = false
+  return f
+}
 
 
 /***/ }),
@@ -26979,6 +33326,153 @@ module.exports = readdirp;
 
 /***/ }),
 
+/***/ "./node_modules/_supports-color@7.2.0@supports-color/index.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/_supports-color@7.2.0@supports-color/index.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+const os = __webpack_require__(/*! os */ "os");
+const tty = __webpack_require__(/*! tty */ "tty");
+const hasFlag = __webpack_require__(/*! has-flag */ "./node_modules/_has-flag@4.0.0@has-flag/index.js");
+
+const {env} = process;
+
+let forceColor;
+if (hasFlag('no-color') ||
+	hasFlag('no-colors') ||
+	hasFlag('color=false') ||
+	hasFlag('color=never')) {
+	forceColor = 0;
+} else if (hasFlag('color') ||
+	hasFlag('colors') ||
+	hasFlag('color=true') ||
+	hasFlag('color=always')) {
+	forceColor = 1;
+}
+
+if ('FORCE_COLOR' in env) {
+	if (env.FORCE_COLOR === 'true') {
+		forceColor = 1;
+	} else if (env.FORCE_COLOR === 'false') {
+		forceColor = 0;
+	} else {
+		forceColor = env.FORCE_COLOR.length === 0 ? 1 : Math.min(parseInt(env.FORCE_COLOR, 10), 3);
+	}
+}
+
+function translateLevel(level) {
+	if (level === 0) {
+		return false;
+	}
+
+	return {
+		level,
+		hasBasic: true,
+		has256: level >= 2,
+		has16m: level >= 3
+	};
+}
+
+function supportsColor(haveStream, streamIsTTY) {
+	if (forceColor === 0) {
+		return 0;
+	}
+
+	if (hasFlag('color=16m') ||
+		hasFlag('color=full') ||
+		hasFlag('color=truecolor')) {
+		return 3;
+	}
+
+	if (hasFlag('color=256')) {
+		return 2;
+	}
+
+	if (haveStream && !streamIsTTY && forceColor === undefined) {
+		return 0;
+	}
+
+	const min = forceColor || 0;
+
+	if (env.TERM === 'dumb') {
+		return min;
+	}
+
+	if (process.platform === 'win32') {
+		// Windows 10 build 10586 is the first Windows release that supports 256 colors.
+		// Windows 10 build 14931 is the first release that supports 16m/TrueColor.
+		const osRelease = os.release().split('.');
+		if (
+			Number(osRelease[0]) >= 10 &&
+			Number(osRelease[2]) >= 10586
+		) {
+			return Number(osRelease[2]) >= 14931 ? 3 : 2;
+		}
+
+		return 1;
+	}
+
+	if ('CI' in env) {
+		if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'GITHUB_ACTIONS', 'BUILDKITE'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
+			return 1;
+		}
+
+		return min;
+	}
+
+	if ('TEAMCITY_VERSION' in env) {
+		return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
+	}
+
+	if (env.COLORTERM === 'truecolor') {
+		return 3;
+	}
+
+	if ('TERM_PROGRAM' in env) {
+		const version = parseInt((env.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
+
+		switch (env.TERM_PROGRAM) {
+			case 'iTerm.app':
+				return version >= 3 ? 3 : 2;
+			case 'Apple_Terminal':
+				return 2;
+			// No default
+		}
+	}
+
+	if (/-256(color)?$/i.test(env.TERM)) {
+		return 2;
+	}
+
+	if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
+		return 1;
+	}
+
+	if ('COLORTERM' in env) {
+		return 1;
+	}
+
+	return min;
+}
+
+function getSupportLevel(stream) {
+	const level = supportsColor(stream, stream && stream.isTTY);
+	return translateLevel(level);
+}
+
+module.exports = {
+	supportsColor: getSupportLevel,
+	stdout: translateLevel(supportsColor(true, tty.isatty(1))),
+	stderr: translateLevel(supportsColor(true, tty.isatty(2)))
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/_to-regex-range@5.0.1@to-regex-range/index.js":
 /*!********************************************************************!*\
   !*** ./node_modules/_to-regex-range@5.0.1@to-regex-range/index.js ***!
@@ -27279,6 +33773,32 @@ module.exports = toRegexRange;
 
 /***/ }),
 
+/***/ "./node_modules/_universal-user-agent@6.0.0@universal-user-agent/dist-web/index.js":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/_universal-user-agent@6.0.0@universal-user-agent/dist-web/index.js ***!
+  \*****************************************************************************************/
+/*! exports provided: getUserAgent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserAgent", function() { return getUserAgent; });
+function getUserAgent() {
+    if (typeof navigator === "object" && "userAgent" in navigator) {
+        return navigator.userAgent;
+    }
+    if (typeof process === "object" && "version" in process) {
+        return `Node.js/${process.version.substr(1)} (${process.platform}; ${process.arch})`;
+    }
+    return "<environment undetectable>";
+}
+
+
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/_universalify@1.0.0@universalify/index.js":
 /*!****************************************************************!*\
   !*** ./node_modules/_universalify@1.0.0@universalify/index.js ***!
@@ -27350,7 +33870,7 @@ exports.fromPromise = function (fn) {
 
 /***/ }),
 
-/***/ "./node_modules/_webpack@4.44.2@webpack/buildin/module.js":
+/***/ "./node_modules/_webpack@4.46.0@webpack/buildin/module.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/module.js ***!
   \***********************************/
@@ -27379,6 +33899,50 @@ module.exports = function(module) {
 	}
 	return module;
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/_wrappy@1.0.2@wrappy/wrappy.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/_wrappy@1.0.2@wrappy/wrappy.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// Returns a wrapper function that returns a wrapped callback
+// The wrapper function should do some stuff, and return a
+// presumably different callback function.
+// This makes sure that own properties are retained, so that
+// decorations and such are not lost along the way.
+module.exports = wrappy
+function wrappy (fn, cb) {
+  if (fn && cb) return wrappy(fn)(cb)
+
+  if (typeof fn !== 'function')
+    throw new TypeError('need wrapper function')
+
+  Object.keys(fn).forEach(function (k) {
+    wrapper[k] = fn[k]
+  })
+
+  return wrapper
+
+  function wrapper() {
+    var args = new Array(arguments.length)
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i]
+    }
+    var ret = fn.apply(this, args)
+    var cb = args[args.length-1]
+    if (typeof ret === 'function' && ret !== cb) {
+      Object.keys(cb).forEach(function (k) {
+        ret[k] = cb[k]
+      })
+    }
+    return ret
+  }
+}
 
 
 /***/ }),
@@ -27495,7 +34059,7 @@ class App {
 /*!*************************!*\
   !*** ./src/commands.ts ***!
   \*************************/
-/*! exports provided: Commands, command, registerCommands, Command, Save, Paste, Open, Pull, Push, ProfileCreate */
+/*! exports provided: Commands, command, registerCommands, Command, Save, Paste, Open, Pull, composeSnippet, composeSnippetData, Push */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27522,11 +34086,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Pull", function() { return _commands_pull__WEBPACK_IMPORTED_MODULE_4__["Pull"]; });
 
 /* harmony import */ var _commands_push__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./commands/push */ "./src/commands/push.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "composeSnippet", function() { return _commands_push__WEBPACK_IMPORTED_MODULE_5__["composeSnippet"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "composeSnippetData", function() { return _commands_push__WEBPACK_IMPORTED_MODULE_5__["composeSnippetData"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Push", function() { return _commands_push__WEBPACK_IMPORTED_MODULE_5__["Push"]; });
-
-/* harmony import */ var _commands_profileCreate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./commands/profileCreate */ "./src/commands/profileCreate.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ProfileCreate", function() { return _commands_profileCreate__WEBPACK_IMPORTED_MODULE_6__["ProfileCreate"]; });
-
 
 
 
@@ -27563,7 +34127,6 @@ var Commands;
     Commands["Open"] = "facility.open";
     Commands["Pull"] = "facility.pull";
     Commands["Push"] = "facility.push";
-    Commands["ProfileCreate"] = "facility.profile.create";
 })(Commands || (Commands = {}));
 const registrableCommands = [];
 function command() {
@@ -27710,76 +34273,6 @@ Paste = __decorate([
 
 /***/ }),
 
-/***/ "./src/commands/profileCreate.ts":
-/*!***************************************!*\
-  !*** ./src/commands/profileCreate.ts ***!
-  \***************************************/
-/*! exports provided: ProfileCreate */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProfileCreate", function() { return ProfileCreate; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _services_profile__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/profile */ "./src/services/profile.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./common */ "./src/commands/common.ts");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-let ProfileCreate = class ProfileCreate extends _common__WEBPACK_IMPORTED_MODULE_3__["Command"] {
-    constructor() {
-        super(_common__WEBPACK_IMPORTED_MODULE_3__["Commands"].ProfileCreate);
-    }
-    async execute() {
-        try {
-            const { title } = (await vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showInformationMessage('Which GitHub Platform?', { modal: true }, { title: 'GitHub.com (common)', isCloseAffordance: true }, { title: 'GitHub Enterprise' }));
-            const url = title === 'GitHub Enterprise'
-                ? await Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showInputBox"])({
-                    prompt: 'Enter your enterprise API url'
-                })
-                : 'https://api.github.com';
-            if (!url) {
-                Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showErrorMessage"])('User Aborted Create Profile at "url"');
-                return;
-            }
-            const key = await Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showInputBox"])({
-                prompt: 'Enter your access token'
-            });
-            if (!key) {
-                Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showErrorMessage"])('User Aborted Create Profile at "key"');
-                return;
-            }
-            const name = await Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showInputBox"])({
-                prompt: 'Give this profile a name'
-            });
-            if (!name) {
-                Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showErrorMessage"])('User Aborted Create Profile at "name"');
-                return;
-            }
-            _services_profile__WEBPACK_IMPORTED_MODULE_1__["profiles"].add(name, key, url, true);
-        }
-        catch (err) {
-            console.log(err);
-        }
-    }
-};
-ProfileCreate = __decorate([
-    Object(_common__WEBPACK_IMPORTED_MODULE_3__["command"])()
-], ProfileCreate);
-
-
-
-/***/ }),
-
 /***/ "./src/commands/pull.ts":
 /*!******************************!*\
   !*** ./src/commands/pull.ts ***!
@@ -27790,7 +34283,12 @@ ProfileCreate = __decorate([
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Pull", function() { return Pull; });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common */ "./src/commands/common.ts");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
+/* harmony import */ var _services_gist__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/gist */ "./src/services/gist.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./common */ "./src/commands/common.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services */ "./src/services/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -27798,16 +34296,68 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
-let Pull = class Pull extends _common__WEBPACK_IMPORTED_MODULE_0__["Command"] {
+
+
+
+
+
+let Pull = class Pull extends _common__WEBPACK_IMPORTED_MODULE_3__["Command"] {
     constructor() {
-        super(_common__WEBPACK_IMPORTED_MODULE_0__["Commands"].Pull);
+        super(_common__WEBPACK_IMPORTED_MODULE_3__["Commands"].Pull);
     }
     async execute() {
-        console.log('pull');
+        const shouldPull = Object(_config__WEBPACK_IMPORTED_MODULE_0__["ensureValidState"])();
+        if (!shouldPull) {
+            return;
+        }
+        const response = await _services_gist__WEBPACK_IMPORTED_MODULE_1__["gists"].list();
+        if (!response.data) {
+            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].error('NET ERROR');
+            return;
+        }
+        const id = _config__WEBPACK_IMPORTED_MODULE_0__["configuration"].get('id');
+        if (!id) {
+            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].warn(`Remote snippet not found or gist id is not configured: ${id}`);
+            return;
+        }
+        let results = response.data.filter((item) => item.id === id);
+        if (!results.length) {
+            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].info('No snippets could be found');
+            return;
+        }
+        const item = results[0].files[_constants__WEBPACK_IMPORTED_MODULE_4__["GIST_FILE"]];
+        let value = [];
+        try {
+            value = await _utils__WEBPACK_IMPORTED_MODULE_2__["Request"].get(item.raw_url);
+        }
+        catch (err) {
+            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].error(err.message);
+        }
+        try {
+            await this.onWillSaveSnippets(value);
+            Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showInformationMessage"])('pull completed');
+        }
+        catch (err) {
+            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].error(err.message);
+        }
+    }
+    async onWillSaveSnippets(data) {
+        try {
+            await Promise.allSettled(data.map(({ path, content }) => {
+                return new Promise(async (resolve) => {
+                    // TODO: 移除 fileSystem，意义在哪里呢？
+                    await _services__WEBPACK_IMPORTED_MODULE_5__["fileSystem"].write(Object(_config__WEBPACK_IMPORTED_MODULE_0__["resolve"])(path), content);
+                    resolve(void 0);
+                });
+            }));
+        }
+        catch (err) {
+            throw err;
+        }
     }
 };
 Pull = __decorate([
-    Object(_common__WEBPACK_IMPORTED_MODULE_0__["command"])()
+    Object(_common__WEBPACK_IMPORTED_MODULE_3__["command"])()
 ], Pull);
 
 
@@ -27818,16 +34368,25 @@ Pull = __decorate([
 /*!******************************!*\
   !*** ./src/commands/push.ts ***!
   \******************************/
-/*! exports provided: Push */
+/*! exports provided: composeSnippet, composeSnippetData, Push */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "composeSnippet", function() { return composeSnippet; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "composeSnippetData", function() { return composeSnippetData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Push", function() { return Push; });
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _services_profile__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/profile */ "./src/services/profile.ts");
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common */ "./src/commands/common.ts");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/_lodash@4.17.20@lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../app */ "./src/app.ts");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+/* harmony import */ var _services_gist__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/gist */ "./src/services/gist.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+/* harmony import */ var _utils_request__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/request */ "./src/utils/request.ts");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./common */ "./src/commands/common.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -27837,24 +34396,117 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-let Push = class Push extends _common__WEBPACK_IMPORTED_MODULE_2__["Command"] {
+
+
+
+
+
+
+async function composeSnippet(name, path) {
+    const document = await Object(_utils__WEBPACK_IMPORTED_MODULE_6__["openTextDocument"])(path);
+    return {
+        name,
+        path: Object(_config__WEBPACK_IMPORTED_MODULE_3__["dropRoot"])(path),
+        content: document.getText(),
+    };
+}
+function composeSnippetData(snippets) {
+    return {
+        [_constants__WEBPACK_IMPORTED_MODULE_4__["GIST_FILE"]]: {
+            content: JSON.stringify(snippets),
+        },
+        cloudSettings: {
+            content: JSON.stringify({ lastUpload: new Date() }),
+        },
+    };
+}
+let Push = class Push extends _common__WEBPACK_IMPORTED_MODULE_8__["Command"] {
     constructor() {
-        super(_common__WEBPACK_IMPORTED_MODULE_2__["Commands"].Push);
+        super(_common__WEBPACK_IMPORTED_MODULE_8__["Commands"].Push);
     }
     async execute() {
-        try {
-            const allProfiles = _services_profile__WEBPACK_IMPORTED_MODULE_1__["profiles"].getAll();
-            if (!allProfiles || allProfiles.length === 0) {
-                vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].executeCommand(_common__WEBPACK_IMPORTED_MODULE_2__["Commands"].ProfileCreate);
-                return;
+        const shouldPull = Object(_config__WEBPACK_IMPORTED_MODULE_3__["ensureValidState"])();
+        if (!shouldPull) {
+            return;
+        }
+        const selections = await this.getSelections();
+        const selectOption = await vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showQuickPick(selections, {
+            canPickMany: true,
+        });
+        if (!selectOption.length)
+            return;
+        const local = await Promise.all(selectOption.map(async (item) => {
+            const data = await composeSnippet(item.label, item.detail);
+            return data;
+        }));
+        const id = _config__WEBPACK_IMPORTED_MODULE_3__["configuration"].get('id');
+        if (!id) {
+            try {
+                const data = await composeSnippetData(local);
+                const res = await await _services_gist__WEBPACK_IMPORTED_MODULE_5__["gists"].create({
+                    description: _constants__WEBPACK_IMPORTED_MODULE_4__["GIST_DESCRIPTION"],
+                    files: data,
+                    public: true,
+                });
+                _config__WEBPACK_IMPORTED_MODULE_3__["configuration"].update('id', res.data.id, vscode__WEBPACK_IMPORTED_MODULE_0__["ConfigurationTarget"].Global);
+            }
+            catch (error) {
+                _utils__WEBPACK_IMPORTED_MODULE_6__["logger"].error('NET Error', error.message);
+            }
+            return;
+        }
+        const remote = await this.fetchSnippet(id);
+        const snippets = [];
+        for (let i = 0; i < remote.length; i++) {
+            const index = lodash__WEBPACK_IMPORTED_MODULE_1__["findIndex"](local, (o) => o.path === Object(_config__WEBPACK_IMPORTED_MODULE_3__["resolve"])(remote[i].path));
+            if (index > 0) {
+                snippets.push(Object(_utils__WEBPACK_IMPORTED_MODULE_6__["extend"])(remote, local[index]));
+            }
+            else {
+                snippets.push(remote);
             }
         }
-        catch (error) {
+        const data = composeSnippetData(snippets);
+        try {
+            await _services_gist__WEBPACK_IMPORTED_MODULE_5__["gists"].update({
+                files: data,
+                gist_id: id,
+            });
+        }
+        catch (err) {
+            _utils__WEBPACK_IMPORTED_MODULE_6__["logger"].error('NET ERROR');
+        }
+    }
+    async getSelections() {
+        return await _app__WEBPACK_IMPORTED_MODULE_2__["App"].explorerTree.getFilterNodes((item) => {
+            const { name, _element: { fileType }, } = item.element;
+            if (fileType !== vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].File)
+                return;
+            return {
+                label: Object(_utils__WEBPACK_IMPORTED_MODULE_6__["fullname"])(name),
+                detail: name,
+            };
+        });
+    }
+    async fetchSnippet(id) {
+        try {
+            if (!id)
+                return;
+            const response = await _services_gist__WEBPACK_IMPORTED_MODULE_5__["gists"].list({
+                per_page: 9999,
+            });
+            const snippets = response.data.find((item) => item.id === id);
+            if (!snippets)
+                return;
+            return await _utils_request__WEBPACK_IMPORTED_MODULE_7__["Request"].get(snippets.files[_constants__WEBPACK_IMPORTED_MODULE_4__["GIST_FILE"]].raw_url);
+        }
+        catch (err) {
+            throw err;
         }
     }
 };
 Push = __decorate([
-    Object(_common__WEBPACK_IMPORTED_MODULE_2__["command"])()
+    Object(_common__WEBPACK_IMPORTED_MODULE_8__["command"])()
 ], Push);
 
 
@@ -27972,26 +34624,51 @@ Save = __decorate([
 /*!*************************************!*\
   !*** ./src/config/configuration.ts ***!
   \*************************************/
-/*! exports provided: extensionId, extensionQualifiedId, Configuration, configuration */
+/*! exports provided: extensionId, extensionQualifiedId, ensureValidState, Configuration, configuration, resolve, dropRoot */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extensionId", function() { return extensionId; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extensionQualifiedId", function() { return extensionQualifiedId; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ensureValidState", function() { return ensureValidState; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Configuration", function() { return Configuration; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "configuration", function() { return configuration; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "resolve", function() { return resolve; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dropRoot", function() { return dropRoot; });
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "path");
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/_lodash@4.17.20@lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+/* harmony import */ var _services_gist__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/gist */ "./src/services/gist.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+
+
+
 
 
 
 const extensionId = 'facility';
 const extensionQualifiedId = `sillyy.${extensionId}`;
+function ensureValidState() {
+    const token = configuration.get('token');
+    if (token !== undefined && token !== '') {
+        _services_gist__WEBPACK_IMPORTED_MODULE_4__["gists"].configure({
+            key: token,
+            url: _constants__WEBPACK_IMPORTED_MODULE_3__["GIST_BAST_URL"],
+            rejectUnauthorized: true,
+        });
+        return true;
+    }
+    else {
+        Object(_utils__WEBPACK_IMPORTED_MODULE_5__["showWarningMessage"])('未设置token');
+        _utils__WEBPACK_IMPORTED_MODULE_5__["logger"].warn('未设置token');
+        return false;
+    }
+}
 class Configuration {
     constructor() {
         this._onDidChange = new vscode__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
@@ -28099,6 +34776,37 @@ class Configuration {
     name(...args) {
         return args.join('.');
     }
+    update(...args) {
+        let section = args[0];
+        let value;
+        let target;
+        if (typeof args[1] === 'string' && args.length > 3) {
+            section += `.${args[1]}`;
+            if (typeof args[2] === 'string' && args.length > 4) {
+                section += `.${args[2]}`;
+                if (typeof args[3] === 'string' && args.length > 5) {
+                    section += `.${args[3]}`;
+                    value = args[4];
+                    target = args[5];
+                }
+                else {
+                    value = args[3];
+                    target = args[4];
+                }
+            }
+            else {
+                value = args[2];
+                target = args[3];
+            }
+        }
+        else {
+            value = args[1];
+            target = args[2];
+        }
+        return vscode__WEBPACK_IMPORTED_MODULE_2__["workspace"]
+            .getConfiguration(extensionId)
+            .update(section, value, target);
+    }
     changed(e, ...args) {
         let section = args[0];
         let resource;
@@ -28126,6 +34834,8 @@ class Configuration {
     }
 }
 const configuration = new Configuration();
+const resolve = (path) => configuration.appFolder + path;
+const dropRoot = (path) => path.replace(configuration.appFolder, '');
 
 
 /***/ }),
@@ -28187,7 +34897,7 @@ var FILENAME;
 /*!*****************************!*\
   !*** ./src/config/index.ts ***!
   \*****************************/
-/*! exports provided: extensionId, extensionQualifiedId, Configuration, configuration, FILE_EXTENSION, FILENAME */
+/*! exports provided: extensionId, extensionQualifiedId, ensureValidState, Configuration, configuration, resolve, dropRoot, FILE_EXTENSION, FILENAME */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28197,9 +34907,15 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "extensionQualifiedId", function() { return _configuration__WEBPACK_IMPORTED_MODULE_0__["extensionQualifiedId"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ensureValidState", function() { return _configuration__WEBPACK_IMPORTED_MODULE_0__["ensureValidState"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Configuration", function() { return _configuration__WEBPACK_IMPORTED_MODULE_0__["Configuration"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "configuration", function() { return _configuration__WEBPACK_IMPORTED_MODULE_0__["configuration"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "resolve", function() { return _configuration__WEBPACK_IMPORTED_MODULE_0__["resolve"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "dropRoot", function() { return _configuration__WEBPACK_IMPORTED_MODULE_0__["dropRoot"]; });
 
 /* harmony import */ var _icon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./icon */ "./src/config/icon.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FILE_EXTENSION", function() { return _icon__WEBPACK_IMPORTED_MODULE_1__["FILE_EXTENSION"]; });
@@ -28216,15 +34932,25 @@ __webpack_require__.r(__webpack_exports__);
 /*!**************************!*\
   !*** ./src/constants.ts ***!
   \**************************/
-/*! exports provided: extensionOutputChannelName, appLibaryName */
+/*! exports provided: EXTENSION_NAME, appLibaryName, DEBUG, LOGGER_LEVEL, GIST_BAST_URL, GIST_DESCRIPTION, GIST_FILE */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extensionOutputChannelName", function() { return extensionOutputChannelName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EXTENSION_NAME", function() { return EXTENSION_NAME; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appLibaryName", function() { return appLibaryName; });
-const extensionOutputChannelName = 'Facility';
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEBUG", function() { return DEBUG; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGGER_LEVEL", function() { return LOGGER_LEVEL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GIST_BAST_URL", function() { return GIST_BAST_URL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GIST_DESCRIPTION", function() { return GIST_DESCRIPTION; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GIST_FILE", function() { return GIST_FILE; });
+const EXTENSION_NAME = 'Facility';
 const appLibaryName = 'facility-library';
+const DEBUG = process.env.DEBUG === 'true';
+const LOGGER_LEVEL = 4;
+const GIST_BAST_URL = 'https://api.github.com';
+const GIST_DESCRIPTION = 'Facility Snippets Sync Gist';
+const GIST_FILE = 'snippets.json';
 
 
 /***/ }),
@@ -28249,7 +34975,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils */ "./src/utils/index.ts");
 /* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./i18n */ "./src/i18n.ts");
 /* harmony import */ var _prepare__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./prepare */ "./src/prepare.ts");
-/* harmony import */ var _services_profile__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./services/profile */ "./src/services/profile.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./constants */ "./src/constants.ts");
 
 
 
@@ -28264,11 +34990,12 @@ function getDurationMilliseconds(start) {
     return secs * 1000 + Math.floor(nanosecs / 1000000);
 }
 async function activate(context) {
+    _utils__WEBPACK_IMPORTED_MODULE_5__["logger"].setLevel(_constants__WEBPACK_IMPORTED_MODULE_8__["DEBUG"] ? _utils__WEBPACK_IMPORTED_MODULE_5__["Levels"].DEBUG : _utils__WEBPACK_IMPORTED_MODULE_5__["Levels"].ERROR);
+    _utils__WEBPACK_IMPORTED_MODULE_5__["logger"].setOutput(vscode__WEBPACK_IMPORTED_MODULE_0__["window"].createOutputChannel('Facility'));
     const app = vscode__WEBPACK_IMPORTED_MODULE_0__["extensions"].getExtension(_config__WEBPACK_IMPORTED_MODULE_2__["extensionQualifiedId"]);
     _prepare__WEBPACK_IMPORTED_MODULE_7__["default"].runScript();
     try {
         _config__WEBPACK_IMPORTED_MODULE_2__["Configuration"].configure(context);
-        _services_profile__WEBPACK_IMPORTED_MODULE_8__["profiles"].configure({ state: context.globalState });
         _reactive_watcher__WEBPACK_IMPORTED_MODULE_3__["Watcher"].configure(context, _config__WEBPACK_IMPORTED_MODULE_2__["configuration"].appFolder);
         const config = _config__WEBPACK_IMPORTED_MODULE_2__["configuration"].get();
         _app__WEBPACK_IMPORTED_MODULE_1__["App"].initialize(context, config);
@@ -28375,7 +35102,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FolderChangeEvent", function() { return FolderChangeEvent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Watcher", function() { return Watcher; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "watcher", function() { return watcher; });
-/* harmony import */ var chokidar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chokidar */ "./node_modules/_chokidar@3.4.3@chokidar/index.js");
+/* harmony import */ var chokidar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chokidar */ "./node_modules/_chokidar@3.5.1@chokidar/index.js");
 /* harmony import */ var chokidar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(chokidar__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_1__);
@@ -28399,9 +35126,11 @@ class Watcher {
         this._onWillChange = new vscode__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
     }
     static configure(context, watchDir) {
+        _utils__WEBPACK_IMPORTED_MODULE_3__["logger"].info(`Watch Dir ${watchDir}`);
         context.subscriptions.push((watcher._watcher = chokidar__WEBPACK_IMPORTED_MODULE_0___default.a
             .watch(watchDir)
-            .on('all', watcher.onFolderChanged.bind(watcher))));
+            .on('all', watcher.onFolderChanged.bind(watcher))
+            .on('error', watcher.onDidWatcherError.bind(watcher))));
     }
     get onWillChange() {
         return this._onWillChange.event;
@@ -28413,6 +35142,7 @@ class Watcher {
         watcher._watcher.close();
     }
     onFolderChanged(event, path) {
+        _utils__WEBPACK_IMPORTED_MODULE_3__["logger"].info(event, path);
         if (this.checkIgnore(path))
             return;
         const e = this.transform(event);
@@ -28464,6 +35194,7 @@ class Watcher {
         return changeType;
     }
     onDidWatcherError(error) {
+        _utils__WEBPACK_IMPORTED_MODULE_3__["logger"].error(error.message);
         Object(_utils__WEBPACK_IMPORTED_MODULE_3__["showErrorMessage"])(`${_i18n__WEBPACK_IMPORTED_MODULE_2__["default"].format('extension.facilityApp.ErrorMessage.ErrorFsWatch')} Error: ${error}`);
     }
 }
@@ -28548,6 +35279,81 @@ class FileSystem {
     }
 }
 const fileSystem = new FileSystem();
+
+
+/***/ }),
+
+/***/ "./src/services/gist.ts":
+/*!******************************!*\
+  !*** ./src/services/gist.ts ***!
+  \******************************/
+/*! exports provided: GISTS_BASE_URL, gists */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GISTS_BASE_URL", function() { return GISTS_BASE_URL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "gists", function() { return gists; });
+/* harmony import */ var _octokit_rest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @octokit/rest */ "./node_modules/_@octokit_rest@18.0.12@@octokit/rest/dist-web/index.js");
+/* harmony import */ var https__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! https */ "https");
+/* harmony import */ var https__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(https__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const GISTS_BASE_URL = 'https://api.github.com';
+const DEFAULT_OPTIONS = {
+    baseUrl: GISTS_BASE_URL
+};
+class GistsService {
+    constructor() {
+        this.octokit = null;
+        this.options = DEFAULT_OPTIONS;
+        // this.octokit = new Octokit(this.options);
+    }
+    configure(options) {
+        const key = options.key || '';
+        const url = options.url || 'https://api.github.com';
+        const rejectUnauthorized = options.rejectUnauthorized || true;
+        const agent = new https__WEBPACK_IMPORTED_MODULE_1__["Agent"]({ rejectUnauthorized });
+        const config = { baseUrl: url, agent };
+        this.options = config || this.options;
+        this.octokit = new _octokit_rest__WEBPACK_IMPORTED_MODULE_0__["Octokit"](this.options);
+        if (key) {
+            this.octokit = new _octokit_rest__WEBPACK_IMPORTED_MODULE_0__["Octokit"]({ auth: key });
+        }
+    }
+    create(params) {
+        if (!this.octokit)
+            return;
+        return this.octokit.gists.create(params);
+    }
+    delete(params) {
+        if (!this.octokit)
+            return;
+        return this.octokit.gists.delete(params);
+    }
+    get(params) {
+        if (!this.octokit)
+            return;
+        return this.octokit.gists.get({ ...params });
+    }
+    list(params) {
+        if (!this.octokit)
+            return;
+        return this.octokit.gists.list({ ...params });
+    }
+    listStarred(params) {
+        if (!this.octokit)
+            return;
+        return this.octokit.gists.listStarred({ ...params });
+    }
+    update(params) {
+        if (!this.octokit)
+            return;
+        return this.octokit.gists.update(params);
+    }
+}
+GistsService.getInstance = () => GistsService.instance ? GistsService.instance : new GistsService();
+const gists = GistsService.getInstance();
 
 
 /***/ }),
@@ -28644,65 +35450,6 @@ class Prepare {
 
 /***/ }),
 
-/***/ "./src/services/profile.ts":
-/*!*********************************!*\
-  !*** ./src/services/profile.ts ***!
-  \*********************************/
-/*! exports provided: profiles */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "profiles", function() { return profiles; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-
-class ProfileService {
-    constructor() {
-        this.state = vscode__WEBPACK_IMPORTED_MODULE_0__["workspace"].getConfiguration();
-    }
-    add(name, key, url = 'https://api.github.com', active = false) {
-        const p = this.getRawProfiles();
-        const currentState = Object.keys(p)
-            .map((profile) => ({
-            [profile]: { key: p[profile].key, url: p[profile].url, active: false }
-        }))
-            .reduce((prev, curr) => ({ ...prev, ...curr }), {});
-        this.state.update('profiles', {
-            ...currentState,
-            [name]: { active, key, url }
-        });
-    }
-    configure(options) {
-        const { state } = options;
-        this.state = state;
-    }
-    get() {
-        const currentProfile = this.getAll().filter((p) => p.active);
-        return currentProfile[0] || undefined;
-    }
-    getAll() {
-        const p = this.getRawProfiles();
-        return Object.keys(p).map((profileName) => ({
-            active: p[profileName].active,
-            key: p[profileName].key,
-            name: profileName,
-            url: p[profileName].url
-        }));
-    }
-    reset() {
-        this.state.update('profiles', undefined);
-    }
-    getRawProfiles() {
-        return this.state.get('profiles', {});
-    }
-}
-ProfileService.getInstance = () => ProfileService.instance ? ProfileService.instance : new ProfileService();
-const profiles = ProfileService.getInstance();
-
-
-/***/ }),
-
 /***/ "./src/services/waitProvider.ts":
 /*!**************************************!*\
   !*** ./src/services/waitProvider.ts ***!
@@ -28717,7 +35464,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
 /* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../i18n */ "./src/i18n.ts");
-/* harmony import */ var _fileSystem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fileSystem */ "./src/services/fileSystem.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+/* harmony import */ var _fileSystem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fileSystem */ "./src/services/fileSystem.ts");
+
 
 
 
@@ -28727,14 +35476,14 @@ class WaitProvider {
     async waitSymbolProvider() {
         const tmp = _config__WEBPACK_IMPORTED_MODULE_1__["configuration"].defaultFile;
         const tmpUri = vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(tmp);
-        await _fileSystem__WEBPACK_IMPORTED_MODULE_3__["fileSystem"].write(tmp, '');
+        await _fileSystem__WEBPACK_IMPORTED_MODULE_4__["fileSystem"].write(tmp, '');
         for (let i = 0; i < 30; i++) {
             const vsSyms = await vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].executeCommand('vscode.executeDocumentSymbolProvider', tmpUri);
             if (vsSyms)
                 return true;
             await new Promise((r) => setTimeout(r, 1000));
         }
-        console.log(_i18n__WEBPACK_IMPORTED_MODULE_2__["default"].format('extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider'));
+        _utils__WEBPACK_IMPORTED_MODULE_3__["logger"].warn(_i18n__WEBPACK_IMPORTED_MODULE_2__["default"].format('extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider'));
         return false;
     }
     async run() {
@@ -29114,12 +35863,13 @@ class TreeModel {
 /*!***************************!*\
   !*** ./src/utils/file.ts ***!
   \***************************/
-/*! exports provided: fullname, mv, remove, exist, data, mkdir, stat, write, append, move, copy */
+/*! exports provided: fullname, relative, mv, remove, exist, data, mkdir, stat, write, append, move, copy */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fullname", function() { return fullname; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "relative", function() { return relative; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mv", function() { return mv; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exist", function() { return exist; });
@@ -29144,6 +35894,9 @@ __webpack_require__.r(__webpack_exports__);
 
 function fullname(fullpath) {
     return path__WEBPACK_IMPORTED_MODULE_0__["basename"](fullpath);
+}
+function relative(from, to) {
+    return path__WEBPACK_IMPORTED_MODULE_0__["relative"](from, to);
 }
 function mv(src, dst) {
     return fs__WEBPACK_IMPORTED_MODULE_1__["renameSync"](src, dst);
@@ -29185,13 +35938,16 @@ function copy(src, dest) {
 /*!****************************!*\
   !*** ./src/utils/index.ts ***!
   \****************************/
-/*! exports provided: fullname, mv, remove, exist, data, mkdir, stat, write, append, move, copy, isWindows, Separator, isDblclick, openTextDocument, showInputBox, showQuickPick, showWarningMessage, showErrorMessage, showSaveDiaglog */
+/*! exports provided: fullname, relative, mv, remove, exist, data, mkdir, stat, write, append, move, copy, isWindows, Separator, isDblclick, openTextDocument, showInformationMessage, showInputBox, showQuickPick, showWarningMessage, showErrorMessage, showSaveDiaglog, Request, Levels, Colors, Separators, logger, extend */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extend", function() { return extend; });
 /* harmony import */ var _file__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./file */ "./src/utils/file.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fullname", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["fullname"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "relative", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["relative"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mv", function() { return _file__WEBPACK_IMPORTED_MODULE_0__["mv"]; });
 
@@ -29223,6 +35979,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _system__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./system */ "./src/utils/system.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "openTextDocument", function() { return _system__WEBPACK_IMPORTED_MODULE_2__["openTextDocument"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "showInformationMessage", function() { return _system__WEBPACK_IMPORTED_MODULE_2__["showInformationMessage"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "showInputBox", function() { return _system__WEBPACK_IMPORTED_MODULE_2__["showInputBox"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "showQuickPick", function() { return _system__WEBPACK_IMPORTED_MODULE_2__["showQuickPick"]; });
@@ -29233,9 +35991,24 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "showSaveDiaglog", function() { return _system__WEBPACK_IMPORTED_MODULE_2__["showSaveDiaglog"]; });
 
+/* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./request */ "./src/utils/request.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Request", function() { return _request__WEBPACK_IMPORTED_MODULE_3__["Request"]; });
+
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./logger */ "./src/utils/logger.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Levels", function() { return _logger__WEBPACK_IMPORTED_MODULE_4__["Levels"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Colors", function() { return _logger__WEBPACK_IMPORTED_MODULE_4__["Colors"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Separators", function() { return _logger__WEBPACK_IMPORTED_MODULE_4__["Separators"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "logger", function() { return _logger__WEBPACK_IMPORTED_MODULE_4__["logger"]; });
 
 
 
+
+
+
+const extend = Object.assign;
 
 
 /***/ }),
@@ -29273,16 +36046,162 @@ function isDblclick(node) {
 
 /***/ }),
 
+/***/ "./src/utils/logger.ts":
+/*!*****************************!*\
+  !*** ./src/utils/logger.ts ***!
+  \*****************************/
+/*! exports provided: Levels, Colors, Separators, logger */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Levels", function() { return Levels; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Colors", function() { return Colors; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Separators", function() { return Separators; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logger", function() { return logger; });
+/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chalk */ "./node_modules/_chalk@4.1.0@chalk/source/index.js");
+/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(chalk__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dayjs */ "./node_modules/_dayjs@1.10.4@dayjs/dayjs.min.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+
+
+
+var Levels;
+(function (Levels) {
+    Levels[Levels["DEBUG"] = 0] = "DEBUG";
+    Levels[Levels["INFO"] = 1] = "INFO";
+    Levels[Levels["WARN"] = 2] = "WARN";
+    Levels[Levels["SUCCESS"] = 3] = "SUCCESS";
+    Levels[Levels["ERROR"] = 4] = "ERROR";
+})(Levels || (Levels = {}));
+const Colors = {
+    debug: chalk__WEBPACK_IMPORTED_MODULE_0__["white"],
+    log: chalk__WEBPACK_IMPORTED_MODULE_0__["white"],
+    info: chalk__WEBPACK_IMPORTED_MODULE_0__["blueBright"],
+    success: chalk__WEBPACK_IMPORTED_MODULE_0__["greenBright"],
+    warn: chalk__WEBPACK_IMPORTED_MODULE_0__["bgYellow"].black,
+    error: chalk__WEBPACK_IMPORTED_MODULE_0__["bgRed"].black,
+};
+const Separators = {
+    debug: '›',
+    info: 'ℹ',
+    log: '',
+    success: '✅',
+};
+function prunePrefix(method) {
+    if (method === 'warn') {
+        return Colors.warn(` ${method.toUpperCase()} `);
+    }
+    if (method === 'error') {
+        return Colors.error(` ${method.toUpperCase()} `);
+    }
+    const separator = Separators[method];
+    return separator
+        ? `[${Colors[method](`${separator} ${method.toUpperCase()}`)}]`
+        : `[${Colors[method](method.toUpperCase())}]`;
+}
+class Logger {
+    constructor(level, tag) {
+        this.tag = tag;
+        this.level = level;
+    }
+    debug(...args) {
+        if (this.level === Levels.DEBUG) {
+            this.log('debug', ...args);
+        }
+    }
+    error(...args) {
+        if (this.level <= Levels.ERROR) {
+            this.log('error', ...args);
+        }
+    }
+    info(...args) {
+        if (this.level <= Levels.INFO) {
+            this.log('info', ...args);
+        }
+    }
+    success(...args) {
+        if (this.level <= Levels.SUCCESS) {
+            this.log('success', ...args);
+        }
+    }
+    setLevel(level) {
+        this.level = level;
+    }
+    setOutput(output) {
+        this.output = output;
+    }
+    warn(...args) {
+        if (this.level <= Levels.WARN) {
+            this.log('warn', ...args);
+        }
+    }
+    log(method, ...args) {
+        const prefix = `facility>${method}:`;
+        const message = [...args].join(' > ');
+        if (this.output) {
+            this.output.appendLine(`${prefix} ${message}`);
+            this.devLog(method, ...args);
+        }
+    }
+    devLog(method, ...args) {
+        const tag = chalk__WEBPACK_IMPORTED_MODULE_0__["bgRgb"](160, 80, 246).white(`${this.tag ? `[${this.tag}]` : ''}`);
+        const prefix = prunePrefix(method);
+        const date = ` <${dayjs__WEBPACK_IMPORTED_MODULE_1__().format('YYYY-MM-DD HH:mm:ss')}> `;
+        const message = [...args].join(' > ');
+        console.log(`${tag} ${prefix} ${date} ${message}`);
+    }
+}
+Logger.getInstance = () => (Logger.instance = Logger.instance
+    ? Logger.instance
+    : // tslint:disable-next-line:semicolon
+        new Logger(_constants__WEBPACK_IMPORTED_MODULE_2__["LOGGER_LEVEL"], _constants__WEBPACK_IMPORTED_MODULE_2__["EXTENSION_NAME"]));
+const logger = Logger.getInstance();
+
+
+/***/ }),
+
+/***/ "./src/utils/request.ts":
+/*!******************************!*\
+  !*** ./src/utils/request.ts ***!
+  \******************************/
+/*! exports provided: Request */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Request", function() { return Request; });
+/* harmony import */ var node_fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! node-fetch */ "./node_modules/_node-fetch@2.6.1@node-fetch/lib/index.mjs");
+
+const get = async (url) => {
+    try {
+        const res = await Object(node_fetch__WEBPACK_IMPORTED_MODULE_0__["default"])(url);
+        return res.json();
+    }
+    catch (err) {
+        // TODO: catch error 
+        // consider DNS pollution
+    }
+};
+const Request = {
+    get
+};
+
+
+/***/ }),
+
 /***/ "./src/utils/system.ts":
 /*!*****************************!*\
   !*** ./src/utils/system.ts ***!
   \*****************************/
-/*! exports provided: openTextDocument, showInputBox, showQuickPick, showWarningMessage, showErrorMessage, showSaveDiaglog */
+/*! exports provided: openTextDocument, showInformationMessage, showInputBox, showQuickPick, showWarningMessage, showErrorMessage, showSaveDiaglog */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "openTextDocument", function() { return openTextDocument; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showInformationMessage", function() { return showInformationMessage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showInputBox", function() { return showInputBox; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showQuickPick", function() { return showQuickPick; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showWarningMessage", function() { return showWarningMessage; });
@@ -29298,9 +36217,9 @@ __webpack_require__.r(__webpack_exports__);
 function openTextDocument(path) {
     return vscode__WEBPACK_IMPORTED_MODULE_0__["workspace"].openTextDocument(path);
 }
-// export function showInformationMessage(message: string, options: MessageOptions, ...items: string[]) {
-//   return window.showInformationMessage(message, options, ...items)
-// }
+function showInformationMessage(message, options, ...items) {
+    return vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showInformationMessage(message, options, ...items);
+}
 function showInputBox(options) {
     return vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showInputBox(options);
 }
@@ -30072,6 +36991,28 @@ module.exports = require("fsevents");
 
 /***/ }),
 
+/***/ "http":
+/*!***********************!*\
+  !*** external "http" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("http");
+
+/***/ }),
+
+/***/ "https":
+/*!************************!*\
+  !*** external "https" ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("https");
+
+/***/ }),
+
 /***/ "os":
 /*!*********************!*\
   !*** external "os" ***!
@@ -30105,6 +37046,28 @@ module.exports = require("stream");
 
 /***/ }),
 
+/***/ "tty":
+/*!**********************!*\
+  !*** external "tty" ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("tty");
+
+/***/ }),
+
+/***/ "url":
+/*!**********************!*\
+  !*** external "url" ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("url");
+
+/***/ }),
+
 /***/ "util":
 /*!***********************!*\
   !*** external "util" ***!
@@ -30124,6 +37087,17 @@ module.exports = require("util");
 /***/ (function(module, exports) {
 
 module.exports = require("vscode");
+
+/***/ }),
+
+/***/ "zlib":
+/*!***********************!*\
+  !*** external "zlib" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("zlib");
 
 /***/ })
 

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 export interface ITextMap {
-  // "${namespace}.${extensionName}.${moudelName}.${fieldName}": "xxx"
+  // "${namespace}.${EXTENSION_NAME}.${moudelName}.${fieldName}": "xxx"
   [key: string]: string;
 }
 

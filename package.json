@@ -71,6 +71,11 @@
           "light": "images/light/download.svg",
           "dark": "images/dark/download.svg"
         }
+      },
+      {
+        "command": "facility.profile.clear",
+        "title": "%facilityApp.command.profile.clear.title%",
+        "category": "Facility"
       }
     ],
     "viewsContainers": {
@@ -131,13 +136,23 @@
           "facility.workspaceFolder": {
             "type": "string",
             "scope": "application",
-            "markdownDescription": "%facilityApp.configuration.properties.facility.workspaceFolder.markdownDescription%",
-            "default": ""
+            "default": "",
+            "markdownDescription": "%facilityApp.configuration.properties.facility.workspaceFolder.markdownDescription%"
           },
           "facility.keyword": {
             "type": "object",
             "default": null,
             "markdownDescription": "%facilityApp.configuration.properties.facility.keyword.markdownDescription%"
+          },
+          "facility.token": {
+            "type": "string",
+            "default": "",
+            "markdownDescription": "%facilityApp.configuration.properties.facility.gist.token.markdownDescription%"
+          },
+          "facility.id": {
+            "type": "string",
+            "default": "",
+            "markdownDescription": "%facilityApp.configuration.properties.facility.gist.id.markdownDescription%"
           }
         }
       }
@@ -187,6 +202,7 @@
     "fs-extra": "^9.0.0",
     "lodash": "^4.17.15",
     "mkdirp": "^1.0.3",
-    "@octokit/rest": "^18.0.12"
+    "@octokit/rest": "^18.0.12",
+    "node-fetch": "^2.6.1"
   }
 }

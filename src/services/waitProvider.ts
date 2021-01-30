@@ -1,11 +1,11 @@
 import { commands, extensions, Uri } from 'vscode'
 import { configuration, extensionQualifiedId } from '../config'
 import i18n from '../i18n'
-import { showErrorMessage } from '../utils'
+import { logger, showErrorMessage } from '../utils'
 import { fileSystem } from './fileSystem'
 
 export class WaitProvider {
-  constructor() {}
+  constructor() { }
 
   async waitSymbolProvider() {
     const tmp = configuration.defaultFile
@@ -22,7 +22,7 @@ export class WaitProvider {
       await new Promise((r) => setTimeout(r, 1000))
     }
 
-    console.log(
+    logger.warn(
       i18n.format(
         'extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider'
       )

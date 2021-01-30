@@ -7,8 +7,7 @@ export enum Commands {
   Paste = 'facility.paste',
   Open = 'facility.open',
   Pull = 'facility.pull',
-  Push = 'facility.push',
-  ProfileCreate = 'facility.profile.create'
+  Push = 'facility.push'
 }
 
 interface CommandConstructor {

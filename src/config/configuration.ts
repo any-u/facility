@@ -8,11 +8,17 @@ import {
   ConfigurationChangeEvent,
   Event,
   Uri,
+  ConfigurationTarget,
 } from 'vscode'
+import { EXTENSION_NAME, GIST_BAST_URL } from '../constants'
+import { gists } from '../services/gist'
+import { logger, showWarningMessage } from '../utils'
 
 export interface Config {
   workspaceFolder: string | null
   keyword: object | null
+  id: string
+  token: string
 }
 
 export interface ConfigurationWillChangeEvent {
@@ -22,6 +28,23 @@ export interface ConfigurationWillChangeEvent {
 
 export const extensionId = 'facility'
 export const extensionQualifiedId = `sillyy.${extensionId}`
+
+export function ensureValidState() {
+  const token = configuration.get('token')
+
+  if (token !== undefined && token !== '') {
+    gists.configure({
+      key: token,
+      url: GIST_BAST_URL,
+      rejectUnauthorized: true,
+    })
+    return true
+  } else {
+    showWarningMessage('未设置token')
+    logger.warn('未设置token')
+    return false
+  }
+}
 
 export class Configuration {
   static configure(ctx: ExtensionContext) {
@@ -196,6 +219,72 @@ export class Configuration {
     return args.join('.')
   }
 
+  update<S1 extends keyof Config>(
+    s1: S1,
+    value: Config[S1] | undefined,
+    target: ConfigurationTarget
+  ): Thenable<void>
+  update<S1 extends keyof Config, S2 extends keyof Config[S1]>(
+    s1: S1,
+    s2: S2,
+    value: Config[S1][S2] | undefined,
+    target: ConfigurationTarget
+  ): Thenable<void>
+
+  update<
+    S1 extends keyof Config,
+    S2 extends keyof Config[S1],
+    S3 extends keyof Config[S1][S2]
+  >(
+    s1: S1,
+    s2: S2,
+    s3: S3,
+    value: Config[S1][S2][S3] | undefined,
+    target: ConfigurationTarget
+  ): Thenable<void>
+  update<
+    S1 extends keyof Config,
+    S2 extends keyof Config[S1],
+    S3 extends keyof Config[S1][S2],
+    S4 extends keyof Config[S1][S2][S3]
+  >(
+    s1: S1,
+    s2: S2,
+    s3: S3,
+    s4: S4,
+    value: Config[S1][S2][S3][S4] | undefined,
+    target: ConfigurationTarget
+  ): Thenable<void>
+  update(...args: any[]) {
+    let section: string = args[0]
+    let value
+    let target: ConfigurationTarget
+    if (typeof args[1] === 'string' && args.length > 3) {
+      section += `.${args[1]}`
+      if (typeof args[2] === 'string' && args.length > 4) {
+        section += `.${args[2]}`
+        if (typeof args[3] === 'string' && args.length > 5) {
+          section += `.${args[3]}`
+          value = args[4]
+          target = args[5]
+        } else {
+          value = args[3]
+          target = args[4]
+        }
+      } else {
+        value = args[2]
+        target = args[3]
+      }
+    } else {
+      value = args[1]
+      target = args[2]
+    }
+
+    return workspace
+      .getConfiguration(extensionId)
+      .update(section, value, target)
+  }
+
   changed(e: ConfigurationChangeEvent, ...args: any[]) {
     let section: string = args[0]
     let resource: Uri | null | undefined
@@ -222,3 +311,7 @@ export class Configuration {
 }
 
 export const configuration = new Configuration()
+
+export const resolve = (path: string) => configuration.appFolder + path
+export const dropRoot = (path: string) =>
+  path.replace(configuration.appFolder, '')

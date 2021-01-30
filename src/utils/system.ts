@@ -15,9 +15,9 @@ export function openTextDocument(path: string) {
   return workspace.openTextDocument(path)
 }
 
-// export function showInformationMessage(message: string, options: MessageOptions, ...items: string[]) {
-//   return window.showInformationMessage(message, options, ...items)
-// }
+export function showInformationMessage(message: string, options?: MessageOptions, ...items: string[]) {
+  return window.showInformationMessage(message, options, ...items)
+}
 
 export function showInputBox(options?: InputBoxOptions) {
   return window.showInputBox(options)

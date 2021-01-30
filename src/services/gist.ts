@@ -9,11 +9,23 @@ export const GISTS_BASE_URL = 'https://api.github.com';
 
 type Response<T> = Promise<OctokitResponse<T>>;
 
+export interface Snippet {
+  name: string,
+  path: string,
+  content: string
+}
+
 
 
 const DEFAULT_OPTIONS: OctokitOptions = {
   baseUrl: GISTS_BASE_URL
 };
+
+export interface GistServiceOptions {
+  key?: string
+  rejectUnauthorized?: boolean;
+  url?: string;
+}
 
 
 class GistsService {
@@ -22,11 +34,11 @@ class GistsService {
 
   private static readonly instance?: GistsService;
 
-  private octokit: OctoKitType
+  private octokit: OctoKitType | null = null
   private options: OctokitOptions = DEFAULT_OPTIONS;
 
   private constructor() {
-    this.octokit = new Octokit(this.options);
+    // this.octokit = new Octokit(this.options);
   }
 
   public configure(options: {
@@ -42,43 +54,49 @@ class GistsService {
     this.options = config || this.options;
     this.octokit = new Octokit(this.options);
     if (key) {
-      this.octokit.authenticate({ type: 'token', token: key });
+      this.octokit = new Octokit({ auth: key });
     }
   }
 
   public create(
     params: any
-  ): Response<any> {
+  ): Response<any> | undefined {
+    if (!this.octokit) return
     return this.octokit.gists.create(params);
   }
 
   public delete(
     params: any
-  ): Response<any> {
+  ): Response<any> | undefined {
+    if (!this.octokit) return
     return this.octokit.gists.delete(params);
   }
 
   public get(
     params: any
   ): any {
+    if (!this.octokit) return
     return this.octokit.gists.get({ ...params });
   }
 
   public list(
     params?: any
-  ): Response<any[]> {
+  ): Response<any[]> | undefined {
+    if (!this.octokit) return
     return this.octokit.gists.list({ ...params });
   }
 
   public listStarred(
     params?: any
-  ): Response<any[]> {
+  ): Response<any[]> | undefined {
+    if (!this.octokit) return
     return this.octokit.gists.listStarred({ ...params });
   }
 
   public update(
     params: any
-  ): Response<any> {
+  ): Response<any> | undefined {
+    if (!this.octokit) return
     return this.octokit.gists.update(params);
   }
 }
