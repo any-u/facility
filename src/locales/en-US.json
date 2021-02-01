@@ -1,10 +1,15 @@
 {
   "extension.facilityApp.Nodes.SaveAs.title": "SaveAs...",
   "extension.facilityApp.command.paste.description": "Please enter a keyword",
+  "extension.facilityApp.SuccessMessage.pull.complete": "Finish pulling code snippets",
+  "extension.facilityApp.SuccessMessage.push.complete": "Finish pushing code snippets",
   "extension.facilityApp.Message.CannotFoundTreeNodes": "No nodes could be found.",
   "extension.facilityApp.Message.CannotProvideOutlineInformation": "Cannot provide outline information.",
   "extension.facilityApp.WarningMessage.CancelSaveCodeSnippetToLocal": "Cancel Save the code snippet locally",
   "extension.facilityApp.WarningMessage.CancelPasteCodeSnippetToCurrentFile": "Cancel paste the code snippet to the current file",
+  "extension.facilityApp.WarningMessage.NoToken": "Cannot found token",
+  "extension.facilityApp.WarningMessage.NoGistId": "Cannot found Gist Id",
+  "extension.facilityApp.WarningMessage.NoRemoteSnippet": "Cannot found remote snippet",
   "extension.facilityApp.ErrorMessage.CannotFoundConfigurationInformation": "Cannot found configuration information",
   "extension.facilityApp.ErrorMessage.CannotFoundContentToSave": "Cannot found the content to save.",
   "extension.facilityApp.ErrorMessage.CannotFoundActiveTextEditor": "Cannot found active text editor.",
@@ -14,5 +19,6 @@
   "extension.facilityApp.ErrorMessage.CannotFoundPath": "Cannot found path. Path: ",
   "extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet": "Failed to migrate code snippet library. Error: ",
   "extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider": "Failed to register Symbol Provider, please try again or restart the application.",
-  "extension.facilityApp.ErrorMessage.AppFailedToStart": "The application failed to start, please try again or restart the application."
+  "extension.facilityApp.ErrorMessage.AppFailedToStart": "The application failed to start, please try again or restart the application.",
+  "extension.facilityApp.ErrorMessage.NetworkAbort": "Network abort, please try again or restart the application."
 }

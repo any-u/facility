@@ -34289,12 +34289,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./common */ "./src/commands/common.ts");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services */ "./src/services/index.ts");
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../i18n */ "./src/i18n.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -34312,17 +34314,20 @@ let Pull = class Pull extends _common__WEBPACK_IMPORTED_MODULE_3__["Command"] {
         }
         const response = await _services_gist__WEBPACK_IMPORTED_MODULE_1__["gists"].list();
         if (!response.data) {
-            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].error('NET ERROR');
+            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].error(_i18n__WEBPACK_IMPORTED_MODULE_6__["default"].format('extension.facilityApp.ErrorMessage.NetworkAbort'));
+            Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showErrorMessage"])(_i18n__WEBPACK_IMPORTED_MODULE_6__["default"].format('extension.facilityApp.ErrorMessage.NetworkAbort'));
             return;
         }
         const id = _config__WEBPACK_IMPORTED_MODULE_0__["configuration"].get('id');
         if (!id) {
-            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].warn(`Remote snippet not found or gist id is not configured: ${id}`);
+            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].warn(_i18n__WEBPACK_IMPORTED_MODULE_6__["default"].format('extension.facilityApp.WarningMessage.NoGistId'));
+            Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showWarningMessage"])(_i18n__WEBPACK_IMPORTED_MODULE_6__["default"].format('extension.facilityApp.WarningMessage.NoGistId'));
             return;
         }
         let results = response.data.filter((item) => item.id === id);
         if (!results.length) {
-            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].info('No snippets could be found');
+            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].info(_i18n__WEBPACK_IMPORTED_MODULE_6__["default"].format('extension.facilityApp.WarningMessage.NoRemoteSnippet'));
+            Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showWarningMessage"])(_i18n__WEBPACK_IMPORTED_MODULE_6__["default"].format('extension.facilityApp.WarningMessage.NoRemoteSnippet'));
             return;
         }
         const item = results[0].files[_constants__WEBPACK_IMPORTED_MODULE_4__["GIST_FILE"]];
@@ -34331,11 +34336,12 @@ let Pull = class Pull extends _common__WEBPACK_IMPORTED_MODULE_3__["Command"] {
             value = await _utils__WEBPACK_IMPORTED_MODULE_2__["Request"].get(item.raw_url);
         }
         catch (err) {
-            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].error(err.message);
+            Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showErrorMessage"])(_i18n__WEBPACK_IMPORTED_MODULE_6__["default"].format('extension.facilityApp.ErrorMessage.NetworkAbort'));
+            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].error(_i18n__WEBPACK_IMPORTED_MODULE_6__["default"].format('extension.facilityApp.ErrorMessage.NetworkAbort'), err.message);
         }
         try {
             await this.onWillSaveSnippets(value);
-            Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showInformationMessage"])('pull completed');
+            Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showInformationMessage"])(_i18n__WEBPACK_IMPORTED_MODULE_6__["default"].format('extension.facilityApp.SuccessMessage.pull.complete'));
         }
         catch (err) {
             _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].error(err.message);
@@ -34387,12 +34393,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
 /* harmony import */ var _utils_request__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/request */ "./src/utils/request.ts");
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./common */ "./src/commands/common.ts");
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../i18n */ "./src/i18n.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -34450,8 +34458,9 @@ let Push = class Push extends _common__WEBPACK_IMPORTED_MODULE_8__["Command"] {
                 });
                 _config__WEBPACK_IMPORTED_MODULE_3__["configuration"].update('id', res.data.id, vscode__WEBPACK_IMPORTED_MODULE_0__["ConfigurationTarget"].Global);
             }
-            catch (error) {
-                _utils__WEBPACK_IMPORTED_MODULE_6__["logger"].error('NET Error', error.message);
+            catch (err) {
+                Object(_utils__WEBPACK_IMPORTED_MODULE_6__["showErrorMessage"])(_i18n__WEBPACK_IMPORTED_MODULE_9__["default"].format('extension.facilityApp.ErrorMessage.NetworkAbort'));
+                _utils__WEBPACK_IMPORTED_MODULE_6__["logger"].error(_i18n__WEBPACK_IMPORTED_MODULE_9__["default"].format('extension.facilityApp.ErrorMessage.NetworkAbort'), err.message);
             }
             return;
         }
@@ -34474,7 +34483,8 @@ let Push = class Push extends _common__WEBPACK_IMPORTED_MODULE_8__["Command"] {
             });
         }
         catch (err) {
-            _utils__WEBPACK_IMPORTED_MODULE_6__["logger"].error('NET ERROR');
+            Object(_utils__WEBPACK_IMPORTED_MODULE_6__["showErrorMessage"])(_i18n__WEBPACK_IMPORTED_MODULE_9__["default"].format('extension.facilityApp.ErrorMessage.NetworkAbort'));
+            _utils__WEBPACK_IMPORTED_MODULE_6__["logger"].error(_i18n__WEBPACK_IMPORTED_MODULE_9__["default"].format('extension.facilityApp.ErrorMessage.NetworkAbort'), err.message);
         }
     }
     async getSelections() {
@@ -34645,6 +34655,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
 /* harmony import */ var _services_gist__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/gist */ "./src/services/gist.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../i18n */ "./src/i18n.ts");
+
 
 
 
@@ -34664,8 +34676,8 @@ function ensureValidState() {
         return true;
     }
     else {
-        Object(_utils__WEBPACK_IMPORTED_MODULE_5__["showWarningMessage"])('未设置token');
-        _utils__WEBPACK_IMPORTED_MODULE_5__["logger"].warn('未设置token');
+        _utils__WEBPACK_IMPORTED_MODULE_5__["logger"].warn(_i18n__WEBPACK_IMPORTED_MODULE_6__["default"].format('extension.facilityApp.WarningMessage.NoToken'));
+        Object(_utils__WEBPACK_IMPORTED_MODULE_5__["showWarningMessage"])(_i18n__WEBPACK_IMPORTED_MODULE_6__["default"].format('extension.facilityApp.WarningMessage.NoToken'));
         return false;
     }
 }
@@ -35044,10 +35056,10 @@ i18n.setLocal(vscode__WEBPACK_IMPORTED_MODULE_0__["env"].language);
 /*!********************************!*\
   !*** ./src/locales/en-US.json ***!
   \********************************/
-/*! exports provided: extension.facilityApp.Nodes.SaveAs.title, extension.facilityApp.command.paste.description, extension.facilityApp.Message.CannotFoundTreeNodes, extension.facilityApp.Message.CannotProvideOutlineInformation, extension.facilityApp.WarningMessage.CancelSaveCodeSnippetToLocal, extension.facilityApp.WarningMessage.CancelPasteCodeSnippetToCurrentFile, extension.facilityApp.ErrorMessage.CannotFoundConfigurationInformation, extension.facilityApp.ErrorMessage.CannotFoundContentToSave, extension.facilityApp.ErrorMessage.CannotFoundActiveTextEditor, extension.facilityApp.ErrorMessage.ErrorStick, extension.facilityApp.ErrorMessage.ErrorFsWatch, extension.facilityApp.ErrorMessage.CannotReadFile, extension.facilityApp.ErrorMessage.CannotFoundPath, extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet, extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider, extension.facilityApp.ErrorMessage.AppFailedToStart, default */
+/*! exports provided: extension.facilityApp.Nodes.SaveAs.title, extension.facilityApp.command.paste.description, extension.facilityApp.SuccessMessage.pull.complete, extension.facilityApp.SuccessMessage.push.complete, extension.facilityApp.Message.CannotFoundTreeNodes, extension.facilityApp.Message.CannotProvideOutlineInformation, extension.facilityApp.WarningMessage.CancelSaveCodeSnippetToLocal, extension.facilityApp.WarningMessage.CancelPasteCodeSnippetToCurrentFile, extension.facilityApp.WarningMessage.NoToken, extension.facilityApp.WarningMessage.NoGistId, extension.facilityApp.WarningMessage.NoRemoteSnippet, extension.facilityApp.ErrorMessage.CannotFoundConfigurationInformation, extension.facilityApp.ErrorMessage.CannotFoundContentToSave, extension.facilityApp.ErrorMessage.CannotFoundActiveTextEditor, extension.facilityApp.ErrorMessage.ErrorStick, extension.facilityApp.ErrorMessage.ErrorFsWatch, extension.facilityApp.ErrorMessage.CannotReadFile, extension.facilityApp.ErrorMessage.CannotFoundPath, extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet, extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider, extension.facilityApp.ErrorMessage.AppFailedToStart, extension.facilityApp.ErrorMessage.NetworkAbort, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"extension.facilityApp.Nodes.SaveAs.title\":\"SaveAs...\",\"extension.facilityApp.command.paste.description\":\"Please enter a keyword\",\"extension.facilityApp.Message.CannotFoundTreeNodes\":\"No nodes could be found.\",\"extension.facilityApp.Message.CannotProvideOutlineInformation\":\"Cannot provide outline information.\",\"extension.facilityApp.WarningMessage.CancelSaveCodeSnippetToLocal\":\"Cancel Save the code snippet locally\",\"extension.facilityApp.WarningMessage.CancelPasteCodeSnippetToCurrentFile\":\"Cancel paste the code snippet to the current file\",\"extension.facilityApp.ErrorMessage.CannotFoundConfigurationInformation\":\"Cannot found configuration information\",\"extension.facilityApp.ErrorMessage.CannotFoundContentToSave\":\"Cannot found the content to save.\",\"extension.facilityApp.ErrorMessage.CannotFoundActiveTextEditor\":\"Cannot found active text editor.\",\"extension.facilityApp.ErrorMessage.ErrorStick\":\"Failed to stick the code snippet, please try again or restart the application.\",\"extension.facilityApp.ErrorMessage.ErrorFsWatch\":\"File system monitoring failed, please try again or restart the application.\",\"extension.facilityApp.ErrorMessage.CannotReadFile\":\"Cannot read file. Path: \",\"extension.facilityApp.ErrorMessage.CannotFoundPath\":\"Cannot found path. Path: \",\"extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet\":\"Failed to migrate code snippet library. Error: \",\"extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider\":\"Failed to register Symbol Provider, please try again or restart the application.\",\"extension.facilityApp.ErrorMessage.AppFailedToStart\":\"The application failed to start, please try again or restart the application.\"}");
+module.exports = JSON.parse("{\"extension.facilityApp.Nodes.SaveAs.title\":\"SaveAs...\",\"extension.facilityApp.command.paste.description\":\"Please enter a keyword\",\"extension.facilityApp.SuccessMessage.pull.complete\":\"Finish pulling code snippets\",\"extension.facilityApp.SuccessMessage.push.complete\":\"Finish pushing code snippets\",\"extension.facilityApp.Message.CannotFoundTreeNodes\":\"No nodes could be found.\",\"extension.facilityApp.Message.CannotProvideOutlineInformation\":\"Cannot provide outline information.\",\"extension.facilityApp.WarningMessage.CancelSaveCodeSnippetToLocal\":\"Cancel Save the code snippet locally\",\"extension.facilityApp.WarningMessage.CancelPasteCodeSnippetToCurrentFile\":\"Cancel paste the code snippet to the current file\",\"extension.facilityApp.WarningMessage.NoToken\":\"Cannot found token\",\"extension.facilityApp.WarningMessage.NoGistId\":\"Cannot found Gist Id\",\"extension.facilityApp.WarningMessage.NoRemoteSnippet\":\"Cannot found remote snippet\",\"extension.facilityApp.ErrorMessage.CannotFoundConfigurationInformation\":\"Cannot found configuration information\",\"extension.facilityApp.ErrorMessage.CannotFoundContentToSave\":\"Cannot found the content to save.\",\"extension.facilityApp.ErrorMessage.CannotFoundActiveTextEditor\":\"Cannot found active text editor.\",\"extension.facilityApp.ErrorMessage.ErrorStick\":\"Failed to stick the code snippet, please try again or restart the application.\",\"extension.facilityApp.ErrorMessage.ErrorFsWatch\":\"File system monitoring failed, please try again or restart the application.\",\"extension.facilityApp.ErrorMessage.CannotReadFile\":\"Cannot read file. Path: \",\"extension.facilityApp.ErrorMessage.CannotFoundPath\":\"Cannot found path. Path: \",\"extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet\":\"Failed to migrate code snippet library. Error: \",\"extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider\":\"Failed to register Symbol Provider, please try again or restart the application.\",\"extension.facilityApp.ErrorMessage.AppFailedToStart\":\"The application failed to start, please try again or restart the application.\",\"extension.facilityApp.ErrorMessage.NetworkAbort\":\"Network abort, please try again or restart the application.\"}");
 
 /***/ }),
 
@@ -35055,10 +35067,10 @@ module.exports = JSON.parse("{\"extension.facilityApp.Nodes.SaveAs.title\":\"Sav
 /*!********************************!*\
   !*** ./src/locales/zh-CN.json ***!
   \********************************/
-/*! exports provided: extension.facilityApp.Nodes.SaveAs.title, extension.facilityApp.command.paste.description, extension.facilityApp.Message.CannotFoundTreeNodes, extension.facilityApp.Message.CannotProvideOutlineInformation, extension.facilityApp.WarningMessage.CancelSaveCodeSnippetToLocal, extension.facilityApp.WarningMessage.CancelPasteCodeSnippetToCurrentFile, extension.facilityApp.ErrorMessage.CannotFoundConfigurationInformation, extension.facilityApp.ErrorMessage.CannotFoundContentToSave, extension.facilityApp.ErrorMessage.CannotFoundActiveTextEditor, extension.facilityApp.ErrorMessage.ErrorStick, extension.facilityApp.ErrorMessage.ErrorFsWatch, extension.facilityApp.ErrorMessage.CannotReadFile, extension.facilityApp.ErrorMessage.CannotFoundPath, extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet, extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider, extension.facilityApp.ErrorMessage.AppFailedToStart, default */
+/*! exports provided: extension.facilityApp.Nodes.SaveAs.title, extension.facilityApp.command.paste.description, extension.facilityApp.SuccessMessage.pull.complete, extension.facilityApp.SuccessMessage.push.complete, extension.facilityApp.Message.CannotFoundTreeNodes, extension.facilityApp.Message.CannotProvideOutlineInformation, extension.facilityApp.WarningMessage.CancelSaveCodeSnippetToLocal, extension.facilityApp.WarningMessage.CancelPasteCodeSnippetToCurrentFile, extension.facilityApp.WarningMessage.NoToken, extension.facilityApp.WarningMessage.NoGistId, extension.facilityApp.WarningMessage.NoRemoteSnippet, extension.facilityApp.ErrorMessage.CannotFoundConfigurationInformation, extension.facilityApp.ErrorMessage.CannotFoundContentToSave, extension.facilityApp.ErrorMessage.CannotFoundActiveTextEditor, extension.facilityApp.ErrorMessage.ErrorStick, extension.facilityApp.ErrorMessage.ErrorFsWatch, extension.facilityApp.ErrorMessage.CannotReadFile, extension.facilityApp.ErrorMessage.CannotFoundPath, extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet, extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider, extension.facilityApp.ErrorMessage.AppFailedToStart, extension.facilityApp.ErrorMessage.NetworkAbort, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"extension.facilityApp.Nodes.SaveAs.title\":\"另存为...\",\"extension.facilityApp.command.paste.description\":\"请输入关键词\",\"extension.facilityApp.Message.CannotFoundTreeNodes\":\"没有找到节点。\",\"extension.facilityApp.Message.CannotProvideOutlineInformation\":\"活动编辑器无法提供大纲信息。\",\"extension.facilityApp.WarningMessage.CancelSaveCodeSnippetToLocal\":\"取消保存代码片段到本地\",\"extension.facilityApp.WarningMessage.CancelPasteCodeSnippetToCurrentFile\":\"取消将代码片段粘贴到当前文件\",\"extension.facilityApp.ErrorMessage.CannotFoundConfigurationInformation\":\"没有找到配置信息\",\"extension.facilityApp.ErrorMessage.CannotFoundContentToSave\":\"没有找到要保存的内容。\",\"extension.facilityApp.ErrorMessage.CannotFoundActiveTextEditor\":\"没有找到活动编辑器。\",\"extension.facilityApp.ErrorMessage.ErrorStick\":\"插入代码片段失败, 请重试或重启应用。\",\"extension.facilityApp.ErrorMessage.ErrorFsWatch\":\"文件系统监测失败, 请重试或重启应用。\",\"extension.facilityApp.ErrorMessage.CannotReadFile\":\"无法读取文件。路径： \",\"extension.facilityApp.ErrorMessage.CannotFoundPath\":\"未找到路径. 路径： \",\"extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet\":\"迁移代码片段库失败. 原因: \",\"extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider\":\"无法注册大纲服务，请重试或重启应用。\",\"extension.facilityApp.ErrorMessage.AppFailedToStart\":\"App启动失败，请重试。\"}");
+module.exports = JSON.parse("{\"extension.facilityApp.Nodes.SaveAs.title\":\"另存为...\",\"extension.facilityApp.command.paste.description\":\"请输入关键词\",\"extension.facilityApp.SuccessMessage.pull.complete\":\"完成拉取代码片段\",\"extension.facilityApp.SuccessMessage.push.complete\":\"完成推送代码片段\",\"extension.facilityApp.Message.CannotFoundTreeNodes\":\"没有找到节点。\",\"extension.facilityApp.Message.CannotProvideOutlineInformation\":\"活动编辑器无法提供大纲信息。\",\"extension.facilityApp.WarningMessage.CancelSaveCodeSnippetToLocal\":\"取消保存代码片段到本地\",\"extension.facilityApp.WarningMessage.CancelPasteCodeSnippetToCurrentFile\":\"取消将代码片段粘贴到当前文件\",\"extension.facilityApp.WarningMessage.NoToken\":\"没有找到 token\",\"extension.facilityApp.WarningMessage.NoGistId\":\"没有找到GIST ID\",\"extension.facilityApp.WarningMessage.NoRemoteSnippet\":\"没有找到远端代码片段\",\"extension.facilityApp.ErrorMessage.CannotFoundConfigurationInformation\":\"没有找到配置信息\",\"extension.facilityApp.ErrorMessage.CannotFoundContentToSave\":\"没有找到要保存的内容。\",\"extension.facilityApp.ErrorMessage.CannotFoundActiveTextEditor\":\"没有找到活动编辑器。\",\"extension.facilityApp.ErrorMessage.ErrorStick\":\"插入代码片段失败, 请重试或重启应用。\",\"extension.facilityApp.ErrorMessage.ErrorFsWatch\":\"文件系统监测失败, 请重试或重启应用。\",\"extension.facilityApp.ErrorMessage.CannotReadFile\":\"无法读取文件。路径： \",\"extension.facilityApp.ErrorMessage.CannotFoundPath\":\"未找到路径. 路径： \",\"extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet\":\"迁移代码片段库失败. 原因: \",\"extension.facilityApp.ErrorMessage.FailedToRegisterSymbolProvider\":\"无法注册大纲服务，请重试或重启应用。\",\"extension.facilityApp.ErrorMessage.AppFailedToStart\":\"App启动失败，请重试。\",\"extension.facilityApp.ErrorMessage.NetworkAbort\":\"网络异常，请重试。\"}");
 
 /***/ }),
 

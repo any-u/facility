@@ -1,9 +1,16 @@
 import { resolve as PResolve, configuration, ensureValidState } from '../config'
 import { gists, Snippet } from '../services/gist'
-import { logger, Request, showInformationMessage } from '../utils'
+import {
+  logger,
+  Request,
+  showErrorMessage,
+  showInformationMessage,
+  showWarningMessage,
+} from '../utils'
 import { command, Command, Commands } from './common'
 import { GIST_FILE } from '../constants'
 import { fileSystem } from '../services'
+import i18n from '../i18n'
 
 @command()
 export class Pull extends Command {
@@ -18,21 +25,33 @@ export class Pull extends Command {
 
     const response = await gists.list()
     if (!response.data) {
-      logger.error('NET ERROR')
+      logger.error(
+        i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort')
+      )
+
+      showErrorMessage(
+        i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort')
+      )
       return
     }
 
     const id = configuration.get('id')
     if (!id) {
-      logger.warn(
-        `Remote snippet not found or gist id is not configured: ${id}`
+      logger.warn(i18n.format('extension.facilityApp.WarningMessage.NoGistId'))
+      showWarningMessage(
+        i18n.format('extension.facilityApp.WarningMessage.NoGistId')
       )
       return
     }
 
     let results = response.data.filter((item) => item.id === id)
     if (!results.length) {
-      logger.info('No snippets could be found')
+      logger.info(
+        i18n.format('extension.facilityApp.WarningMessage.NoRemoteSnippet')
+      )
+      showWarningMessage(
+        i18n.format('extension.facilityApp.WarningMessage.NoRemoteSnippet')
+      )
       return
     }
 
@@ -42,12 +61,20 @@ export class Pull extends Command {
     try {
       value = await Request.get(item.raw_url)
     } catch (err) {
-      logger.error(err.message)
+      showErrorMessage(
+        i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort')
+      )
+      logger.error(
+        i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort'),
+        err.message
+      )
     }
 
     try {
       await this.onWillSaveSnippets(value)
-      showInformationMessage('pull completed')
+      showInformationMessage(
+        i18n.format('extension.facilityApp.SuccessMessage.pull.complete')
+      )
     } catch (err) {
       logger.error(err.message)
     }

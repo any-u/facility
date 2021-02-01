@@ -13,6 +13,7 @@ import {
 import { EXTENSION_NAME, GIST_BAST_URL } from '../constants'
 import { gists } from '../services/gist'
 import { logger, showWarningMessage } from '../utils'
+import i18n from '../i18n'
 
 export interface Config {
   workspaceFolder: string | null
@@ -40,8 +41,11 @@ export function ensureValidState() {
     })
     return true
   } else {
-    showWarningMessage('未设置token')
-    logger.warn('未设置token')
+    logger.warn(i18n.format('extension.facilityApp.WarningMessage.NoToken'))
+
+    showWarningMessage(
+      i18n.format('extension.facilityApp.WarningMessage.NoToken')
+    )
     return false
   }
 }

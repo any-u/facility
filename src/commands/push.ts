@@ -4,9 +4,16 @@ import { App } from '../app'
 import { configuration, dropRoot, ensureValidState, resolve } from '../config'
 import { GIST_DESCRIPTION, GIST_FILE } from '../constants'
 import { gists, Snippet } from '../services/gist'
-import { fullname, logger, openTextDocument, extend } from '../utils'
+import {
+  fullname,
+  logger,
+  openTextDocument,
+  extend,
+  showErrorMessage,
+} from '../utils'
 import { Request } from '../utils/request'
 import { command, Command, Commands } from './common'
+import i18n from '../i18n'
 
 interface SelectionOption {
   label: string
@@ -69,8 +76,14 @@ export class Push extends Command {
           public: true,
         })
         configuration.update('id', res.data.id, ConfigurationTarget.Global)
-      } catch (error) {
-        logger.error('NET Error', error.message)
+      } catch (err) {
+        showErrorMessage(
+          i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort')
+        )
+        logger.error(
+          i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort'),
+          err.message
+        )
       }
       return
     }
@@ -97,7 +110,13 @@ export class Push extends Command {
         gist_id: id,
       })
     } catch (err) {
-      logger.error('NET ERROR')
+      showErrorMessage(
+        i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort')
+      )
+      logger.error(
+        i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort'),
+        err.message
+      )
     }
   }
 
