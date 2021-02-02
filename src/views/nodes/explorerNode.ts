@@ -27,9 +27,8 @@ export class ExplorerNode extends SubscribeableViewNode<ExplorerView> {
       ]
     }
 
-    // TODO: fix anyscript
     children.push(
-      new RepositoryNode(this.view, root.element, (root as any).children)
+      new RepositoryNode(this.view, root.element, root.children)
     )
 
     this._children = children

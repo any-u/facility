@@ -84,8 +84,7 @@ export class ExplorerTree<T> extends Tree<T> {
       type: FileChangeType.Created,
     })
 
-    // TODO: fix anyscript
-    const value = this.nodes.get((element as any).name)
+    const value = this.nodes.get(element.name)
 
     return value
   }
