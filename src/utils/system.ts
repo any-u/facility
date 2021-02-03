@@ -8,7 +8,7 @@ import {
   window,
   workspace,
 } from 'vscode'
-import { configuration } from '../config'
+import { CONFIGURED_PATH } from '../config/pathConfig'
 import { isWindows } from './libs'
 
 export function openTextDocument(path: string) {
@@ -37,7 +37,7 @@ export function showErrorMessage(item: string) {
 
 export async function showSaveDiaglog(
   options: SaveDialogOptions = {
-    defaultUri: Uri.file(configuration.appFolder),
+    defaultUri: Uri.file(CONFIGURED_PATH),
   }
 ): Promise<string | undefined> {
   const uri = await window.showSaveDialog(options)

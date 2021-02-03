@@ -6,7 +6,7 @@ import {
   FileType,
 } from 'vscode'
 import { BaseElement, Tree } from './tree'
-import { IFoldersChangeEvent, watcher } from '../reactive/watcher'
+import watcher, { IFoldersChangeEvent } from '../managers/watcher'
 import { ExplorerModel } from './explorerModel'
 import { IExplorerTreeNode } from './explorerModel'
 import { fileSystem } from '../services'
@@ -90,7 +90,9 @@ export class ExplorerTree<T> extends Tree<T> {
   }
 
   getFilterNodes(handler: (...args: any) => any) {
-    return Array.from(this.nodes.values()).map(handler).filter(item => item)
+    return Array.from(this.nodes.values())
+      .map(handler)
+      .filter((item) => item)
   }
   private async updateNode(e: IFoldersChangeEvent) {
     const { path, fileType, type } = e
@@ -120,7 +122,9 @@ export class ExplorerTree<T> extends Tree<T> {
         element: { name },
       } = n2
       if (name !== n1.element.name) {
-        const p1 = n1.element.name.split(Separator).filter((item) => item !== '')
+        const p1 = n1.element.name
+          .split(Separator)
+          .filter((item) => item !== '')
         const p2 = name.split(Separator).filter((item) => item !== '')
 
         let basePath = isWindows ? '' : Separator

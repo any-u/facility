@@ -1,5 +1,5 @@
 import { commands, Uri } from "vscode";
-import { configuration } from "../config";
+import { CONFIGURED_PATH } from "../config/pathConfig";
 import { command, Command, Commands } from "./common";
 @command()
 export class Open extends Command {
@@ -7,7 +7,7 @@ export class Open extends Command {
         super(Commands.Open)
     }
     async execute() {
-        const uri = Uri.file(configuration.appFolder)
+        const uri = Uri.file(CONFIGURED_PATH)
         await commands.executeCommand(
             'vscode.openFolder',
             uri,

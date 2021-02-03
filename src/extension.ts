@@ -1,13 +1,15 @@
 import { ExtensionContext, extensions, window } from 'vscode'
 import { App } from './app'
-import { Config, configuration, Configuration, extensionQualifiedId } from './config'
-import { Watcher } from './reactive/watcher'
+import { Config, extensionQualifiedId } from './config'
+import { Watcher } from './managers/watcher'
 import { registerCommands } from './commands'
 import { Levels, logger, showErrorMessage } from './utils'
-import i18n from './i18n'
-import prepare from './prepare'
+import manager from './manager'
 import { DEBUG } from './constants'
-
+import { CONFIGURED_PATH } from './config/pathConfig'
+import configuration from './managers/configuration'
+import i18nManager from './managers/i18n'
+import { ErrorMessage } from './config/message'
 
 export function getDurationMilliseconds(start: [number, number]) {
   const [secs, nanosecs] = process.hrtime(start)
@@ -15,15 +17,11 @@ export function getDurationMilliseconds(start: [number, number]) {
 }
 
 export async function activate(context: ExtensionContext) {
-  logger.setLevel(DEBUG ? Levels.DEBUG : Levels.ERROR);
-  logger.setOutput(window.createOutputChannel('Facility'));
-
-  const app = extensions.getExtension(extensionQualifiedId)!;
-  prepare.runScript()
+  logger.setLevel(DEBUG ? Levels.DEBUG : Levels.ERROR)
+  logger.setOutput(window.createOutputChannel('Facility'))
 
   try {
-    Configuration.configure(context)
-    Watcher.configure(context, configuration.appFolder)
+    manager.configure(context)
 
     const config: Config = configuration.get()
 
@@ -31,8 +29,6 @@ export async function activate(context: ExtensionContext) {
 
     registerCommands(context)
   } catch (err) {
-    showErrorMessage(
-      i18n.format('extension.facilityApp.ErrorMessage.AppFailedToStart')
-    )
+    showErrorMessage(i18nManager.format(ErrorMessage.AppFailedToStart))
   }
 }

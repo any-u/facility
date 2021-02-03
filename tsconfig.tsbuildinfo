@@ -186,6 +186,11 @@
         "signature": "6dc1e56cb17d56bcb45677e1657405570a1a96d3d45c6220f1aa4c2f664e10ba",
         "affectsGlobalScope": true
       },
+      "./src/config/message.ts": {
+        "version": "75c7a6c4dc289ea7b93f5cc5f3e836dee69c00b61c613eadd26d31ea19bb612f",
+        "signature": "1d22c7fecd90ab8c0e06db125c6d6c28001fa6dd20aa7ac5a99bb3f6aaaf9674",
+        "affectsGlobalScope": false
+      },
       "./node_modules/_@types_lodash@4.14.167@@types/lodash/common/common.d.ts": {
         "version": "3594c022901a1c8993b0f78a3f534cfb81e7b619ed215348f7f6882f3db02abc",
         "signature": "3594c022901a1c8993b0f78a3f534cfb81e7b619ed215348f7f6882f3db02abc",
@@ -251,11 +256,6 @@
         "signature": "0714e2046df66c0e93c3330d30dbc0565b3e8cd3ee302cf99e4ede6220e5fec8",
         "affectsGlobalScope": true
       },
-      "./src/services/i18n.ts": {
-        "version": "768dace8c714cda915889939d7beb21427c3e3b9d165ba541cfd98544de2a61a",
-        "signature": "b2f5aa271fc44be4dee34be0a485513115b198775ab34eb20cd2c166d4650a2b",
-        "affectsGlobalScope": false
-      },
       "./src/locales/zh-cn.json": {
         "version": "3034a30313c198826245c287f0293c0759013a47dcf7dbd2cc10298a7a4a50e0",
         "signature": "b68159d8115fb27defc067c8edb00c266de7191d55c36b063706cabbb49f612e",
@@ -266,9 +266,9 @@
         "signature": "b68159d8115fb27defc067c8edb00c266de7191d55c36b063706cabbb49f612e",
         "affectsGlobalScope": true
       },
-      "./src/i18n.ts": {
-        "version": "a21bf24d816eea770c88431b7899d918a9c28a8b219c3ba314e3d3a92618dcea",
-        "signature": "8962f85a4a2a2c0acb73cc5f107aa9ffd7504b68f1d90227ff49f875eb81735c",
+      "./src/managers/i18n.ts": {
+        "version": "dfdb6d9464cef22f8579373e69ca9a6e6f6cbc13111ac549eb04816206641aa2",
+        "signature": "4facaa4779b6eed9433a7d62b2cb70a82b25f8bd44c978e0004e7d6f729b1249",
         "affectsGlobalScope": false
       },
       "./node_modules/_@types_node@12.19.14@@types/node/globals.d.ts": {
@@ -715,23 +715,18 @@
         "signature": "aff13929d6a01deb44b8084328e497c0ac36070753b9717cc84ec1ae22b6a5cd",
         "affectsGlobalScope": false
       },
-      "./src/config/configuration.ts": {
-        "version": "51f17e6ace91aee97dac36fb7c730d235a468a61a23af9f0fc49a098316a9819",
-        "signature": "eaefb543d25bf82dab954877764c99691ff49fdab85f580fef5741ebed5f9c0b",
+      "./src/managers/configuration.ts": {
+        "version": "cf002e70a23f3a1dcde443d7360057b81660b9f3dfa17dbf5db9bc632b6089ca",
+        "signature": "2bc057a42285e21a18c0048cce79f3098e997e8e5530b333db1e640efdc75549",
         "affectsGlobalScope": false
       },
-      "./src/config/icon.ts": {
-        "version": "f211bba796af4bd8eb0b468111f8406ec76311d92e17d58a33d4e4ac328c459b",
-        "signature": "67f90ef1db12b6e62e56587ef9fe31f350e6e05725cba31045a5896f666ae997",
-        "affectsGlobalScope": false
-      },
-      "./src/config/index.ts": {
-        "version": "3647e4df863f35f3e253b7cae80740f0582d349bb6f2ae44b72bf0b9f02bae88",
-        "signature": "96a06d7a22509dfcfe5495fdd67f98910ce9be4d502509ccbb135d9723b79d10",
+      "./src/config/pathconfig.ts": {
+        "version": "6b067b732aad75267f97baa956c96639412ea24ef96d6c361eb0513eb63e4c32",
+        "signature": "2b1dee7494416e1f4bba0494d459762c76ca2ccffa33dbe16f282d945f82d5af",
         "affectsGlobalScope": false
       },
       "./src/utils/system.ts": {
-        "version": "7f29d7e2aa1bdaf6e103421d3d4a6b57776dba68fa183a12dec21e5b175d189f",
+        "version": "371b29ed2069af1951b7b016f6b378c3d16ee7269c45fa9e424d9beee01b9fd3",
         "signature": "1103e531b884c0afff36169060d1968b690f7421dcc1322d894f5be4d6e0856b",
         "affectsGlobalScope": false
       },
@@ -771,23 +766,23 @@
         "affectsGlobalScope": false
       },
       "./src/services/filesystem.ts": {
-        "version": "37e49c3e383eac9f970fe2e7d6e085d26e51eb2ee58195132b7e9928bc40f730",
-        "signature": "876372b8b7226b22aa15e3d3bf008090056a1f545537b3b6be8dc151ff263c6c",
-        "affectsGlobalScope": false
-      },
-      "./src/services/prepare.ts": {
-        "version": "f1ce48cf3e49a8181c39308073b5569cb65d193957851b37b2cb0417d4a0a873",
-        "signature": "ca349d40bc4e736325f52a675c9d10505bed820654645c57106d52dbc288dc77",
-        "affectsGlobalScope": false
-      },
-      "./src/services/workspacefolder.ts": {
-        "version": "2a54aa6fd9be598fceb4864c8bfcf073cb8d5b0dff8efaf7e8cdb44d6ef3e6fc",
-        "signature": "5c5c4b1b0293533d8b28940263374a781dcada564f708a6c99629a6147854b1c",
+        "version": "b69f85dfbf3a9ad34b100c602d46f7fcdb4838c52210ce0fc7299408ae48b6ca",
+        "signature": "82702a97dabe2ca6454f47a9f77e37c008e6b31a5574b87328e7b594e2233f62",
         "affectsGlobalScope": false
       },
       "./src/services/index.ts": {
-        "version": "9555d3648c968c521906050e43124a913ecd8839c9e20797aeae51d7c4ae5dd6",
-        "signature": "526d4115eca1ab0c340c000d8c9be0b1eac924b482033a8bcaa04cb12d8bbda3",
+        "version": "125ccfaf2c57c8cc43c12cc8dc30f0763f5330af4b9c55243787a8e4f224100d",
+        "signature": "e6bfeafbd10b57e461439de55fc991d9fce7c4a7d8da573c29d089375841bc64",
+        "affectsGlobalScope": false
+      },
+      "./src/config/icon.ts": {
+        "version": "f211bba796af4bd8eb0b468111f8406ec76311d92e17d58a33d4e4ac328c459b",
+        "signature": "67f90ef1db12b6e62e56587ef9fe31f350e6e05725cba31045a5896f666ae997",
+        "affectsGlobalScope": false
+      },
+      "./src/config/index.ts": {
+        "version": "5ad2aa2c55b72f9e3ea77501b669fda4e2ba31929acffd282e4e224714008a57",
+        "signature": "8786a3c17600bcd44725f6a1e766d0833633a6b0072ba5fb80d90b50c129b703",
         "affectsGlobalScope": false
       },
       "./src/views/nodes/common.ts": {
@@ -796,22 +791,22 @@
         "affectsGlobalScope": false
       },
       "./src/views/nodes/symbolnode.ts": {
-        "version": "dc9bd667baa258e2ca910eacca202e1381170ec86192d63def8e641c48a38630",
+        "version": "417b6c721bf53336bc75a63611df0060231529e3d93d55a0847982b8866f72e0",
         "signature": "691addb6835714431c0ff0f006fda7add26066dc81f2032c6202d96b1592c05a",
         "affectsGlobalScope": false
       },
       "./src/views/nodes/outlinenode.ts": {
-        "version": "3158bf32a781f7049a358b889d72e2d4877d76614f0ffc2e3c32952e3e4bd31a",
+        "version": "fb3e65fe4615b3d01e6e923a78a468b6dc3dc1e261bb2a2d414fe0ba656d0bda",
         "signature": "0374f8c3118604393e3bb4f076966787859a1e1ea1c70cbf2d90cfe72bcb3634",
         "affectsGlobalScope": false
       },
       "./src/views/outlineview.ts": {
-        "version": "f6a9918a1264cf773361dccda9c99a798a96587c2786b862e9d9ae64a0a10525",
+        "version": "742a945c3b102987c3846f15f2d77c6aee0e1289195555a8f58aade1fbfa4fcd",
         "signature": "e57bd40995da05d6a6fc193141ca7a8734215467ae8cff1ed848725cda10d2cb",
         "affectsGlobalScope": false
       },
       "./src/views/viewbase.ts": {
-        "version": "07c47c0cff7e15a00b2f180e4a97aa88cbc0ad6a05a7243a6e29af7e98d049a1",
+        "version": "e032afdaa08a42d379f29eac96c98437a5c2888e14c044e0dd969f0f6dac3088",
         "signature": "d92de6e7b31a9b54a87521e35a1f1437a177b85240cd03e40015a634a31f2e5a",
         "affectsGlobalScope": false
       },
@@ -831,27 +826,27 @@
         "affectsGlobalScope": false
       },
       "./src/commands/save.ts": {
-        "version": "64e47b39c649b9fba3f209f0cd3f47c29305c1a3bc5884740a90c35e19aa3ada",
+        "version": "9a57747370d1129caa0bd250fe4f2c4d9fd680392f7307a5d99f8e31e034528f",
         "signature": "c7e534d0f33c4e6d98f861a6cde345b7e21c4196f1e113190e539ebb7d5a8e85",
         "affectsGlobalScope": false
       },
       "./src/commands/paste.ts": {
-        "version": "736b5090dd61c2218f40c9735b7e25bada6a027d6a4f033b5207a84ff1df373f",
+        "version": "bf47013c03dd59dd1641cfae0f60cb35372b0c47449532f97a17222989865094",
         "signature": "0ee5bc459f5fe4d7d46d7fdce33319c575e63011d28a583fc317d61792cc17b5",
         "affectsGlobalScope": false
       },
       "./src/commands/open.ts": {
-        "version": "2dfe732f15f9510ea9b102026324dd02da11943c679c347ff87188da8b85b70b",
+        "version": "edf0e0fb572c1900af769424dfd6fd7cb48a979d65b1bab8ab3254fef1dc15a2",
         "signature": "21b0c619c7fc527f502e2e8b65bcc543f9c9c2926ae3ad1042f82cf047f45626",
         "affectsGlobalScope": false
       },
       "./src/commands/pull.ts": {
-        "version": "4f072026b62e4fcdabee6230c3e58d48a79d55864f25f304cb26765aae6887be",
+        "version": "ca91627c32d8a68aa55ed9d4e0378d18697d2983d3ee9c02a5d3171249a0c6fc",
         "signature": "c763055b60eb384175cc008e562f95ceffc26df06c18f68297c129c7a2fbf072",
         "affectsGlobalScope": false
       },
       "./src/commands/push.ts": {
-        "version": "81f25d22ebb2695dc4448cb567098704857d8f818b5a31cdd7b93179562d421f",
+        "version": "699693989fe836b95b4adfef22da30873cbf119f026cabf3fdc80a03dbacbdc7",
         "signature": "033e1fd2209590a5be746a9bb71863ed9defc7dbe4071b8fa1d565980954ce76",
         "affectsGlobalScope": false
       },
@@ -875,9 +870,9 @@
         "signature": "ca7f76d3ea132bde53dca1a0f33cda95397d20c248e452c050773f01504d9802",
         "affectsGlobalScope": false
       },
-      "./src/reactive/watcher.ts": {
-        "version": "b9cbb17d357cb62d1a39047777b0d88cd5c1fbcd1838d5b9abd317c3b224959d",
-        "signature": "af8f33b217e4578e8fff3e5e17cb8c49954f0537b9c4a0ae8bd598ba8bbc85f0",
+      "./src/managers/watcher.ts": {
+        "version": "f5d8bba9e582311646608e0112b84984d57f1b77a8d35107415e1c3491f4ed2a",
+        "signature": "aa5a667addff16518b186ef34db9286aaa05b6ffdc2ce53fea51899fe34ab4e1",
         "affectsGlobalScope": false
       },
       "./src/tree/explorermodel.ts": {
@@ -886,43 +881,58 @@
         "affectsGlobalScope": false
       },
       "./src/tree/explorertree.ts": {
-        "version": "f0f7948af149f2bfb2969b1b13bd9cb078eca9894fc10930676804aacb4a0faf",
+        "version": "80722110394e9a60ee4846a3b9828c596f6096a46234e69c656d7b1f3cce20e1",
         "signature": "e847d2af390bdf6051322a4f8df0843fc5f3b8097b12df81e6c59e046a688d57",
         "affectsGlobalScope": false
       },
       "./src/views/nodes/repositorynode.ts": {
-        "version": "82d47901568b985db50f42b563c03bf80702e658e3da0bad078b8199b8ed064b",
+        "version": "67ff12446924f3ce6e80832d2968256ee92f9e88cbe2a113faf180e4aed7343a",
         "signature": "225f95e841810afa16b1d47ce219835e0dccc09fcf788d44e5a99c46b5cc797b",
         "affectsGlobalScope": false
       },
       "./src/views/nodes/explorernode.ts": {
-        "version": "bdda3e914615a437272e54e574ad75dc74478e474eb6f5013883652c91653c9d",
+        "version": "e1bc4442695090ea2b010d1e9b8d0102bdbfebd11cc40f3ebffe93275f26b0f1",
         "signature": "512b7330e35181c8748a066a03f477bb891314f56d99df76008303c4a4fe0376",
         "affectsGlobalScope": false
       },
       "./src/views/explorerview.ts": {
-        "version": "4a06b9f9ba39cbdf9c2d6ae45c0bc75852b533eee63060f2fce38f0838198886",
+        "version": "263c357ef7654ed7937b44cba081d9c5eec678ef1a5a90ee37fab7ab358c554d",
         "signature": "bae375377dd9d71daed9d553720ef39fa99d64ec4f5e7c3141eee8afe3cb8c6c",
         "affectsGlobalScope": false
       },
-      "./src/services/waitprovider.ts": {
-        "version": "6fcf0d1ea70a06c834b316f0fbbfa319fa2d5a23789ac046e1b3c751a69e0909",
-        "signature": "4857f630444a043ef3b314fafb628b796a83465ad20d1756b877fb272427c0ae",
-        "affectsGlobalScope": false
-      },
-      "./src/prepare.ts": {
-        "version": "08757b5f98654d891bc4d9a1fe520158a292a8804ac5957dad9423ce0d3f2f55",
-        "signature": "5c576674dd4806f116fc056f333874ba3bb4ebe5fc4ee252804e8a2ec4573cf0",
-        "affectsGlobalScope": false
-      },
       "./src/app.ts": {
-        "version": "6c72277d0bef21dd4a14101415f7f5b5c4f69d07d48f2dd5c8e520c16afd432a",
+        "version": "81fdf011b2c09f13bec1024f3ae99aa1e28eca3c5914a3761ee518f42a15854a",
         "signature": "f249ef42b9ab42f09ce9853c513832f9b5fec6600758d19f68e7c6d15015e2c4",
         "affectsGlobalScope": false
       },
+      "./src/managers/workspacefolder.ts": {
+        "version": "b9d72f3b6263e7895f40049d26a7fafb8d22ffb4ae0ff67be3818ab81bb4cdda",
+        "signature": "ad3db7c49793560962e6a7c6074564cb3163c84e19ca482c9f356a1ab05af224",
+        "affectsGlobalScope": false
+      },
+      "./src/managers/symbolproviderchecker.ts": {
+        "version": "14403bb33c596739a2be7cf9f28f3818498968532c64b2585a226a4fbff48ee1",
+        "signature": "4ad3e0c85088f8657f5b294bc5feafbe1d6aad1b7475109ca7351e50f2d9ef62",
+        "affectsGlobalScope": false
+      },
+      "./src/managers/manager.ts": {
+        "version": "5adcb510fd0c37ee19fd9236acb3e2b28907a35b7b421a53045b2e438b3fcebe",
+        "signature": "8b86c9bf71b7bbb96a16a99dbe459cae90edb6e6d489e25fe55a60e4e4eeb2c8",
+        "affectsGlobalScope": false
+      },
+      "./src/manager.ts": {
+        "version": "d9966c8848d8609218a031d985ccfc92c84ce9d4017069a1a9b671c25aec6e99",
+        "signature": "d2dd3833f690a00d333beaf0de02458592f1d74a9328d8abcbf5d212e4c9e61c",
+        "affectsGlobalScope": false
+      },
       "./src/extension.ts": {
-        "version": "5e7f9af23c6e7cca13dab57bacecd4a1f0cf01a013a0398046906ecc8b83efe1",
+        "version": "ca6a77957e33dfa3ff069945c4721ed31709ca980b2ff4daadb01dc489dab4d3",
         "signature": "0db88c22f461e22e922a83b56284a64b43187ad41e448a465e9531ecbc3ad7d6",
+        "affectsGlobalScope": false
+      },
+      "./src/reactive/watcher.ts": {
+        "version": "af00dae19665818f101e9751cfe0efcf5f60929bfda423a831fe388d09864a6b",
+        "signature": "aa5a667addff16518b186ef34db9286aaa05b6ffdc2ce53fea51899fe34ab4e1",
         "affectsGlobalScope": false
       }
     },
@@ -1449,8 +1459,9 @@
         "./node_modules/_@types_node@12.19.14@@types/node/path.d.ts",
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/config/index.ts",
-        "./src/prepare.ts",
-        "./src/reactive/watcher.ts",
+        "./src/config/pathconfig.ts",
+        "./src/managers/configuration.ts",
+        "./src/managers/watcher.ts",
         "./src/services/index.ts",
         "./src/tree/explorertree.ts",
         "./src/views/explorerview.ts",
@@ -1471,24 +1482,28 @@
       "./src/commands/open.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/commands/common.ts",
-        "./src/config/index.ts"
+        "./src/config/pathconfig.ts"
       ],
       "./src/commands/paste.ts": [
         "./node_modules/_@types_node@12.19.14@@types/node/path.d.ts",
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/commands/common.ts",
-        "./src/config/index.ts",
-        "./src/i18n.ts",
+        "./src/config/message.ts",
+        "./src/config/pathconfig.ts",
+        "./src/managers/configuration.ts",
+        "./src/managers/i18n.ts",
         "./src/services/index.ts",
         "./src/utils/index.ts"
       ],
       "./src/commands/pull.ts": [
         "./src/commands/common.ts",
         "./src/config/index.ts",
+        "./src/config/message.ts",
+        "./src/config/pathconfig.ts",
         "./src/constants.ts",
-        "./src/i18n.ts",
+        "./src/managers/configuration.ts",
+        "./src/managers/i18n.ts",
         "./src/services/gist.ts",
-        "./src/services/index.ts",
         "./src/utils/index.ts"
       ],
       "./src/commands/push.ts": [
@@ -1497,8 +1512,11 @@
         "./src/app.ts",
         "./src/commands/common.ts",
         "./src/config/index.ts",
+        "./src/config/message.ts",
+        "./src/config/pathconfig.ts",
         "./src/constants.ts",
-        "./src/i18n.ts",
+        "./src/managers/configuration.ts",
+        "./src/managers/i18n.ts",
         "./src/services/gist.ts",
         "./src/utils/index.ts",
         "./src/utils/request.ts"
@@ -1507,53 +1525,98 @@
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/app.ts",
         "./src/commands/common.ts",
-        "./src/i18n.ts",
-        "./src/utils/index.ts"
-      ],
-      "./src/config/configuration.ts": [
-        "./node_modules/_@types_lodash@4.14.167@@types/lodash/index.d.ts",
-        "./node_modules/_@types_node@12.19.14@@types/node/path.d.ts",
-        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./src/constants.ts",
-        "./src/i18n.ts",
-        "./src/services/gist.ts",
+        "./src/config/message.ts",
+        "./src/managers/i18n.ts",
         "./src/utils/index.ts"
       ],
       "./src/config/index.ts": [
-        "./src/config/configuration.ts",
-        "./src/config/icon.ts"
+        "./src/config/icon.ts",
+        "./src/managers/configuration.ts"
+      ],
+      "./src/config/pathconfig.ts": [
+        "./node_modules/_@types_node@12.19.14@@types/node/path.d.ts",
+        "./src/managers/configuration.ts"
       ],
       "./src/extension.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/app.ts",
         "./src/commands.ts",
         "./src/config/index.ts",
+        "./src/config/message.ts",
+        "./src/config/pathconfig.ts",
         "./src/constants.ts",
-        "./src/i18n.ts",
-        "./src/prepare.ts",
-        "./src/reactive/watcher.ts",
+        "./src/manager.ts",
+        "./src/managers/configuration.ts",
+        "./src/managers/i18n.ts",
+        "./src/managers/watcher.ts",
         "./src/utils/index.ts"
       ],
-      "./src/i18n.ts": [
+      "./src/manager.ts": [
+        "./src/managers/configuration.ts",
+        "./src/managers/i18n.ts",
+        "./src/managers/manager.ts",
+        "./src/managers/symbolproviderchecker.ts",
+        "./src/managers/watcher.ts",
+        "./src/managers/workspacefolder.ts"
+      ],
+      "./src/managers/configuration.ts": [
+        "./node_modules/_@types_lodash@4.14.167@@types/lodash/index.d.ts",
+        "./node_modules/_@types_node@12.19.14@@types/node/path.d.ts",
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/config/message.ts",
+        "./src/config/pathconfig.ts",
+        "./src/constants.ts",
+        "./src/managers/i18n.ts",
+        "./src/services/gist.ts",
+        "./src/utils/index.ts"
+      ],
+      "./src/managers/i18n.ts": [
+        "./node_modules/_@types_lodash@4.14.167@@types/lodash/index.d.ts",
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/locales/en-us.json",
-        "./src/locales/zh-cn.json",
-        "./src/services/i18n.ts"
+        "./src/locales/zh-cn.json"
       ],
-      "./src/prepare.ts": [
-        "./src/services/index.ts",
-        "./src/services/waitprovider.ts",
-        "./src/services/workspacefolder.ts"
+      "./src/managers/manager.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/config/index.ts",
+        "./src/managers/i18n.ts",
+        "./src/managers/symbolproviderchecker.ts",
+        "./src/managers/watcher.ts",
+        "./src/managers/workspacefolder.ts"
+      ],
+      "./src/managers/symbolproviderchecker.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/config/message.ts",
+        "./src/config/pathconfig.ts",
+        "./src/managers/i18n.ts",
+        "./src/services/filesystem.ts",
+        "./src/utils/index.ts"
+      ],
+      "./src/managers/watcher.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./node_modules/_chokidar@3.5.1@chokidar/types/index.d.ts",
+        "./src/config/message.ts",
+        "./src/config/pathconfig.ts",
+        "./src/managers/i18n.ts",
+        "./src/utils/index.ts"
+      ],
+      "./src/managers/workspacefolder.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/config/pathconfig.ts",
+        "./src/services/filesystem.ts",
+        "./src/utils/index.ts"
       ],
       "./src/reactive/watcher.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./node_modules/_chokidar@3.5.1@chokidar/types/index.d.ts",
-        "./src/i18n.ts",
+        "./src/config/message.ts",
+        "./src/config/pathconfig.ts",
         "./src/utils/index.ts"
       ],
       "./src/services/filesystem.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./src/i18n.ts",
+        "./src/config/message.ts",
+        "./src/managers/i18n.ts",
         "./src/utils/index.ts"
       ],
       "./src/services/gist.ts": [
@@ -1562,28 +1625,9 @@
         "./node_modules/_@octokit_types@6.3.1@@octokit/types/dist-types/index.d.ts",
         "./node_modules/_@types_node@12.19.14@@types/node/https.d.ts"
       ],
-      "./src/services/i18n.ts": [
-        "./node_modules/_@types_lodash@4.14.167@@types/lodash/index.d.ts"
-      ],
       "./src/services/index.ts": [
-        "./src/services/filesystem.ts",
-        "./src/services/i18n.ts",
-        "./src/services/prepare.ts",
-        "./src/services/workspacefolder.ts"
-      ],
-      "./src/services/waitprovider.ts": [
-        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./src/config/index.ts",
-        "./src/i18n.ts",
-        "./src/services/filesystem.ts",
-        "./src/utils/index.ts"
-      ],
-      "./src/services/workspacefolder.ts": [
-        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./src/config/index.ts",
-        "./src/i18n.ts",
-        "./src/services/filesystem.ts",
-        "./src/utils/index.ts"
+        "./src/managers/i18n.ts",
+        "./src/services/filesystem.ts"
       ],
       "./src/tree/explorermodel.ts": [
         "./src/tree/treemodel.ts"
@@ -1591,7 +1635,7 @@
       "./src/tree/explorertree.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/app.ts",
-        "./src/reactive/watcher.ts",
+        "./src/managers/watcher.ts",
         "./src/services/index.ts",
         "./src/tree/explorermodel.ts",
         "./src/tree/tree.ts",
@@ -1625,12 +1669,12 @@
       ],
       "./src/utils/system.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./src/config/index.ts",
+        "./src/config/pathconfig.ts",
         "./src/utils/libs.ts"
       ],
       "./src/views/explorerview.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./src/config/index.ts",
+        "./src/managers/configuration.ts",
         "./src/views/nodes/explorernode.ts",
         "./src/views/nodes/repositorynode.ts",
         "./src/views/viewbase.ts"
@@ -1643,7 +1687,8 @@
       "./src/views/nodes/explorernode.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/app.ts",
-        "./src/i18n.ts",
+        "./src/config/message.ts",
+        "./src/managers/i18n.ts",
         "./src/views/explorerview.ts",
         "./src/views/nodes/common.ts",
         "./src/views/nodes/index.ts",
@@ -1656,7 +1701,8 @@
       "./src/views/nodes/outlinenode.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/app.ts",
-        "./src/i18n.ts",
+        "./src/config/message.ts",
+        "./src/managers/i18n.ts",
         "./src/views/nodes/common.ts",
         "./src/views/nodes/symbolnode.ts",
         "./src/views/nodes/viewnode.ts",
@@ -1666,7 +1712,8 @@
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/app.ts",
         "./src/commands.ts",
-        "./src/i18n.ts",
+        "./src/config/message.ts",
+        "./src/managers/i18n.ts",
         "./src/services/index.ts",
         "./src/tree/explorertree.ts",
         "./src/utils/index.ts",
@@ -1678,7 +1725,7 @@
       "./src/views/nodes/symbolnode.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/app.ts",
-        "./src/config/index.ts",
+        "./src/config/pathconfig.ts",
         "./src/services/index.ts",
         "./src/views/nodes/viewnode.ts",
         "./src/views/outlineview.ts"
@@ -1693,7 +1740,7 @@
       ],
       "./src/views/outlineview.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./src/config/index.ts",
+        "./src/managers/configuration.ts",
         "./src/views/nodes/outlinenode.ts",
         "./src/views/nodes/symbolnode.ts",
         "./src/views/viewbase.ts"
@@ -1702,7 +1749,7 @@
         "./node_modules/_@types_lodash@4.14.167@@types/lodash/index.d.ts",
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/app.ts",
-        "./src/config/index.ts",
+        "./src/managers/configuration.ts",
         "./src/views/explorerview.ts",
         "./src/views/nodes/viewnode.ts",
         "./src/views/outlineview.ts"
@@ -2239,23 +2286,33 @@
       "./src/commands/save.ts": [
         "./src/commands/common.ts"
       ],
-      "./src/config/configuration.ts": [
-        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
-      ],
       "./src/config/index.ts": [
-        "./src/config/configuration.ts",
-        "./src/config/icon.ts"
+        "./src/config/icon.ts",
+        "./src/managers/configuration.ts"
       ],
       "./src/extension.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
       ],
-      "./src/i18n.ts": [
-        "./src/services/i18n.ts"
+      "./src/manager.ts": [
+        "./src/managers/manager.ts"
       ],
-      "./src/prepare.ts": [
-        "./src/services/index.ts",
-        "./src/services/waitprovider.ts",
-        "./src/services/workspacefolder.ts"
+      "./src/managers/configuration.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/config/pathconfig.ts"
+      ],
+      "./src/managers/manager.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/config/index.ts",
+        "./src/managers/i18n.ts",
+        "./src/managers/symbolproviderchecker.ts",
+        "./src/managers/watcher.ts",
+        "./src/managers/workspacefolder.ts"
+      ],
+      "./src/managers/watcher.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
+      ],
+      "./src/managers/workspacefolder.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
       ],
       "./src/reactive/watcher.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
@@ -2264,13 +2321,8 @@
         "./node_modules/_@octokit_types@6.3.1@@octokit/types/dist-types/index.d.ts"
       ],
       "./src/services/index.ts": [
-        "./src/services/filesystem.ts",
-        "./src/services/i18n.ts",
-        "./src/services/prepare.ts",
-        "./src/services/workspacefolder.ts"
-      ],
-      "./src/services/workspacefolder.ts": [
-        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
+        "./src/managers/i18n.ts",
+        "./src/services/filesystem.ts"
       ],
       "./src/tree/explorermodel.ts": [
         "./src/tree/treemodel.ts"
@@ -2499,7 +2551,70 @@
       "./node_modules/_typescript@3.9.7@typescript/lib/lib.es2020.symbol.wellknown.d.ts",
       "./node_modules/_typescript@3.9.7@typescript/lib/lib.es5.d.ts",
       "./node_modules/_typescript@3.9.7@typescript/lib/lib.esnext.intl.d.ts",
-      "./src/app.ts",
+      [
+        "./src/app.ts",
+        [
+          {
+            "file": "./src/app.ts",
+            "start": 3025,
+            "length": 17,
+            "code": 2345,
+            "category": 1,
+            "messageText": "Argument of type '\"workspaceFolder\"' is not assignable to parameter of type 'ConfigurationName'."
+          },
+          {
+            "file": "./src/app.ts",
+            "start": 3103,
+            "length": 16,
+            "code": 2339,
+            "category": 1,
+            "messageText": "Property 'homeOriginFolder' does not exist on type 'Configuration'."
+          },
+          {
+            "file": "./src/app.ts",
+            "start": 3166,
+            "length": 6,
+            "code": 2345,
+            "category": 1,
+            "messageText": {
+              "messageText": "Argument of type 'string | object' is not assignable to parameter of type 'string'.",
+              "category": 1,
+              "code": 2345,
+              "next": [
+                {
+                  "messageText": "Type 'object' is not assignable to type 'string'.",
+                  "category": 1,
+                  "code": 2322
+                }
+              ]
+            }
+          },
+          {
+            "file": "./src/app.ts",
+            "start": 3207,
+            "length": 16,
+            "code": 2339,
+            "category": 1,
+            "messageText": "Property 'homeOriginFolder' does not exist on type 'Configuration'."
+          },
+          {
+            "file": "./src/app.ts",
+            "start": 3238,
+            "length": 15,
+            "messageText": "Cannot find name 'workspaceFolder'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "./src/app.ts",
+            "start": 3312,
+            "length": 16,
+            "code": 2339,
+            "category": 1,
+            "messageText": "Property 'homeOriginFolder' does not exist on type 'Configuration'."
+          }
+        ]
+      ],
       "./src/commands.ts",
       "./src/commands/common.ts",
       "./src/commands/open.ts",
@@ -2507,23 +2622,37 @@
       "./src/commands/pull.ts",
       "./src/commands/push.ts",
       "./src/commands/save.ts",
-      "./src/config/configuration.ts",
       "./src/config/icon.ts",
       "./src/config/index.ts",
+      "./src/config/message.ts",
+      "./src/config/pathconfig.ts",
       "./src/constants.ts",
       "./src/extension.ts",
-      "./src/i18n.ts",
       "./src/locales/en-us.json",
       "./src/locales/zh-cn.json",
-      "./src/prepare.ts",
-      "./src/reactive/watcher.ts",
+      "./src/manager.ts",
+      "./src/managers/configuration.ts",
+      "./src/managers/i18n.ts",
+      "./src/managers/manager.ts",
+      "./src/managers/symbolproviderchecker.ts",
+      "./src/managers/watcher.ts",
+      "./src/managers/workspacefolder.ts",
+      [
+        "./src/reactive/watcher.ts",
+        [
+          {
+            "file": "./src/reactive/watcher.ts",
+            "start": 277,
+            "length": 18,
+            "messageText": "Cannot find module '../services/i18n' or its corresponding type declarations.",
+            "category": 1,
+            "code": 2307
+          }
+        ]
+      ],
       "./src/services/filesystem.ts",
       "./src/services/gist.ts",
-      "./src/services/i18n.ts",
       "./src/services/index.ts",
-      "./src/services/prepare.ts",
-      "./src/services/waitprovider.ts",
-      "./src/services/workspacefolder.ts",
       "./src/tree/explorermodel.ts",
       "./src/tree/explorertree.ts",
       "./src/tree/tree.ts",

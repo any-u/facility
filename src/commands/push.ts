@@ -1,7 +1,7 @@
 import { ConfigurationTarget, FileType, window } from 'vscode'
 import * as _ from 'lodash'
 import { App } from '../app'
-import { configuration, dropRoot, ensureValidState, resolve } from '../config'
+import { dropRoot, ensureValidState, resolve } from '../config'
 import { GIST_DESCRIPTION, GIST_FILE } from '../constants'
 import { gists, Snippet } from '../services/gist'
 import {
@@ -13,7 +13,10 @@ import {
 } from '../utils'
 import { Request } from '../utils/request'
 import { command, Command, Commands } from './common'
-import i18n from '../i18n'
+import configuration from '../managers/configuration'
+import { ConfigurationName } from '../config/pathConfig'
+import i18nManager from '../managers/i18n'
+import { ErrorMessage } from '../config/message'
 
 interface SelectionOption {
   label: string
@@ -66,7 +69,7 @@ export class Push extends Command {
       })
     )
 
-    const id = configuration.get('id')
+    const id = configuration.get(ConfigurationName.Id)
     if (!id) {
       try {
         const data = await composeSnippetData(local)
@@ -75,15 +78,14 @@ export class Push extends Command {
           files: data,
           public: true,
         })
-        configuration.update('id', res.data.id, ConfigurationTarget.Global)
+        configuration.update(
+          ConfigurationName.Id,
+          res.data.id,
+          ConfigurationTarget.Global
+        )
       } catch (err) {
-        showErrorMessage(
-          i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort')
-        )
-        logger.error(
-          i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort'),
-          err.message
-        )
+        showErrorMessage(i18nManager.format(ErrorMessage.NetworkAbort))
+        logger.error(i18nManager.format(ErrorMessage.NetworkAbort), err.message)
       }
       return
     }
@@ -110,13 +112,8 @@ export class Push extends Command {
         gist_id: id,
       })
     } catch (err) {
-      showErrorMessage(
-        i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort')
-      )
-      logger.error(
-        i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort'),
-        err.message
-      )
+      showErrorMessage(i18nManager.format(ErrorMessage.NetworkAbort))
+      logger.error(i18nManager.format(ErrorMessage.NetworkAbort), err.message)
     }
   }
 

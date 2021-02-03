@@ -1,12 +1,13 @@
 import * as path from 'path'
 import { ExtensionContext, ConfigurationChangeEvent, Uri } from 'vscode'
 import { fileSystem } from './services'
-import { Config, configuration, ConfigurationWillChangeEvent } from './config'
+import { Config, ConfigurationWillChangeEvent } from './config'
 import { ExplorerView } from './views/explorerView'
 import { OutlineView } from './views/outlineView'
 import { ExplorerTree, GistElement } from './tree/explorerTree'
-import { workspaceFolder } from './prepare'
-import { Watcher, watcher } from './reactive/watcher'
+import watcher, { Watcher } from './managers/watcher'
+import { CONFIGURED_PATH } from './config/pathConfig'
+import configuration from './managers/configuration'
 
 export class App {
   private static _onConfigurationSetting: Map<string, boolean> | undefined
@@ -60,8 +61,6 @@ export class App {
     context.subscriptions.push(
       configuration.onWillChange(this.onConfigurationChanging, this)
     )
-
-    // context.subscriptions.push((this._tree = new TreeService()))
     context.subscriptions.push(
       (this._explorerTree = new ExplorerTree<GistElement>())
     )
@@ -106,7 +105,7 @@ export class App {
         this._explorerTree.clear()
 
         await Watcher.close()
-        Watcher.configure(this._context, configuration.appFolder)
+        watcher.init(this._context, CONFIGURED_PATH)
 
         this._config = configuration.get()
         e.transform = this._applyModeConfigurationTransformBound

@@ -1,6 +1,5 @@
 import { Position, window } from 'vscode'
 import * as paths from 'path'
-import { configuration } from '../config'
 import {
   openTextDocument,
   showErrorMessage,
@@ -9,7 +8,10 @@ import {
 } from '../utils'
 import { command, Command, Commands } from './common'
 import { fileSystem } from '../services'
-import i18n from '../i18n'
+import i18nManager from '../managers/i18n'
+import { Comment, ErrorMessage, WarningMessage } from '../config/message'
+import configuration from '../managers/configuration'
+import { ConfigurationName, CONFIGURED_PATH } from '../config/pathConfig'
 
 @command()
 export class Paste extends Command {
@@ -19,33 +21,26 @@ export class Paste extends Command {
 
   async execute() {
     const input = await showInputBox({
-      prompt: i18n.format('extension.facilityApp.command.paste.description'),
+      prompt: i18nManager.format(Comment.PasteDescription),
     })
 
     if (input) {
       await this.onKeywordInputed(input)
     } else {
       showWarningMessage(
-        i18n.format(
-          'extension.facilityApp.WarningMessage.CancelPasteCodeSnippetToCurrentFile'
-        )
+        i18nManager.format(WarningMessage.CancelPasteCodeSnippetToCurrentFile)
       )
     }
   }
 
   async onKeywordInputed(input: string) {
-    const config = configuration.get('keyword')
+    const config = configuration.get(ConfigurationName.Keyword)
     if (config) {
-      const path = paths.join(
-        configuration.appFolder,
-        Reflect.get(config, input)
-      )
+      const path = paths.join(CONFIGURED_PATH, Reflect.get(config, input))
       await this.paste(path)
     } else {
       showErrorMessage(
-        i18n.format(
-          'extension.facilityApp.ErrorMessage.CannotFoundConfigurationInformation'
-        )
+        i18nManager.format(ErrorMessage.CannotFoundConfigurationInformation)
       )
     }
   }
@@ -57,9 +52,7 @@ export class Paste extends Command {
       text = document.getText()
     } catch (error) {
       showErrorMessage(
-        `${i18n.format(
-          'extension.facilityApp.ErrorMessage.CannotReadFile'
-        )}${path}`
+        `${i18nManager.format(ErrorMessage.CannotReadFile)}${path}`
       )
     }
     await fileSystem.edit(text)

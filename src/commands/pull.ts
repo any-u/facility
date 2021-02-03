@@ -1,4 +1,4 @@
-import { resolve as PResolve, configuration, ensureValidState } from '../config'
+import { resolve as PResolve, ensureValidState } from '../config'
 import { gists, Snippet } from '../services/gist'
 import {
   logger,
@@ -6,11 +6,14 @@ import {
   showErrorMessage,
   showInformationMessage,
   showWarningMessage,
+  write,
 } from '../utils'
 import { command, Command, Commands } from './common'
 import { GIST_FILE } from '../constants'
-import { fileSystem } from '../services'
-import i18n from '../i18n'
+import i18nManager from '../managers/i18n'
+import { ErrorMessage, SuccessMessage, WarningMessage } from '../config/message'
+import configuration from '../managers/configuration'
+import { ConfigurationName } from '../config/pathConfig'
 
 @command()
 export class Pull extends Command {
@@ -25,33 +28,23 @@ export class Pull extends Command {
 
     const response = await gists.list()
     if (!response.data) {
-      logger.error(
-        i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort')
-      )
+      logger.error(i18nManager.format(ErrorMessage.NetworkAbort))
 
-      showErrorMessage(
-        i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort')
-      )
+      showErrorMessage(i18nManager.format(ErrorMessage.NetworkAbort))
       return
     }
 
-    const id = configuration.get('id')
+    const id = configuration.get(ConfigurationName.Id)
     if (!id) {
-      logger.warn(i18n.format('extension.facilityApp.WarningMessage.NoGistId'))
-      showWarningMessage(
-        i18n.format('extension.facilityApp.WarningMessage.NoGistId')
-      )
+      logger.warn(i18nManager.format(WarningMessage.NoGistId))
+      showWarningMessage(i18nManager.format(WarningMessage.NoGistId))
       return
     }
 
     let results = response.data.filter((item) => item.id === id)
     if (!results.length) {
-      logger.info(
-        i18n.format('extension.facilityApp.WarningMessage.NoRemoteSnippet')
-      )
-      showWarningMessage(
-        i18n.format('extension.facilityApp.WarningMessage.NoRemoteSnippet')
-      )
+      logger.info(i18nManager.format(WarningMessage.NoRemoteSnippet))
+      showWarningMessage(i18nManager.format(WarningMessage.NoRemoteSnippet))
       return
     }
 
@@ -61,20 +54,13 @@ export class Pull extends Command {
     try {
       value = await Request.get(item.raw_url)
     } catch (err) {
-      showErrorMessage(
-        i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort')
-      )
-      logger.error(
-        i18n.format('extension.facilityApp.ErrorMessage.NetworkAbort'),
-        err.message
-      )
+      showErrorMessage(i18nManager.format(ErrorMessage.NetworkAbort))
+      logger.error(i18nManager.format(ErrorMessage.NetworkAbort), err.message)
     }
 
     try {
       await this.onWillSaveSnippets(value)
-      showInformationMessage(
-        i18n.format('extension.facilityApp.SuccessMessage.pull.complete')
-      )
+      showInformationMessage(i18nManager.format(SuccessMessage.PullComplete))
     } catch (err) {
       logger.error(err.message)
     }
@@ -85,8 +71,7 @@ export class Pull extends Command {
       await Promise.allSettled(
         data.map(({ path, content }) => {
           return new Promise(async (resolve) => {
-            // TODO: 移除 fileSystem，意义在哪里呢？
-            await fileSystem.write(PResolve(path), content)
+            await write(PResolve(path), content)
             resolve(void 0)
           })
         })

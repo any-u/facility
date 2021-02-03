@@ -1,6 +1,7 @@
 import { env, FileType, Range, window } from 'vscode'
 import { App } from '../app'
-import i18n from '../i18n'
+import { Comment, ErrorMessage, WarningMessage } from '../config/message'
+import i18nManager from '../managers/i18n'
 import {
   append,
   fullname,
@@ -21,9 +22,7 @@ export class Save extends Command {
     const text = await this.getText()
     if (!text) {
       showErrorMessage(
-        i18n.format(
-          'extension.facilityApp.ErrorMessage.CannotFoundContentToSave'
-        )
+        i18nManager.format(ErrorMessage.CannotFoundContentToSave)
       )
       return
     }
@@ -33,13 +32,9 @@ export class Save extends Command {
 
     if (selectOption === undefined) {
       showWarningMessage(
-        i18n.format(
-          'extension.facilityApp.WarningMessage.CancelSaveCodeSnippetToLocal'
-        )
+        i18nManager.format(WarningMessage.CancelSaveCodeSnippetToLocal)
       )
-    } else if (
-      selectOption === i18n.format('extension.facilityApp.Nodes.SaveAs.title')
-    ) {
+    } else if (selectOption === i18nManager.format(Comment.SaveAsTitle)) {
       await this.onSaveAsSelected(text)
     } else {
       await this.onAppendSelected(paths, selectOption, text)
@@ -56,7 +51,7 @@ export class Save extends Command {
       return name
     })
     const nodes = [
-      i18n.format('extension.facilityApp.Nodes.SaveAs.title'),
+      i18nManager.format(Comment.SaveAsTitle),
       ...paths.map((item) => fullname(item)),
     ]
     return {
@@ -76,9 +71,7 @@ export class Save extends Command {
       return editor.document.getText(new Range(start, end))
     } else {
       showErrorMessage(
-        i18n.format(
-          'extension.facilityApp.ErrorMessage.CannotFoundActiveTextEditor'
-        )
+        i18nManager.format(ErrorMessage.CannotFoundActiveTextEditor)
       )
       return undefined
     }
@@ -91,9 +84,7 @@ export class Save extends Command {
       await append(path, text)
     } else {
       showWarningMessage(
-        `${i18n.format(
-          'extension.facilityApp.ErrorMessage.CannotFoundPath'
-        )}${path}`
+        `${i18nManager.format(ErrorMessage.CannotFoundPath)}${path}`
       )
     }
   }
@@ -103,9 +94,7 @@ export class Save extends Command {
       write(path, text)
     } else {
       showErrorMessage(
-        `${i18n.format(
-          'extension.facilityApp.ErrorMessage.CannotFoundPath'
-        )}${path}`
+        `${i18nManager.format(ErrorMessage.CannotFoundPath)}${path}`
       )
     }
   }

@@ -1,5 +1,5 @@
 import { commands, ConfigurationChangeEvent, workspace } from 'vscode'
-import { configuration } from '../config'
+import configuration from '../managers/configuration'
 import { ExplorerNode } from './nodes/explorerNode'
 import { RepositoryNode } from './nodes/repositoryNode'
 import { ViewBase } from './viewBase'

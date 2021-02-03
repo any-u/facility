@@ -1,7 +1,8 @@
 import { Disposable, TreeItem, TreeItemCollapsibleState } from 'vscode'
 import { ContextValues, ViewNode } from '.'
 import { App } from '../../app'
-import i18n from '../../i18n'
+import { Message } from '../../config/message'
+import i18nManager from '../../managers/i18n'
 import { ExplorerView } from '../explorerView'
 import { MessageNode } from './common'
 import { RepositoryNode } from './repositoryNode'
@@ -22,7 +23,7 @@ export class ExplorerNode extends SubscribeableViewNode<ExplorerView> {
         new MessageNode(
           this.view,
           this,
-          i18n.format('extension.facilityApp.Message.CannotFoundTreeNodes')
+          i18nManager.format(Message.CannotFoundTreeNodes)
         ),
       ]
     }

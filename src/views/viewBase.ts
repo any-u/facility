@@ -10,11 +10,11 @@ import {
   TreeViewVisibilityChangeEvent,
 } from 'vscode'
 import { App } from '../app'
-import { configuration } from '../config'
 import { ViewNode } from './nodes/viewNode'
 import { debounce } from 'lodash'
 import { OutlineView } from './outlineView'
 import { ExplorerView } from './explorerView'
+import configuration from '../managers/configuration'
 
 export type View = ExplorerView | OutlineView
 

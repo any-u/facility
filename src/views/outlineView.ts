@@ -1,5 +1,5 @@
 import { commands, ConfigurationChangeEvent, } from 'vscode'
-import { configuration } from '../config'
+import configuration from '../managers/configuration'
 
 import { OutlineNode } from './nodes/outlineNode'
 import { SymbolNode } from './nodes/symbolNode'

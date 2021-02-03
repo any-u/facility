@@ -9,7 +9,7 @@ import {
   SymbolKind,
 } from 'vscode'
 import { App } from '../../app'
-import { configuration } from '../../config'
+import { DEFAULT_FILE } from '../../config/pathConfig'
 import { fileSystem } from '../../services'
 
 import { OutlineView } from '../outlineView'
@@ -72,7 +72,7 @@ export async function getSymbol(path: string) {
   // See details: src/services/waitProvider.ts
   // Reference: https://www.gitmemory.com/issue/microsoft/vscode/100660/647840607
 
-  await getSymbolAfterTrimCache(configuration.defaultFile)   // Cancel the file symbol cache
+  await getSymbolAfterTrimCache(DEFAULT_FILE)   // Cancel the file symbol cache
   return await getSymbolAfterTrimCache(path)
 }
 

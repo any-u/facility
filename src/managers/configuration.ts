@@ -2,7 +2,6 @@ import * as path from 'path'
 import * as _ from 'lodash'
 import {
   workspace,
-  WorkspaceConfiguration,
   ExtensionContext,
   EventEmitter,
   ConfigurationChangeEvent,
@@ -10,16 +9,18 @@ import {
   Uri,
   ConfigurationTarget,
 } from 'vscode'
-import { EXTENSION_NAME, GIST_BAST_URL } from '../constants'
+import { GIST_BAST_URL } from '../constants'
 import { gists } from '../services/gist'
 import { logger, showWarningMessage } from '../utils'
-import i18n from '../i18n'
+import { ConfigurationName, CONFIGURED_PATH } from '../config/pathConfig'
+import { WarningMessage } from '../config/message'
+import i18nManager from './i18n'
 
 export interface Config {
-  workspaceFolder: string | null
-  keyword: object | null
-  id: string
-  token: string
+  [ConfigurationName.Id]: string
+  [ConfigurationName.Token]: string
+  [ConfigurationName.Keyword]: object | null
+  [ConfigurationName.WorkspaceFolder]: string | null
 }
 
 export interface ConfigurationWillChangeEvent {
@@ -31,7 +32,7 @@ export const extensionId = 'facility'
 export const extensionQualifiedId = `sillyy.${extensionId}`
 
 export function ensureValidState() {
-  const token = configuration.get('token')
+  const token = configuration.get(ConfigurationName.Token)
 
   if (token !== undefined && token !== '') {
     gists.configure({
@@ -41,17 +42,15 @@ export function ensureValidState() {
     })
     return true
   } else {
-    logger.warn(i18n.format('extension.facilityApp.WarningMessage.NoToken'))
+    logger.warn(i18nManager.format(WarningMessage.NoToken))
 
-    showWarningMessage(
-      i18n.format('extension.facilityApp.WarningMessage.NoToken')
-    )
+    showWarningMessage(i18nManager.format(WarningMessage.NoToken))
     return false
   }
 }
 
 export class Configuration {
-  static configure(ctx: ExtensionContext) {
+  init(ctx: ExtensionContext) {
     // 配置项加上防抖，否则input输出会频繁触发
     ctx.subscriptions.push(
       workspace.onDidChangeConfiguration(
@@ -69,54 +68,6 @@ export class Configuration {
   private _onWillChange = new EventEmitter<ConfigurationWillChangeEvent>()
   get onWillChange(): Event<ConfigurationWillChangeEvent> {
     return this._onWillChange.event
-  }
-
-  private getWorkspaceConfiguration(): WorkspaceConfiguration {
-    return workspace.getConfiguration('facility')
-  }
-  private getWorkspaceFolder(): string {
-    return this.getWorkspaceConfiguration().get<string>('workspaceFolder', '')
-  }
-  private getAppFolder(): string {
-    return this.getWorkspaceConfiguration().get<string>('appFolder', '')
-  }
-
-  private userHomeFolder(): string {
-    return process.env.HOME || process.env.USERPROFILE || ''
-  }
-
-  /**
-   * @description: 获取插件首页目录
-   * @return: 插件首页目录-带隐藏.tl
-   */
-  public homeFolder(): string {
-    return path.join(this.getWorkspaceFolder() || this.userHomeFolder(), '.fl')
-  }
-
-  public get homeOriginFolder(): string {
-    return path.join(this.userHomeFolder(), '.fl')
-  }
-
-  /**
-   * @description: 获取插件首页目录
-   * @return: 插件首页目录-不带隐藏.tl
-   */
-  public get appFolder(): string {
-    return path.join(
-      this.homeFolder(),
-      this.getAppFolder() || 'facility-library'
-    )
-  }
-
-  public get appOriginFolder(): string {
-    return path.join(
-      this.homeOriginFolder,
-      this.getAppFolder() || 'facility-library'
-    )
-  }
-
-  public get defaultFile(): string {
-    return path.join(this.homeFolder(), '.prohibit.js')
   }
 
   private onConfigurationChanged(e: ConfigurationChangeEvent) {
@@ -314,8 +265,8 @@ export class Configuration {
   }
 }
 
-export const configuration = new Configuration()
+const configuration = new Configuration()
+export default configuration
 
-export const resolve = (path: string) => configuration.appFolder + path
-export const dropRoot = (path: string) =>
-  path.replace(configuration.appFolder, '')
+export const resolve = (path: string) => CONFIGURED_PATH + path
+export const dropRoot = (path: string) => path.replace(CONFIGURED_PATH, '')

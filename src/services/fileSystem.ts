@@ -1,5 +1,6 @@
 import { window, Position } from 'vscode'
-import i18n from '../i18n'
+import { ErrorMessage } from '../config/message'
+import i18nManager from '../managers/i18n'
 
 import {
   fullname,
@@ -44,16 +45,12 @@ class FileSystem {
         })
       } else {
         showWarningMessage(
-          i18n.format(
-            'extension.facilityApp.ErrorMessage.CannotFoundActiveTextEditor'
-          )
+          i18nManager.format(ErrorMessage.CannotFoundActiveTextEditor)
         )
       }
     } catch (error) {
       showErrorMessage(
-        `${i18n.format(
-          'extension.facilityApp.ErrorMessage.ErrorStick'
-        )} Error: ${error}`
+        `${i18nManager.format(ErrorMessage.ErrorStick)} Error: ${error}`
       )
     }
   }
@@ -65,13 +62,13 @@ class FileSystem {
   mkdir(path: string) {
     mkdir(path)
   }
-  migrateWorkspaceFolder(cfg: string, config: string) {
+  migrate(cfg: string, config: string) {
     try {
       copy(cfg, config)
     } catch (error) {
       showErrorMessage(
-        `${i18n.format(
-          'extension.facilityApp.ErrorMessage.FailedToMigrateCodeSnippet'
+        `${i18nManager.format(
+          ErrorMessage.FailedToMigrateCodeSnippet
         )}${error}`
       )
     }
@@ -97,4 +94,3 @@ class FileSystem {
 }
 
 export const fileSystem = new FileSystem()
-
