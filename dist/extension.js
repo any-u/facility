@@ -33965,6 +33965,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _managers_watcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./managers/watcher */ "./src/managers/watcher.ts");
 /* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./config/pathConfig */ "./src/config/pathConfig.ts");
 /* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./managers/configuration */ "./src/managers/configuration.ts");
+/* harmony import */ var _managers_workspaceFolder__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./managers/workspaceFolder */ "./src/managers/workspaceFolder.ts");
+
 
 
 
@@ -34016,12 +34018,10 @@ class App {
                 if (this._applyModeConfigurationTransformBound === undefined) {
                     this._applyModeConfigurationTransformBound = this.applyModeConfigurationTransform.bind(this);
                 }
-                let cfg = (_c = this._config) === null || _c === void 0 ? void 0 : _c.workspaceFolder, config = _managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].get('workspaceFolder');
-                cfg = cfg ? path__WEBPACK_IMPORTED_MODULE_0__["join"](cfg, '.fl') : _managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].homeOriginFolder;
-                config = config
-                    ? path__WEBPACK_IMPORTED_MODULE_0__["join"](config, '.fl')
-                    : _managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].homeOriginFolder;
-                await workspaceFolder.migrate(cfg, config || _managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].homeOriginFolder);
+                let cfg = (_c = this._config) === null || _c === void 0 ? void 0 : _c.workspaceFolder, config = _managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].get(_config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ConfigurationName"].WorkspaceFolder);
+                cfg = cfg ? path__WEBPACK_IMPORTED_MODULE_0__["join"](cfg, _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["HIDDEN"]) : _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ORIGIN_PATH"];
+                config = config ? path__WEBPACK_IMPORTED_MODULE_0__["join"](config, '.fl') : _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ORIGIN_PATH"];
+                await _managers_workspaceFolder__WEBPACK_IMPORTED_MODULE_7__["default"].migrate(cfg, config || _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ORIGIN_PATH"]);
                 this._explorerTree.clear();
                 await _managers_watcher__WEBPACK_IMPORTED_MODULE_4__["Watcher"].close();
                 _managers_watcher__WEBPACK_IMPORTED_MODULE_4__["default"].init(this._context, _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["CONFIGURED_PATH"]);

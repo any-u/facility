@@ -6,8 +6,14 @@ import { ExplorerView } from './views/explorerView'
 import { OutlineView } from './views/outlineView'
 import { ExplorerTree, GistElement } from './tree/explorerTree'
 import watcher, { Watcher } from './managers/watcher'
-import { CONFIGURED_PATH } from './config/pathConfig'
+import {
+  ConfigurationName,
+  CONFIGURED_PATH,
+  HIDDEN,
+  ORIGIN_PATH,
+} from './config/pathConfig'
 import configuration from './managers/configuration'
+import workspaceFolderChecker from './managers/workspaceFolder'
 
 export class App {
   private static _onConfigurationSetting: Map<string, boolean> | undefined
@@ -91,16 +97,11 @@ export class App {
         }
 
         let cfg = this._config?.workspaceFolder,
-          config = configuration.get('workspaceFolder')
+          config = configuration.get(ConfigurationName.WorkspaceFolder)
 
-        cfg = cfg ? path.join(cfg, '.fl') : configuration.homeOriginFolder
-        config = config
-          ? path.join(config, '.fl')
-          : configuration.homeOriginFolder
-        await workspaceFolder.migrate(
-          cfg,
-          config || configuration.homeOriginFolder
-        )
+        cfg = cfg ? path.join(cfg, HIDDEN) : ORIGIN_PATH
+        config = config ? path.join(config, '.fl') : ORIGIN_PATH
+        await workspaceFolderChecker.migrate(cfg, config || ORIGIN_PATH)
 
         this._explorerTree.clear()
 

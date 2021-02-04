@@ -900,14 +900,14 @@
         "signature": "bae375377dd9d71daed9d553720ef39fa99d64ec4f5e7c3141eee8afe3cb8c6c",
         "affectsGlobalScope": false
       },
-      "./src/app.ts": {
-        "version": "81fdf011b2c09f13bec1024f3ae99aa1e28eca3c5914a3761ee518f42a15854a",
-        "signature": "f249ef42b9ab42f09ce9853c513832f9b5fec6600758d19f68e7c6d15015e2c4",
-        "affectsGlobalScope": false
-      },
       "./src/managers/workspacefolder.ts": {
         "version": "b9d72f3b6263e7895f40049d26a7fafb8d22ffb4ae0ff67be3818ab81bb4cdda",
         "signature": "ad3db7c49793560962e6a7c6074564cb3163c84e19ca482c9f356a1ab05af224",
+        "affectsGlobalScope": false
+      },
+      "./src/app.ts": {
+        "version": "44444dc8cf15fa5f5a8a71e1c1b88c451a52aceec93777b6f8721ba83a1bf18c",
+        "signature": "f249ef42b9ab42f09ce9853c513832f9b5fec6600758d19f68e7c6d15015e2c4",
         "affectsGlobalScope": false
       },
       "./src/managers/symbolproviderchecker.ts": {
@@ -930,8 +930,13 @@
         "signature": "0db88c22f461e22e922a83b56284a64b43187ad41e448a465e9531ecbc3ad7d6",
         "affectsGlobalScope": false
       },
-      "./src/reactive/watcher.ts": {
-        "version": "af00dae19665818f101e9751cfe0efcf5f60929bfda423a831fe388d09864a6b",
+      "./src/config/extensionconfig.ts": {
+        "version": "d8fd37370f02f2295a0edfdb26428267b56d3ca2918d34684778e1e23fee526e",
+        "signature": "cfb526b505fbe2951990e7c72473e1ac7e02115ff5e6c239a1d1f55d81f9aad5",
+        "affectsGlobalScope": false
+      },
+      "./src/manager/watcher.ts": {
+        "version": "5d69bcd8bc784b5f1fd697331c09eb26d1223e986e37cb8688c26b6c9f78521f",
         "signature": "aa5a667addff16518b186ef34db9286aaa05b6ffdc2ce53fea51899fe34ab4e1",
         "affectsGlobalScope": false
       }
@@ -1462,6 +1467,7 @@
         "./src/config/pathconfig.ts",
         "./src/managers/configuration.ts",
         "./src/managers/watcher.ts",
+        "./src/managers/workspacefolder.ts",
         "./src/services/index.ts",
         "./src/tree/explorertree.ts",
         "./src/views/explorerview.ts",
@@ -1559,6 +1565,14 @@
         "./src/managers/watcher.ts",
         "./src/managers/workspacefolder.ts"
       ],
+      "./src/manager/watcher.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./node_modules/_chokidar@3.5.1@chokidar/types/index.d.ts",
+        "./src/config/message.ts",
+        "./src/config/pathconfig.ts",
+        "./src/managers/i18n.ts",
+        "./src/utils/index.ts"
+      ],
       "./src/managers/configuration.ts": [
         "./node_modules/_@types_lodash@4.14.167@@types/lodash/index.d.ts",
         "./node_modules/_@types_node@12.19.14@@types/node/path.d.ts",
@@ -1604,13 +1618,6 @@
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/config/pathconfig.ts",
         "./src/services/filesystem.ts",
-        "./src/utils/index.ts"
-      ],
-      "./src/reactive/watcher.ts": [
-        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./node_modules/_chokidar@3.5.1@chokidar/types/index.d.ts",
-        "./src/config/message.ts",
-        "./src/config/pathconfig.ts",
         "./src/utils/index.ts"
       ],
       "./src/services/filesystem.ts": [
@@ -2296,6 +2303,9 @@
       "./src/manager.ts": [
         "./src/managers/manager.ts"
       ],
+      "./src/manager/watcher.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
+      ],
       "./src/managers/configuration.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/config/pathconfig.ts"
@@ -2312,9 +2322,6 @@
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
       ],
       "./src/managers/workspacefolder.ts": [
-        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
-      ],
-      "./src/reactive/watcher.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
       ],
       "./src/services/gist.ts": [
@@ -2551,70 +2558,7 @@
       "./node_modules/_typescript@3.9.7@typescript/lib/lib.es2020.symbol.wellknown.d.ts",
       "./node_modules/_typescript@3.9.7@typescript/lib/lib.es5.d.ts",
       "./node_modules/_typescript@3.9.7@typescript/lib/lib.esnext.intl.d.ts",
-      [
-        "./src/app.ts",
-        [
-          {
-            "file": "./src/app.ts",
-            "start": 3025,
-            "length": 17,
-            "code": 2345,
-            "category": 1,
-            "messageText": "Argument of type '\"workspaceFolder\"' is not assignable to parameter of type 'ConfigurationName'."
-          },
-          {
-            "file": "./src/app.ts",
-            "start": 3103,
-            "length": 16,
-            "code": 2339,
-            "category": 1,
-            "messageText": "Property 'homeOriginFolder' does not exist on type 'Configuration'."
-          },
-          {
-            "file": "./src/app.ts",
-            "start": 3166,
-            "length": 6,
-            "code": 2345,
-            "category": 1,
-            "messageText": {
-              "messageText": "Argument of type 'string | object' is not assignable to parameter of type 'string'.",
-              "category": 1,
-              "code": 2345,
-              "next": [
-                {
-                  "messageText": "Type 'object' is not assignable to type 'string'.",
-                  "category": 1,
-                  "code": 2322
-                }
-              ]
-            }
-          },
-          {
-            "file": "./src/app.ts",
-            "start": 3207,
-            "length": 16,
-            "code": 2339,
-            "category": 1,
-            "messageText": "Property 'homeOriginFolder' does not exist on type 'Configuration'."
-          },
-          {
-            "file": "./src/app.ts",
-            "start": 3238,
-            "length": 15,
-            "messageText": "Cannot find name 'workspaceFolder'.",
-            "category": 1,
-            "code": 2304
-          },
-          {
-            "file": "./src/app.ts",
-            "start": 3312,
-            "length": 16,
-            "code": 2339,
-            "category": 1,
-            "messageText": "Property 'homeOriginFolder' does not exist on type 'Configuration'."
-          }
-        ]
-      ],
+      "./src/app.ts",
       "./src/commands.ts",
       "./src/commands/common.ts",
       "./src/commands/open.ts",
@@ -2622,6 +2566,7 @@
       "./src/commands/pull.ts",
       "./src/commands/push.ts",
       "./src/commands/save.ts",
+      "./src/config/extensionconfig.ts",
       "./src/config/icon.ts",
       "./src/config/index.ts",
       "./src/config/message.ts",
@@ -2631,25 +2576,13 @@
       "./src/locales/en-us.json",
       "./src/locales/zh-cn.json",
       "./src/manager.ts",
+      "./src/manager/watcher.ts",
       "./src/managers/configuration.ts",
       "./src/managers/i18n.ts",
       "./src/managers/manager.ts",
       "./src/managers/symbolproviderchecker.ts",
       "./src/managers/watcher.ts",
       "./src/managers/workspacefolder.ts",
-      [
-        "./src/reactive/watcher.ts",
-        [
-          {
-            "file": "./src/reactive/watcher.ts",
-            "start": 277,
-            "length": 18,
-            "messageText": "Cannot find module '../services/i18n' or its corresponding type declarations.",
-            "category": 1,
-            "code": 2307
-          }
-        ]
-      ],
       "./src/services/filesystem.ts",
       "./src/services/gist.ts",
       "./src/services/index.ts",
