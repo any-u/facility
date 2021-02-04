@@ -29,15 +29,19 @@ export interface IFoldersChangeEvent extends ITransformFileChangeType {
   path: string
 }
 
-export class Watcher {
-  init(context: ExtensionContext, watchDir: string = CONFIGURED_PATH) {
-    logger.info(`Watch Dir ${watchDir}`)
-    context.subscriptions.push(
-      (watcher._watcher = chokidar
-        .watch(watchDir)
-        .on('all', watcher.onFolderChanged.bind(watcher))
-        .on('error', watcher.onDidWatcherError.bind(watcher)))
-    )
+export class Monitor {
+  #ctx: ExtensionContext
+  #monitor: any | null
+
+  init(context: ExtensionContext, path: string = CONFIGURED_PATH) {
+    this.#ctx = context
+
+    logger.info(`Watch Dir ${path}`)
+    this.#monitor = chokidar
+      .watch(path)
+      .on('all', this.onFolderChanged.bind(this))
+      .on('error', this.onDidWatcherError.bind(this))
+    this.#ctx.subscriptions.push(this.#monitor)
   }
 
   private _onWillChange = new EventEmitter<IFoldersChangeEvent>()
@@ -45,14 +49,27 @@ export class Watcher {
     return this._onWillChange.event
   }
 
-  _watcher: any | undefined
-
   checkIgnore(path: string) {
     return path.includes('.DS_Store')
   }
 
-  static close() {
-    watcher._watcher.close()
+  close() {
+    const watcherIndex = this.#ctx.subscriptions.findIndex(
+      (item) => item === this.#monitor
+    )
+
+    if (watcherIndex > 0) {
+      this.#ctx.subscriptions.splice(watcherIndex, 1)
+    }
+
+    this.#monitor.close()
+    this.#monitor = null
+  }
+
+  reset(ctx: ExtensionContext, path: string) {
+    this.close()
+
+    this.init(ctx, path)
   }
 
   onFolderChanged(event: FolderChangeEvent, path: string) {
@@ -118,5 +135,5 @@ export class Watcher {
   }
 }
 
-const watcher = new Watcher()
-export default watcher
+const monitor = new Monitor()
+export default monitor

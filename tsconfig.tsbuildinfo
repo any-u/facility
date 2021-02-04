@@ -186,11 +186,6 @@
         "signature": "6dc1e56cb17d56bcb45677e1657405570a1a96d3d45c6220f1aa4c2f664e10ba",
         "affectsGlobalScope": true
       },
-      "./src/config/message.ts": {
-        "version": "75c7a6c4dc289ea7b93f5cc5f3e836dee69c00b61c613eadd26d31ea19bb612f",
-        "signature": "1d22c7fecd90ab8c0e06db125c6d6c28001fa6dd20aa7ac5a99bb3f6aaaf9674",
-        "affectsGlobalScope": false
-      },
       "./node_modules/_@types_lodash@4.14.167@@types/lodash/common/common.d.ts": {
         "version": "3594c022901a1c8993b0f78a3f534cfb81e7b619ed215348f7f6882f3db02abc",
         "signature": "3594c022901a1c8993b0f78a3f534cfb81e7b619ed215348f7f6882f3db02abc",
@@ -256,19 +251,24 @@
         "signature": "0714e2046df66c0e93c3330d30dbc0565b3e8cd3ee302cf99e4ede6220e5fec8",
         "affectsGlobalScope": true
       },
-      "./src/locales/zh-cn.json": {
-        "version": "3034a30313c198826245c287f0293c0759013a47dcf7dbd2cc10298a7a4a50e0",
-        "signature": "b68159d8115fb27defc067c8edb00c266de7191d55c36b063706cabbb49f612e",
-        "affectsGlobalScope": true
+      "./src/constants.ts": {
+        "version": "9aa3545e13e063af13bac26aa7cd2c419415513468f6004a55c1709894925131",
+        "signature": "b5bd9709d3103e40567149a702f10dcceaba1d1ab6f10469a61e697e1aa6a783",
+        "affectsGlobalScope": false
       },
-      "./src/locales/en-us.json": {
-        "version": "f0a58b11e0ca446841daafc0562035846cd3d04d16174ac5a9972777a9135742",
-        "signature": "b68159d8115fb27defc067c8edb00c266de7191d55c36b063706cabbb49f612e",
-        "affectsGlobalScope": true
+      "./node_modules/_before-after-hook@2.1.0@before-after-hook/index.d.ts": {
+        "version": "0c21c52bfe81712420a221aa24d9200946cbb31d4c51ddbf336e141c3f5928ee",
+        "signature": "0c21c52bfe81712420a221aa24d9200946cbb31d4c51ddbf336e141c3f5928ee",
+        "affectsGlobalScope": false
       },
-      "./src/managers/i18n.ts": {
-        "version": "dfdb6d9464cef22f8579373e69ca9a6e6f6cbc13111ac549eb04816206641aa2",
-        "signature": "4facaa4779b6eed9433a7d62b2cb70a82b25f8bd44c978e0004e7d6f729b1249",
+      "./node_modules/_@octokit_types@6.3.1@@octokit/types/dist-types/requestmethod.d.ts": {
+        "version": "54160aaec4f72e2045e7341301c096344b9e5162a1e48333a531117af5938713",
+        "signature": "54160aaec4f72e2045e7341301c096344b9e5162a1e48333a531117af5938713",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/_@octokit_types@6.3.1@@octokit/types/dist-types/url.d.ts": {
+        "version": "3f0d8705992ebf25221e0d3f72d496bbcebacb47c2b6ee90f4de66d760ee9152",
+        "signature": "3f0d8705992ebf25221e0d3f72d496bbcebacb47c2b6ee90f4de66d760ee9152",
         "affectsGlobalScope": false
       },
       "./node_modules/_@types_node@12.19.14@@types/node/globals.d.ts": {
@@ -496,46 +496,6 @@
         "signature": "6fa68653382bd571bc63831e9f9c1307cc52f7310c1470463fe429d84147667d",
         "affectsGlobalScope": false
       },
-      "./node_modules/_@types_mkdirp@1.0.1@@types/mkdirp/index.d.ts": {
-        "version": "c535422967fe3cf8adfee4e1a543870aede1fa77fd055a382e6f6582a2d866eb",
-        "signature": "c535422967fe3cf8adfee4e1a543870aede1fa77fd055a382e6f6582a2d866eb",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/_@types_fs-extra@8.1.1@@types/fs-extra/index.d.ts": {
-        "version": "5171627120eeb3a7e8afb8ed04ea9be7f0b53ba09bb1fc95172483e0fbb0740c",
-        "signature": "5171627120eeb3a7e8afb8ed04ea9be7f0b53ba09bb1fc95172483e0fbb0740c",
-        "affectsGlobalScope": false
-      },
-      "./src/utils/file.ts": {
-        "version": "f80aafdb296c8f716b85c883b6f185e450a1875962dfc4cb1f9691e86c7dd685",
-        "signature": "8aaef7272f2634944fbb402ee339bfb2abb48db9a55d085c494c8232b403f63d",
-        "affectsGlobalScope": false
-      },
-      "./src/utils/libs.ts": {
-        "version": "aabdaaa86972a617c27acd7cd99eeabce9ad27efa8be3e9a1f49718cc508c7a7",
-        "signature": "967a95f989fb5cff742700ebf60625e4d699885928aefb659a79e7efc63bb335",
-        "affectsGlobalScope": false
-      },
-      "./src/constants.ts": {
-        "version": "9aa3545e13e063af13bac26aa7cd2c419415513468f6004a55c1709894925131",
-        "signature": "b5bd9709d3103e40567149a702f10dcceaba1d1ab6f10469a61e697e1aa6a783",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/_before-after-hook@2.1.0@before-after-hook/index.d.ts": {
-        "version": "0c21c52bfe81712420a221aa24d9200946cbb31d4c51ddbf336e141c3f5928ee",
-        "signature": "0c21c52bfe81712420a221aa24d9200946cbb31d4c51ddbf336e141c3f5928ee",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/_@octokit_types@6.3.1@@octokit/types/dist-types/requestmethod.d.ts": {
-        "version": "54160aaec4f72e2045e7341301c096344b9e5162a1e48333a531117af5938713",
-        "signature": "54160aaec4f72e2045e7341301c096344b9e5162a1e48333a531117af5938713",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/_@octokit_types@6.3.1@@octokit/types/dist-types/url.d.ts": {
-        "version": "3f0d8705992ebf25221e0d3f72d496bbcebacb47c2b6ee90f4de66d760ee9152",
-        "signature": "3f0d8705992ebf25221e0d3f72d496bbcebacb47c2b6ee90f4de66d760ee9152",
-        "affectsGlobalScope": false
-      },
       "./node_modules/_@octokit_types@6.3.1@@octokit/types/dist-types/fetch.d.ts": {
         "version": "af628c57e9826fbe767ae6afbffa7b197405a8c53ba6197bb32e806d35c1ca8f",
         "signature": "af628c57e9826fbe767ae6afbffa7b197405a8c53ba6197bb32e806d35c1ca8f",
@@ -715,9 +675,24 @@
         "signature": "aff13929d6a01deb44b8084328e497c0ac36070753b9717cc84ec1ae22b6a5cd",
         "affectsGlobalScope": false
       },
-      "./src/managers/configuration.ts": {
-        "version": "cf002e70a23f3a1dcde443d7360057b81660b9f3dfa17dbf5db9bc632b6089ca",
-        "signature": "2bc057a42285e21a18c0048cce79f3098e997e8e5530b333db1e640efdc75549",
+      "./node_modules/_@types_mkdirp@1.0.1@@types/mkdirp/index.d.ts": {
+        "version": "c535422967fe3cf8adfee4e1a543870aede1fa77fd055a382e6f6582a2d866eb",
+        "signature": "c535422967fe3cf8adfee4e1a543870aede1fa77fd055a382e6f6582a2d866eb",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/_@types_fs-extra@8.1.1@@types/fs-extra/index.d.ts": {
+        "version": "5171627120eeb3a7e8afb8ed04ea9be7f0b53ba09bb1fc95172483e0fbb0740c",
+        "signature": "5171627120eeb3a7e8afb8ed04ea9be7f0b53ba09bb1fc95172483e0fbb0740c",
+        "affectsGlobalScope": false
+      },
+      "./src/utils/file.ts": {
+        "version": "f80aafdb296c8f716b85c883b6f185e450a1875962dfc4cb1f9691e86c7dd685",
+        "signature": "8aaef7272f2634944fbb402ee339bfb2abb48db9a55d085c494c8232b403f63d",
+        "affectsGlobalScope": false
+      },
+      "./src/utils/libs.ts": {
+        "version": "aabdaaa86972a617c27acd7cd99eeabce9ad27efa8be3e9a1f49718cc508c7a7",
+        "signature": "967a95f989fb5cff742700ebf60625e4d699885928aefb659a79e7efc63bb335",
         "affectsGlobalScope": false
       },
       "./src/config/pathconfig.ts": {
@@ -765,14 +740,29 @@
         "signature": "c7b36d42ef39a5c18cfbf878ab289776994b8193b6743b564565955b911ba9cb",
         "affectsGlobalScope": false
       },
-      "./src/services/filesystem.ts": {
-        "version": "b69f85dfbf3a9ad34b100c602d46f7fcdb4838c52210ce0fc7299408ae48b6ca",
-        "signature": "82702a97dabe2ca6454f47a9f77e37c008e6b31a5574b87328e7b594e2233f62",
+      "./src/config/message.ts": {
+        "version": "75c7a6c4dc289ea7b93f5cc5f3e836dee69c00b61c613eadd26d31ea19bb612f",
+        "signature": "1d22c7fecd90ab8c0e06db125c6d6c28001fa6dd20aa7ac5a99bb3f6aaaf9674",
         "affectsGlobalScope": false
       },
-      "./src/services/index.ts": {
-        "version": "125ccfaf2c57c8cc43c12cc8dc30f0763f5330af4b9c55243787a8e4f224100d",
-        "signature": "e6bfeafbd10b57e461439de55fc991d9fce7c4a7d8da573c29d089375841bc64",
+      "./src/locales/zh-cn.json": {
+        "version": "3034a30313c198826245c287f0293c0759013a47dcf7dbd2cc10298a7a4a50e0",
+        "signature": "b68159d8115fb27defc067c8edb00c266de7191d55c36b063706cabbb49f612e",
+        "affectsGlobalScope": true
+      },
+      "./src/locales/en-us.json": {
+        "version": "f0a58b11e0ca446841daafc0562035846cd3d04d16174ac5a9972777a9135742",
+        "signature": "b68159d8115fb27defc067c8edb00c266de7191d55c36b063706cabbb49f612e",
+        "affectsGlobalScope": true
+      },
+      "./src/managers/i18n.ts": {
+        "version": "dfdb6d9464cef22f8579373e69ca9a6e6f6cbc13111ac549eb04816206641aa2",
+        "signature": "4facaa4779b6eed9433a7d62b2cb70a82b25f8bd44c978e0004e7d6f729b1249",
+        "affectsGlobalScope": false
+      },
+      "./src/managers/configuration.ts": {
+        "version": "9c0b9c78a6c107f38635d81675a1b7acb45816a498b5dc7fd647e20cb0b6cfb7",
+        "signature": "594477af0930c060b1f9fb693854b8225b7eecc4337dfb11b2e6f0b467479c31",
         "affectsGlobalScope": false
       },
       "./src/config/icon.ts": {
@@ -788,6 +778,16 @@
       "./src/views/nodes/common.ts": {
         "version": "1a84226572e13b8d3daec2f0afe6bab910014f3b974890d9b135f511ede3c871",
         "signature": "3130077d09646c249732f0de59a33e4c0f6eef0321890010ba9bec990c3e5f80",
+        "affectsGlobalScope": false
+      },
+      "./src/services/filesystem.ts": {
+        "version": "b69f85dfbf3a9ad34b100c602d46f7fcdb4838c52210ce0fc7299408ae48b6ca",
+        "signature": "82702a97dabe2ca6454f47a9f77e37c008e6b31a5574b87328e7b594e2233f62",
+        "affectsGlobalScope": false
+      },
+      "./src/services/index.ts": {
+        "version": "125ccfaf2c57c8cc43c12cc8dc30f0763f5330af4b9c55243787a8e4f224100d",
+        "signature": "e6bfeafbd10b57e461439de55fc991d9fce7c4a7d8da573c29d089375841bc64",
         "affectsGlobalScope": false
       },
       "./src/views/nodes/symbolnode.ts": {
@@ -870,9 +870,9 @@
         "signature": "ca7f76d3ea132bde53dca1a0f33cda95397d20c248e452c050773f01504d9802",
         "affectsGlobalScope": false
       },
-      "./src/managers/watcher.ts": {
-        "version": "f5d8bba9e582311646608e0112b84984d57f1b77a8d35107415e1c3491f4ed2a",
-        "signature": "aa5a667addff16518b186ef34db9286aaa05b6ffdc2ce53fea51899fe34ab4e1",
+      "./src/managers/monitor.ts": {
+        "version": "3ced14a88582a44f31281b98cd20ab5201cb0522176b7970b29686330ae7a251",
+        "signature": "913b3b877dea4cd5b99f4d423ca1b29c7e5c897337a025ea1d26bbee7e5c5c64",
         "affectsGlobalScope": false
       },
       "./src/tree/explorermodel.ts": {
@@ -881,7 +881,7 @@
         "affectsGlobalScope": false
       },
       "./src/tree/explorertree.ts": {
-        "version": "80722110394e9a60ee4846a3b9828c596f6096a46234e69c656d7b1f3cce20e1",
+        "version": "98fa82718296b39853d2ef642c157caf0e45b0a3a8e6de573939e568a4847cee",
         "signature": "e847d2af390bdf6051322a4f8df0843fc5f3b8097b12df81e6c59e046a688d57",
         "affectsGlobalScope": false
       },
@@ -900,14 +900,14 @@
         "signature": "bae375377dd9d71daed9d553720ef39fa99d64ec4f5e7c3141eee8afe3cb8c6c",
         "affectsGlobalScope": false
       },
-      "./src/managers/workspacefolder.ts": {
-        "version": "b9d72f3b6263e7895f40049d26a7fafb8d22ffb4ae0ff67be3818ab81bb4cdda",
-        "signature": "ad3db7c49793560962e6a7c6074564cb3163c84e19ca482c9f356a1ab05af224",
+      "./src/app.ts": {
+        "version": "8aa5b82fd865a08dc8eed27eecdc27d6c85a2a1da75d5271893702924d8791f0",
+        "signature": "018f7d0d2e73764278cfe6ef69a000f465cac7731957221e2406abbee408e12b",
         "affectsGlobalScope": false
       },
-      "./src/app.ts": {
-        "version": "44444dc8cf15fa5f5a8a71e1c1b88c451a52aceec93777b6f8721ba83a1bf18c",
-        "signature": "f249ef42b9ab42f09ce9853c513832f9b5fec6600758d19f68e7c6d15015e2c4",
+      "./src/managers/workspacefolder.ts": {
+        "version": "4443a3a1156d30cc04015426bb666ab52e42d92f9344bb4bde2b9df1540f89c2",
+        "signature": "d158f74b45bbbaa02c4a6769652b2963f58cfac14fdf3e12240db4808efde4ef",
         "affectsGlobalScope": false
       },
       "./src/managers/symbolproviderchecker.ts": {
@@ -916,28 +916,23 @@
         "affectsGlobalScope": false
       },
       "./src/managers/manager.ts": {
-        "version": "5adcb510fd0c37ee19fd9236acb3e2b28907a35b7b421a53045b2e438b3fcebe",
-        "signature": "8b86c9bf71b7bbb96a16a99dbe459cae90edb6e6d489e25fe55a60e4e4eeb2c8",
+        "version": "6992b78caed309bdc49edf51d8f191d419b063ab6777799b333e8045b5eee021",
+        "signature": "ed058109b97c6af83cf1a291fa844b35a659357ab6eca4c6263f07efc02d8e1d",
         "affectsGlobalScope": false
       },
       "./src/manager.ts": {
-        "version": "d9966c8848d8609218a031d985ccfc92c84ce9d4017069a1a9b671c25aec6e99",
+        "version": "588a9413568a09b3adf884b1528abe5b3b88f8ccd1c129b301a6bc9d97247dbf",
         "signature": "d2dd3833f690a00d333beaf0de02458592f1d74a9328d8abcbf5d212e4c9e61c",
         "affectsGlobalScope": false
       },
       "./src/extension.ts": {
-        "version": "ca6a77957e33dfa3ff069945c4721ed31709ca980b2ff4daadb01dc489dab4d3",
+        "version": "298e10ffe146be00d2a16d33a9619f78a729c86751d18f7572723cb1510d9547",
         "signature": "0db88c22f461e22e922a83b56284a64b43187ad41e448a465e9531ecbc3ad7d6",
         "affectsGlobalScope": false
       },
       "./src/config/extensionconfig.ts": {
         "version": "d8fd37370f02f2295a0edfdb26428267b56d3ca2918d34684778e1e23fee526e",
         "signature": "cfb526b505fbe2951990e7c72473e1ac7e02115ff5e6c239a1d1f55d81f9aad5",
-        "affectsGlobalScope": false
-      },
-      "./src/manager/watcher.ts": {
-        "version": "5d69bcd8bc784b5f1fd697331c09eb26d1223e986e37cb8688c26b6c9f78521f",
-        "signature": "aa5a667addff16518b186ef34db9286aaa05b6ffdc2ce53fea51899fe34ab4e1",
         "affectsGlobalScope": false
       }
     },
@@ -1466,8 +1461,7 @@
         "./src/config/index.ts",
         "./src/config/pathconfig.ts",
         "./src/managers/configuration.ts",
-        "./src/managers/watcher.ts",
-        "./src/managers/workspacefolder.ts",
+        "./src/managers/monitor.ts",
         "./src/services/index.ts",
         "./src/tree/explorertree.ts",
         "./src/views/explorerview.ts",
@@ -1549,29 +1543,19 @@
         "./src/commands.ts",
         "./src/config/index.ts",
         "./src/config/message.ts",
-        "./src/config/pathconfig.ts",
         "./src/constants.ts",
         "./src/manager.ts",
         "./src/managers/configuration.ts",
         "./src/managers/i18n.ts",
-        "./src/managers/watcher.ts",
         "./src/utils/index.ts"
       ],
       "./src/manager.ts": [
         "./src/managers/configuration.ts",
         "./src/managers/i18n.ts",
         "./src/managers/manager.ts",
+        "./src/managers/monitor.ts",
         "./src/managers/symbolproviderchecker.ts",
-        "./src/managers/watcher.ts",
         "./src/managers/workspacefolder.ts"
-      ],
-      "./src/manager/watcher.ts": [
-        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./node_modules/_chokidar@3.5.1@chokidar/types/index.d.ts",
-        "./src/config/message.ts",
-        "./src/config/pathconfig.ts",
-        "./src/managers/i18n.ts",
-        "./src/utils/index.ts"
       ],
       "./src/managers/configuration.ts": [
         "./node_modules/_@types_lodash@4.14.167@@types/lodash/index.d.ts",
@@ -1594,9 +1578,17 @@
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/config/index.ts",
         "./src/managers/i18n.ts",
+        "./src/managers/monitor.ts",
         "./src/managers/symbolproviderchecker.ts",
-        "./src/managers/watcher.ts",
         "./src/managers/workspacefolder.ts"
+      ],
+      "./src/managers/monitor.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./node_modules/_chokidar@3.5.1@chokidar/types/index.d.ts",
+        "./src/config/message.ts",
+        "./src/config/pathconfig.ts",
+        "./src/managers/i18n.ts",
+        "./src/utils/index.ts"
       ],
       "./src/managers/symbolproviderchecker.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
@@ -1604,14 +1596,6 @@
         "./src/config/pathconfig.ts",
         "./src/managers/i18n.ts",
         "./src/services/filesystem.ts",
-        "./src/utils/index.ts"
-      ],
-      "./src/managers/watcher.ts": [
-        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./node_modules/_chokidar@3.5.1@chokidar/types/index.d.ts",
-        "./src/config/message.ts",
-        "./src/config/pathconfig.ts",
-        "./src/managers/i18n.ts",
         "./src/utils/index.ts"
       ],
       "./src/managers/workspacefolder.ts": [
@@ -1642,7 +1626,7 @@
       "./src/tree/explorertree.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/app.ts",
-        "./src/managers/watcher.ts",
+        "./src/managers/monitor.ts",
         "./src/services/index.ts",
         "./src/tree/explorermodel.ts",
         "./src/tree/tree.ts",
@@ -2303,9 +2287,6 @@
       "./src/manager.ts": [
         "./src/managers/manager.ts"
       ],
-      "./src/manager/watcher.ts": [
-        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
-      ],
       "./src/managers/configuration.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/config/pathconfig.ts"
@@ -2314,14 +2295,11 @@
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/config/index.ts",
         "./src/managers/i18n.ts",
+        "./src/managers/monitor.ts",
         "./src/managers/symbolproviderchecker.ts",
-        "./src/managers/watcher.ts",
         "./src/managers/workspacefolder.ts"
       ],
-      "./src/managers/watcher.ts": [
-        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
-      ],
-      "./src/managers/workspacefolder.ts": [
+      "./src/managers/monitor.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
       ],
       "./src/services/gist.ts": [
@@ -2576,12 +2554,11 @@
       "./src/locales/en-us.json",
       "./src/locales/zh-cn.json",
       "./src/manager.ts",
-      "./src/manager/watcher.ts",
       "./src/managers/configuration.ts",
       "./src/managers/i18n.ts",
       "./src/managers/manager.ts",
+      "./src/managers/monitor.ts",
       "./src/managers/symbolproviderchecker.ts",
-      "./src/managers/watcher.ts",
       "./src/managers/workspacefolder.ts",
       "./src/services/filesystem.ts",
       "./src/services/gist.ts",

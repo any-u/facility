@@ -23,11 +23,6 @@ export interface Config {
   [ConfigurationName.WorkspaceFolder]: string | null
 }
 
-export interface ConfigurationWillChangeEvent {
-  change: ConfigurationChangeEvent
-  transform?(e: ConfigurationChangeEvent): ConfigurationChangeEvent
-}
-
 export const extensionId = 'facility'
 export const extensionQualifiedId = `sillyy.${extensionId}`
 
@@ -65,21 +60,7 @@ export class Configuration {
     return this._onDidChange.event
   }
 
-  private _onWillChange = new EventEmitter<ConfigurationWillChangeEvent>()
-  get onWillChange(): Event<ConfigurationWillChangeEvent> {
-    return this._onWillChange.event
-  }
-
   private onConfigurationChanged(e: ConfigurationChangeEvent) {
-    const evt: ConfigurationWillChangeEvent = {
-      change: e,
-    }
-    this._onWillChange.fire(evt)
-
-    if (evt.transform !== undefined) {
-      e = evt.transform(e)
-    }
-
     this._onDidChange.fire(e)
   }
 

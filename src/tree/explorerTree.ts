@@ -6,7 +6,7 @@ import {
   FileType,
 } from 'vscode'
 import { BaseElement, Tree } from './tree'
-import watcher, { IFoldersChangeEvent } from '../managers/watcher'
+import watcher, { IFoldersChangeEvent } from '../managers/monitor'
 import { ExplorerModel } from './explorerModel'
 import { IExplorerTreeNode } from './explorerModel'
 import { fileSystem } from '../services'

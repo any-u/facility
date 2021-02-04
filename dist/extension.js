@@ -33962,10 +33962,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_explorerView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/explorerView */ "./src/views/explorerView.ts");
 /* harmony import */ var _views_outlineView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/outlineView */ "./src/views/outlineView.ts");
 /* harmony import */ var _tree_explorerTree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tree/explorerTree */ "./src/tree/explorerTree.ts");
-/* harmony import */ var _managers_watcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./managers/watcher */ "./src/managers/watcher.ts");
+/* harmony import */ var _managers_monitor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./managers/monitor */ "./src/managers/monitor.ts");
 /* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./config/pathConfig */ "./src/config/pathConfig.ts");
 /* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./managers/configuration */ "./src/managers/configuration.ts");
-/* harmony import */ var _managers_workspaceFolder__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./managers/workspaceFolder */ "./src/managers/workspaceFolder.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services */ "./src/services/index.ts");
 
 
 
@@ -34002,54 +34002,34 @@ class App {
     static initialize(context, config) {
         this._context = context;
         this._config = config;
-        context.subscriptions.push(_managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].onWillChange(this.onConfigurationChanging, this));
+        context.subscriptions.push(_managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].onDidChange(this.onConfigurationChanging, this));
         context.subscriptions.push((this._explorerTree = new _tree_explorerTree__WEBPACK_IMPORTED_MODULE_3__["ExplorerTree"]()));
         context.subscriptions.push((this._explorerView = new _views_explorerView__WEBPACK_IMPORTED_MODULE_1__["ExplorerView"]()));
         context.subscriptions.push((this._outlineView = new _views_outlineView__WEBPACK_IMPORTED_MODULE_2__["OutlineView"]()));
     }
     static async onConfigurationChanging(e) {
-        var _a, _b, _c, _d;
-        if (_managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].changed(e.change, 'workspaceFolder')) {
-            // 路径输入后执行函数未执行完之前， 不允许再次执行
-            const onConfigurationSetting = (_a = this._onConfigurationSetting) === null || _a === void 0 ? void 0 : _a.get('workspaceFolder');
-            if (onConfigurationSetting === undefined ||
-                onConfigurationSetting === false) {
-                (_b = this._onConfigurationSetting) === null || _b === void 0 ? void 0 : _b.set('workspaceFolder', true);
-                if (this._applyModeConfigurationTransformBound === undefined) {
-                    this._applyModeConfigurationTransformBound = this.applyModeConfigurationTransform.bind(this);
-                }
-                let cfg = (_c = this._config) === null || _c === void 0 ? void 0 : _c.workspaceFolder, config = _managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].get(_config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ConfigurationName"].WorkspaceFolder);
-                cfg = cfg ? path__WEBPACK_IMPORTED_MODULE_0__["join"](cfg, _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["HIDDEN"]) : _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ORIGIN_PATH"];
-                config = config ? path__WEBPACK_IMPORTED_MODULE_0__["join"](config, '.fl') : _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ORIGIN_PATH"];
-                await _managers_workspaceFolder__WEBPACK_IMPORTED_MODULE_7__["default"].migrate(cfg, config || _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ORIGIN_PATH"]);
-                this._explorerTree.clear();
-                await _managers_watcher__WEBPACK_IMPORTED_MODULE_4__["Watcher"].close();
-                _managers_watcher__WEBPACK_IMPORTED_MODULE_4__["default"].init(this._context, _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["CONFIGURED_PATH"]);
-                this._config = _managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].get();
-                e.transform = this._applyModeConfigurationTransformBound;
-                (_d = this._onConfigurationSetting) === null || _d === void 0 ? void 0 : _d.set('workspaceFolder', false);
+        var _a;
+        if (_managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].changed(e, _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ConfigurationName"].WorkspaceFolder)) {
+            const onConfigurationSetting = this._onConfigurationSetting.get(_config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ConfigurationName"].WorkspaceFolder);
+            if (onConfigurationSetting)
+                return;
+            this._onConfigurationSetting.set(_config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ConfigurationName"].WorkspaceFolder, true);
+            let cfg = (_a = this._config) === null || _a === void 0 ? void 0 : _a.workspaceFolder, config = _managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].get(_config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ConfigurationName"].WorkspaceFolder);
+            cfg = cfg ? path__WEBPACK_IMPORTED_MODULE_0__["join"](cfg, _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["HIDDEN"]) : _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ORIGIN_PATH"];
+            config = config ? path__WEBPACK_IMPORTED_MODULE_0__["join"](config, _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["HIDDEN"]) : _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ORIGIN_PATH"];
+            if (cfg === config) {
+                this._onConfigurationSetting.set(_config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ConfigurationName"].WorkspaceFolder, false);
+                return;
             }
+            await _services__WEBPACK_IMPORTED_MODULE_7__["fileSystem"].migrate(cfg, config);
+            this._explorerTree.clear();
+            _managers_monitor__WEBPACK_IMPORTED_MODULE_4__["default"].reset(this._context, _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["CONFIGURED_PATH"]);
+            this._config = _managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].get();
+            this._onConfigurationSetting.set(_config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ConfigurationName"].WorkspaceFolder, false);
         }
-    }
-    static applyModeConfigurationTransform(e) {
-        if (this._configsAffectedByMode === undefined) {
-            this._configsAffectedByMode = [
-                `facility.${_managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].name('workspaceFolder')}`,
-            ];
-        }
-        const original = e.affectsConfiguration;
-        return {
-            ...e,
-            affectsConfiguration: (section, resource) => {
-                if (this._configsAffectedByMode &&
-                    this._configsAffectedByMode.some((n) => section.startsWith(n))) {
-                    return true;
-                }
-                return original(section, resource);
-            },
-        };
     }
 }
+App._onConfigurationSetting = new Map();
 
 
 /***/ }),
@@ -34936,7 +34916,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _managers_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./managers/i18n */ "./src/managers/i18n.ts");
 /* harmony import */ var _managers_symbolProviderChecker__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./managers/symbolProviderChecker */ "./src/managers/symbolProviderChecker.ts");
 /* harmony import */ var _managers_workspaceFolder__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./managers/workspaceFolder */ "./src/managers/workspaceFolder.ts");
-/* harmony import */ var _managers_watcher__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./managers/watcher */ "./src/managers/watcher.ts");
+/* harmony import */ var _managers_monitor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./managers/monitor */ "./src/managers/monitor.ts");
 
 
 
@@ -34947,7 +34927,7 @@ _managers_manager__WEBPACK_IMPORTED_MODULE_0__["default"].registry(_managers_man
 _managers_manager__WEBPACK_IMPORTED_MODULE_0__["default"].registry(_managers_manager__WEBPACK_IMPORTED_MODULE_0__["Project"].SymbolProviderChecker, _managers_symbolProviderChecker__WEBPACK_IMPORTED_MODULE_3__["default"]);
 _managers_manager__WEBPACK_IMPORTED_MODULE_0__["default"].registry(_managers_manager__WEBPACK_IMPORTED_MODULE_0__["Project"].Configuration, _managers_configuration__WEBPACK_IMPORTED_MODULE_1__["default"]);
 _managers_manager__WEBPACK_IMPORTED_MODULE_0__["default"].registry(_managers_manager__WEBPACK_IMPORTED_MODULE_0__["Project"].I18nManager, _managers_i18n__WEBPACK_IMPORTED_MODULE_2__["default"]);
-_managers_manager__WEBPACK_IMPORTED_MODULE_0__["default"].registry(_managers_manager__WEBPACK_IMPORTED_MODULE_0__["Project"].Watcher, _managers_watcher__WEBPACK_IMPORTED_MODULE_5__["default"]);
+_managers_manager__WEBPACK_IMPORTED_MODULE_0__["default"].registry(_managers_manager__WEBPACK_IMPORTED_MODULE_0__["Project"].Monitor, _managers_monitor__WEBPACK_IMPORTED_MODULE_5__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (_managers_manager__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 
@@ -35007,7 +34987,6 @@ function ensureValidState() {
 class Configuration {
     constructor() {
         this._onDidChange = new vscode__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
-        this._onWillChange = new vscode__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.initializingChangeEvent = {
             affectsConfiguration: () => true,
         };
@@ -35019,17 +34998,7 @@ class Configuration {
     get onDidChange() {
         return this._onDidChange.event;
     }
-    get onWillChange() {
-        return this._onWillChange.event;
-    }
     onConfigurationChanged(e) {
-        const evt = {
-            change: e,
-        };
-        this._onWillChange.fire(evt);
-        if (evt.transform !== undefined) {
-            e = evt.transform(e);
-        }
         this._onDidChange.fire(e);
     }
     initializing(e) {
@@ -35211,7 +35180,7 @@ var Project;
     Project["SymbolProviderChecker"] = "symbolProviderChecker";
     Project["Configuration"] = "configuration";
     Project["I18nManager"] = "i18nManager";
-    Project["Watcher"] = "watcher";
+    Project["Monitor"] = "monitor";
 })(Project || (Project = {}));
 class Manager {
     constructor() {
@@ -35232,65 +35201,17 @@ const manager = new Manager();
 
 /***/ }),
 
-/***/ "./src/managers/symbolProviderChecker.ts":
-/*!***********************************************!*\
-  !*** ./src/managers/symbolProviderChecker.ts ***!
-  \***********************************************/
-/*! exports provided: SymbolProviderChecker, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SymbolProviderChecker", function() { return SymbolProviderChecker; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
-/* harmony import */ var _services_fileSystem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/fileSystem */ "./src/services/fileSystem.ts");
-/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
-/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./i18n */ "./src/managers/i18n.ts");
-/* harmony import */ var _config_message__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../config/message */ "./src/config/message.ts");
-
-
-
-
-
-
-class SymbolProviderChecker {
-    constructor() { }
-    async checkSymbolProvider() {
-        const tmp = _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["DEFAULT_FILE"];
-        const tmpUri = vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(tmp);
-        await _services_fileSystem__WEBPACK_IMPORTED_MODULE_2__["fileSystem"].write(tmp, '');
-        for (let i = 0; i < 30; i++) {
-            const vsSyms = await vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].executeCommand('vscode.executeDocumentSymbolProvider', tmpUri);
-            if (vsSyms)
-                return true;
-            await new Promise((r) => setTimeout(r, 1000));
-        }
-        _utils__WEBPACK_IMPORTED_MODULE_1__["logger"].warn(_i18n__WEBPACK_IMPORTED_MODULE_4__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_5__["ErrorMessage"].FailedToRegisterSymbolProvider));
-        return false;
-    }
-    async init() {
-        await this.checkSymbolProvider();
-    }
-}
-const symbolProviderchecker = new SymbolProviderChecker();
-/* harmony default export */ __webpack_exports__["default"] = (symbolProviderchecker);
-
-
-/***/ }),
-
-/***/ "./src/managers/watcher.ts":
+/***/ "./src/managers/monitor.ts":
 /*!*********************************!*\
-  !*** ./src/managers/watcher.ts ***!
+  !*** ./src/managers/monitor.ts ***!
   \*********************************/
-/*! exports provided: FolderChangeEvent, Watcher, default */
+/*! exports provided: FolderChangeEvent, Monitor, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FolderChangeEvent", function() { return FolderChangeEvent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Watcher", function() { return Watcher; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Monitor", function() { return Monitor; });
 /* harmony import */ var chokidar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chokidar */ "./node_modules/_chokidar@3.5.1@chokidar/index.js");
 /* harmony import */ var chokidar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(chokidar__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vscode */ "vscode");
@@ -35299,6 +35220,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
 /* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./i18n */ "./src/managers/i18n.ts");
 /* harmony import */ var _config_message__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../config/message */ "./src/config/message.ts");
+var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || function (receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+};
+var __classPrivateFieldGet = (undefined && undefined.__classPrivateFieldGet) || function (receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+};
+var _ctx, _monitor;
 // @ts-ignore
 
 
@@ -35314,16 +35249,20 @@ var FolderChangeEvent;
     FolderChangeEvent["UNLINK"] = "unlink";
     FolderChangeEvent["UNLINKDIR"] = "unlinkDir";
 })(FolderChangeEvent || (FolderChangeEvent = {}));
-class Watcher {
+class Monitor {
     constructor() {
+        _ctx.set(this, void 0);
+        _monitor.set(this, void 0);
         this._onWillChange = new vscode__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
     }
-    init(context, watchDir = _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["CONFIGURED_PATH"]) {
-        _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].info(`Watch Dir ${watchDir}`);
-        context.subscriptions.push((watcher._watcher = chokidar__WEBPACK_IMPORTED_MODULE_0___default.a
-            .watch(watchDir)
-            .on('all', watcher.onFolderChanged.bind(watcher))
-            .on('error', watcher.onDidWatcherError.bind(watcher))));
+    init(context, path = _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["CONFIGURED_PATH"]) {
+        __classPrivateFieldSet(this, _ctx, context);
+        _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].info(`Watch Dir ${path}`);
+        __classPrivateFieldSet(this, _monitor, chokidar__WEBPACK_IMPORTED_MODULE_0___default.a
+            .watch(path)
+            .on('all', this.onFolderChanged.bind(this))
+            .on('error', this.onDidWatcherError.bind(this)));
+        __classPrivateFieldGet(this, _ctx).subscriptions.push(__classPrivateFieldGet(this, _monitor));
     }
     get onWillChange() {
         return this._onWillChange.event;
@@ -35331,8 +35270,17 @@ class Watcher {
     checkIgnore(path) {
         return path.includes('.DS_Store');
     }
-    static close() {
-        watcher._watcher.close();
+    close() {
+        const watcherIndex = __classPrivateFieldGet(this, _ctx).subscriptions.findIndex((item) => item === __classPrivateFieldGet(this, _monitor));
+        if (watcherIndex > 0) {
+            __classPrivateFieldGet(this, _ctx).subscriptions.splice(watcherIndex, 1);
+        }
+        __classPrivateFieldGet(this, _monitor).close();
+        __classPrivateFieldSet(this, _monitor, null);
+    }
+    reset(ctx, path) {
+        this.close();
+        this.init(ctx, path);
     }
     onFolderChanged(event, path) {
         _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].info(event, path);
@@ -35391,8 +35339,57 @@ class Watcher {
         Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showErrorMessage"])(`${_i18n__WEBPACK_IMPORTED_MODULE_4__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_5__["ErrorMessage"].ErrorFsWatch)} Error: ${error}`);
     }
 }
-const watcher = new Watcher();
-/* harmony default export */ __webpack_exports__["default"] = (watcher);
+_ctx = new WeakMap(), _monitor = new WeakMap();
+const monitor = new Monitor();
+/* harmony default export */ __webpack_exports__["default"] = (monitor);
+
+
+/***/ }),
+
+/***/ "./src/managers/symbolProviderChecker.ts":
+/*!***********************************************!*\
+  !*** ./src/managers/symbolProviderChecker.ts ***!
+  \***********************************************/
+/*! exports provided: SymbolProviderChecker, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SymbolProviderChecker", function() { return SymbolProviderChecker; });
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+/* harmony import */ var _services_fileSystem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/fileSystem */ "./src/services/fileSystem.ts");
+/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./i18n */ "./src/managers/i18n.ts");
+/* harmony import */ var _config_message__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../config/message */ "./src/config/message.ts");
+
+
+
+
+
+
+class SymbolProviderChecker {
+    constructor() { }
+    async checkSymbolProvider() {
+        const tmp = _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["DEFAULT_FILE"];
+        const tmpUri = vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(tmp);
+        await _services_fileSystem__WEBPACK_IMPORTED_MODULE_2__["fileSystem"].write(tmp, '');
+        for (let i = 0; i < 30; i++) {
+            const vsSyms = await vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].executeCommand('vscode.executeDocumentSymbolProvider', tmpUri);
+            if (vsSyms)
+                return true;
+            await new Promise((r) => setTimeout(r, 1000));
+        }
+        _utils__WEBPACK_IMPORTED_MODULE_1__["logger"].warn(_i18n__WEBPACK_IMPORTED_MODULE_4__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_5__["ErrorMessage"].FailedToRegisterSymbolProvider));
+        return false;
+    }
+    async init() {
+        await this.checkSymbolProvider();
+    }
+}
+const symbolProviderchecker = new SymbolProviderChecker();
+/* harmony default export */ __webpack_exports__["default"] = (symbolProviderchecker);
 
 
 /***/ }),
@@ -35407,42 +35404,31 @@ const watcher = new Watcher();
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WorkspaceFolderChecker", function() { return WorkspaceFolderChecker; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
-/* harmony import */ var _services_fileSystem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/fileSystem */ "./src/services/fileSystem.ts");
-
+/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+/* harmony import */ var _services_fileSystem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/fileSystem */ "./src/services/fileSystem.ts");
 
 
 
 class WorkspaceFolderChecker {
-    constructor(path = _config_pathConfig__WEBPACK_IMPORTED_MODULE_1__["CONFIGURED_PATH"]) {
+    constructor(path = _config_pathConfig__WEBPACK_IMPORTED_MODULE_0__["CONFIGURED_PATH"]) {
         this.path = path;
-        this._onConfigurationDidChanged = new vscode__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-    }
-    get onConfigurationDidChanged() {
-        return this._onConfigurationDidChanged.event;
     }
     get root() {
-        return _config_pathConfig__WEBPACK_IMPORTED_MODULE_1__["ORIGIN_PATH"];
+        return _config_pathConfig__WEBPACK_IMPORTED_MODULE_0__["ORIGIN_PATH"];
     }
     get defaultFile() {
-        return _config_pathConfig__WEBPACK_IMPORTED_MODULE_1__["DEFAULT_FILE"];
+        return _config_pathConfig__WEBPACK_IMPORTED_MODULE_0__["DEFAULT_FILE"];
     }
     async migrate(src = this.root, dest = this.root) {
-        await _services_fileSystem__WEBPACK_IMPORTED_MODULE_3__["fileSystem"].migrate(src, dest);
-        this._onConfigurationDidChanged.fire({
-            src,
-            dest,
-        });
+        await _services_fileSystem__WEBPACK_IMPORTED_MODULE_2__["fileSystem"].migrate(src, dest);
     }
     async init() {
         // 检查系统默认文件夹是否存在
-        if (Object(_utils__WEBPACK_IMPORTED_MODULE_2__["exist"])(this.path))
+        if (Object(_utils__WEBPACK_IMPORTED_MODULE_1__["exist"])(this.path))
             return;
-        Object(_utils__WEBPACK_IMPORTED_MODULE_2__["mkdir"])(this.path);
-        Object(_utils__WEBPACK_IMPORTED_MODULE_2__["write"])(this.defaultFile, '');
+        Object(_utils__WEBPACK_IMPORTED_MODULE_1__["mkdir"])(this.path);
+        Object(_utils__WEBPACK_IMPORTED_MODULE_1__["write"])(this.defaultFile, '');
     }
 }
 const workspaceFolderChecker = new WorkspaceFolderChecker();
@@ -35666,7 +35652,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _tree__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tree */ "./src/tree/tree.ts");
-/* harmony import */ var _managers_watcher__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../managers/watcher */ "./src/managers/watcher.ts");
+/* harmony import */ var _managers_monitor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../managers/monitor */ "./src/managers/monitor.ts");
 /* harmony import */ var _explorerModel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./explorerModel */ "./src/tree/explorerModel.ts");
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services */ "./src/services/index.ts");
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../app */ "./src/app.ts");
@@ -35693,7 +35679,7 @@ class ExplorerTree extends _tree__WEBPACK_IMPORTED_MODULE_1__["Tree"] {
         super();
         this._onDidChangeNodes = new vscode__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.nodes = new Map();
-        this._disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(_managers_watcher__WEBPACK_IMPORTED_MODULE_2__["default"].onWillChange(this.updateNode, this));
+        this._disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(_managers_monitor__WEBPACK_IMPORTED_MODULE_2__["default"].onWillChange(this.updateNode, this));
     }
     get onDidChangeNodes() {
         return this._onDidChangeNodes.event;

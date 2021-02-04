@@ -1,11 +1,10 @@
 import * as path from 'path'
 import { ExtensionContext, ConfigurationChangeEvent, Uri } from 'vscode'
-import { fileSystem } from './services'
-import { Config, ConfigurationWillChangeEvent } from './config'
+import { Config } from './config'
 import { ExplorerView } from './views/explorerView'
 import { OutlineView } from './views/outlineView'
 import { ExplorerTree, GistElement } from './tree/explorerTree'
-import watcher, { Watcher } from './managers/watcher'
+import monitor, { Monitor } from './managers/monitor'
 import {
   ConfigurationName,
   CONFIGURED_PATH,
@@ -13,14 +12,13 @@ import {
   ORIGIN_PATH,
 } from './config/pathConfig'
 import configuration from './managers/configuration'
-import workspaceFolderChecker from './managers/workspaceFolder'
+import { fileSystem } from './services'
 
 export class App {
-  private static _onConfigurationSetting: Map<string, boolean> | undefined
-  private static _configsAffectedByMode: string[] | undefined
-  private static _applyModeConfigurationTransformBound:
-    | ((e: ConfigurationChangeEvent) => ConfigurationChangeEvent)
-    | undefined
+  private static _onConfigurationSetting: Map<
+    ConfigurationName,
+    boolean
+  > = new Map()
 
   private static _context: ExtensionContext
   static get context() {
@@ -65,7 +63,7 @@ export class App {
     this._config = config
 
     context.subscriptions.push(
-      configuration.onWillChange(this.onConfigurationChanging, this)
+      configuration.onDidChange(this.onConfigurationChanging, this)
     )
     context.subscriptions.push(
       (this._explorerTree = new ExplorerTree<GistElement>())
@@ -75,67 +73,37 @@ export class App {
     context.subscriptions.push((this._outlineView = new OutlineView()))
   }
 
-  private static async onConfigurationChanging(
-    e: ConfigurationWillChangeEvent
-  ) {
-    if (configuration.changed(e.change, 'workspaceFolder')) {
-      // 路径输入后执行函数未执行完之前， 不允许再次执行
-      const onConfigurationSetting = this._onConfigurationSetting?.get(
-        'workspaceFolder'
+  private static async onConfigurationChanging(e: ConfigurationChangeEvent) {
+    if (configuration.changed(e, ConfigurationName.WorkspaceFolder)) {
+      const onConfigurationSetting = this._onConfigurationSetting.get(
+        ConfigurationName.WorkspaceFolder
       )
+      if (onConfigurationSetting) return
 
-      if (
-        onConfigurationSetting === undefined ||
-        onConfigurationSetting === false
-      ) {
-        this._onConfigurationSetting?.set('workspaceFolder', true)
+      this._onConfigurationSetting.set(ConfigurationName.WorkspaceFolder, true)
 
-        if (this._applyModeConfigurationTransformBound === undefined) {
-          this._applyModeConfigurationTransformBound = this.applyModeConfigurationTransform.bind(
-            this
-          )
-        }
+      let cfg = this._config?.workspaceFolder,
+        config = configuration.get(ConfigurationName.WorkspaceFolder)
 
-        let cfg = this._config?.workspaceFolder,
-          config = configuration.get(ConfigurationName.WorkspaceFolder)
+      cfg = cfg ? path.join(cfg, HIDDEN) : ORIGIN_PATH
+      config = config ? path.join(config, HIDDEN) : ORIGIN_PATH
 
-        cfg = cfg ? path.join(cfg, HIDDEN) : ORIGIN_PATH
-        config = config ? path.join(config, '.fl') : ORIGIN_PATH
-        await workspaceFolderChecker.migrate(cfg, config || ORIGIN_PATH)
-
-        this._explorerTree.clear()
-
-        await Watcher.close()
-        watcher.init(this._context, CONFIGURED_PATH)
-
-        this._config = configuration.get()
-        e.transform = this._applyModeConfigurationTransformBound
-        this._onConfigurationSetting?.set('workspaceFolder', false)
+      if (cfg === config) {
+        this._onConfigurationSetting.set(
+          ConfigurationName.WorkspaceFolder,
+          false
+        )
+        return
       }
-    }
-  }
 
-  private static applyModeConfigurationTransform(
-    e: ConfigurationChangeEvent
-  ): ConfigurationChangeEvent {
-    if (this._configsAffectedByMode === undefined) {
-      this._configsAffectedByMode = [
-        `facility.${configuration.name('workspaceFolder')}`,
-      ]
-    }
+      await fileSystem.migrate(cfg, config)
 
-    const original = e.affectsConfiguration
-    return {
-      ...e,
-      affectsConfiguration: (section: string, resource?: Uri) => {
-        if (
-          this._configsAffectedByMode &&
-          this._configsAffectedByMode.some((n) => section.startsWith(n))
-        ) {
-          return true
-        }
-        return original(section, resource)
-      },
+      this._explorerTree.clear()
+
+      monitor.reset(this._context, CONFIGURED_PATH)
+
+      this._config = configuration.get()
+      this._onConfigurationSetting.set(ConfigurationName.WorkspaceFolder, false)
     }
   }
 }

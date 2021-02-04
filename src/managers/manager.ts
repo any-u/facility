@@ -3,14 +3,14 @@ import { SymbolProviderChecker } from './symbolProviderChecker'
 import { Configuration } from '../config'
 import { I18nManager } from './i18n'
 import { ExtensionContext } from 'vscode'
-import { Watcher } from './watcher'
+import { Monitor } from './monitor'
 
 export const enum Project {
   WorkspaceFolderChecker = 'workspaceFolder',
   SymbolProviderChecker = 'symbolProviderChecker',
   Configuration = 'configuration',
   I18nManager = 'i18nManager',
-  Watcher = 'watcher',
+  Monitor = 'monitor',
 }
 
 export type Runner =
@@ -18,7 +18,7 @@ export type Runner =
   | SymbolProviderChecker
   | Configuration
   | I18nManager
-  | Watcher
+  | Monitor
 
 class Manager {
   managers = new Map<Project, Runner>()
