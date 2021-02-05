@@ -8,7 +8,7 @@ import monitor, { Monitor } from './managers/monitor'
 import {
   ConfigurationName,
   CONFIGURED_PATH,
-  HIDDEN,
+  HIDDEN_FILENAME,
   ORIGIN_PATH,
 } from './config/pathConfig'
 import configuration from './managers/configuration'
@@ -85,8 +85,8 @@ export class App {
       let cfg = this._config?.workspaceFolder,
         config = configuration.get(ConfigurationName.WorkspaceFolder)
 
-      cfg = cfg ? path.join(cfg, HIDDEN) : ORIGIN_PATH
-      config = config ? path.join(config, HIDDEN) : ORIGIN_PATH
+      cfg = cfg ? path.join(cfg, HIDDEN_FILENAME) : ORIGIN_PATH
+      config = config ? path.join(config, HIDDEN_FILENAME) : ORIGIN_PATH
 
       if (cfg === config) {
         this._onConfigurationSetting.set(

@@ -1,18 +1,12 @@
 // @ts-ignore
 import chokidar from 'chokidar'
-import {
-  EventEmitter,
-  Event,
-  FileType,
-  FileChangeType,
-  ExtensionContext,
-} from 'vscode'
+import { EventEmitter, Event, ExtensionContext } from 'vscode'
 import { logger, showErrorMessage } from '../utils'
-import { CONFIGURED_PATH } from '../config/pathConfig'
+import { CONFIGURED_PATH, shouldFileIgnore } from '../config/pathConfig'
 import i18nManager from './i18n'
 import { ErrorMessage } from '../config/message'
 
-export enum FolderChangeEvent {
+export enum FWChangeType {
   ADDDIR = 'addDir',
   ADD = 'add',
   CHANGE = 'change',
@@ -20,23 +14,22 @@ export enum FolderChangeEvent {
   UNLINKDIR = 'unlinkDir',
 }
 
-interface ITransformFileChangeType {
-  type: FileChangeType
-  fileType: FileType
-}
-
-export interface IFoldersChangeEvent extends ITransformFileChangeType {
+export interface MonitorChangeEvent {
+  type: FWChangeType
   path: string
 }
 
 export class Monitor {
   #ctx: ExtensionContext
   #monitor: any | null
+  #monitored: string
 
   init(context: ExtensionContext, path: string = CONFIGURED_PATH) {
     this.#ctx = context
+    this.#monitored = path
 
-    logger.info(`Watch Dir ${path}`)
+    logger.info(`[facility] ${path} monitored`)
+
     this.#monitor = chokidar
       .watch(path)
       .on('all', this.onFolderChanged.bind(this))
@@ -44,13 +37,9 @@ export class Monitor {
     this.#ctx.subscriptions.push(this.#monitor)
   }
 
-  private _onWillChange = new EventEmitter<IFoldersChangeEvent>()
-  get onWillChange(): Event<IFoldersChangeEvent> {
+  private _onWillChange = new EventEmitter<MonitorChangeEvent>()
+  get onWillChange(): Event<MonitorChangeEvent> {
     return this._onWillChange.event
-  }
-
-  checkIgnore(path: string) {
-    return path.includes('.DS_Store')
   }
 
   close() {
@@ -72,63 +61,23 @@ export class Monitor {
     this.init(ctx, path)
   }
 
-  onFolderChanged(event: FolderChangeEvent, path: string) {
-    logger.info(event, path)
-    if (this.checkIgnore(path)) return
+  onFolderChanged(type: FWChangeType, path: string) {
+    if (shouldFileIgnore(path)) return
 
-    const e = this.transform(event)
-    if (!e) return
-
-    const evt: IFoldersChangeEvent = {
+    logger.info(`[facility] ${path} changed: ${type}`)
+    
+    const evt: MonitorChangeEvent = {
       path,
-      ...e,
+      type,
     }
 
     this._onWillChange.fire(evt)
   }
-
-  transform(event: FolderChangeEvent): ITransformFileChangeType | null {
-    let changeType: ITransformFileChangeType | null
-    switch (event) {
-      case FolderChangeEvent.ADD:
-        changeType = {
-          type: FileChangeType.Created,
-          fileType: FileType.File,
-        }
-        break
-
-      case FolderChangeEvent.ADDDIR:
-        changeType = {
-          type: FileChangeType.Created,
-          fileType: FileType.Directory,
-        }
-        break
-      case FolderChangeEvent.CHANGE:
-        changeType = {
-          type: FileChangeType.Changed,
-          fileType: FileType.File,
-        }
-        break
-      case FolderChangeEvent.UNLINK:
-        changeType = {
-          type: FileChangeType.Deleted,
-          fileType: FileType.File,
-        }
-        break
-      case FolderChangeEvent.UNLINKDIR:
-        changeType = {
-          type: FileChangeType.Deleted,
-          fileType: FileType.Directory,
-        }
-        break
-      default:
-        changeType = null
-        break
-    }
-    return changeType
-  }
   onDidWatcherError(error: Error) {
-    logger.error(error.message)
+    logger.error(
+      '[facility] failed to monitor workspace folder:',
+      error.message
+    )
     showErrorMessage(
       `${i18nManager.format(ErrorMessage.ErrorFsWatch)} Error: ${error}`
     )

@@ -42,7 +42,6 @@ export class ExplorerTree<T> extends Tree<T> {
   }
 
   public readonly nodes = new Map<string | undefined, IExplorerTreeNode<T>>()
-  // public readonly root: IExplorerTreeNode<T> | undefined
 
   constructor() {
     super()
