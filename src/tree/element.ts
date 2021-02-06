@@ -1,5 +1,6 @@
 import { FileType } from 'vscode'
 import { basename, extname } from 'path'
+import { stat } from '../utils'
 
 class Element {
   #name: string
@@ -17,11 +18,11 @@ class Element {
     return this.#extension
   }
 
-  constructor(path: string, fileType: FileType) {
+  constructor(path: string) {
     this.#name = basename(path)
-    this.#type = fileType
+    this.#type = stat(path).isDirectory() ? FileType.Directory : FileType.File
 
-    if (fileType === FileType.File) {
+    if (this.#type === FileType.File) {
       this.#extension = extname(path)
     }
   }

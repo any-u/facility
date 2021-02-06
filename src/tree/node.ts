@@ -9,42 +9,26 @@ class Node {
     return this.#element
   }
 
-  #parent: Node | null
-  get parent() {
-    return this.#parent
-  }
+  parentNode: Node | null
 
   #path: string
   get path() {
     return this.#path
   }
 
-  #children: Node[] | undefined
-  get children() {
-    return this.#children
-  }
+  children: Node[] | undefined
 
-  constructor(public readonly tree: Tree, path: string, fileType: FileType) {
+  constructor(public readonly tree: Tree, path: string) {
     this.#path = path
 
-    this.#element = new Element(path, fileType)
-  }
-
-  registerParent(path: string) {
-    const lastIndex = path.lastIndexOf('/')
-
-    const parentPath = path.slice(lastIndex)
-    this.tree.notify(parentPath, this)
+    this.#element = new Element(path)
   }
 
   getChild(path: string): Node | undefined {
-    const children = this.#children.filter((item) => item.path === path)
+    const children = this.children.filter((item) => item.path === path)
     return children.length ? children[0] : undefined
   }
 
-  addChild(node: Node) {
-    this.#children.push(node)
-  }
 }
 
 export default Node
