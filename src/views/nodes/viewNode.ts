@@ -1,5 +1,5 @@
 import { Disposable, FileType, ThemeIcon, TreeItem } from 'vscode'
-import { App } from '../../app'
+import App from '../../app'
 import { FILENAME, FILE_EXTENSION } from '../../config/icon'
 import { View } from '../viewBase'
 import * as path from 'path'

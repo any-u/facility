@@ -251,24 +251,49 @@
         "signature": "0714e2046df66c0e93c3330d30dbc0565b3e8cd3ee302cf99e4ede6220e5fec8",
         "affectsGlobalScope": true
       },
-      "./src/constants.ts": {
-        "version": "9aa3545e13e063af13bac26aa7cd2c419415513468f6004a55c1709894925131",
-        "signature": "b5bd9709d3103e40567149a702f10dcceaba1d1ab6f10469a61e697e1aa6a783",
+      "./src/config/pathconfig.ts": {
+        "version": "127cef941f4b309575f0d330ac45554e695becaa73946939ff5405469ad14677",
+        "signature": "91ffffc255b0c55e867fb70f7b0ad4ab817a8f3739045befdc2b37b8a9ec1417",
         "affectsGlobalScope": false
       },
-      "./node_modules/_before-after-hook@2.1.0@before-after-hook/index.d.ts": {
-        "version": "0c21c52bfe81712420a221aa24d9200946cbb31d4c51ddbf336e141c3f5928ee",
-        "signature": "0c21c52bfe81712420a221aa24d9200946cbb31d4c51ddbf336e141c3f5928ee",
+      "./src/managers/configuration.ts": {
+        "version": "04795688474aa8f8bffe2f0da41244879284b36f688fc72a21bf3bf833554fdf",
+        "signature": "7f89f2d2d3b91ae743f6ed0e643afe53661b9010f9b63137b8e7e30d555a8577",
         "affectsGlobalScope": false
       },
-      "./node_modules/_@octokit_types@6.3.1@@octokit/types/dist-types/requestmethod.d.ts": {
-        "version": "54160aaec4f72e2045e7341301c096344b9e5162a1e48333a531117af5938713",
-        "signature": "54160aaec4f72e2045e7341301c096344b9e5162a1e48333a531117af5938713",
+      "./src/config/icon.ts": {
+        "version": "f211bba796af4bd8eb0b468111f8406ec76311d92e17d58a33d4e4ac328c459b",
+        "signature": "67f90ef1db12b6e62e56587ef9fe31f350e6e05725cba31045a5896f666ae997",
         "affectsGlobalScope": false
       },
-      "./node_modules/_@octokit_types@6.3.1@@octokit/types/dist-types/url.d.ts": {
-        "version": "3f0d8705992ebf25221e0d3f72d496bbcebacb47c2b6ee90f4de66d760ee9152",
-        "signature": "3f0d8705992ebf25221e0d3f72d496bbcebacb47c2b6ee90f4de66d760ee9152",
+      "./src/config/index.ts": {
+        "version": "8fe9343457a0024bb972ecac21d57f421d52342afc36b52b7d913f9a767b5b96",
+        "signature": "9e2f7bb10de461c82756ad994f67f01b17f245a6e526b469f0f04308a66a7989",
+        "affectsGlobalScope": false
+      },
+      "./src/config/message.ts": {
+        "version": "75c7a6c4dc289ea7b93f5cc5f3e836dee69c00b61c613eadd26d31ea19bb612f",
+        "signature": "1d22c7fecd90ab8c0e06db125c6d6c28001fa6dd20aa7ac5a99bb3f6aaaf9674",
+        "affectsGlobalScope": false
+      },
+      "./src/locales/zh-cn.json": {
+        "version": "3034a30313c198826245c287f0293c0759013a47dcf7dbd2cc10298a7a4a50e0",
+        "signature": "b68159d8115fb27defc067c8edb00c266de7191d55c36b063706cabbb49f612e",
+        "affectsGlobalScope": true
+      },
+      "./src/locales/en-us.json": {
+        "version": "f0a58b11e0ca446841daafc0562035846cd3d04d16174ac5a9972777a9135742",
+        "signature": "b68159d8115fb27defc067c8edb00c266de7191d55c36b063706cabbb49f612e",
+        "affectsGlobalScope": true
+      },
+      "./src/managers/i18n.ts": {
+        "version": "dfdb6d9464cef22f8579373e69ca9a6e6f6cbc13111ac549eb04816206641aa2",
+        "signature": "4facaa4779b6eed9433a7d62b2cb70a82b25f8bd44c978e0004e7d6f729b1249",
+        "affectsGlobalScope": false
+      },
+      "./src/views/nodes/common.ts": {
+        "version": "1a84226572e13b8d3daec2f0afe6bab910014f3b974890d9b135f511ede3c871",
+        "signature": "3130077d09646c249732f0de59a33e4c0f6eef0321890010ba9bec990c3e5f80",
         "affectsGlobalScope": false
       },
       "./node_modules/_@types_node@12.19.14@@types/node/globals.d.ts": {
@@ -496,6 +521,261 @@
         "signature": "6fa68653382bd571bc63831e9f9c1307cc52f7310c1470463fe429d84147667d",
         "affectsGlobalScope": false
       },
+      "./node_modules/_@types_mkdirp@1.0.1@@types/mkdirp/index.d.ts": {
+        "version": "c535422967fe3cf8adfee4e1a543870aede1fa77fd055a382e6f6582a2d866eb",
+        "signature": "c535422967fe3cf8adfee4e1a543870aede1fa77fd055a382e6f6582a2d866eb",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/_@types_fs-extra@8.1.1@@types/fs-extra/index.d.ts": {
+        "version": "5171627120eeb3a7e8afb8ed04ea9be7f0b53ba09bb1fc95172483e0fbb0740c",
+        "signature": "5171627120eeb3a7e8afb8ed04ea9be7f0b53ba09bb1fc95172483e0fbb0740c",
+        "affectsGlobalScope": false
+      },
+      "./src/utils/file.ts": {
+        "version": "f80aafdb296c8f716b85c883b6f185e450a1875962dfc4cb1f9691e86c7dd685",
+        "signature": "8aaef7272f2634944fbb402ee339bfb2abb48db9a55d085c494c8232b403f63d",
+        "affectsGlobalScope": false
+      },
+      "./src/utils/libs.ts": {
+        "version": "aabdaaa86972a617c27acd7cd99eeabce9ad27efa8be3e9a1f49718cc508c7a7",
+        "signature": "967a95f989fb5cff742700ebf60625e4d699885928aefb659a79e7efc63bb335",
+        "affectsGlobalScope": false
+      },
+      "./src/utils/system.ts": {
+        "version": "65e7d363de9b47a3383e0169c6f99c2538e12a2851429b094e399c94c1283cf6",
+        "signature": "1103e531b884c0afff36169060d1968b690f7421dcc1322d894f5be4d6e0856b",
+        "affectsGlobalScope": false
+      },
+      "./src/utils/request.ts": {
+        "version": "71c5ec102cf7da2ec4f9d2a107ba922998f442bf28649565176c8e35245316b7",
+        "signature": "7e3a7fa9b7b0a737b8b37665d7437b68d8a69b9a7b2e7ebe483797e7a10da4cd",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/_chalk@4.1.0@chalk/index.d.ts": {
+        "version": "0d14fa22c41fdc7277e6f71473b20ebc07f40f00e38875142335d5b63cdfc9d2",
+        "signature": "0d14fa22c41fdc7277e6f71473b20ebc07f40f00e38875142335d5b63cdfc9d2",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/_dayjs@1.10.4@dayjs/locale/types.d.ts": {
+        "version": "73a0ee6395819b063df4b148211985f2e1442945c1a057204cf4cf6281760dc3",
+        "signature": "73a0ee6395819b063df4b148211985f2e1442945c1a057204cf4cf6281760dc3",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/_dayjs@1.10.4@dayjs/locale/index.d.ts": {
+        "version": "d05d8c67116dceafc62e691c47ac89f8f10cf7313cd1b2fb4fe801c2bf1bb1a7",
+        "signature": "d05d8c67116dceafc62e691c47ac89f8f10cf7313cd1b2fb4fe801c2bf1bb1a7",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/_dayjs@1.10.4@dayjs/index.d.ts": {
+        "version": "abc78a372684e21f7775d855228dce326130b2c7e3ffb99cb2b979ae475c1e78",
+        "signature": "abc78a372684e21f7775d855228dce326130b2c7e3ffb99cb2b979ae475c1e78",
+        "affectsGlobalScope": false
+      },
+      "./src/constants.ts": {
+        "version": "9aa3545e13e063af13bac26aa7cd2c419415513468f6004a55c1709894925131",
+        "signature": "b5bd9709d3103e40567149a702f10dcceaba1d1ab6f10469a61e697e1aa6a783",
+        "affectsGlobalScope": false
+      },
+      "./src/utils/logger.ts": {
+        "version": "978133f9f197a8b58d3520a5d0fb1f7f99189c25f2a6a73ff059da1f865d329f",
+        "signature": "49d79bb17833cefebc873f745d89b3f82cf2c3666da76eecdead2451f4f6a0e9",
+        "affectsGlobalScope": false
+      },
+      "./src/utils/index.ts": {
+        "version": "567299d725097480dd1ba8502c643c4ba1900c771cfacc35753100eaf43cc699",
+        "signature": "c7b36d42ef39a5c18cfbf878ab289776994b8193b6743b564565955b911ba9cb",
+        "affectsGlobalScope": false
+      },
+      "./src/services/filesystem.ts": {
+        "version": "b69f85dfbf3a9ad34b100c602d46f7fcdb4838c52210ce0fc7299408ae48b6ca",
+        "signature": "82702a97dabe2ca6454f47a9f77e37c008e6b31a5574b87328e7b594e2233f62",
+        "affectsGlobalScope": false
+      },
+      "./src/services/index.ts": {
+        "version": "125ccfaf2c57c8cc43c12cc8dc30f0763f5330af4b9c55243787a8e4f224100d",
+        "signature": "e6bfeafbd10b57e461439de55fc991d9fce7c4a7d8da573c29d089375841bc64",
+        "affectsGlobalScope": false
+      },
+      "./src/views/nodes/symbolnode.ts": {
+        "version": "417b6c721bf53336bc75a63611df0060231529e3d93d55a0847982b8866f72e0",
+        "signature": "691addb6835714431c0ff0f006fda7add26066dc81f2032c6202d96b1592c05a",
+        "affectsGlobalScope": false
+      },
+      "./src/views/nodes/outlinenode.ts": {
+        "version": "fb3e65fe4615b3d01e6e923a78a468b6dc3dc1e261bb2a2d414fe0ba656d0bda",
+        "signature": "0374f8c3118604393e3bb4f076966787859a1e1ea1c70cbf2d90cfe72bcb3634",
+        "affectsGlobalScope": false
+      },
+      "./src/views/outlineview.ts": {
+        "version": "742a945c3b102987c3846f15f2d77c6aee0e1289195555a8f58aade1fbfa4fcd",
+        "signature": "e57bd40995da05d6a6fc193141ca7a8734215467ae8cff1ed848725cda10d2cb",
+        "affectsGlobalScope": false
+      },
+      "./src/commands/common.ts": {
+        "version": "93020b6b544712fad58b8804a0e7ab5c119c73a57395e24d7fb3d73b54f9fa7e",
+        "signature": "36088ddba5d0e2dbe119138d8b6013c06df032eed987f44ae5b9e889b8a3e4f6",
+        "affectsGlobalScope": false
+      },
+      "./src/commands.ts": {
+        "version": "8fa7da3e21a60aca2377bf029fa9f6e7ab64cd903bda051a8b3f1cfe385acf87",
+        "signature": "d3e5320a367a71045937a54f2fce254412c477fdb97f230a2afc496c9c05636a",
+        "affectsGlobalScope": false
+      },
+      "./src/tree/treemodel.ts": {
+        "version": "7958b465b29174d3a39ccc5698ec811587664c4b2f24c1a178f31e757260da56",
+        "signature": "3e8577e30fc74aeadd802da232485bb2b0ac3690acf44579c1018d7331552867",
+        "affectsGlobalScope": false
+      },
+      "./src/tree/tree.ts": {
+        "version": "5e825691d6e6e5bd07dc5796aee2958c7b942ff510e5af791935a3f33bbb8fef",
+        "signature": "a36f954f861289d3f9b349852ed80b8ec2a804b1522f621d2bbfa138b2dec310",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/_chokidar@3.5.1@chokidar/types/index.d.ts": {
+        "version": "ca7f76d3ea132bde53dca1a0f33cda95397d20c248e452c050773f01504d9802",
+        "signature": "ca7f76d3ea132bde53dca1a0f33cda95397d20c248e452c050773f01504d9802",
+        "affectsGlobalScope": false
+      },
+      "./src/managers/monitor.ts": {
+        "version": "d52fa5a8f5a5f57129371ff56c85078b4d2dfbe8150e97d81c4b705c8a183343",
+        "signature": "892eb139b7c6633e18e5e62a14cc508ec6c2af79ac535f7f5308407db12857a0",
+        "affectsGlobalScope": false
+      },
+      "./src/tree/explorermodel.ts": {
+        "version": "a9ec336695e1ff6f992b4bd589e2217554cd77c908467d99bd2436f677a49dbf",
+        "signature": "1567ce4bd56c629fd313fe254faea50047a115eca764216eb5ccd28f5b273f4f",
+        "affectsGlobalScope": false
+      },
+      "./src/tree/explorertree.ts": {
+        "version": "ea92abf185d4f1052b4dc0edf532a930491fccbe0e0235d2f3119699374ced04",
+        "signature": "e847d2af390bdf6051322a4f8df0843fc5f3b8097b12df81e6c59e046a688d57",
+        "affectsGlobalScope": false
+      },
+      "./src/views/nodes/repositorynode.ts": {
+        "version": "67ff12446924f3ce6e80832d2968256ee92f9e88cbe2a113faf180e4aed7343a",
+        "signature": "225f95e841810afa16b1d47ce219835e0dccc09fcf788d44e5a99c46b5cc797b",
+        "affectsGlobalScope": false
+      },
+      "./src/views/nodes/explorernode.ts": {
+        "version": "e1bc4442695090ea2b010d1e9b8d0102bdbfebd11cc40f3ebffe93275f26b0f1",
+        "signature": "512b7330e35181c8748a066a03f477bb891314f56d99df76008303c4a4fe0376",
+        "affectsGlobalScope": false
+      },
+      "./src/views/explorerview.ts": {
+        "version": "263c357ef7654ed7937b44cba081d9c5eec678ef1a5a90ee37fab7ab358c554d",
+        "signature": "bae375377dd9d71daed9d553720ef39fa99d64ec4f5e7c3141eee8afe3cb8c6c",
+        "affectsGlobalScope": false
+      },
+      "./src/views/viewbase.ts": {
+        "version": "e032afdaa08a42d379f29eac96c98437a5c2888e14c044e0dd969f0f6dac3088",
+        "signature": "d92de6e7b31a9b54a87521e35a1f1437a177b85240cd03e40015a634a31f2e5a",
+        "affectsGlobalScope": false
+      },
+      "./src/views/nodes/viewnode.ts": {
+        "version": "246a21b8d09a7b8cb6ef6e5e634f5ca3ca9117ee2a8ec9ea8b99a28e31359074",
+        "signature": "353eb7b2ad3c6c4120d8df0e3a907ef10ccae94d7cbb3c3fa9f2f75892f8d28f",
+        "affectsGlobalScope": false
+      },
+      "./src/views/nodes/index.ts": {
+        "version": "aba2705372538a6610e896adb32d28e09d12942d828992885755812b7db01631",
+        "signature": "888d579633737f6893f306977c3bcf5d6820cd0929ed84b843347bbd778a5717",
+        "affectsGlobalScope": false
+      },
+      "./src/tree/element.ts": {
+        "version": "0209f2f532588a065fac0e02938f30e5ee3b09663bc9452801a74e59abc05344",
+        "signature": "0f7b4ec1f8557853ac78f7956674fa47109b815cd98a54f3b778498ce6882276",
+        "affectsGlobalScope": false
+      },
+      "./src/tree/_explorertree.ts": {
+        "version": "c6a3fb9448a279c442283801273c0f9c705aa084712c7695ddd551b44879511d",
+        "signature": "f90951dba36de73d58d6a80ae34120c2adc0bd68767145054a9fc9e2fff67d6a",
+        "affectsGlobalScope": false
+      },
+      "./src/tree/node.ts": {
+        "version": "dbe57dc7a4260d520812b1988186bdaa9cc95f14eb35ace46ba4b51e2ee4d434",
+        "signature": "b24d010173b7b65c06453d621bd70be2d42381ba219750c917f372254e0085aa",
+        "affectsGlobalScope": false
+      },
+      "./src/_views/nodes/viewnode.ts": {
+        "version": "e1c859fc338ee00724e9fd437c780afa4f7a306ceeb4a137842b2b9d5536cac7",
+        "signature": "e58db3a96e37d78f890dd752837140abd2931ca3226225c6064a115a514564bb",
+        "affectsGlobalScope": false
+      },
+      "./src/_views/view.ts": {
+        "version": "6ac6c7e7fb4fa5b613cf52054cb6d35b66a9fdb1b2d869fb7b9b9c67db2ab180",
+        "signature": "8527e2d55711761a310f0cf4d3fbcd69999b68310b3d326dc0e7667271ca59e1",
+        "affectsGlobalScope": false
+      },
+      "./src/_views/nodes/repositorynode.ts": {
+        "version": "19e0883e8d1cf15295769effbb0be717c3e77c9581a16ffc414a3cc06d99758a",
+        "signature": "5279be6905380e364fb653926bb7f6e99b1161602ea2175601f5ae5c2f5981a9",
+        "affectsGlobalScope": false
+      },
+      "./src/_views/nodes/explorernode.ts": {
+        "version": "243ee28738dbf26da33bc4e35a0b151f05a3b04b138adbc932b2af9f55c1d832",
+        "signature": "4cd04b985547787eb1c595c40f284d14f605822817f3b6ef12c0597c40dd2cc4",
+        "affectsGlobalScope": false
+      },
+      "./src/_views/explorerview.ts": {
+        "version": "b6f2e3d20078e5300bbf6725db1dc80d7c5f24c31288f8ff41c799676529cbcd",
+        "signature": "620dc69fd1eea55351dff2275eff37101fd5f2cf34ea6f7cb82302a2d9c31d81",
+        "affectsGlobalScope": false
+      },
+      "./src/app.ts": {
+        "version": "b715a82a2d873344d9dffd1333261c685196eafb5d913ec19fc79684b984434d",
+        "signature": "95a6141e08247012e2f1191db4164c32a33e07cf4ee30a4894b5f11ceb9458af",
+        "affectsGlobalScope": false
+      },
+      "./src/managers/workspacefolder.ts": {
+        "version": "4d0f3a7bbe45261032bfe9f37541ba0f272027b1aa54fe43b039f3281b3e0df6",
+        "signature": "d158f74b45bbbaa02c4a6769652b2963f58cfac14fdf3e12240db4808efde4ef",
+        "affectsGlobalScope": false
+      },
+      "./src/managers/symbolproviderchecker.ts": {
+        "version": "3e13b0f439eb315576fd573cca694181369b447879b61063dfd8d823bc61f9c4",
+        "signature": "4ad3e0c85088f8657f5b294bc5feafbe1d6aad1b7475109ca7351e50f2d9ef62",
+        "affectsGlobalScope": false
+      },
+      "./src/managers/manager.ts": {
+        "version": "2bc11b2f99fa62c5381b9d45c87d7aecd572bcf63608d0bcd22b2c6ade88f749",
+        "signature": "e38d34344a5c7cf7faac5d3463f06139ec5f452123d87a5e7ec26b942702035d",
+        "affectsGlobalScope": false
+      },
+      "./src/manager.ts": {
+        "version": "588a9413568a09b3adf884b1528abe5b3b88f8ccd1c129b301a6bc9d97247dbf",
+        "signature": "d2dd3833f690a00d333beaf0de02458592f1d74a9328d8abcbf5d212e4c9e61c",
+        "affectsGlobalScope": false
+      },
+      "./src/extension.ts": {
+        "version": "f53b56375ed1b621fd14c6077398546f15adc41e2949ed7a53a6717c01b14d7c",
+        "signature": "0db88c22f461e22e922a83b56284a64b43187ad41e448a465e9531ecbc3ad7d6",
+        "affectsGlobalScope": false
+      },
+      "./src/commands/open.ts": {
+        "version": "edf0e0fb572c1900af769424dfd6fd7cb48a979d65b1bab8ab3254fef1dc15a2",
+        "signature": "21b0c619c7fc527f502e2e8b65bcc543f9c9c2926ae3ad1042f82cf047f45626",
+        "affectsGlobalScope": false
+      },
+      "./src/commands/paste.ts": {
+        "version": "bf47013c03dd59dd1641cfae0f60cb35372b0c47449532f97a17222989865094",
+        "signature": "0ee5bc459f5fe4d7d46d7fdce33319c575e63011d28a583fc317d61792cc17b5",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/_before-after-hook@2.1.0@before-after-hook/index.d.ts": {
+        "version": "0c21c52bfe81712420a221aa24d9200946cbb31d4c51ddbf336e141c3f5928ee",
+        "signature": "0c21c52bfe81712420a221aa24d9200946cbb31d4c51ddbf336e141c3f5928ee",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/_@octokit_types@6.3.1@@octokit/types/dist-types/requestmethod.d.ts": {
+        "version": "54160aaec4f72e2045e7341301c096344b9e5162a1e48333a531117af5938713",
+        "signature": "54160aaec4f72e2045e7341301c096344b9e5162a1e48333a531117af5938713",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/_@octokit_types@6.3.1@@octokit/types/dist-types/url.d.ts": {
+        "version": "3f0d8705992ebf25221e0d3f72d496bbcebacb47c2b6ee90f4de66d760ee9152",
+        "signature": "3f0d8705992ebf25221e0d3f72d496bbcebacb47c2b6ee90f4de66d760ee9152",
+        "affectsGlobalScope": false
+      },
       "./node_modules/_@octokit_types@6.3.1@@octokit/types/dist-types/fetch.d.ts": {
         "version": "af628c57e9826fbe767ae6afbffa7b197405a8c53ba6197bb32e806d35c1ca8f",
         "signature": "af628c57e9826fbe767ae6afbffa7b197405a8c53ba6197bb32e806d35c1ca8f",
@@ -675,171 +955,6 @@
         "signature": "aff13929d6a01deb44b8084328e497c0ac36070753b9717cc84ec1ae22b6a5cd",
         "affectsGlobalScope": false
       },
-      "./node_modules/_@types_mkdirp@1.0.1@@types/mkdirp/index.d.ts": {
-        "version": "c535422967fe3cf8adfee4e1a543870aede1fa77fd055a382e6f6582a2d866eb",
-        "signature": "c535422967fe3cf8adfee4e1a543870aede1fa77fd055a382e6f6582a2d866eb",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/_@types_fs-extra@8.1.1@@types/fs-extra/index.d.ts": {
-        "version": "5171627120eeb3a7e8afb8ed04ea9be7f0b53ba09bb1fc95172483e0fbb0740c",
-        "signature": "5171627120eeb3a7e8afb8ed04ea9be7f0b53ba09bb1fc95172483e0fbb0740c",
-        "affectsGlobalScope": false
-      },
-      "./src/utils/file.ts": {
-        "version": "f80aafdb296c8f716b85c883b6f185e450a1875962dfc4cb1f9691e86c7dd685",
-        "signature": "8aaef7272f2634944fbb402ee339bfb2abb48db9a55d085c494c8232b403f63d",
-        "affectsGlobalScope": false
-      },
-      "./src/utils/libs.ts": {
-        "version": "aabdaaa86972a617c27acd7cd99eeabce9ad27efa8be3e9a1f49718cc508c7a7",
-        "signature": "967a95f989fb5cff742700ebf60625e4d699885928aefb659a79e7efc63bb335",
-        "affectsGlobalScope": false
-      },
-      "./src/config/pathconfig.ts": {
-        "version": "6b067b732aad75267f97baa956c96639412ea24ef96d6c361eb0513eb63e4c32",
-        "signature": "2b1dee7494416e1f4bba0494d459762c76ca2ccffa33dbe16f282d945f82d5af",
-        "affectsGlobalScope": false
-      },
-      "./src/utils/system.ts": {
-        "version": "371b29ed2069af1951b7b016f6b378c3d16ee7269c45fa9e424d9beee01b9fd3",
-        "signature": "1103e531b884c0afff36169060d1968b690f7421dcc1322d894f5be4d6e0856b",
-        "affectsGlobalScope": false
-      },
-      "./src/utils/request.ts": {
-        "version": "71c5ec102cf7da2ec4f9d2a107ba922998f442bf28649565176c8e35245316b7",
-        "signature": "7e3a7fa9b7b0a737b8b37665d7437b68d8a69b9a7b2e7ebe483797e7a10da4cd",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/_chalk@4.1.0@chalk/index.d.ts": {
-        "version": "0d14fa22c41fdc7277e6f71473b20ebc07f40f00e38875142335d5b63cdfc9d2",
-        "signature": "0d14fa22c41fdc7277e6f71473b20ebc07f40f00e38875142335d5b63cdfc9d2",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/_dayjs@1.10.4@dayjs/locale/types.d.ts": {
-        "version": "73a0ee6395819b063df4b148211985f2e1442945c1a057204cf4cf6281760dc3",
-        "signature": "73a0ee6395819b063df4b148211985f2e1442945c1a057204cf4cf6281760dc3",
-        "affectsGlobalScope": true
-      },
-      "./node_modules/_dayjs@1.10.4@dayjs/locale/index.d.ts": {
-        "version": "d05d8c67116dceafc62e691c47ac89f8f10cf7313cd1b2fb4fe801c2bf1bb1a7",
-        "signature": "d05d8c67116dceafc62e691c47ac89f8f10cf7313cd1b2fb4fe801c2bf1bb1a7",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/_dayjs@1.10.4@dayjs/index.d.ts": {
-        "version": "abc78a372684e21f7775d855228dce326130b2c7e3ffb99cb2b979ae475c1e78",
-        "signature": "abc78a372684e21f7775d855228dce326130b2c7e3ffb99cb2b979ae475c1e78",
-        "affectsGlobalScope": false
-      },
-      "./src/utils/logger.ts": {
-        "version": "978133f9f197a8b58d3520a5d0fb1f7f99189c25f2a6a73ff059da1f865d329f",
-        "signature": "49d79bb17833cefebc873f745d89b3f82cf2c3666da76eecdead2451f4f6a0e9",
-        "affectsGlobalScope": false
-      },
-      "./src/utils/index.ts": {
-        "version": "567299d725097480dd1ba8502c643c4ba1900c771cfacc35753100eaf43cc699",
-        "signature": "c7b36d42ef39a5c18cfbf878ab289776994b8193b6743b564565955b911ba9cb",
-        "affectsGlobalScope": false
-      },
-      "./src/config/message.ts": {
-        "version": "75c7a6c4dc289ea7b93f5cc5f3e836dee69c00b61c613eadd26d31ea19bb612f",
-        "signature": "1d22c7fecd90ab8c0e06db125c6d6c28001fa6dd20aa7ac5a99bb3f6aaaf9674",
-        "affectsGlobalScope": false
-      },
-      "./src/locales/zh-cn.json": {
-        "version": "3034a30313c198826245c287f0293c0759013a47dcf7dbd2cc10298a7a4a50e0",
-        "signature": "b68159d8115fb27defc067c8edb00c266de7191d55c36b063706cabbb49f612e",
-        "affectsGlobalScope": true
-      },
-      "./src/locales/en-us.json": {
-        "version": "f0a58b11e0ca446841daafc0562035846cd3d04d16174ac5a9972777a9135742",
-        "signature": "b68159d8115fb27defc067c8edb00c266de7191d55c36b063706cabbb49f612e",
-        "affectsGlobalScope": true
-      },
-      "./src/managers/i18n.ts": {
-        "version": "dfdb6d9464cef22f8579373e69ca9a6e6f6cbc13111ac549eb04816206641aa2",
-        "signature": "4facaa4779b6eed9433a7d62b2cb70a82b25f8bd44c978e0004e7d6f729b1249",
-        "affectsGlobalScope": false
-      },
-      "./src/managers/configuration.ts": {
-        "version": "9c0b9c78a6c107f38635d81675a1b7acb45816a498b5dc7fd647e20cb0b6cfb7",
-        "signature": "594477af0930c060b1f9fb693854b8225b7eecc4337dfb11b2e6f0b467479c31",
-        "affectsGlobalScope": false
-      },
-      "./src/config/icon.ts": {
-        "version": "f211bba796af4bd8eb0b468111f8406ec76311d92e17d58a33d4e4ac328c459b",
-        "signature": "67f90ef1db12b6e62e56587ef9fe31f350e6e05725cba31045a5896f666ae997",
-        "affectsGlobalScope": false
-      },
-      "./src/config/index.ts": {
-        "version": "5ad2aa2c55b72f9e3ea77501b669fda4e2ba31929acffd282e4e224714008a57",
-        "signature": "8786a3c17600bcd44725f6a1e766d0833633a6b0072ba5fb80d90b50c129b703",
-        "affectsGlobalScope": false
-      },
-      "./src/views/nodes/common.ts": {
-        "version": "1a84226572e13b8d3daec2f0afe6bab910014f3b974890d9b135f511ede3c871",
-        "signature": "3130077d09646c249732f0de59a33e4c0f6eef0321890010ba9bec990c3e5f80",
-        "affectsGlobalScope": false
-      },
-      "./src/services/filesystem.ts": {
-        "version": "b69f85dfbf3a9ad34b100c602d46f7fcdb4838c52210ce0fc7299408ae48b6ca",
-        "signature": "82702a97dabe2ca6454f47a9f77e37c008e6b31a5574b87328e7b594e2233f62",
-        "affectsGlobalScope": false
-      },
-      "./src/services/index.ts": {
-        "version": "125ccfaf2c57c8cc43c12cc8dc30f0763f5330af4b9c55243787a8e4f224100d",
-        "signature": "e6bfeafbd10b57e461439de55fc991d9fce7c4a7d8da573c29d089375841bc64",
-        "affectsGlobalScope": false
-      },
-      "./src/views/nodes/symbolnode.ts": {
-        "version": "417b6c721bf53336bc75a63611df0060231529e3d93d55a0847982b8866f72e0",
-        "signature": "691addb6835714431c0ff0f006fda7add26066dc81f2032c6202d96b1592c05a",
-        "affectsGlobalScope": false
-      },
-      "./src/views/nodes/outlinenode.ts": {
-        "version": "fb3e65fe4615b3d01e6e923a78a468b6dc3dc1e261bb2a2d414fe0ba656d0bda",
-        "signature": "0374f8c3118604393e3bb4f076966787859a1e1ea1c70cbf2d90cfe72bcb3634",
-        "affectsGlobalScope": false
-      },
-      "./src/views/outlineview.ts": {
-        "version": "742a945c3b102987c3846f15f2d77c6aee0e1289195555a8f58aade1fbfa4fcd",
-        "signature": "e57bd40995da05d6a6fc193141ca7a8734215467ae8cff1ed848725cda10d2cb",
-        "affectsGlobalScope": false
-      },
-      "./src/views/viewbase.ts": {
-        "version": "e032afdaa08a42d379f29eac96c98437a5c2888e14c044e0dd969f0f6dac3088",
-        "signature": "d92de6e7b31a9b54a87521e35a1f1437a177b85240cd03e40015a634a31f2e5a",
-        "affectsGlobalScope": false
-      },
-      "./src/views/nodes/viewnode.ts": {
-        "version": "1cea3089a06f9e8b32da06e5936480898d432df869db9a101f769145e12e35e9",
-        "signature": "353eb7b2ad3c6c4120d8df0e3a907ef10ccae94d7cbb3c3fa9f2f75892f8d28f",
-        "affectsGlobalScope": false
-      },
-      "./src/views/nodes/index.ts": {
-        "version": "aba2705372538a6610e896adb32d28e09d12942d828992885755812b7db01631",
-        "signature": "888d579633737f6893f306977c3bcf5d6820cd0929ed84b843347bbd778a5717",
-        "affectsGlobalScope": false
-      },
-      "./src/commands/common.ts": {
-        "version": "93020b6b544712fad58b8804a0e7ab5c119c73a57395e24d7fb3d73b54f9fa7e",
-        "signature": "36088ddba5d0e2dbe119138d8b6013c06df032eed987f44ae5b9e889b8a3e4f6",
-        "affectsGlobalScope": false
-      },
-      "./src/commands/save.ts": {
-        "version": "9a57747370d1129caa0bd250fe4f2c4d9fd680392f7307a5d99f8e31e034528f",
-        "signature": "c7e534d0f33c4e6d98f861a6cde345b7e21c4196f1e113190e539ebb7d5a8e85",
-        "affectsGlobalScope": false
-      },
-      "./src/commands/paste.ts": {
-        "version": "bf47013c03dd59dd1641cfae0f60cb35372b0c47449532f97a17222989865094",
-        "signature": "0ee5bc459f5fe4d7d46d7fdce33319c575e63011d28a583fc317d61792cc17b5",
-        "affectsGlobalScope": false
-      },
-      "./src/commands/open.ts": {
-        "version": "edf0e0fb572c1900af769424dfd6fd7cb48a979d65b1bab8ab3254fef1dc15a2",
-        "signature": "21b0c619c7fc527f502e2e8b65bcc543f9c9c2926ae3ad1042f82cf047f45626",
-        "affectsGlobalScope": false
-      },
       "./src/commands/pull.ts": {
         "version": "ca91627c32d8a68aa55ed9d4e0378d18697d2983d3ee9c02a5d3171249a0c6fc",
         "signature": "c763055b60eb384175cc008e562f95ceffc26df06c18f68297c129c7a2fbf072",
@@ -850,84 +965,9 @@
         "signature": "033e1fd2209590a5be746a9bb71863ed9defc7dbe4071b8fa1d565980954ce76",
         "affectsGlobalScope": false
       },
-      "./src/commands.ts": {
-        "version": "dd2ba60d580d4392c3b1c5ab890fa676ff0c766b44f2a3699d7a230d88b261b3",
-        "signature": "b13ac4288c71c8e55c75f8b7dc4604ec7322b9b8cb45f8d57966d73edef45418",
-        "affectsGlobalScope": false
-      },
-      "./src/tree/treemodel.ts": {
-        "version": "7958b465b29174d3a39ccc5698ec811587664c4b2f24c1a178f31e757260da56",
-        "signature": "3e8577e30fc74aeadd802da232485bb2b0ac3690acf44579c1018d7331552867",
-        "affectsGlobalScope": false
-      },
-      "./src/tree/tree.ts": {
-        "version": "5e825691d6e6e5bd07dc5796aee2958c7b942ff510e5af791935a3f33bbb8fef",
-        "signature": "a36f954f861289d3f9b349852ed80b8ec2a804b1522f621d2bbfa138b2dec310",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/_chokidar@3.5.1@chokidar/types/index.d.ts": {
-        "version": "ca7f76d3ea132bde53dca1a0f33cda95397d20c248e452c050773f01504d9802",
-        "signature": "ca7f76d3ea132bde53dca1a0f33cda95397d20c248e452c050773f01504d9802",
-        "affectsGlobalScope": false
-      },
-      "./src/managers/monitor.ts": {
-        "version": "3ced14a88582a44f31281b98cd20ab5201cb0522176b7970b29686330ae7a251",
-        "signature": "913b3b877dea4cd5b99f4d423ca1b29c7e5c897337a025ea1d26bbee7e5c5c64",
-        "affectsGlobalScope": false
-      },
-      "./src/tree/explorermodel.ts": {
-        "version": "a9ec336695e1ff6f992b4bd589e2217554cd77c908467d99bd2436f677a49dbf",
-        "signature": "1567ce4bd56c629fd313fe254faea50047a115eca764216eb5ccd28f5b273f4f",
-        "affectsGlobalScope": false
-      },
-      "./src/tree/explorertree.ts": {
-        "version": "98fa82718296b39853d2ef642c157caf0e45b0a3a8e6de573939e568a4847cee",
-        "signature": "e847d2af390bdf6051322a4f8df0843fc5f3b8097b12df81e6c59e046a688d57",
-        "affectsGlobalScope": false
-      },
-      "./src/views/nodes/repositorynode.ts": {
-        "version": "67ff12446924f3ce6e80832d2968256ee92f9e88cbe2a113faf180e4aed7343a",
-        "signature": "225f95e841810afa16b1d47ce219835e0dccc09fcf788d44e5a99c46b5cc797b",
-        "affectsGlobalScope": false
-      },
-      "./src/views/nodes/explorernode.ts": {
-        "version": "e1bc4442695090ea2b010d1e9b8d0102bdbfebd11cc40f3ebffe93275f26b0f1",
-        "signature": "512b7330e35181c8748a066a03f477bb891314f56d99df76008303c4a4fe0376",
-        "affectsGlobalScope": false
-      },
-      "./src/views/explorerview.ts": {
-        "version": "263c357ef7654ed7937b44cba081d9c5eec678ef1a5a90ee37fab7ab358c554d",
-        "signature": "bae375377dd9d71daed9d553720ef39fa99d64ec4f5e7c3141eee8afe3cb8c6c",
-        "affectsGlobalScope": false
-      },
-      "./src/app.ts": {
-        "version": "8aa5b82fd865a08dc8eed27eecdc27d6c85a2a1da75d5271893702924d8791f0",
-        "signature": "018f7d0d2e73764278cfe6ef69a000f465cac7731957221e2406abbee408e12b",
-        "affectsGlobalScope": false
-      },
-      "./src/managers/workspacefolder.ts": {
-        "version": "4443a3a1156d30cc04015426bb666ab52e42d92f9344bb4bde2b9df1540f89c2",
-        "signature": "d158f74b45bbbaa02c4a6769652b2963f58cfac14fdf3e12240db4808efde4ef",
-        "affectsGlobalScope": false
-      },
-      "./src/managers/symbolproviderchecker.ts": {
-        "version": "14403bb33c596739a2be7cf9f28f3818498968532c64b2585a226a4fbff48ee1",
-        "signature": "4ad3e0c85088f8657f5b294bc5feafbe1d6aad1b7475109ca7351e50f2d9ef62",
-        "affectsGlobalScope": false
-      },
-      "./src/managers/manager.ts": {
-        "version": "6992b78caed309bdc49edf51d8f191d419b063ab6777799b333e8045b5eee021",
-        "signature": "ed058109b97c6af83cf1a291fa844b35a659357ab6eca4c6263f07efc02d8e1d",
-        "affectsGlobalScope": false
-      },
-      "./src/manager.ts": {
-        "version": "588a9413568a09b3adf884b1528abe5b3b88f8ccd1c129b301a6bc9d97247dbf",
-        "signature": "d2dd3833f690a00d333beaf0de02458592f1d74a9328d8abcbf5d212e4c9e61c",
-        "affectsGlobalScope": false
-      },
-      "./src/extension.ts": {
-        "version": "298e10ffe146be00d2a16d33a9619f78a729c86751d18f7572723cb1510d9547",
-        "signature": "0db88c22f461e22e922a83b56284a64b43187ad41e448a465e9531ecbc3ad7d6",
+      "./src/commands/save.ts": {
+        "version": "9a57747370d1129caa0bd250fe4f2c4d9fd680392f7307a5d99f8e31e034528f",
+        "signature": "c7e534d0f33c4e6d98f861a6cde345b7e21c4196f1e113190e539ebb7d5a8e85",
         "affectsGlobalScope": false
       },
       "./src/config/extensionconfig.ts": {
@@ -1455,26 +1495,53 @@
       "./node_modules/_dayjs@1.10.4@dayjs/locale/index.d.ts": [
         "./node_modules/_dayjs@1.10.4@dayjs/locale/types.d.ts"
       ],
+      "./src/_views/explorerview.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/nodes/explorernode.ts",
+        "./src/_views/view.ts",
+        "./src/config/index.ts",
+        "./src/managers/configuration.ts"
+      ],
+      "./src/_views/nodes/explorernode.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/explorerview.ts",
+        "./src/_views/nodes/repositorynode.ts",
+        "./src/_views/nodes/viewnode.ts",
+        "./src/app.ts",
+        "./src/views/nodes/index.ts"
+      ],
+      "./src/_views/nodes/repositorynode.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/nodes/viewnode.ts",
+        "./src/_views/view.ts",
+        "./src/tree/node.ts",
+        "./src/views/explorerview.ts",
+        "./src/views/nodes/index.ts"
+      ],
+      "./src/_views/nodes/viewnode.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/view.ts"
+      ],
+      "./src/_views/view.ts": [
+        "./node_modules/_@types_lodash@4.14.167@@types/lodash/index.d.ts",
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/nodes/viewnode.ts",
+        "./src/config/index.ts",
+        "./src/managers/configuration.ts"
+      ],
       "./src/app.ts": [
         "./node_modules/_@types_node@12.19.14@@types/node/path.d.ts",
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./src/config/index.ts",
+        "./src/_views/explorerview.ts",
         "./src/config/pathconfig.ts",
         "./src/managers/configuration.ts",
         "./src/managers/monitor.ts",
         "./src/services/index.ts",
-        "./src/tree/explorertree.ts",
-        "./src/views/explorerview.ts",
-        "./src/views/outlineview.ts"
+        "./src/tree/_explorertree.ts"
       ],
       "./src/commands.ts": [
         "./node_modules/_@types_lodash@4.14.167@@types/lodash/index.d.ts",
-        "./src/commands/common.ts",
-        "./src/commands/open.ts",
-        "./src/commands/paste.ts",
-        "./src/commands/pull.ts",
-        "./src/commands/push.ts",
-        "./src/commands/save.ts"
+        "./src/commands/common.ts"
       ],
       "./src/commands/common.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
@@ -1530,8 +1597,7 @@
         "./src/utils/index.ts"
       ],
       "./src/config/index.ts": [
-        "./src/config/icon.ts",
-        "./src/managers/configuration.ts"
+        "./src/config/icon.ts"
       ],
       "./src/config/pathconfig.ts": [
         "./node_modules/_@types_node@12.19.14@@types/node/path.d.ts",
@@ -1541,7 +1607,6 @@
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/app.ts",
         "./src/commands.ts",
-        "./src/config/index.ts",
         "./src/config/message.ts",
         "./src/constants.ts",
         "./src/manager.ts",
@@ -1561,12 +1626,7 @@
         "./node_modules/_@types_lodash@4.14.167@@types/lodash/index.d.ts",
         "./node_modules/_@types_node@12.19.14@@types/node/path.d.ts",
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./src/config/message.ts",
-        "./src/config/pathconfig.ts",
-        "./src/constants.ts",
-        "./src/managers/i18n.ts",
-        "./src/services/gist.ts",
-        "./src/utils/index.ts"
+        "./src/config/pathconfig.ts"
       ],
       "./src/managers/i18n.ts": [
         "./node_modules/_@types_lodash@4.14.167@@types/lodash/index.d.ts",
@@ -1576,7 +1636,6 @@
       ],
       "./src/managers/manager.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./src/config/index.ts",
         "./src/managers/i18n.ts",
         "./src/managers/monitor.ts",
         "./src/managers/symbolproviderchecker.ts",
@@ -1587,13 +1646,14 @@
         "./node_modules/_chokidar@3.5.1@chokidar/types/index.d.ts",
         "./src/config/message.ts",
         "./src/config/pathconfig.ts",
+        "./src/managers/configuration.ts",
         "./src/managers/i18n.ts",
         "./src/utils/index.ts"
       ],
       "./src/managers/symbolproviderchecker.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/config/message.ts",
-        "./src/config/pathconfig.ts",
+        "./src/managers/configuration.ts",
         "./src/managers/i18n.ts",
         "./src/services/filesystem.ts",
         "./src/utils/index.ts"
@@ -1601,6 +1661,7 @@
       "./src/managers/workspacefolder.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/config/pathconfig.ts",
+        "./src/managers/configuration.ts",
         "./src/services/filesystem.ts",
         "./src/utils/index.ts"
       ],
@@ -1620,6 +1681,18 @@
         "./src/managers/i18n.ts",
         "./src/services/filesystem.ts"
       ],
+      "./src/tree/_explorertree.ts": [
+        "./node_modules/_@types_node@12.19.14@@types/node/path.d.ts",
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/config/pathconfig.ts",
+        "./src/managers/monitor.ts",
+        "./src/tree/node.ts"
+      ],
+      "./src/tree/element.ts": [
+        "./node_modules/_@types_node@12.19.14@@types/node/path.d.ts",
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/utils/index.ts"
+      ],
       "./src/tree/explorermodel.ts": [
         "./src/tree/treemodel.ts"
       ],
@@ -1631,6 +1704,11 @@
         "./src/tree/explorermodel.ts",
         "./src/tree/tree.ts",
         "./src/utils/index.ts"
+      ],
+      "./src/tree/node.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/tree/_explorertree.ts",
+        "./src/tree/element.ts"
       ],
       "./src/tree/tree.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
@@ -1660,7 +1738,7 @@
       ],
       "./src/utils/system.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./src/config/pathconfig.ts",
+        "./src/managers/configuration.ts",
         "./src/utils/libs.ts"
       ],
       "./src/views/explorerview.ts": [
@@ -2242,20 +2320,40 @@
       "./node_modules/_dayjs@1.10.4@dayjs/locale/index.d.ts": [
         "./node_modules/_dayjs@1.10.4@dayjs/locale/types.d.ts"
       ],
+      "./src/_views/explorerview.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/nodes/explorernode.ts",
+        "./src/_views/view.ts"
+      ],
+      "./src/_views/nodes/explorernode.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/explorerview.ts",
+        "./src/_views/nodes/viewnode.ts"
+      ],
+      "./src/_views/nodes/repositorynode.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/nodes/viewnode.ts",
+        "./src/_views/view.ts",
+        "./src/tree/node.ts",
+        "./src/views/explorerview.ts"
+      ],
+      "./src/_views/nodes/viewnode.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/view.ts"
+      ],
+      "./src/_views/view.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/nodes/viewnode.ts",
+        "./src/config/index.ts"
+      ],
       "./src/app.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./src/config/index.ts",
-        "./src/tree/explorertree.ts",
-        "./src/views/explorerview.ts",
-        "./src/views/outlineview.ts"
+        "./src/_views/explorerview.ts",
+        "./src/managers/configuration.ts",
+        "./src/tree/_explorertree.ts"
       ],
       "./src/commands.ts": [
-        "./src/commands/common.ts",
-        "./src/commands/open.ts",
-        "./src/commands/paste.ts",
-        "./src/commands/pull.ts",
-        "./src/commands/push.ts",
-        "./src/commands/save.ts"
+        "./src/commands/common.ts"
       ],
       "./src/commands/common.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
@@ -2278,8 +2376,7 @@
         "./src/commands/common.ts"
       ],
       "./src/config/index.ts": [
-        "./src/config/icon.ts",
-        "./src/managers/configuration.ts"
+        "./src/config/icon.ts"
       ],
       "./src/extension.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
@@ -2293,7 +2390,6 @@
       ],
       "./src/managers/manager.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./src/config/index.ts",
         "./src/managers/i18n.ts",
         "./src/managers/monitor.ts",
         "./src/managers/symbolproviderchecker.ts",
@@ -2309,6 +2405,14 @@
         "./src/managers/i18n.ts",
         "./src/services/filesystem.ts"
       ],
+      "./src/tree/_explorertree.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/managers/monitor.ts",
+        "./src/tree/node.ts"
+      ],
+      "./src/tree/element.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts"
+      ],
       "./src/tree/explorermodel.ts": [
         "./src/tree/treemodel.ts"
       ],
@@ -2317,6 +2421,10 @@
         "./src/tree/explorermodel.ts",
         "./src/tree/tree.ts",
         "./src/tree/treemodel.ts"
+      ],
+      "./src/tree/node.ts": [
+        "./src/tree/_explorertree.ts",
+        "./src/tree/element.ts"
       ],
       "./src/tree/tree.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
@@ -2536,14 +2644,111 @@
       "./node_modules/_typescript@3.9.7@typescript/lib/lib.es2020.symbol.wellknown.d.ts",
       "./node_modules/_typescript@3.9.7@typescript/lib/lib.es5.d.ts",
       "./node_modules/_typescript@3.9.7@typescript/lib/lib.esnext.intl.d.ts",
+      "./src/_views/explorerview.ts",
+      "./src/_views/nodes/explorernode.ts",
+      "./src/_views/nodes/repositorynode.ts",
+      "./src/_views/nodes/viewnode.ts",
+      "./src/_views/view.ts",
       "./src/app.ts",
       "./src/commands.ts",
       "./src/commands/common.ts",
-      "./src/commands/open.ts",
-      "./src/commands/paste.ts",
-      "./src/commands/pull.ts",
-      "./src/commands/push.ts",
-      "./src/commands/save.ts",
+      [
+        "./src/commands/open.ts",
+        [
+          {
+            "file": "./src/commands/open.ts",
+            "start": 49,
+            "length": 15,
+            "messageText": "Module '\"../config/pathConfig\"' has no exported member 'CONFIGURED_PATH'.",
+            "category": 1,
+            "code": 2305
+          }
+        ]
+      ],
+      [
+        "./src/commands/paste.ts",
+        [
+          {
+            "file": "./src/commands/paste.ts",
+            "start": 471,
+            "length": 15,
+            "messageText": "Module '\"../config/pathConfig\"' has no exported member 'CONFIGURED_PATH'.",
+            "category": 1,
+            "code": 2305
+          }
+        ]
+      ],
+      [
+        "./src/commands/pull.ts",
+        [
+          {
+            "file": "./src/commands/pull.ts",
+            "start": 9,
+            "length": 7,
+            "messageText": "Module '\"../config\"' has no exported member 'resolve'.",
+            "category": 1,
+            "code": 2305
+          },
+          {
+            "file": "./src/commands/pull.ts",
+            "start": 30,
+            "length": 16,
+            "messageText": "Module '\"../config\"' has no exported member 'ensureValidState'.",
+            "category": 1,
+            "code": 2305
+          }
+        ]
+      ],
+      [
+        "./src/commands/push.ts",
+        [
+          {
+            "file": "./src/commands/push.ts",
+            "start": 100,
+            "length": 3,
+            "messageText": "Module '\"../app\"' has no exported member 'App'. Did you mean to use 'import App from \"../app\"' instead?",
+            "category": 1,
+            "code": 2614
+          },
+          {
+            "file": "./src/commands/push.ts",
+            "start": 129,
+            "length": 8,
+            "messageText": "Module '\"../config\"' has no exported member 'dropRoot'.",
+            "category": 1,
+            "code": 2305
+          },
+          {
+            "file": "./src/commands/push.ts",
+            "start": 139,
+            "length": 16,
+            "messageText": "Module '\"../config\"' has no exported member 'ensureValidState'.",
+            "category": 1,
+            "code": 2305
+          },
+          {
+            "file": "./src/commands/push.ts",
+            "start": 157,
+            "length": 7,
+            "messageText": "Module '\"../config\"' has no exported member 'resolve'.",
+            "category": 1,
+            "code": 2305
+          }
+        ]
+      ],
+      [
+        "./src/commands/save.ts",
+        [
+          {
+            "file": "./src/commands/save.ts",
+            "start": 63,
+            "length": 3,
+            "messageText": "Module '\"../app\"' has no exported member 'App'. Did you mean to use 'import App from \"../app\"' instead?",
+            "category": 1,
+            "code": 2614
+          }
+        ]
+      ],
       "./src/config/extensionconfig.ts",
       "./src/config/icon.ts",
       "./src/config/index.ts",
@@ -2563,8 +2768,31 @@
       "./src/services/filesystem.ts",
       "./src/services/gist.ts",
       "./src/services/index.ts",
+      "./src/tree/_explorertree.ts",
+      "./src/tree/element.ts",
       "./src/tree/explorermodel.ts",
-      "./src/tree/explorertree.ts",
+      [
+        "./src/tree/explorertree.ts",
+        [
+          {
+            "file": "./src/tree/explorertree.ts",
+            "start": 155,
+            "length": 19,
+            "messageText": "Module '\"../managers/monitor\"' has no exported member 'IFoldersChangeEvent'. Did you mean to use 'import IFoldersChangeEvent from \"../managers/monitor\"' instead?",
+            "category": 1,
+            "code": 2614
+          },
+          {
+            "file": "./src/tree/explorertree.ts",
+            "start": 354,
+            "length": 3,
+            "messageText": "Module '\"../app\"' has no exported member 'App'. Did you mean to use 'import App from \"../app\"' instead?",
+            "category": 1,
+            "code": 2614
+          }
+        ]
+      ],
+      "./src/tree/node.ts",
       "./src/tree/tree.ts",
       "./src/tree/treemodel.ts",
       "./src/utils/file.ts",
@@ -2575,14 +2803,82 @@
       "./src/utils/system.ts",
       "./src/views/explorerview.ts",
       "./src/views/nodes/common.ts",
-      "./src/views/nodes/explorernode.ts",
+      [
+        "./src/views/nodes/explorernode.ts",
+        [
+          {
+            "file": "./src/views/nodes/explorernode.ts",
+            "start": 125,
+            "length": 3,
+            "messageText": "Module '\"../../app\"' has no exported member 'App'. Did you mean to use 'import App from \"../../app\"' instead?",
+            "category": 1,
+            "code": 2614
+          }
+        ]
+      ],
       "./src/views/nodes/index.ts",
-      "./src/views/nodes/outlinenode.ts",
-      "./src/views/nodes/repositorynode.ts",
-      "./src/views/nodes/symbolnode.ts",
+      [
+        "./src/views/nodes/outlinenode.ts",
+        [
+          {
+            "file": "./src/views/nodes/outlinenode.ts",
+            "start": 81,
+            "length": 3,
+            "messageText": "Module '\"../../app\"' has no exported member 'App'. Did you mean to use 'import App from \"../../app\"' instead?",
+            "category": 1,
+            "code": 2614
+          }
+        ]
+      ],
+      [
+        "./src/views/nodes/repositorynode.ts",
+        [
+          {
+            "file": "./src/views/nodes/repositorynode.ts",
+            "start": 144,
+            "length": 3,
+            "messageText": "Module '\"../../app\"' has no exported member 'App'. Did you mean to use 'import App from \"../../app\"' instead?",
+            "category": 1,
+            "code": 2614
+          }
+        ]
+      ],
+      [
+        "./src/views/nodes/symbolnode.ts",
+        [
+          {
+            "file": "./src/views/nodes/symbolnode.ts",
+            "start": 155,
+            "length": 3,
+            "messageText": "Module '\"../../app\"' has no exported member 'App'. Did you mean to use 'import App from \"../../app\"' instead?",
+            "category": 1,
+            "code": 2614
+          },
+          {
+            "file": "./src/views/nodes/symbolnode.ts",
+            "start": 187,
+            "length": 12,
+            "messageText": "Module '\"../../config/pathConfig\"' has no exported member 'DEFAULT_FILE'.",
+            "category": 1,
+            "code": 2305
+          }
+        ]
+      ],
       "./src/views/nodes/viewnode.ts",
       "./src/views/outlineview.ts",
-      "./src/views/viewbase.ts"
+      [
+        "./src/views/viewbase.ts",
+        [
+          {
+            "file": "./src/views/viewbase.ts",
+            "start": 188,
+            "length": 3,
+            "messageText": "Module '\"../app\"' has no exported member 'App'. Did you mean to use 'import App from \"../app\"' instead?",
+            "category": 1,
+            "code": 2614
+          }
+        ]
+      ]
     ]
   },
   "version": "3.9.7"

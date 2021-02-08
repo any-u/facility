@@ -1,20 +1,20 @@
 import * as path from 'path'
-import { ExtensionContext, ConfigurationChangeEvent, Uri } from 'vscode'
-import { Config } from './config'
-import { ExplorerView } from './views/explorerView'
-import { OutlineView } from './views/outlineView'
-import { ExplorerTree, GistElement } from './tree/explorerTree'
+import { ExtensionContext, ConfigurationChangeEvent } from 'vscode'
+import { Config } from './managers/configuration'
+import { ExplorerView } from './_views/explorerView'
+// import { OutlineView } from './views/outlineView'
+// import { ExplorerTree, GistElement } from './tree/explorerTree'
+import Tree from './tree/_explorerTree'
 import monitor, { Monitor } from './managers/monitor'
 import {
   ConfigurationName,
-  CONFIGURED_PATH,
   HIDDEN_FILENAME,
   ORIGIN_PATH,
 } from './config/pathConfig'
 import configuration from './managers/configuration'
 import { fileSystem } from './services'
 
-export class App {
+class App {
   private static _onConfigurationSetting: Map<
     ConfigurationName,
     boolean
@@ -44,18 +44,18 @@ export class App {
     return this._explorerView
   }
 
-  private static _outlineView: OutlineView | undefined
-  static get outlineView(): OutlineView {
-    if (this._outlineView === undefined) {
-      this._context.subscriptions.push((this._outlineView = new OutlineView()))
-    }
+  // private static _outlineView: OutlineView | undefined
+  // static get outlineView(): OutlineView {
+  //   if (this._outlineView === undefined) {
+  //     this._context.subscriptions.push((this._outlineView = new OutlineView()))
+  //   }
 
-    return this._outlineView
-  }
+  //   return this._outlineView
+  // }
 
-  private static _explorerTree: ExplorerTree<GistElement>
-  static get explorerTree() {
-    return this._explorerTree
+  private static _tree: Tree
+  static get tree() {
+    return this._tree
   }
 
   static initialize(context: ExtensionContext, config: Config) {
@@ -65,12 +65,9 @@ export class App {
     context.subscriptions.push(
       configuration.onDidChange(this.onConfigurationChanging, this)
     )
-    context.subscriptions.push(
-      (this._explorerTree = new ExplorerTree<GistElement>())
-    )
-
+    context.subscriptions.push((this._tree = new Tree()))
     context.subscriptions.push((this._explorerView = new ExplorerView()))
-    context.subscriptions.push((this._outlineView = new OutlineView()))
+    // context.subscriptions.push((this._outlineView = new OutlineView()))
   }
 
   private static async onConfigurationChanging(e: ConfigurationChangeEvent) {
@@ -98,12 +95,14 @@ export class App {
 
       await fileSystem.migrate(cfg, config)
 
-      this._explorerTree.clear()
+      // this._explorerTree.clear()
 
-      monitor.reset(this._context, CONFIGURED_PATH)
+      monitor.reset(this._context, configuration.path)
 
       this._config = configuration.get()
       this._onConfigurationSetting.set(ConfigurationName.WorkspaceFolder, false)
     }
   }
 }
+
+export default App

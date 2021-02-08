@@ -1,6 +1,6 @@
 import { WorkspaceFolderChecker } from './workspaceFolder'
 import { SymbolProviderChecker } from './symbolProviderChecker'
-import { Configuration } from '../config'
+// import { Configuration } from './configuration'
 import { I18nManager } from './i18n'
 import { ExtensionContext } from 'vscode'
 import { Monitor } from './monitor'
@@ -16,7 +16,7 @@ export const enum Project {
 export type Runner =
   | WorkspaceFolderChecker
   | SymbolProviderChecker
-  | Configuration
+  | any
   | I18nManager
   | Monitor
 

@@ -1,22 +1,22 @@
 import { FileType } from 'vscode'
 import Element from './element'
 
-import { Tree } from './_explorerTree'
+import Tree from './_explorerTree'
 
-class Node {
+class TreeNode {
   #element: Element
   get element() {
     return this.#element
   }
 
-  parentNode: Node | null
+  parentNode: TreeNode | null
 
   #path: string
   get path() {
     return this.#path
   }
 
-  children: Node[] | undefined
+  children: TreeNode[] = []
 
   constructor(public readonly tree: Tree, path: string) {
     this.#path = path
@@ -24,11 +24,10 @@ class Node {
     this.#element = new Element(path)
   }
 
-  getChild(path: string): Node | undefined {
+  getChild(path: string): TreeNode | undefined {
     const children = this.children.filter((item) => item.path === path)
     return children.length ? children[0] : undefined
   }
-
 }
 
-export default Node
+export default TreeNode

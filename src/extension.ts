@@ -1,6 +1,6 @@
 import { ExtensionContext, window } from 'vscode'
-import { App } from './app'
-import { Config } from './config'
+import App from './app'
+import { Config } from './managers/configuration'
 import { registerCommands } from './commands'
 import { Levels, logger, showErrorMessage } from './utils'
 import manager from './manager'
@@ -18,9 +18,9 @@ export async function activate(context: ExtensionContext) {
   logger.setLevel(DEBUG ? Levels.DEBUG : Levels.ERROR)
   logger.setOutput(window.createOutputChannel('Facility'))
 
-  try {
-    manager.configure(context)
+  manager.configure(context)
 
+  try {
     const config: Config = configuration.get()
 
     App.initialize(context, config)

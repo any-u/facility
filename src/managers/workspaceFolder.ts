@@ -1,11 +1,10 @@
 import { Event, EventEmitter } from 'vscode'
 import {
-  CONFIGURED_PATH,
-  DEFAULT_FILE,
   ORIGIN_PATH,
 } from '../config/pathConfig'
 import { exist, mkdir, write } from '../utils'
 import { fileSystem } from '../services/fileSystem'
+import configuration from './configuration'
 
 export interface IConfigurationDidChangedEvent {
   src: string
@@ -13,14 +12,14 @@ export interface IConfigurationDidChangedEvent {
 }
 
 export class WorkspaceFolderChecker {
-  constructor(public path = CONFIGURED_PATH) {}
+  constructor(public path = configuration.path) {}
 
   get root() {
     return ORIGIN_PATH
   }
 
   get defaultFile() {
-    return DEFAULT_FILE
+    return configuration.examinee
   }
 
   async migrate(src: string = this.root, dest: string = this.root) {

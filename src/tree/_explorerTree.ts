@@ -4,13 +4,11 @@ import monitor, { FWChangeType, MonitorChangeEvent } from '../managers/monitor'
 import { HIDDEN_FILENAME } from '../config/pathConfig'
 import { PREFIX_REG } from '../config/pathConfig'
 import { join } from 'path'
-import { bind } from 'lodash'
-import { logger } from '../utils'
-import Node from './node'
+import TreeNode from './node'
 
-export class Tree implements Disposable {
+class Tree implements Disposable {
   #disposable: Disposable
-  #root: Node | undefined
+  #root: TreeNode | undefined
 
   #onDidChangeNodes = new EventEmitter<void>()
   get onDidChangeNodes(): Event<void> {
@@ -27,15 +25,19 @@ export class Tree implements Disposable {
     this.#disposable.dispose()
   }
 
+  getRoot() {
+    return this.#root
+  }
+
   updateNodes({ type, path }: MonitorChangeEvent) {
     if (type === FWChangeType.ADDDIR) {
       if (basename(path) === HIDDEN_FILENAME) {
-        this.#root = new Node(this, path)
+        this.#root = new TreeNode(this, path)
       } else {
         const parentPath = path.slice(0, path.lastIndexOf('/'))
         const parent = this.getNode(parentPath)
 
-        var node = new Node(this, path)
+        var node = new TreeNode(this, path)
         this.insert(node, parent)
       }
     }
@@ -44,7 +46,7 @@ export class Tree implements Disposable {
       const parentPath = path.slice(0, path.lastIndexOf('/'))
       const parent = this.getNode(parentPath)
 
-      var node = new Node(this, path)
+      var node = new TreeNode(this, path)
       this.insert(node, parent)
     }
 
@@ -65,33 +67,29 @@ export class Tree implements Disposable {
     this.#onDidChangeNodes.fire()
   }
 
-  getNode(path: string): Node | undefined {
+  getNode(path: string): TreeNode | undefined {
     const match = path.match(PREFIX_REG)
+    if(match === null) return this.#root
 
     const prefix = match[0]
     const traces = path.replace(prefix, '').split('/')
     let node = this.#root
-    while (traces.length) {
+    while (traces.length > 0) {
       let trace = join(prefix, traces.shift())
-      const child = node.getChild(trace)
 
-      // Child exists, Parent must exist
-      if (!child) {
-        logger.error(`[facility] invalid path: ${path}`)
-        return
-      }
+      const child = node.getChild(trace)
       node = child
     }
 
-    return node
+    return node ? node : this.#root
   }
 
-  insert(child: Node, parent: Node) {
+  insert(child: TreeNode, parent: TreeNode) {
     parent.children.push(child)
     child.parentNode = parent
   }
 
-  remove(child: Node): void {
+  remove(child: TreeNode): void {
     const parent = child.parentNode
     if (parent) {
       const i = parent.children.indexOf(child)
@@ -106,3 +104,5 @@ export class Tree implements Disposable {
     }
   }
 }
+
+export default Tree

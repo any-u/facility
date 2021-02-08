@@ -87,2501 +87,6 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/_@octokit_auth-token@2.4.4@@octokit/auth-token/dist-web/index.js":
-/*!***************************************************************************************!*\
-  !*** ./node_modules/_@octokit_auth-token@2.4.4@@octokit/auth-token/dist-web/index.js ***!
-  \***************************************************************************************/
-/*! exports provided: createTokenAuth */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTokenAuth", function() { return createTokenAuth; });
-async function auth(token) {
-    const tokenType = token.split(/\./).length === 3
-        ? "app"
-        : /^v\d+\./.test(token)
-            ? "installation"
-            : "oauth";
-    return {
-        type: "token",
-        token: token,
-        tokenType
-    };
-}
-
-/**
- * Prefix token for usage in the Authorization header
- *
- * @param token OAuth token or JSON Web Token
- */
-function withAuthorizationPrefix(token) {
-    if (token.split(/\./).length === 3) {
-        return `bearer ${token}`;
-    }
-    return `token ${token}`;
-}
-
-async function hook(token, request, route, parameters) {
-    const endpoint = request.endpoint.merge(route, parameters);
-    endpoint.headers.authorization = withAuthorizationPrefix(token);
-    return request(endpoint);
-}
-
-const createTokenAuth = function createTokenAuth(token) {
-    if (!token) {
-        throw new Error("[@octokit/auth-token] No token passed to createTokenAuth");
-    }
-    if (typeof token !== "string") {
-        throw new Error("[@octokit/auth-token] Token passed to createTokenAuth is not a string");
-    }
-    token = token.replace(/^(token|bearer) +/i, "");
-    return Object.assign(auth.bind(null, token), {
-        hook: hook.bind(null, token)
-    });
-};
-
-
-//# sourceMappingURL=index.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/_@octokit_core@3.2.4@@octokit/core/dist-web/index.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/_@octokit_core@3.2.4@@octokit/core/dist-web/index.js ***!
-  \***************************************************************************/
-/*! exports provided: Octokit */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Octokit", function() { return Octokit; });
-/* harmony import */ var universal_user_agent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! universal-user-agent */ "./node_modules/_universal-user-agent@6.0.0@universal-user-agent/dist-web/index.js");
-/* harmony import */ var before_after_hook__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! before-after-hook */ "./node_modules/_before-after-hook@2.1.0@before-after-hook/index.js");
-/* harmony import */ var before_after_hook__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(before_after_hook__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _octokit_request__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @octokit/request */ "./node_modules/_@octokit_request@5.4.12@@octokit/request/dist-web/index.js");
-/* harmony import */ var _octokit_graphql__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @octokit/graphql */ "./node_modules/_@octokit_graphql@4.5.8@@octokit/graphql/dist-web/index.js");
-/* harmony import */ var _octokit_auth_token__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @octokit/auth-token */ "./node_modules/_@octokit_auth-token@2.4.4@@octokit/auth-token/dist-web/index.js");
-
-
-
-
-
-
-const VERSION = "3.2.4";
-
-class Octokit {
-    constructor(options = {}) {
-        const hook = new before_after_hook__WEBPACK_IMPORTED_MODULE_1__["Collection"]();
-        const requestDefaults = {
-            baseUrl: _octokit_request__WEBPACK_IMPORTED_MODULE_2__["request"].endpoint.DEFAULTS.baseUrl,
-            headers: {},
-            request: Object.assign({}, options.request, {
-                hook: hook.bind(null, "request"),
-            }),
-            mediaType: {
-                previews: [],
-                format: "",
-            },
-        };
-        // prepend default user agent with `options.userAgent` if set
-        requestDefaults.headers["user-agent"] = [
-            options.userAgent,
-            `octokit-core.js/${VERSION} ${Object(universal_user_agent__WEBPACK_IMPORTED_MODULE_0__["getUserAgent"])()}`,
-        ]
-            .filter(Boolean)
-            .join(" ");
-        if (options.baseUrl) {
-            requestDefaults.baseUrl = options.baseUrl;
-        }
-        if (options.previews) {
-            requestDefaults.mediaType.previews = options.previews;
-        }
-        if (options.timeZone) {
-            requestDefaults.headers["time-zone"] = options.timeZone;
-        }
-        this.request = _octokit_request__WEBPACK_IMPORTED_MODULE_2__["request"].defaults(requestDefaults);
-        this.graphql = Object(_octokit_graphql__WEBPACK_IMPORTED_MODULE_3__["withCustomRequest"])(this.request).defaults(requestDefaults);
-        this.log = Object.assign({
-            debug: () => { },
-            info: () => { },
-            warn: console.warn.bind(console),
-            error: console.error.bind(console),
-        }, options.log);
-        this.hook = hook;
-        // (1) If neither `options.authStrategy` nor `options.auth` are set, the `octokit` instance
-        //     is unauthenticated. The `this.auth()` method is a no-op and no request hook is registered.
-        // (2) If only `options.auth` is set, use the default token authentication strategy.
-        // (3) If `options.authStrategy` is set then use it and pass in `options.auth`. Always pass own request as many strategies accept a custom request instance.
-        // TODO: type `options.auth` based on `options.authStrategy`.
-        if (!options.authStrategy) {
-            if (!options.auth) {
-                // (1)
-                this.auth = async () => ({
-                    type: "unauthenticated",
-                });
-            }
-            else {
-                // (2)
-                const auth = Object(_octokit_auth_token__WEBPACK_IMPORTED_MODULE_4__["createTokenAuth"])(options.auth);
-                // @ts-ignore  ¯\_(ツ)_/¯
-                hook.wrap("request", auth.hook);
-                this.auth = auth;
-            }
-        }
-        else {
-            const { authStrategy, ...otherOptions } = options;
-            const auth = authStrategy(Object.assign({
-                request: this.request,
-                log: this.log,
-                // we pass the current octokit instance as well as its constructor options
-                // to allow for authentication strategies that return a new octokit instance
-                // that shares the same internal state as the current one. The original
-                // requirement for this was the "event-octokit" authentication strategy
-                // of https://github.com/probot/octokit-auth-probot.
-                octokit: this,
-                octokitOptions: otherOptions,
-            }, options.auth));
-            // @ts-ignore  ¯\_(ツ)_/¯
-            hook.wrap("request", auth.hook);
-            this.auth = auth;
-        }
-        // apply plugins
-        // https://stackoverflow.com/a/16345172
-        const classConstructor = this.constructor;
-        classConstructor.plugins.forEach((plugin) => {
-            Object.assign(this, plugin(this, options));
-        });
-    }
-    static defaults(defaults) {
-        const OctokitWithDefaults = class extends this {
-            constructor(...args) {
-                const options = args[0] || {};
-                if (typeof defaults === "function") {
-                    super(defaults(options));
-                    return;
-                }
-                super(Object.assign({}, defaults, options, options.userAgent && defaults.userAgent
-                    ? {
-                        userAgent: `${options.userAgent} ${defaults.userAgent}`,
-                    }
-                    : null));
-            }
-        };
-        return OctokitWithDefaults;
-    }
-    /**
-     * Attach a plugin (or many) to your Octokit instance.
-     *
-     * @example
-     * const API = Octokit.plugin(plugin1, plugin2, plugin3, ...)
-     */
-    static plugin(...newPlugins) {
-        var _a;
-        const currentPlugins = this.plugins;
-        const NewOctokit = (_a = class extends this {
-            },
-            _a.plugins = currentPlugins.concat(newPlugins.filter((plugin) => !currentPlugins.includes(plugin))),
-            _a);
-        return NewOctokit;
-    }
-}
-Octokit.VERSION = VERSION;
-Octokit.plugins = [];
-
-
-//# sourceMappingURL=index.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/_@octokit_endpoint@6.0.10@@octokit/endpoint/dist-web/index.js":
-/*!************************************************************************************!*\
-  !*** ./node_modules/_@octokit_endpoint@6.0.10@@octokit/endpoint/dist-web/index.js ***!
-  \************************************************************************************/
-/*! exports provided: endpoint */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "endpoint", function() { return endpoint; });
-/* harmony import */ var is_plain_object__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is-plain-object */ "./node_modules/_is-plain-object@5.0.0@is-plain-object/dist/is-plain-object.mjs");
-/* harmony import */ var universal_user_agent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! universal-user-agent */ "./node_modules/_universal-user-agent@6.0.0@universal-user-agent/dist-web/index.js");
-
-
-
-function lowercaseKeys(object) {
-    if (!object) {
-        return {};
-    }
-    return Object.keys(object).reduce((newObj, key) => {
-        newObj[key.toLowerCase()] = object[key];
-        return newObj;
-    }, {});
-}
-
-function mergeDeep(defaults, options) {
-    const result = Object.assign({}, defaults);
-    Object.keys(options).forEach((key) => {
-        if (Object(is_plain_object__WEBPACK_IMPORTED_MODULE_0__["isPlainObject"])(options[key])) {
-            if (!(key in defaults))
-                Object.assign(result, { [key]: options[key] });
-            else
-                result[key] = mergeDeep(defaults[key], options[key]);
-        }
-        else {
-            Object.assign(result, { [key]: options[key] });
-        }
-    });
-    return result;
-}
-
-function removeUndefinedProperties(obj) {
-    for (const key in obj) {
-        if (obj[key] === undefined) {
-            delete obj[key];
-        }
-    }
-    return obj;
-}
-
-function merge(defaults, route, options) {
-    if (typeof route === "string") {
-        let [method, url] = route.split(" ");
-        options = Object.assign(url ? { method, url } : { url: method }, options);
-    }
-    else {
-        options = Object.assign({}, route);
-    }
-    // lowercase header names before merging with defaults to avoid duplicates
-    options.headers = lowercaseKeys(options.headers);
-    // remove properties with undefined values before merging
-    removeUndefinedProperties(options);
-    removeUndefinedProperties(options.headers);
-    const mergedOptions = mergeDeep(defaults || {}, options);
-    // mediaType.previews arrays are merged, instead of overwritten
-    if (defaults && defaults.mediaType.previews.length) {
-        mergedOptions.mediaType.previews = defaults.mediaType.previews
-            .filter((preview) => !mergedOptions.mediaType.previews.includes(preview))
-            .concat(mergedOptions.mediaType.previews);
-    }
-    mergedOptions.mediaType.previews = mergedOptions.mediaType.previews.map((preview) => preview.replace(/-preview/, ""));
-    return mergedOptions;
-}
-
-function addQueryParameters(url, parameters) {
-    const separator = /\?/.test(url) ? "&" : "?";
-    const names = Object.keys(parameters);
-    if (names.length === 0) {
-        return url;
-    }
-    return (url +
-        separator +
-        names
-            .map((name) => {
-            if (name === "q") {
-                return ("q=" + parameters.q.split("+").map(encodeURIComponent).join("+"));
-            }
-            return `${name}=${encodeURIComponent(parameters[name])}`;
-        })
-            .join("&"));
-}
-
-const urlVariableRegex = /\{[^}]+\}/g;
-function removeNonChars(variableName) {
-    return variableName.replace(/^\W+|\W+$/g, "").split(/,/);
-}
-function extractUrlVariableNames(url) {
-    const matches = url.match(urlVariableRegex);
-    if (!matches) {
-        return [];
-    }
-    return matches.map(removeNonChars).reduce((a, b) => a.concat(b), []);
-}
-
-function omit(object, keysToOmit) {
-    return Object.keys(object)
-        .filter((option) => !keysToOmit.includes(option))
-        .reduce((obj, key) => {
-        obj[key] = object[key];
-        return obj;
-    }, {});
-}
-
-// Based on https://github.com/bramstein/url-template, licensed under BSD
-// TODO: create separate package.
-//
-// Copyright (c) 2012-2014, Bram Stein
-// All rights reserved.
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions
-// are met:
-//  1. Redistributions of source code must retain the above copyright
-//     notice, this list of conditions and the following disclaimer.
-//  2. Redistributions in binary form must reproduce the above copyright
-//     notice, this list of conditions and the following disclaimer in the
-//     documentation and/or other materials provided with the distribution.
-//  3. The name of the author may not be used to endorse or promote products
-//     derived from this software without specific prior written permission.
-// THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
-// WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-// MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
-// EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
-// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
-// OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-// EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-/* istanbul ignore file */
-function encodeReserved(str) {
-    return str
-        .split(/(%[0-9A-Fa-f]{2})/g)
-        .map(function (part) {
-        if (!/%[0-9A-Fa-f]/.test(part)) {
-            part = encodeURI(part).replace(/%5B/g, "[").replace(/%5D/g, "]");
-        }
-        return part;
-    })
-        .join("");
-}
-function encodeUnreserved(str) {
-    return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
-        return "%" + c.charCodeAt(0).toString(16).toUpperCase();
-    });
-}
-function encodeValue(operator, value, key) {
-    value =
-        operator === "+" || operator === "#"
-            ? encodeReserved(value)
-            : encodeUnreserved(value);
-    if (key) {
-        return encodeUnreserved(key) + "=" + value;
-    }
-    else {
-        return value;
-    }
-}
-function isDefined(value) {
-    return value !== undefined && value !== null;
-}
-function isKeyOperator(operator) {
-    return operator === ";" || operator === "&" || operator === "?";
-}
-function getValues(context, operator, key, modifier) {
-    var value = context[key], result = [];
-    if (isDefined(value) && value !== "") {
-        if (typeof value === "string" ||
-            typeof value === "number" ||
-            typeof value === "boolean") {
-            value = value.toString();
-            if (modifier && modifier !== "*") {
-                value = value.substring(0, parseInt(modifier, 10));
-            }
-            result.push(encodeValue(operator, value, isKeyOperator(operator) ? key : ""));
-        }
-        else {
-            if (modifier === "*") {
-                if (Array.isArray(value)) {
-                    value.filter(isDefined).forEach(function (value) {
-                        result.push(encodeValue(operator, value, isKeyOperator(operator) ? key : ""));
-                    });
-                }
-                else {
-                    Object.keys(value).forEach(function (k) {
-                        if (isDefined(value[k])) {
-                            result.push(encodeValue(operator, value[k], k));
-                        }
-                    });
-                }
-            }
-            else {
-                const tmp = [];
-                if (Array.isArray(value)) {
-                    value.filter(isDefined).forEach(function (value) {
-                        tmp.push(encodeValue(operator, value));
-                    });
-                }
-                else {
-                    Object.keys(value).forEach(function (k) {
-                        if (isDefined(value[k])) {
-                            tmp.push(encodeUnreserved(k));
-                            tmp.push(encodeValue(operator, value[k].toString()));
-                        }
-                    });
-                }
-                if (isKeyOperator(operator)) {
-                    result.push(encodeUnreserved(key) + "=" + tmp.join(","));
-                }
-                else if (tmp.length !== 0) {
-                    result.push(tmp.join(","));
-                }
-            }
-        }
-    }
-    else {
-        if (operator === ";") {
-            if (isDefined(value)) {
-                result.push(encodeUnreserved(key));
-            }
-        }
-        else if (value === "" && (operator === "&" || operator === "?")) {
-            result.push(encodeUnreserved(key) + "=");
-        }
-        else if (value === "") {
-            result.push("");
-        }
-    }
-    return result;
-}
-function parseUrl(template) {
-    return {
-        expand: expand.bind(null, template),
-    };
-}
-function expand(template, context) {
-    var operators = ["+", "#", ".", "/", ";", "?", "&"];
-    return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, function (_, expression, literal) {
-        if (expression) {
-            let operator = "";
-            const values = [];
-            if (operators.indexOf(expression.charAt(0)) !== -1) {
-                operator = expression.charAt(0);
-                expression = expression.substr(1);
-            }
-            expression.split(/,/g).forEach(function (variable) {
-                var tmp = /([^:\*]*)(?::(\d+)|(\*))?/.exec(variable);
-                values.push(getValues(context, operator, tmp[1], tmp[2] || tmp[3]));
-            });
-            if (operator && operator !== "+") {
-                var separator = ",";
-                if (operator === "?") {
-                    separator = "&";
-                }
-                else if (operator !== "#") {
-                    separator = operator;
-                }
-                return (values.length !== 0 ? operator : "") + values.join(separator);
-            }
-            else {
-                return values.join(",");
-            }
-        }
-        else {
-            return encodeReserved(literal);
-        }
-    });
-}
-
-function parse(options) {
-    // https://fetch.spec.whatwg.org/#methods
-    let method = options.method.toUpperCase();
-    // replace :varname with {varname} to make it RFC 6570 compatible
-    let url = (options.url || "/").replace(/:([a-z]\w+)/g, "{$1}");
-    let headers = Object.assign({}, options.headers);
-    let body;
-    let parameters = omit(options, [
-        "method",
-        "baseUrl",
-        "url",
-        "headers",
-        "request",
-        "mediaType",
-    ]);
-    // extract variable names from URL to calculate remaining variables later
-    const urlVariableNames = extractUrlVariableNames(url);
-    url = parseUrl(url).expand(parameters);
-    if (!/^http/.test(url)) {
-        url = options.baseUrl + url;
-    }
-    const omittedParameters = Object.keys(options)
-        .filter((option) => urlVariableNames.includes(option))
-        .concat("baseUrl");
-    const remainingParameters = omit(parameters, omittedParameters);
-    const isBinaryRequest = /application\/octet-stream/i.test(headers.accept);
-    if (!isBinaryRequest) {
-        if (options.mediaType.format) {
-            // e.g. application/vnd.github.v3+json => application/vnd.github.v3.raw
-            headers.accept = headers.accept
-                .split(/,/)
-                .map((preview) => preview.replace(/application\/vnd(\.\w+)(\.v3)?(\.\w+)?(\+json)?$/, `application/vnd$1$2.${options.mediaType.format}`))
-                .join(",");
-        }
-        if (options.mediaType.previews.length) {
-            const previewsFromAcceptHeader = headers.accept.match(/[\w-]+(?=-preview)/g) || [];
-            headers.accept = previewsFromAcceptHeader
-                .concat(options.mediaType.previews)
-                .map((preview) => {
-                const format = options.mediaType.format
-                    ? `.${options.mediaType.format}`
-                    : "+json";
-                return `application/vnd.github.${preview}-preview${format}`;
-            })
-                .join(",");
-        }
-    }
-    // for GET/HEAD requests, set URL query parameters from remaining parameters
-    // for PATCH/POST/PUT/DELETE requests, set request body from remaining parameters
-    if (["GET", "HEAD"].includes(method)) {
-        url = addQueryParameters(url, remainingParameters);
-    }
-    else {
-        if ("data" in remainingParameters) {
-            body = remainingParameters.data;
-        }
-        else {
-            if (Object.keys(remainingParameters).length) {
-                body = remainingParameters;
-            }
-            else {
-                headers["content-length"] = 0;
-            }
-        }
-    }
-    // default content-type for JSON if body is set
-    if (!headers["content-type"] && typeof body !== "undefined") {
-        headers["content-type"] = "application/json; charset=utf-8";
-    }
-    // GitHub expects 'content-length: 0' header for PUT/PATCH requests without body.
-    // fetch does not allow to set `content-length` header, but we can set body to an empty string
-    if (["PATCH", "PUT"].includes(method) && typeof body === "undefined") {
-        body = "";
-    }
-    // Only return body/request keys if present
-    return Object.assign({ method, url, headers }, typeof body !== "undefined" ? { body } : null, options.request ? { request: options.request } : null);
-}
-
-function endpointWithDefaults(defaults, route, options) {
-    return parse(merge(defaults, route, options));
-}
-
-function withDefaults(oldDefaults, newDefaults) {
-    const DEFAULTS = merge(oldDefaults, newDefaults);
-    const endpoint = endpointWithDefaults.bind(null, DEFAULTS);
-    return Object.assign(endpoint, {
-        DEFAULTS,
-        defaults: withDefaults.bind(null, DEFAULTS),
-        merge: merge.bind(null, DEFAULTS),
-        parse,
-    });
-}
-
-const VERSION = "6.0.10";
-
-const userAgent = `octokit-endpoint.js/${VERSION} ${Object(universal_user_agent__WEBPACK_IMPORTED_MODULE_1__["getUserAgent"])()}`;
-// DEFAULTS has all properties set that EndpointOptions has, except url.
-// So we use RequestParameters and add method as additional required property.
-const DEFAULTS = {
-    method: "GET",
-    baseUrl: "https://api.github.com",
-    headers: {
-        accept: "application/vnd.github.v3+json",
-        "user-agent": userAgent,
-    },
-    mediaType: {
-        format: "",
-        previews: [],
-    },
-};
-
-const endpoint = withDefaults(null, DEFAULTS);
-
-
-//# sourceMappingURL=index.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/_@octokit_graphql@4.5.8@@octokit/graphql/dist-web/index.js":
-/*!*********************************************************************************!*\
-  !*** ./node_modules/_@octokit_graphql@4.5.8@@octokit/graphql/dist-web/index.js ***!
-  \*********************************************************************************/
-/*! exports provided: graphql, withCustomRequest */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "graphql", function() { return graphql$1; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "withCustomRequest", function() { return withCustomRequest; });
-/* harmony import */ var _octokit_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @octokit/request */ "./node_modules/_@octokit_request@5.4.12@@octokit/request/dist-web/index.js");
-/* harmony import */ var universal_user_agent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! universal-user-agent */ "./node_modules/_universal-user-agent@6.0.0@universal-user-agent/dist-web/index.js");
-
-
-
-const VERSION = "4.5.8";
-
-class GraphqlError extends Error {
-    constructor(request, response) {
-        const message = response.data.errors[0].message;
-        super(message);
-        Object.assign(this, response.data);
-        Object.assign(this, { headers: response.headers });
-        this.name = "GraphqlError";
-        this.request = request;
-        // Maintains proper stack trace (only available on V8)
-        /* istanbul ignore next */
-        if (Error.captureStackTrace) {
-            Error.captureStackTrace(this, this.constructor);
-        }
-    }
-}
-
-const NON_VARIABLE_OPTIONS = [
-    "method",
-    "baseUrl",
-    "url",
-    "headers",
-    "request",
-    "query",
-    "mediaType",
-];
-const GHES_V3_SUFFIX_REGEX = /\/api\/v3\/?$/;
-function graphql(request, query, options) {
-    if (typeof query === "string" && options && "query" in options) {
-        return Promise.reject(new Error(`[@octokit/graphql] "query" cannot be used as variable name`));
-    }
-    const parsedOptions = typeof query === "string" ? Object.assign({ query }, options) : query;
-    const requestOptions = Object.keys(parsedOptions).reduce((result, key) => {
-        if (NON_VARIABLE_OPTIONS.includes(key)) {
-            result[key] = parsedOptions[key];
-            return result;
-        }
-        if (!result.variables) {
-            result.variables = {};
-        }
-        result.variables[key] = parsedOptions[key];
-        return result;
-    }, {});
-    // workaround for GitHub Enterprise baseUrl set with /api/v3 suffix
-    // https://github.com/octokit/auth-app.js/issues/111#issuecomment-657610451
-    const baseUrl = parsedOptions.baseUrl || request.endpoint.DEFAULTS.baseUrl;
-    if (GHES_V3_SUFFIX_REGEX.test(baseUrl)) {
-        requestOptions.url = baseUrl.replace(GHES_V3_SUFFIX_REGEX, "/api/graphql");
-    }
-    return request(requestOptions).then((response) => {
-        if (response.data.errors) {
-            const headers = {};
-            for (const key of Object.keys(response.headers)) {
-                headers[key] = response.headers[key];
-            }
-            throw new GraphqlError(requestOptions, {
-                headers,
-                data: response.data,
-            });
-        }
-        return response.data.data;
-    });
-}
-
-function withDefaults(request$1, newDefaults) {
-    const newRequest = request$1.defaults(newDefaults);
-    const newApi = (query, options) => {
-        return graphql(newRequest, query, options);
-    };
-    return Object.assign(newApi, {
-        defaults: withDefaults.bind(null, newRequest),
-        endpoint: _octokit_request__WEBPACK_IMPORTED_MODULE_0__["request"].endpoint,
-    });
-}
-
-const graphql$1 = withDefaults(_octokit_request__WEBPACK_IMPORTED_MODULE_0__["request"], {
-    headers: {
-        "user-agent": `octokit-graphql.js/${VERSION} ${Object(universal_user_agent__WEBPACK_IMPORTED_MODULE_1__["getUserAgent"])()}`,
-    },
-    method: "POST",
-    url: "/graphql",
-});
-function withCustomRequest(customRequest) {
-    return withDefaults(customRequest, {
-        method: "POST",
-        url: "/graphql",
-    });
-}
-
-
-//# sourceMappingURL=index.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/_@octokit_plugin-paginate-rest@2.7.1@@octokit/plugin-paginate-rest/dist-web/index.js":
-/*!***********************************************************************************************************!*\
-  !*** ./node_modules/_@octokit_plugin-paginate-rest@2.7.1@@octokit/plugin-paginate-rest/dist-web/index.js ***!
-  \***********************************************************************************************************/
-/*! exports provided: composePaginateRest, paginateRest */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "composePaginateRest", function() { return composePaginateRest; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "paginateRest", function() { return paginateRest; });
-const VERSION = "2.7.1";
-
-/**
- * Some “list” response that can be paginated have a different response structure
- *
- * They have a `total_count` key in the response (search also has `incomplete_results`,
- * /installation/repositories also has `repository_selection`), as well as a key with
- * the list of the items which name varies from endpoint to endpoint.
- *
- * Octokit normalizes these responses so that paginated results are always returned following
- * the same structure. One challenge is that if the list response has only one page, no Link
- * header is provided, so this header alone is not sufficient to check wether a response is
- * paginated or not.
- *
- * We check if a "total_count" key is present in the response data, but also make sure that
- * a "url" property is not, as the "Get the combined status for a specific ref" endpoint would
- * otherwise match: https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref
- */
-function normalizePaginatedListResponse(response) {
-    const responseNeedsNormalization = "total_count" in response.data && !("url" in response.data);
-    if (!responseNeedsNormalization)
-        return response;
-    // keep the additional properties intact as there is currently no other way
-    // to retrieve the same information.
-    const incompleteResults = response.data.incomplete_results;
-    const repositorySelection = response.data.repository_selection;
-    const totalCount = response.data.total_count;
-    delete response.data.incomplete_results;
-    delete response.data.repository_selection;
-    delete response.data.total_count;
-    const namespaceKey = Object.keys(response.data)[0];
-    const data = response.data[namespaceKey];
-    response.data = data;
-    if (typeof incompleteResults !== "undefined") {
-        response.data.incomplete_results = incompleteResults;
-    }
-    if (typeof repositorySelection !== "undefined") {
-        response.data.repository_selection = repositorySelection;
-    }
-    response.data.total_count = totalCount;
-    return response;
-}
-
-function iterator(octokit, route, parameters) {
-    const options = typeof route === "function"
-        ? route.endpoint(parameters)
-        : octokit.request.endpoint(route, parameters);
-    const requestMethod = typeof route === "function" ? route : octokit.request;
-    const method = options.method;
-    const headers = options.headers;
-    let url = options.url;
-    return {
-        [Symbol.asyncIterator]: () => ({
-            async next() {
-                if (!url)
-                    return { done: true };
-                const response = await requestMethod({ method, url, headers });
-                const normalizedResponse = normalizePaginatedListResponse(response);
-                // `response.headers.link` format:
-                // '<https://api.github.com/users/aseemk/followers?page=2>; rel="next", <https://api.github.com/users/aseemk/followers?page=2>; rel="last"'
-                // sets `url` to undefined if "next" URL is not present or `link` header is not set
-                url = ((normalizedResponse.headers.link || "").match(/<([^>]+)>;\s*rel="next"/) || [])[1];
-                return { value: normalizedResponse };
-            },
-        }),
-    };
-}
-
-function paginate(octokit, route, parameters, mapFn) {
-    if (typeof parameters === "function") {
-        mapFn = parameters;
-        parameters = undefined;
-    }
-    return gather(octokit, [], iterator(octokit, route, parameters)[Symbol.asyncIterator](), mapFn);
-}
-function gather(octokit, results, iterator, mapFn) {
-    return iterator.next().then((result) => {
-        if (result.done) {
-            return results;
-        }
-        let earlyExit = false;
-        function done() {
-            earlyExit = true;
-        }
-        results = results.concat(mapFn ? mapFn(result.value, done) : result.value.data);
-        if (earlyExit) {
-            return results;
-        }
-        return gather(octokit, results, iterator, mapFn);
-    });
-}
-
-const composePaginateRest = Object.assign(paginate, {
-    iterator,
-});
-
-/**
- * @param octokit Octokit instance
- * @param options Options passed to Octokit constructor
- */
-function paginateRest(octokit) {
-    return {
-        paginate: Object.assign(paginate.bind(null, octokit), {
-            iterator: iterator.bind(null, octokit),
-        }),
-    };
-}
-paginateRest.VERSION = VERSION;
-
-
-//# sourceMappingURL=index.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/_@octokit_plugin-request-log@1.0.2@@octokit/plugin-request-log/dist-web/index.js":
-/*!*******************************************************************************************************!*\
-  !*** ./node_modules/_@octokit_plugin-request-log@1.0.2@@octokit/plugin-request-log/dist-web/index.js ***!
-  \*******************************************************************************************************/
-/*! exports provided: requestLog */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestLog", function() { return requestLog; });
-const VERSION = "1.0.2";
-
-/**
- * @param octokit Octokit instance
- * @param options Options passed to Octokit constructor
- */
-function requestLog(octokit) {
-    octokit.hook.wrap("request", (request, options) => {
-        octokit.log.debug("request", options);
-        const start = Date.now();
-        const requestOptions = octokit.request.endpoint.parse(options);
-        const path = requestOptions.url.replace(options.baseUrl, "");
-        return request(options)
-            .then((response) => {
-            octokit.log.info(`${requestOptions.method} ${path} - ${response.status} in ${Date.now() - start}ms`);
-            return response;
-        })
-            .catch((error) => {
-            octokit.log.info(`${requestOptions.method} ${path} - ${error.status} in ${Date.now() - start}ms`);
-            throw error;
-        });
-    });
-}
-requestLog.VERSION = VERSION;
-
-
-//# sourceMappingURL=index.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/_@octokit_plugin-rest-endpoint-methods@4.4.1@@octokit/plugin-rest-endpoint-methods/dist-web/index.js":
-/*!***************************************************************************************************************************!*\
-  !*** ./node_modules/_@octokit_plugin-rest-endpoint-methods@4.4.1@@octokit/plugin-rest-endpoint-methods/dist-web/index.js ***!
-  \***************************************************************************************************************************/
-/*! exports provided: restEndpointMethods */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restEndpointMethods", function() { return restEndpointMethods; });
-const Endpoints = {
-    actions: {
-        addSelectedRepoToOrgSecret: [
-            "PUT /orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
-        ],
-        cancelWorkflowRun: [
-            "POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel",
-        ],
-        createOrUpdateOrgSecret: ["PUT /orgs/{org}/actions/secrets/{secret_name}"],
-        createOrUpdateRepoSecret: [
-            "PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}",
-        ],
-        createRegistrationTokenForOrg: [
-            "POST /orgs/{org}/actions/runners/registration-token",
-        ],
-        createRegistrationTokenForRepo: [
-            "POST /repos/{owner}/{repo}/actions/runners/registration-token",
-        ],
-        createRemoveTokenForOrg: ["POST /orgs/{org}/actions/runners/remove-token"],
-        createRemoveTokenForRepo: [
-            "POST /repos/{owner}/{repo}/actions/runners/remove-token",
-        ],
-        createWorkflowDispatch: [
-            "POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches",
-        ],
-        deleteArtifact: [
-            "DELETE /repos/{owner}/{repo}/actions/artifacts/{artifact_id}",
-        ],
-        deleteOrgSecret: ["DELETE /orgs/{org}/actions/secrets/{secret_name}"],
-        deleteRepoSecret: [
-            "DELETE /repos/{owner}/{repo}/actions/secrets/{secret_name}",
-        ],
-        deleteSelfHostedRunnerFromOrg: [
-            "DELETE /orgs/{org}/actions/runners/{runner_id}",
-        ],
-        deleteSelfHostedRunnerFromRepo: [
-            "DELETE /repos/{owner}/{repo}/actions/runners/{runner_id}",
-        ],
-        deleteWorkflowRun: ["DELETE /repos/{owner}/{repo}/actions/runs/{run_id}"],
-        deleteWorkflowRunLogs: [
-            "DELETE /repos/{owner}/{repo}/actions/runs/{run_id}/logs",
-        ],
-        disableSelectedRepositoryGithubActionsOrganization: [
-            "DELETE /orgs/{org}/actions/permissions/repositories/{repository_id}",
-        ],
-        disableWorkflow: [
-            "PUT /repos/{owner}/{repo}/actions/workflows/{workflow_id}/disable",
-        ],
-        downloadArtifact: [
-            "GET /repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
-        ],
-        downloadJobLogsForWorkflowRun: [
-            "GET /repos/{owner}/{repo}/actions/jobs/{job_id}/logs",
-        ],
-        downloadWorkflowRunLogs: [
-            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/logs",
-        ],
-        enableSelectedRepositoryGithubActionsOrganization: [
-            "PUT /orgs/{org}/actions/permissions/repositories/{repository_id}",
-        ],
-        enableWorkflow: [
-            "PUT /repos/{owner}/{repo}/actions/workflows/{workflow_id}/enable",
-        ],
-        getAllowedActionsOrganization: [
-            "GET /orgs/{org}/actions/permissions/selected-actions",
-        ],
-        getAllowedActionsRepository: [
-            "GET /repos/{owner}/{repo}/actions/permissions/selected-actions",
-        ],
-        getArtifact: ["GET /repos/{owner}/{repo}/actions/artifacts/{artifact_id}"],
-        getGithubActionsPermissionsOrganization: [
-            "GET /orgs/{org}/actions/permissions",
-        ],
-        getGithubActionsPermissionsRepository: [
-            "GET /repos/{owner}/{repo}/actions/permissions",
-        ],
-        getJobForWorkflowRun: ["GET /repos/{owner}/{repo}/actions/jobs/{job_id}"],
-        getOrgPublicKey: ["GET /orgs/{org}/actions/secrets/public-key"],
-        getOrgSecret: ["GET /orgs/{org}/actions/secrets/{secret_name}"],
-        getRepoPermissions: [
-            "GET /repos/{owner}/{repo}/actions/permissions",
-            {},
-            { renamed: ["actions", "getGithubActionsPermissionsRepository"] },
-        ],
-        getRepoPublicKey: ["GET /repos/{owner}/{repo}/actions/secrets/public-key"],
-        getRepoSecret: ["GET /repos/{owner}/{repo}/actions/secrets/{secret_name}"],
-        getSelfHostedRunnerForOrg: ["GET /orgs/{org}/actions/runners/{runner_id}"],
-        getSelfHostedRunnerForRepo: [
-            "GET /repos/{owner}/{repo}/actions/runners/{runner_id}",
-        ],
-        getWorkflow: ["GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}"],
-        getWorkflowRun: ["GET /repos/{owner}/{repo}/actions/runs/{run_id}"],
-        getWorkflowRunUsage: [
-            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/timing",
-        ],
-        getWorkflowUsage: [
-            "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/timing",
-        ],
-        listArtifactsForRepo: ["GET /repos/{owner}/{repo}/actions/artifacts"],
-        listJobsForWorkflowRun: [
-            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs",
-        ],
-        listOrgSecrets: ["GET /orgs/{org}/actions/secrets"],
-        listRepoSecrets: ["GET /repos/{owner}/{repo}/actions/secrets"],
-        listRepoWorkflows: ["GET /repos/{owner}/{repo}/actions/workflows"],
-        listRunnerApplicationsForOrg: ["GET /orgs/{org}/actions/runners/downloads"],
-        listRunnerApplicationsForRepo: [
-            "GET /repos/{owner}/{repo}/actions/runners/downloads",
-        ],
-        listSelectedReposForOrgSecret: [
-            "GET /orgs/{org}/actions/secrets/{secret_name}/repositories",
-        ],
-        listSelectedRepositoriesEnabledGithubActionsOrganization: [
-            "GET /orgs/{org}/actions/permissions/repositories",
-        ],
-        listSelfHostedRunnersForOrg: ["GET /orgs/{org}/actions/runners"],
-        listSelfHostedRunnersForRepo: ["GET /repos/{owner}/{repo}/actions/runners"],
-        listWorkflowRunArtifacts: [
-            "GET /repos/{owner}/{repo}/actions/runs/{run_id}/artifacts",
-        ],
-        listWorkflowRuns: [
-            "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs",
-        ],
-        listWorkflowRunsForRepo: ["GET /repos/{owner}/{repo}/actions/runs"],
-        reRunWorkflow: ["POST /repos/{owner}/{repo}/actions/runs/{run_id}/rerun"],
-        removeSelectedRepoFromOrgSecret: [
-            "DELETE /orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
-        ],
-        setAllowedActionsOrganization: [
-            "PUT /orgs/{org}/actions/permissions/selected-actions",
-        ],
-        setAllowedActionsRepository: [
-            "PUT /repos/{owner}/{repo}/actions/permissions/selected-actions",
-        ],
-        setGithubActionsPermissionsOrganization: [
-            "PUT /orgs/{org}/actions/permissions",
-        ],
-        setGithubActionsPermissionsRepository: [
-            "PUT /repos/{owner}/{repo}/actions/permissions",
-        ],
-        setSelectedReposForOrgSecret: [
-            "PUT /orgs/{org}/actions/secrets/{secret_name}/repositories",
-        ],
-        setSelectedRepositoriesEnabledGithubActionsOrganization: [
-            "PUT /orgs/{org}/actions/permissions/repositories",
-        ],
-    },
-    activity: {
-        checkRepoIsStarredByAuthenticatedUser: ["GET /user/starred/{owner}/{repo}"],
-        deleteRepoSubscription: ["DELETE /repos/{owner}/{repo}/subscription"],
-        deleteThreadSubscription: [
-            "DELETE /notifications/threads/{thread_id}/subscription",
-        ],
-        getFeeds: ["GET /feeds"],
-        getRepoSubscription: ["GET /repos/{owner}/{repo}/subscription"],
-        getThread: ["GET /notifications/threads/{thread_id}"],
-        getThreadSubscriptionForAuthenticatedUser: [
-            "GET /notifications/threads/{thread_id}/subscription",
-        ],
-        listEventsForAuthenticatedUser: ["GET /users/{username}/events"],
-        listNotificationsForAuthenticatedUser: ["GET /notifications"],
-        listOrgEventsForAuthenticatedUser: [
-            "GET /users/{username}/events/orgs/{org}",
-        ],
-        listPublicEvents: ["GET /events"],
-        listPublicEventsForRepoNetwork: ["GET /networks/{owner}/{repo}/events"],
-        listPublicEventsForUser: ["GET /users/{username}/events/public"],
-        listPublicOrgEvents: ["GET /orgs/{org}/events"],
-        listReceivedEventsForUser: ["GET /users/{username}/received_events"],
-        listReceivedPublicEventsForUser: [
-            "GET /users/{username}/received_events/public",
-        ],
-        listRepoEvents: ["GET /repos/{owner}/{repo}/events"],
-        listRepoNotificationsForAuthenticatedUser: [
-            "GET /repos/{owner}/{repo}/notifications",
-        ],
-        listReposStarredByAuthenticatedUser: ["GET /user/starred"],
-        listReposStarredByUser: ["GET /users/{username}/starred"],
-        listReposWatchedByUser: ["GET /users/{username}/subscriptions"],
-        listStargazersForRepo: ["GET /repos/{owner}/{repo}/stargazers"],
-        listWatchedReposForAuthenticatedUser: ["GET /user/subscriptions"],
-        listWatchersForRepo: ["GET /repos/{owner}/{repo}/subscribers"],
-        markNotificationsAsRead: ["PUT /notifications"],
-        markRepoNotificationsAsRead: ["PUT /repos/{owner}/{repo}/notifications"],
-        markThreadAsRead: ["PATCH /notifications/threads/{thread_id}"],
-        setRepoSubscription: ["PUT /repos/{owner}/{repo}/subscription"],
-        setThreadSubscription: [
-            "PUT /notifications/threads/{thread_id}/subscription",
-        ],
-        starRepoForAuthenticatedUser: ["PUT /user/starred/{owner}/{repo}"],
-        unstarRepoForAuthenticatedUser: ["DELETE /user/starred/{owner}/{repo}"],
-    },
-    apps: {
-        addRepoToInstallation: [
-            "PUT /user/installations/{installation_id}/repositories/{repository_id}",
-        ],
-        checkToken: ["POST /applications/{client_id}/token"],
-        createContentAttachment: [
-            "POST /content_references/{content_reference_id}/attachments",
-            { mediaType: { previews: ["corsair"] } },
-        ],
-        createFromManifest: ["POST /app-manifests/{code}/conversions"],
-        createInstallationAccessToken: [
-            "POST /app/installations/{installation_id}/access_tokens",
-        ],
-        deleteAuthorization: ["DELETE /applications/{client_id}/grant"],
-        deleteInstallation: ["DELETE /app/installations/{installation_id}"],
-        deleteToken: ["DELETE /applications/{client_id}/token"],
-        getAuthenticated: ["GET /app"],
-        getBySlug: ["GET /apps/{app_slug}"],
-        getInstallation: ["GET /app/installations/{installation_id}"],
-        getOrgInstallation: ["GET /orgs/{org}/installation"],
-        getRepoInstallation: ["GET /repos/{owner}/{repo}/installation"],
-        getSubscriptionPlanForAccount: [
-            "GET /marketplace_listing/accounts/{account_id}",
-        ],
-        getSubscriptionPlanForAccountStubbed: [
-            "GET /marketplace_listing/stubbed/accounts/{account_id}",
-        ],
-        getUserInstallation: ["GET /users/{username}/installation"],
-        getWebhookConfigForApp: ["GET /app/hook/config"],
-        listAccountsForPlan: ["GET /marketplace_listing/plans/{plan_id}/accounts"],
-        listAccountsForPlanStubbed: [
-            "GET /marketplace_listing/stubbed/plans/{plan_id}/accounts",
-        ],
-        listInstallationReposForAuthenticatedUser: [
-            "GET /user/installations/{installation_id}/repositories",
-        ],
-        listInstallations: ["GET /app/installations"],
-        listInstallationsForAuthenticatedUser: ["GET /user/installations"],
-        listPlans: ["GET /marketplace_listing/plans"],
-        listPlansStubbed: ["GET /marketplace_listing/stubbed/plans"],
-        listReposAccessibleToInstallation: ["GET /installation/repositories"],
-        listSubscriptionsForAuthenticatedUser: ["GET /user/marketplace_purchases"],
-        listSubscriptionsForAuthenticatedUserStubbed: [
-            "GET /user/marketplace_purchases/stubbed",
-        ],
-        removeRepoFromInstallation: [
-            "DELETE /user/installations/{installation_id}/repositories/{repository_id}",
-        ],
-        resetToken: ["PATCH /applications/{client_id}/token"],
-        revokeInstallationAccessToken: ["DELETE /installation/token"],
-        suspendInstallation: ["PUT /app/installations/{installation_id}/suspended"],
-        unsuspendInstallation: [
-            "DELETE /app/installations/{installation_id}/suspended",
-        ],
-        updateWebhookConfigForApp: ["PATCH /app/hook/config"],
-    },
-    billing: {
-        getGithubActionsBillingOrg: ["GET /orgs/{org}/settings/billing/actions"],
-        getGithubActionsBillingUser: [
-            "GET /users/{username}/settings/billing/actions",
-        ],
-        getGithubPackagesBillingOrg: ["GET /orgs/{org}/settings/billing/packages"],
-        getGithubPackagesBillingUser: [
-            "GET /users/{username}/settings/billing/packages",
-        ],
-        getSharedStorageBillingOrg: [
-            "GET /orgs/{org}/settings/billing/shared-storage",
-        ],
-        getSharedStorageBillingUser: [
-            "GET /users/{username}/settings/billing/shared-storage",
-        ],
-    },
-    checks: {
-        create: ["POST /repos/{owner}/{repo}/check-runs"],
-        createSuite: ["POST /repos/{owner}/{repo}/check-suites"],
-        get: ["GET /repos/{owner}/{repo}/check-runs/{check_run_id}"],
-        getSuite: ["GET /repos/{owner}/{repo}/check-suites/{check_suite_id}"],
-        listAnnotations: [
-            "GET /repos/{owner}/{repo}/check-runs/{check_run_id}/annotations",
-        ],
-        listForRef: ["GET /repos/{owner}/{repo}/commits/{ref}/check-runs"],
-        listForSuite: [
-            "GET /repos/{owner}/{repo}/check-suites/{check_suite_id}/check-runs",
-        ],
-        listSuitesForRef: ["GET /repos/{owner}/{repo}/commits/{ref}/check-suites"],
-        rerequestSuite: [
-            "POST /repos/{owner}/{repo}/check-suites/{check_suite_id}/rerequest",
-        ],
-        setSuitesPreferences: [
-            "PATCH /repos/{owner}/{repo}/check-suites/preferences",
-        ],
-        update: ["PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}"],
-    },
-    codeScanning: {
-        getAlert: [
-            "GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}",
-            {},
-            { renamedParameters: { alert_id: "alert_number" } },
-        ],
-        listAlertsForRepo: ["GET /repos/{owner}/{repo}/code-scanning/alerts"],
-        listRecentAnalyses: ["GET /repos/{owner}/{repo}/code-scanning/analyses"],
-        updateAlert: [
-            "PATCH /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}",
-        ],
-        uploadSarif: ["POST /repos/{owner}/{repo}/code-scanning/sarifs"],
-    },
-    codesOfConduct: {
-        getAllCodesOfConduct: [
-            "GET /codes_of_conduct",
-            { mediaType: { previews: ["scarlet-witch"] } },
-        ],
-        getConductCode: [
-            "GET /codes_of_conduct/{key}",
-            { mediaType: { previews: ["scarlet-witch"] } },
-        ],
-        getForRepo: [
-            "GET /repos/{owner}/{repo}/community/code_of_conduct",
-            { mediaType: { previews: ["scarlet-witch"] } },
-        ],
-    },
-    emojis: { get: ["GET /emojis"] },
-    enterpriseAdmin: {
-        disableSelectedOrganizationGithubActionsEnterprise: [
-            "DELETE /enterprises/{enterprise}/actions/permissions/organizations/{org_id}",
-        ],
-        enableSelectedOrganizationGithubActionsEnterprise: [
-            "PUT /enterprises/{enterprise}/actions/permissions/organizations/{org_id}",
-        ],
-        getAllowedActionsEnterprise: [
-            "GET /enterprises/{enterprise}/actions/permissions/selected-actions",
-        ],
-        getGithubActionsPermissionsEnterprise: [
-            "GET /enterprises/{enterprise}/actions/permissions",
-        ],
-        listSelectedOrganizationsEnabledGithubActionsEnterprise: [
-            "GET /enterprises/{enterprise}/actions/permissions/organizations",
-        ],
-        setAllowedActionsEnterprise: [
-            "PUT /enterprises/{enterprise}/actions/permissions/selected-actions",
-        ],
-        setGithubActionsPermissionsEnterprise: [
-            "PUT /enterprises/{enterprise}/actions/permissions",
-        ],
-        setSelectedOrganizationsEnabledGithubActionsEnterprise: [
-            "PUT /enterprises/{enterprise}/actions/permissions/organizations",
-        ],
-    },
-    gists: {
-        checkIsStarred: ["GET /gists/{gist_id}/star"],
-        create: ["POST /gists"],
-        createComment: ["POST /gists/{gist_id}/comments"],
-        delete: ["DELETE /gists/{gist_id}"],
-        deleteComment: ["DELETE /gists/{gist_id}/comments/{comment_id}"],
-        fork: ["POST /gists/{gist_id}/forks"],
-        get: ["GET /gists/{gist_id}"],
-        getComment: ["GET /gists/{gist_id}/comments/{comment_id}"],
-        getRevision: ["GET /gists/{gist_id}/{sha}"],
-        list: ["GET /gists"],
-        listComments: ["GET /gists/{gist_id}/comments"],
-        listCommits: ["GET /gists/{gist_id}/commits"],
-        listForUser: ["GET /users/{username}/gists"],
-        listForks: ["GET /gists/{gist_id}/forks"],
-        listPublic: ["GET /gists/public"],
-        listStarred: ["GET /gists/starred"],
-        star: ["PUT /gists/{gist_id}/star"],
-        unstar: ["DELETE /gists/{gist_id}/star"],
-        update: ["PATCH /gists/{gist_id}"],
-        updateComment: ["PATCH /gists/{gist_id}/comments/{comment_id}"],
-    },
-    git: {
-        createBlob: ["POST /repos/{owner}/{repo}/git/blobs"],
-        createCommit: ["POST /repos/{owner}/{repo}/git/commits"],
-        createRef: ["POST /repos/{owner}/{repo}/git/refs"],
-        createTag: ["POST /repos/{owner}/{repo}/git/tags"],
-        createTree: ["POST /repos/{owner}/{repo}/git/trees"],
-        deleteRef: ["DELETE /repos/{owner}/{repo}/git/refs/{ref}"],
-        getBlob: ["GET /repos/{owner}/{repo}/git/blobs/{file_sha}"],
-        getCommit: ["GET /repos/{owner}/{repo}/git/commits/{commit_sha}"],
-        getRef: ["GET /repos/{owner}/{repo}/git/ref/{ref}"],
-        getTag: ["GET /repos/{owner}/{repo}/git/tags/{tag_sha}"],
-        getTree: ["GET /repos/{owner}/{repo}/git/trees/{tree_sha}"],
-        listMatchingRefs: ["GET /repos/{owner}/{repo}/git/matching-refs/{ref}"],
-        updateRef: ["PATCH /repos/{owner}/{repo}/git/refs/{ref}"],
-    },
-    gitignore: {
-        getAllTemplates: ["GET /gitignore/templates"],
-        getTemplate: ["GET /gitignore/templates/{name}"],
-    },
-    interactions: {
-        getRestrictionsForOrg: ["GET /orgs/{org}/interaction-limits"],
-        getRestrictionsForRepo: ["GET /repos/{owner}/{repo}/interaction-limits"],
-        getRestrictionsForYourPublicRepos: ["GET /user/interaction-limits"],
-        removeRestrictionsForOrg: ["DELETE /orgs/{org}/interaction-limits"],
-        removeRestrictionsForRepo: [
-            "DELETE /repos/{owner}/{repo}/interaction-limits",
-        ],
-        removeRestrictionsForYourPublicRepos: ["DELETE /user/interaction-limits"],
-        setRestrictionsForOrg: ["PUT /orgs/{org}/interaction-limits"],
-        setRestrictionsForRepo: ["PUT /repos/{owner}/{repo}/interaction-limits"],
-        setRestrictionsForYourPublicRepos: ["PUT /user/interaction-limits"],
-    },
-    issues: {
-        addAssignees: [
-            "POST /repos/{owner}/{repo}/issues/{issue_number}/assignees",
-        ],
-        addLabels: ["POST /repos/{owner}/{repo}/issues/{issue_number}/labels"],
-        checkUserCanBeAssigned: ["GET /repos/{owner}/{repo}/assignees/{assignee}"],
-        create: ["POST /repos/{owner}/{repo}/issues"],
-        createComment: [
-            "POST /repos/{owner}/{repo}/issues/{issue_number}/comments",
-        ],
-        createLabel: ["POST /repos/{owner}/{repo}/labels"],
-        createMilestone: ["POST /repos/{owner}/{repo}/milestones"],
-        deleteComment: [
-            "DELETE /repos/{owner}/{repo}/issues/comments/{comment_id}",
-        ],
-        deleteLabel: ["DELETE /repos/{owner}/{repo}/labels/{name}"],
-        deleteMilestone: [
-            "DELETE /repos/{owner}/{repo}/milestones/{milestone_number}",
-        ],
-        get: ["GET /repos/{owner}/{repo}/issues/{issue_number}"],
-        getComment: ["GET /repos/{owner}/{repo}/issues/comments/{comment_id}"],
-        getEvent: ["GET /repos/{owner}/{repo}/issues/events/{event_id}"],
-        getLabel: ["GET /repos/{owner}/{repo}/labels/{name}"],
-        getMilestone: ["GET /repos/{owner}/{repo}/milestones/{milestone_number}"],
-        list: ["GET /issues"],
-        listAssignees: ["GET /repos/{owner}/{repo}/assignees"],
-        listComments: ["GET /repos/{owner}/{repo}/issues/{issue_number}/comments"],
-        listCommentsForRepo: ["GET /repos/{owner}/{repo}/issues/comments"],
-        listEvents: ["GET /repos/{owner}/{repo}/issues/{issue_number}/events"],
-        listEventsForRepo: ["GET /repos/{owner}/{repo}/issues/events"],
-        listEventsForTimeline: [
-            "GET /repos/{owner}/{repo}/issues/{issue_number}/timeline",
-            { mediaType: { previews: ["mockingbird"] } },
-        ],
-        listForAuthenticatedUser: ["GET /user/issues"],
-        listForOrg: ["GET /orgs/{org}/issues"],
-        listForRepo: ["GET /repos/{owner}/{repo}/issues"],
-        listLabelsForMilestone: [
-            "GET /repos/{owner}/{repo}/milestones/{milestone_number}/labels",
-        ],
-        listLabelsForRepo: ["GET /repos/{owner}/{repo}/labels"],
-        listLabelsOnIssue: [
-            "GET /repos/{owner}/{repo}/issues/{issue_number}/labels",
-        ],
-        listMilestones: ["GET /repos/{owner}/{repo}/milestones"],
-        lock: ["PUT /repos/{owner}/{repo}/issues/{issue_number}/lock"],
-        removeAllLabels: [
-            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/labels",
-        ],
-        removeAssignees: [
-            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/assignees",
-        ],
-        removeLabel: [
-            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/labels/{name}",
-        ],
-        setLabels: ["PUT /repos/{owner}/{repo}/issues/{issue_number}/labels"],
-        unlock: ["DELETE /repos/{owner}/{repo}/issues/{issue_number}/lock"],
-        update: ["PATCH /repos/{owner}/{repo}/issues/{issue_number}"],
-        updateComment: ["PATCH /repos/{owner}/{repo}/issues/comments/{comment_id}"],
-        updateLabel: ["PATCH /repos/{owner}/{repo}/labels/{name}"],
-        updateMilestone: [
-            "PATCH /repos/{owner}/{repo}/milestones/{milestone_number}",
-        ],
-    },
-    licenses: {
-        get: ["GET /licenses/{license}"],
-        getAllCommonlyUsed: ["GET /licenses"],
-        getForRepo: ["GET /repos/{owner}/{repo}/license"],
-    },
-    markdown: {
-        render: ["POST /markdown"],
-        renderRaw: [
-            "POST /markdown/raw",
-            { headers: { "content-type": "text/plain; charset=utf-8" } },
-        ],
-    },
-    meta: {
-        get: ["GET /meta"],
-        getOctocat: ["GET /octocat"],
-        getZen: ["GET /zen"],
-        root: ["GET /"],
-    },
-    migrations: {
-        cancelImport: ["DELETE /repos/{owner}/{repo}/import"],
-        deleteArchiveForAuthenticatedUser: [
-            "DELETE /user/migrations/{migration_id}/archive",
-            { mediaType: { previews: ["wyandotte"] } },
-        ],
-        deleteArchiveForOrg: [
-            "DELETE /orgs/{org}/migrations/{migration_id}/archive",
-            { mediaType: { previews: ["wyandotte"] } },
-        ],
-        downloadArchiveForOrg: [
-            "GET /orgs/{org}/migrations/{migration_id}/archive",
-            { mediaType: { previews: ["wyandotte"] } },
-        ],
-        getArchiveForAuthenticatedUser: [
-            "GET /user/migrations/{migration_id}/archive",
-            { mediaType: { previews: ["wyandotte"] } },
-        ],
-        getCommitAuthors: ["GET /repos/{owner}/{repo}/import/authors"],
-        getImportStatus: ["GET /repos/{owner}/{repo}/import"],
-        getLargeFiles: ["GET /repos/{owner}/{repo}/import/large_files"],
-        getStatusForAuthenticatedUser: [
-            "GET /user/migrations/{migration_id}",
-            { mediaType: { previews: ["wyandotte"] } },
-        ],
-        getStatusForOrg: [
-            "GET /orgs/{org}/migrations/{migration_id}",
-            { mediaType: { previews: ["wyandotte"] } },
-        ],
-        listForAuthenticatedUser: [
-            "GET /user/migrations",
-            { mediaType: { previews: ["wyandotte"] } },
-        ],
-        listForOrg: [
-            "GET /orgs/{org}/migrations",
-            { mediaType: { previews: ["wyandotte"] } },
-        ],
-        listReposForOrg: [
-            "GET /orgs/{org}/migrations/{migration_id}/repositories",
-            { mediaType: { previews: ["wyandotte"] } },
-        ],
-        listReposForUser: [
-            "GET /user/migrations/{migration_id}/repositories",
-            { mediaType: { previews: ["wyandotte"] } },
-        ],
-        mapCommitAuthor: ["PATCH /repos/{owner}/{repo}/import/authors/{author_id}"],
-        setLfsPreference: ["PATCH /repos/{owner}/{repo}/import/lfs"],
-        startForAuthenticatedUser: ["POST /user/migrations"],
-        startForOrg: ["POST /orgs/{org}/migrations"],
-        startImport: ["PUT /repos/{owner}/{repo}/import"],
-        unlockRepoForAuthenticatedUser: [
-            "DELETE /user/migrations/{migration_id}/repos/{repo_name}/lock",
-            { mediaType: { previews: ["wyandotte"] } },
-        ],
-        unlockRepoForOrg: [
-            "DELETE /orgs/{org}/migrations/{migration_id}/repos/{repo_name}/lock",
-            { mediaType: { previews: ["wyandotte"] } },
-        ],
-        updateImport: ["PATCH /repos/{owner}/{repo}/import"],
-    },
-    orgs: {
-        blockUser: ["PUT /orgs/{org}/blocks/{username}"],
-        checkBlockedUser: ["GET /orgs/{org}/blocks/{username}"],
-        checkMembershipForUser: ["GET /orgs/{org}/members/{username}"],
-        checkPublicMembershipForUser: ["GET /orgs/{org}/public_members/{username}"],
-        convertMemberToOutsideCollaborator: [
-            "PUT /orgs/{org}/outside_collaborators/{username}",
-        ],
-        createInvitation: ["POST /orgs/{org}/invitations"],
-        createWebhook: ["POST /orgs/{org}/hooks"],
-        deleteWebhook: ["DELETE /orgs/{org}/hooks/{hook_id}"],
-        get: ["GET /orgs/{org}"],
-        getMembershipForAuthenticatedUser: ["GET /user/memberships/orgs/{org}"],
-        getMembershipForUser: ["GET /orgs/{org}/memberships/{username}"],
-        getWebhook: ["GET /orgs/{org}/hooks/{hook_id}"],
-        getWebhookConfigForOrg: ["GET /orgs/{org}/hooks/{hook_id}/config"],
-        list: ["GET /organizations"],
-        listAppInstallations: ["GET /orgs/{org}/installations"],
-        listBlockedUsers: ["GET /orgs/{org}/blocks"],
-        listForAuthenticatedUser: ["GET /user/orgs"],
-        listForUser: ["GET /users/{username}/orgs"],
-        listInvitationTeams: ["GET /orgs/{org}/invitations/{invitation_id}/teams"],
-        listMembers: ["GET /orgs/{org}/members"],
-        listMembershipsForAuthenticatedUser: ["GET /user/memberships/orgs"],
-        listOutsideCollaborators: ["GET /orgs/{org}/outside_collaborators"],
-        listPendingInvitations: ["GET /orgs/{org}/invitations"],
-        listPublicMembers: ["GET /orgs/{org}/public_members"],
-        listWebhooks: ["GET /orgs/{org}/hooks"],
-        pingWebhook: ["POST /orgs/{org}/hooks/{hook_id}/pings"],
-        removeMember: ["DELETE /orgs/{org}/members/{username}"],
-        removeMembershipForUser: ["DELETE /orgs/{org}/memberships/{username}"],
-        removeOutsideCollaborator: [
-            "DELETE /orgs/{org}/outside_collaborators/{username}",
-        ],
-        removePublicMembershipForAuthenticatedUser: [
-            "DELETE /orgs/{org}/public_members/{username}",
-        ],
-        setMembershipForUser: ["PUT /orgs/{org}/memberships/{username}"],
-        setPublicMembershipForAuthenticatedUser: [
-            "PUT /orgs/{org}/public_members/{username}",
-        ],
-        unblockUser: ["DELETE /orgs/{org}/blocks/{username}"],
-        update: ["PATCH /orgs/{org}"],
-        updateMembershipForAuthenticatedUser: [
-            "PATCH /user/memberships/orgs/{org}",
-        ],
-        updateWebhook: ["PATCH /orgs/{org}/hooks/{hook_id}"],
-        updateWebhookConfigForOrg: ["PATCH /orgs/{org}/hooks/{hook_id}/config"],
-    },
-    projects: {
-        addCollaborator: [
-            "PUT /projects/{project_id}/collaborators/{username}",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        createCard: [
-            "POST /projects/columns/{column_id}/cards",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        createColumn: [
-            "POST /projects/{project_id}/columns",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        createForAuthenticatedUser: [
-            "POST /user/projects",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        createForOrg: [
-            "POST /orgs/{org}/projects",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        createForRepo: [
-            "POST /repos/{owner}/{repo}/projects",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        delete: [
-            "DELETE /projects/{project_id}",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        deleteCard: [
-            "DELETE /projects/columns/cards/{card_id}",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        deleteColumn: [
-            "DELETE /projects/columns/{column_id}",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        get: [
-            "GET /projects/{project_id}",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        getCard: [
-            "GET /projects/columns/cards/{card_id}",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        getColumn: [
-            "GET /projects/columns/{column_id}",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        getPermissionForUser: [
-            "GET /projects/{project_id}/collaborators/{username}/permission",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        listCards: [
-            "GET /projects/columns/{column_id}/cards",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        listCollaborators: [
-            "GET /projects/{project_id}/collaborators",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        listColumns: [
-            "GET /projects/{project_id}/columns",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        listForOrg: [
-            "GET /orgs/{org}/projects",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        listForRepo: [
-            "GET /repos/{owner}/{repo}/projects",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        listForUser: [
-            "GET /users/{username}/projects",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        moveCard: [
-            "POST /projects/columns/cards/{card_id}/moves",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        moveColumn: [
-            "POST /projects/columns/{column_id}/moves",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        removeCollaborator: [
-            "DELETE /projects/{project_id}/collaborators/{username}",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        update: [
-            "PATCH /projects/{project_id}",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        updateCard: [
-            "PATCH /projects/columns/cards/{card_id}",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        updateColumn: [
-            "PATCH /projects/columns/{column_id}",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-    },
-    pulls: {
-        checkIfMerged: ["GET /repos/{owner}/{repo}/pulls/{pull_number}/merge"],
-        create: ["POST /repos/{owner}/{repo}/pulls"],
-        createReplyForReviewComment: [
-            "POST /repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}/replies",
-        ],
-        createReview: ["POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews"],
-        createReviewComment: [
-            "POST /repos/{owner}/{repo}/pulls/{pull_number}/comments",
-        ],
-        deletePendingReview: [
-            "DELETE /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}",
-        ],
-        deleteReviewComment: [
-            "DELETE /repos/{owner}/{repo}/pulls/comments/{comment_id}",
-        ],
-        dismissReview: [
-            "PUT /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/dismissals",
-        ],
-        get: ["GET /repos/{owner}/{repo}/pulls/{pull_number}"],
-        getReview: [
-            "GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}",
-        ],
-        getReviewComment: ["GET /repos/{owner}/{repo}/pulls/comments/{comment_id}"],
-        list: ["GET /repos/{owner}/{repo}/pulls"],
-        listCommentsForReview: [
-            "GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/comments",
-        ],
-        listCommits: ["GET /repos/{owner}/{repo}/pulls/{pull_number}/commits"],
-        listFiles: ["GET /repos/{owner}/{repo}/pulls/{pull_number}/files"],
-        listRequestedReviewers: [
-            "GET /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers",
-        ],
-        listReviewComments: [
-            "GET /repos/{owner}/{repo}/pulls/{pull_number}/comments",
-        ],
-        listReviewCommentsForRepo: ["GET /repos/{owner}/{repo}/pulls/comments"],
-        listReviews: ["GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews"],
-        merge: ["PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge"],
-        removeRequestedReviewers: [
-            "DELETE /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers",
-        ],
-        requestReviewers: [
-            "POST /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers",
-        ],
-        submitReview: [
-            "POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/events",
-        ],
-        update: ["PATCH /repos/{owner}/{repo}/pulls/{pull_number}"],
-        updateBranch: [
-            "PUT /repos/{owner}/{repo}/pulls/{pull_number}/update-branch",
-            { mediaType: { previews: ["lydian"] } },
-        ],
-        updateReview: [
-            "PUT /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}",
-        ],
-        updateReviewComment: [
-            "PATCH /repos/{owner}/{repo}/pulls/comments/{comment_id}",
-        ],
-    },
-    rateLimit: { get: ["GET /rate_limit"] },
-    reactions: {
-        createForCommitComment: [
-            "POST /repos/{owner}/{repo}/comments/{comment_id}/reactions",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        createForIssue: [
-            "POST /repos/{owner}/{repo}/issues/{issue_number}/reactions",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        createForIssueComment: [
-            "POST /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        createForPullRequestReviewComment: [
-            "POST /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        createForTeamDiscussionCommentInOrg: [
-            "POST /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        createForTeamDiscussionInOrg: [
-            "POST /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        deleteForCommitComment: [
-            "DELETE /repos/{owner}/{repo}/comments/{comment_id}/reactions/{reaction_id}",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        deleteForIssue: [
-            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/reactions/{reaction_id}",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        deleteForIssueComment: [
-            "DELETE /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions/{reaction_id}",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        deleteForPullRequestComment: [
-            "DELETE /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions/{reaction_id}",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        deleteForTeamDiscussion: [
-            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions/{reaction_id}",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        deleteForTeamDiscussionComment: [
-            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions/{reaction_id}",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        deleteLegacy: [
-            "DELETE /reactions/{reaction_id}",
-            { mediaType: { previews: ["squirrel-girl"] } },
-            {
-                deprecated: "octokit.reactions.deleteLegacy() is deprecated, see https://docs.github.com/v3/reactions/#delete-a-reaction-legacy",
-            },
-        ],
-        listForCommitComment: [
-            "GET /repos/{owner}/{repo}/comments/{comment_id}/reactions",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        listForIssue: [
-            "GET /repos/{owner}/{repo}/issues/{issue_number}/reactions",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        listForIssueComment: [
-            "GET /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        listForPullRequestReviewComment: [
-            "GET /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        listForTeamDiscussionCommentInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-        listForTeamDiscussionInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions",
-            { mediaType: { previews: ["squirrel-girl"] } },
-        ],
-    },
-    repos: {
-        acceptInvitation: ["PATCH /user/repository_invitations/{invitation_id}"],
-        addAppAccessRestrictions: [
-            "POST /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps",
-            {},
-            { mapToData: "apps" },
-        ],
-        addCollaborator: ["PUT /repos/{owner}/{repo}/collaborators/{username}"],
-        addStatusCheckContexts: [
-            "POST /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts",
-            {},
-            { mapToData: "contexts" },
-        ],
-        addTeamAccessRestrictions: [
-            "POST /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams",
-            {},
-            { mapToData: "teams" },
-        ],
-        addUserAccessRestrictions: [
-            "POST /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users",
-            {},
-            { mapToData: "users" },
-        ],
-        checkCollaborator: ["GET /repos/{owner}/{repo}/collaborators/{username}"],
-        checkVulnerabilityAlerts: [
-            "GET /repos/{owner}/{repo}/vulnerability-alerts",
-            { mediaType: { previews: ["dorian"] } },
-        ],
-        compareCommits: ["GET /repos/{owner}/{repo}/compare/{base}...{head}"],
-        createCommitComment: [
-            "POST /repos/{owner}/{repo}/commits/{commit_sha}/comments",
-        ],
-        createCommitSignatureProtection: [
-            "POST /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures",
-            { mediaType: { previews: ["zzzax"] } },
-        ],
-        createCommitStatus: ["POST /repos/{owner}/{repo}/statuses/{sha}"],
-        createDeployKey: ["POST /repos/{owner}/{repo}/keys"],
-        createDeployment: ["POST /repos/{owner}/{repo}/deployments"],
-        createDeploymentStatus: [
-            "POST /repos/{owner}/{repo}/deployments/{deployment_id}/statuses",
-        ],
-        createDispatchEvent: ["POST /repos/{owner}/{repo}/dispatches"],
-        createForAuthenticatedUser: ["POST /user/repos"],
-        createFork: ["POST /repos/{owner}/{repo}/forks"],
-        createInOrg: ["POST /orgs/{org}/repos"],
-        createOrUpdateFileContents: ["PUT /repos/{owner}/{repo}/contents/{path}"],
-        createPagesSite: [
-            "POST /repos/{owner}/{repo}/pages",
-            { mediaType: { previews: ["switcheroo"] } },
-        ],
-        createRelease: ["POST /repos/{owner}/{repo}/releases"],
-        createUsingTemplate: [
-            "POST /repos/{template_owner}/{template_repo}/generate",
-            { mediaType: { previews: ["baptiste"] } },
-        ],
-        createWebhook: ["POST /repos/{owner}/{repo}/hooks"],
-        declineInvitation: ["DELETE /user/repository_invitations/{invitation_id}"],
-        delete: ["DELETE /repos/{owner}/{repo}"],
-        deleteAccessRestrictions: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions",
-        ],
-        deleteAdminBranchProtection: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins",
-        ],
-        deleteBranchProtection: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection",
-        ],
-        deleteCommitComment: ["DELETE /repos/{owner}/{repo}/comments/{comment_id}"],
-        deleteCommitSignatureProtection: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures",
-            { mediaType: { previews: ["zzzax"] } },
-        ],
-        deleteDeployKey: ["DELETE /repos/{owner}/{repo}/keys/{key_id}"],
-        deleteDeployment: [
-            "DELETE /repos/{owner}/{repo}/deployments/{deployment_id}",
-        ],
-        deleteFile: ["DELETE /repos/{owner}/{repo}/contents/{path}"],
-        deleteInvitation: [
-            "DELETE /repos/{owner}/{repo}/invitations/{invitation_id}",
-        ],
-        deletePagesSite: [
-            "DELETE /repos/{owner}/{repo}/pages",
-            { mediaType: { previews: ["switcheroo"] } },
-        ],
-        deletePullRequestReviewProtection: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews",
-        ],
-        deleteRelease: ["DELETE /repos/{owner}/{repo}/releases/{release_id}"],
-        deleteReleaseAsset: [
-            "DELETE /repos/{owner}/{repo}/releases/assets/{asset_id}",
-        ],
-        deleteWebhook: ["DELETE /repos/{owner}/{repo}/hooks/{hook_id}"],
-        disableAutomatedSecurityFixes: [
-            "DELETE /repos/{owner}/{repo}/automated-security-fixes",
-            { mediaType: { previews: ["london"] } },
-        ],
-        disableVulnerabilityAlerts: [
-            "DELETE /repos/{owner}/{repo}/vulnerability-alerts",
-            { mediaType: { previews: ["dorian"] } },
-        ],
-        downloadArchive: [
-            "GET /repos/{owner}/{repo}/zipball/{ref}",
-            {},
-            { renamed: ["repos", "downloadZipballArchive"] },
-        ],
-        downloadTarballArchive: ["GET /repos/{owner}/{repo}/tarball/{ref}"],
-        downloadZipballArchive: ["GET /repos/{owner}/{repo}/zipball/{ref}"],
-        enableAutomatedSecurityFixes: [
-            "PUT /repos/{owner}/{repo}/automated-security-fixes",
-            { mediaType: { previews: ["london"] } },
-        ],
-        enableVulnerabilityAlerts: [
-            "PUT /repos/{owner}/{repo}/vulnerability-alerts",
-            { mediaType: { previews: ["dorian"] } },
-        ],
-        get: ["GET /repos/{owner}/{repo}"],
-        getAccessRestrictions: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions",
-        ],
-        getAdminBranchProtection: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins",
-        ],
-        getAllStatusCheckContexts: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts",
-        ],
-        getAllTopics: [
-            "GET /repos/{owner}/{repo}/topics",
-            { mediaType: { previews: ["mercy"] } },
-        ],
-        getAppsWithAccessToProtectedBranch: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps",
-        ],
-        getBranch: ["GET /repos/{owner}/{repo}/branches/{branch}"],
-        getBranchProtection: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection",
-        ],
-        getClones: ["GET /repos/{owner}/{repo}/traffic/clones"],
-        getCodeFrequencyStats: ["GET /repos/{owner}/{repo}/stats/code_frequency"],
-        getCollaboratorPermissionLevel: [
-            "GET /repos/{owner}/{repo}/collaborators/{username}/permission",
-        ],
-        getCombinedStatusForRef: ["GET /repos/{owner}/{repo}/commits/{ref}/status"],
-        getCommit: ["GET /repos/{owner}/{repo}/commits/{ref}"],
-        getCommitActivityStats: ["GET /repos/{owner}/{repo}/stats/commit_activity"],
-        getCommitComment: ["GET /repos/{owner}/{repo}/comments/{comment_id}"],
-        getCommitSignatureProtection: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures",
-            { mediaType: { previews: ["zzzax"] } },
-        ],
-        getCommunityProfileMetrics: ["GET /repos/{owner}/{repo}/community/profile"],
-        getContent: ["GET /repos/{owner}/{repo}/contents/{path}"],
-        getContributorsStats: ["GET /repos/{owner}/{repo}/stats/contributors"],
-        getDeployKey: ["GET /repos/{owner}/{repo}/keys/{key_id}"],
-        getDeployment: ["GET /repos/{owner}/{repo}/deployments/{deployment_id}"],
-        getDeploymentStatus: [
-            "GET /repos/{owner}/{repo}/deployments/{deployment_id}/statuses/{status_id}",
-        ],
-        getLatestPagesBuild: ["GET /repos/{owner}/{repo}/pages/builds/latest"],
-        getLatestRelease: ["GET /repos/{owner}/{repo}/releases/latest"],
-        getPages: ["GET /repos/{owner}/{repo}/pages"],
-        getPagesBuild: ["GET /repos/{owner}/{repo}/pages/builds/{build_id}"],
-        getParticipationStats: ["GET /repos/{owner}/{repo}/stats/participation"],
-        getPullRequestReviewProtection: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews",
-        ],
-        getPunchCardStats: ["GET /repos/{owner}/{repo}/stats/punch_card"],
-        getReadme: ["GET /repos/{owner}/{repo}/readme"],
-        getRelease: ["GET /repos/{owner}/{repo}/releases/{release_id}"],
-        getReleaseAsset: ["GET /repos/{owner}/{repo}/releases/assets/{asset_id}"],
-        getReleaseByTag: ["GET /repos/{owner}/{repo}/releases/tags/{tag}"],
-        getStatusChecksProtection: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks",
-        ],
-        getTeamsWithAccessToProtectedBranch: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams",
-        ],
-        getTopPaths: ["GET /repos/{owner}/{repo}/traffic/popular/paths"],
-        getTopReferrers: ["GET /repos/{owner}/{repo}/traffic/popular/referrers"],
-        getUsersWithAccessToProtectedBranch: [
-            "GET /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users",
-        ],
-        getViews: ["GET /repos/{owner}/{repo}/traffic/views"],
-        getWebhook: ["GET /repos/{owner}/{repo}/hooks/{hook_id}"],
-        getWebhookConfigForRepo: [
-            "GET /repos/{owner}/{repo}/hooks/{hook_id}/config",
-        ],
-        listBranches: ["GET /repos/{owner}/{repo}/branches"],
-        listBranchesForHeadCommit: [
-            "GET /repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head",
-            { mediaType: { previews: ["groot"] } },
-        ],
-        listCollaborators: ["GET /repos/{owner}/{repo}/collaborators"],
-        listCommentsForCommit: [
-            "GET /repos/{owner}/{repo}/commits/{commit_sha}/comments",
-        ],
-        listCommitCommentsForRepo: ["GET /repos/{owner}/{repo}/comments"],
-        listCommitStatusesForRef: [
-            "GET /repos/{owner}/{repo}/commits/{ref}/statuses",
-        ],
-        listCommits: ["GET /repos/{owner}/{repo}/commits"],
-        listContributors: ["GET /repos/{owner}/{repo}/contributors"],
-        listDeployKeys: ["GET /repos/{owner}/{repo}/keys"],
-        listDeploymentStatuses: [
-            "GET /repos/{owner}/{repo}/deployments/{deployment_id}/statuses",
-        ],
-        listDeployments: ["GET /repos/{owner}/{repo}/deployments"],
-        listForAuthenticatedUser: ["GET /user/repos"],
-        listForOrg: ["GET /orgs/{org}/repos"],
-        listForUser: ["GET /users/{username}/repos"],
-        listForks: ["GET /repos/{owner}/{repo}/forks"],
-        listInvitations: ["GET /repos/{owner}/{repo}/invitations"],
-        listInvitationsForAuthenticatedUser: ["GET /user/repository_invitations"],
-        listLanguages: ["GET /repos/{owner}/{repo}/languages"],
-        listPagesBuilds: ["GET /repos/{owner}/{repo}/pages/builds"],
-        listPublic: ["GET /repositories"],
-        listPullRequestsAssociatedWithCommit: [
-            "GET /repos/{owner}/{repo}/commits/{commit_sha}/pulls",
-            { mediaType: { previews: ["groot"] } },
-        ],
-        listReleaseAssets: [
-            "GET /repos/{owner}/{repo}/releases/{release_id}/assets",
-        ],
-        listReleases: ["GET /repos/{owner}/{repo}/releases"],
-        listTags: ["GET /repos/{owner}/{repo}/tags"],
-        listTeams: ["GET /repos/{owner}/{repo}/teams"],
-        listWebhooks: ["GET /repos/{owner}/{repo}/hooks"],
-        merge: ["POST /repos/{owner}/{repo}/merges"],
-        pingWebhook: ["POST /repos/{owner}/{repo}/hooks/{hook_id}/pings"],
-        removeAppAccessRestrictions: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps",
-            {},
-            { mapToData: "apps" },
-        ],
-        removeCollaborator: [
-            "DELETE /repos/{owner}/{repo}/collaborators/{username}",
-        ],
-        removeStatusCheckContexts: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts",
-            {},
-            { mapToData: "contexts" },
-        ],
-        removeStatusCheckProtection: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks",
-        ],
-        removeTeamAccessRestrictions: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams",
-            {},
-            { mapToData: "teams" },
-        ],
-        removeUserAccessRestrictions: [
-            "DELETE /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users",
-            {},
-            { mapToData: "users" },
-        ],
-        replaceAllTopics: [
-            "PUT /repos/{owner}/{repo}/topics",
-            { mediaType: { previews: ["mercy"] } },
-        ],
-        requestPagesBuild: ["POST /repos/{owner}/{repo}/pages/builds"],
-        setAdminBranchProtection: [
-            "POST /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins",
-        ],
-        setAppAccessRestrictions: [
-            "PUT /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps",
-            {},
-            { mapToData: "apps" },
-        ],
-        setStatusCheckContexts: [
-            "PUT /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts",
-            {},
-            { mapToData: "contexts" },
-        ],
-        setTeamAccessRestrictions: [
-            "PUT /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams",
-            {},
-            { mapToData: "teams" },
-        ],
-        setUserAccessRestrictions: [
-            "PUT /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users",
-            {},
-            { mapToData: "users" },
-        ],
-        testPushWebhook: ["POST /repos/{owner}/{repo}/hooks/{hook_id}/tests"],
-        transfer: ["POST /repos/{owner}/{repo}/transfer"],
-        update: ["PATCH /repos/{owner}/{repo}"],
-        updateBranchProtection: [
-            "PUT /repos/{owner}/{repo}/branches/{branch}/protection",
-        ],
-        updateCommitComment: ["PATCH /repos/{owner}/{repo}/comments/{comment_id}"],
-        updateInformationAboutPagesSite: ["PUT /repos/{owner}/{repo}/pages"],
-        updateInvitation: [
-            "PATCH /repos/{owner}/{repo}/invitations/{invitation_id}",
-        ],
-        updatePullRequestReviewProtection: [
-            "PATCH /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews",
-        ],
-        updateRelease: ["PATCH /repos/{owner}/{repo}/releases/{release_id}"],
-        updateReleaseAsset: [
-            "PATCH /repos/{owner}/{repo}/releases/assets/{asset_id}",
-        ],
-        updateStatusCheckPotection: [
-            "PATCH /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks",
-            {},
-            { renamed: ["repos", "updateStatusCheckProtection"] },
-        ],
-        updateStatusCheckProtection: [
-            "PATCH /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks",
-        ],
-        updateWebhook: ["PATCH /repos/{owner}/{repo}/hooks/{hook_id}"],
-        updateWebhookConfigForRepo: [
-            "PATCH /repos/{owner}/{repo}/hooks/{hook_id}/config",
-        ],
-        uploadReleaseAsset: [
-            "POST /repos/{owner}/{repo}/releases/{release_id}/assets{?name,label}",
-            { baseUrl: "https://uploads.github.com" },
-        ],
-    },
-    search: {
-        code: ["GET /search/code"],
-        commits: ["GET /search/commits", { mediaType: { previews: ["cloak"] } }],
-        issuesAndPullRequests: ["GET /search/issues"],
-        labels: ["GET /search/labels"],
-        repos: ["GET /search/repositories"],
-        topics: ["GET /search/topics", { mediaType: { previews: ["mercy"] } }],
-        users: ["GET /search/users"],
-    },
-    secretScanning: {
-        getAlert: [
-            "GET /repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}",
-        ],
-        listAlertsForRepo: ["GET /repos/{owner}/{repo}/secret-scanning/alerts"],
-        updateAlert: [
-            "PATCH /repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}",
-        ],
-    },
-    teams: {
-        addOrUpdateMembershipForUserInOrg: [
-            "PUT /orgs/{org}/teams/{team_slug}/memberships/{username}",
-        ],
-        addOrUpdateProjectPermissionsInOrg: [
-            "PUT /orgs/{org}/teams/{team_slug}/projects/{project_id}",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        addOrUpdateRepoPermissionsInOrg: [
-            "PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
-        ],
-        checkPermissionsForProjectInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/projects/{project_id}",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        checkPermissionsForRepoInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
-        ],
-        create: ["POST /orgs/{org}/teams"],
-        createDiscussionCommentInOrg: [
-            "POST /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
-        ],
-        createDiscussionInOrg: ["POST /orgs/{org}/teams/{team_slug}/discussions"],
-        deleteDiscussionCommentInOrg: [
-            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}",
-        ],
-        deleteDiscussionInOrg: [
-            "DELETE /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}",
-        ],
-        deleteInOrg: ["DELETE /orgs/{org}/teams/{team_slug}"],
-        getByName: ["GET /orgs/{org}/teams/{team_slug}"],
-        getDiscussionCommentInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}",
-        ],
-        getDiscussionInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}",
-        ],
-        getMembershipForUserInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/memberships/{username}",
-        ],
-        list: ["GET /orgs/{org}/teams"],
-        listChildInOrg: ["GET /orgs/{org}/teams/{team_slug}/teams"],
-        listDiscussionCommentsInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
-        ],
-        listDiscussionsInOrg: ["GET /orgs/{org}/teams/{team_slug}/discussions"],
-        listForAuthenticatedUser: ["GET /user/teams"],
-        listMembersInOrg: ["GET /orgs/{org}/teams/{team_slug}/members"],
-        listPendingInvitationsInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/invitations",
-        ],
-        listProjectsInOrg: [
-            "GET /orgs/{org}/teams/{team_slug}/projects",
-            { mediaType: { previews: ["inertia"] } },
-        ],
-        listReposInOrg: ["GET /orgs/{org}/teams/{team_slug}/repos"],
-        removeMembershipForUserInOrg: [
-            "DELETE /orgs/{org}/teams/{team_slug}/memberships/{username}",
-        ],
-        removeProjectInOrg: [
-            "DELETE /orgs/{org}/teams/{team_slug}/projects/{project_id}",
-        ],
-        removeRepoInOrg: [
-            "DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
-        ],
-        updateDiscussionCommentInOrg: [
-            "PATCH /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}",
-        ],
-        updateDiscussionInOrg: [
-            "PATCH /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}",
-        ],
-        updateInOrg: ["PATCH /orgs/{org}/teams/{team_slug}"],
-    },
-    users: {
-        addEmailForAuthenticated: ["POST /user/emails"],
-        block: ["PUT /user/blocks/{username}"],
-        checkBlocked: ["GET /user/blocks/{username}"],
-        checkFollowingForUser: ["GET /users/{username}/following/{target_user}"],
-        checkPersonIsFollowedByAuthenticated: ["GET /user/following/{username}"],
-        createGpgKeyForAuthenticated: ["POST /user/gpg_keys"],
-        createPublicSshKeyForAuthenticated: ["POST /user/keys"],
-        deleteEmailForAuthenticated: ["DELETE /user/emails"],
-        deleteGpgKeyForAuthenticated: ["DELETE /user/gpg_keys/{gpg_key_id}"],
-        deletePublicSshKeyForAuthenticated: ["DELETE /user/keys/{key_id}"],
-        follow: ["PUT /user/following/{username}"],
-        getAuthenticated: ["GET /user"],
-        getByUsername: ["GET /users/{username}"],
-        getContextForUser: ["GET /users/{username}/hovercard"],
-        getGpgKeyForAuthenticated: ["GET /user/gpg_keys/{gpg_key_id}"],
-        getPublicSshKeyForAuthenticated: ["GET /user/keys/{key_id}"],
-        list: ["GET /users"],
-        listBlockedByAuthenticated: ["GET /user/blocks"],
-        listEmailsForAuthenticated: ["GET /user/emails"],
-        listFollowedByAuthenticated: ["GET /user/following"],
-        listFollowersForAuthenticatedUser: ["GET /user/followers"],
-        listFollowersForUser: ["GET /users/{username}/followers"],
-        listFollowingForUser: ["GET /users/{username}/following"],
-        listGpgKeysForAuthenticated: ["GET /user/gpg_keys"],
-        listGpgKeysForUser: ["GET /users/{username}/gpg_keys"],
-        listPublicEmailsForAuthenticated: ["GET /user/public_emails"],
-        listPublicKeysForUser: ["GET /users/{username}/keys"],
-        listPublicSshKeysForAuthenticated: ["GET /user/keys"],
-        setPrimaryEmailVisibilityForAuthenticated: ["PATCH /user/email/visibility"],
-        unblock: ["DELETE /user/blocks/{username}"],
-        unfollow: ["DELETE /user/following/{username}"],
-        updateAuthenticated: ["PATCH /user"],
-    },
-};
-
-const VERSION = "4.4.1";
-
-function endpointsToMethods(octokit, endpointsMap) {
-    const newMethods = {};
-    for (const [scope, endpoints] of Object.entries(endpointsMap)) {
-        for (const [methodName, endpoint] of Object.entries(endpoints)) {
-            const [route, defaults, decorations] = endpoint;
-            const [method, url] = route.split(/ /);
-            const endpointDefaults = Object.assign({ method, url }, defaults);
-            if (!newMethods[scope]) {
-                newMethods[scope] = {};
-            }
-            const scopeMethods = newMethods[scope];
-            if (decorations) {
-                scopeMethods[methodName] = decorate(octokit, scope, methodName, endpointDefaults, decorations);
-                continue;
-            }
-            scopeMethods[methodName] = octokit.request.defaults(endpointDefaults);
-        }
-    }
-    return newMethods;
-}
-function decorate(octokit, scope, methodName, defaults, decorations) {
-    const requestWithDefaults = octokit.request.defaults(defaults);
-    /* istanbul ignore next */
-    function withDecorations(...args) {
-        // @ts-ignore https://github.com/microsoft/TypeScript/issues/25488
-        let options = requestWithDefaults.endpoint.merge(...args);
-        // There are currently no other decorations than `.mapToData`
-        if (decorations.mapToData) {
-            options = Object.assign({}, options, {
-                data: options[decorations.mapToData],
-                [decorations.mapToData]: undefined,
-            });
-            return requestWithDefaults(options);
-        }
-        if (decorations.renamed) {
-            const [newScope, newMethodName] = decorations.renamed;
-            octokit.log.warn(`octokit.${scope}.${methodName}() has been renamed to octokit.${newScope}.${newMethodName}()`);
-        }
-        if (decorations.deprecated) {
-            octokit.log.warn(decorations.deprecated);
-        }
-        if (decorations.renamedParameters) {
-            // @ts-ignore https://github.com/microsoft/TypeScript/issues/25488
-            const options = requestWithDefaults.endpoint.merge(...args);
-            for (const [name, alias] of Object.entries(decorations.renamedParameters)) {
-                if (name in options) {
-                    octokit.log.warn(`"${name}" parameter is deprecated for "octokit.${scope}.${methodName}()". Use "${alias}" instead`);
-                    if (!(alias in options)) {
-                        options[alias] = options[name];
-                    }
-                    delete options[name];
-                }
-            }
-            return requestWithDefaults(options);
-        }
-        // @ts-ignore https://github.com/microsoft/TypeScript/issues/25488
-        return requestWithDefaults(...args);
-    }
-    return Object.assign(withDecorations, requestWithDefaults);
-}
-
-/**
- * This plugin is a 1:1 copy of internal @octokit/rest plugins. The primary
- * goal is to rebuild @octokit/rest on top of @octokit/core. Once that is
- * done, we will remove the registerEndpoints methods and return the methods
- * directly as with the other plugins. At that point we will also remove the
- * legacy workarounds and deprecations.
- *
- * See the plan at
- * https://github.com/octokit/plugin-rest-endpoint-methods.js/pull/1
- */
-function restEndpointMethods(octokit) {
-    return endpointsToMethods(octokit, Endpoints);
-}
-restEndpointMethods.VERSION = VERSION;
-
-
-//# sourceMappingURL=index.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/_@octokit_request-error@2.0.4@@octokit/request-error/dist-web/index.js":
-/*!*********************************************************************************************!*\
-  !*** ./node_modules/_@octokit_request-error@2.0.4@@octokit/request-error/dist-web/index.js ***!
-  \*********************************************************************************************/
-/*! exports provided: RequestError */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RequestError", function() { return RequestError; });
-/* harmony import */ var deprecation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deprecation */ "./node_modules/_deprecation@2.3.1@deprecation/dist-web/index.js");
-/* harmony import */ var once__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! once */ "./node_modules/_once@1.4.0@once/once.js");
-/* harmony import */ var once__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(once__WEBPACK_IMPORTED_MODULE_1__);
-
-
-
-const logOnce = once__WEBPACK_IMPORTED_MODULE_1___default()((deprecation) => console.warn(deprecation));
-/**
- * Error with extra properties to help with debugging
- */
-class RequestError extends Error {
-    constructor(message, statusCode, options) {
-        super(message);
-        // Maintains proper stack trace (only available on V8)
-        /* istanbul ignore next */
-        if (Error.captureStackTrace) {
-            Error.captureStackTrace(this, this.constructor);
-        }
-        this.name = "HttpError";
-        this.status = statusCode;
-        Object.defineProperty(this, "code", {
-            get() {
-                logOnce(new deprecation__WEBPACK_IMPORTED_MODULE_0__["Deprecation"]("[@octokit/request-error] `error.code` is deprecated, use `error.status`."));
-                return statusCode;
-            },
-        });
-        this.headers = options.headers || {};
-        // redact request credentials without mutating original request options
-        const requestCopy = Object.assign({}, options.request);
-        if (options.request.headers.authorization) {
-            requestCopy.headers = Object.assign({}, options.request.headers, {
-                authorization: options.request.headers.authorization.replace(/ .*$/, " [REDACTED]"),
-            });
-        }
-        requestCopy.url = requestCopy.url
-            // client_id & client_secret can be passed as URL query parameters to increase rate limit
-            // see https://developer.github.com/v3/#increasing-the-unauthenticated-rate-limit-for-oauth-applications
-            .replace(/\bclient_secret=\w+/g, "client_secret=[REDACTED]")
-            // OAuth tokens can be passed as URL query parameters, although it is not recommended
-            // see https://developer.github.com/v3/#oauth2-token-sent-in-a-header
-            .replace(/\baccess_token=\w+/g, "access_token=[REDACTED]");
-        this.request = requestCopy;
-    }
-}
-
-
-//# sourceMappingURL=index.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/_@octokit_request@5.4.12@@octokit/request/dist-web/index.js":
-/*!**********************************************************************************!*\
-  !*** ./node_modules/_@octokit_request@5.4.12@@octokit/request/dist-web/index.js ***!
-  \**********************************************************************************/
-/*! exports provided: request */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "request", function() { return request; });
-/* harmony import */ var _octokit_endpoint__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @octokit/endpoint */ "./node_modules/_@octokit_endpoint@6.0.10@@octokit/endpoint/dist-web/index.js");
-/* harmony import */ var universal_user_agent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! universal-user-agent */ "./node_modules/_universal-user-agent@6.0.0@universal-user-agent/dist-web/index.js");
-/* harmony import */ var is_plain_object__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! is-plain-object */ "./node_modules/_is-plain-object@5.0.0@is-plain-object/dist/is-plain-object.mjs");
-/* harmony import */ var node_fetch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! node-fetch */ "./node_modules/_node-fetch@2.6.1@node-fetch/lib/index.mjs");
-/* harmony import */ var _octokit_request_error__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @octokit/request-error */ "./node_modules/_@octokit_request-error@2.0.4@@octokit/request-error/dist-web/index.js");
-
-
-
-
-
-
-const VERSION = "5.4.12";
-
-function getBufferResponse(response) {
-    return response.arrayBuffer();
-}
-
-function fetchWrapper(requestOptions) {
-    if (Object(is_plain_object__WEBPACK_IMPORTED_MODULE_2__["isPlainObject"])(requestOptions.body) ||
-        Array.isArray(requestOptions.body)) {
-        requestOptions.body = JSON.stringify(requestOptions.body);
-    }
-    let headers = {};
-    let status;
-    let url;
-    const fetch = (requestOptions.request && requestOptions.request.fetch) || node_fetch__WEBPACK_IMPORTED_MODULE_3__["default"];
-    return fetch(requestOptions.url, Object.assign({
-        method: requestOptions.method,
-        body: requestOptions.body,
-        headers: requestOptions.headers,
-        redirect: requestOptions.redirect,
-    }, requestOptions.request))
-        .then((response) => {
-        url = response.url;
-        status = response.status;
-        for (const keyAndValue of response.headers) {
-            headers[keyAndValue[0]] = keyAndValue[1];
-        }
-        if (status === 204 || status === 205) {
-            return;
-        }
-        // GitHub API returns 200 for HEAD requests
-        if (requestOptions.method === "HEAD") {
-            if (status < 400) {
-                return;
-            }
-            throw new _octokit_request_error__WEBPACK_IMPORTED_MODULE_4__["RequestError"](response.statusText, status, {
-                headers,
-                request: requestOptions,
-            });
-        }
-        if (status === 304) {
-            throw new _octokit_request_error__WEBPACK_IMPORTED_MODULE_4__["RequestError"]("Not modified", status, {
-                headers,
-                request: requestOptions,
-            });
-        }
-        if (status >= 400) {
-            return response
-                .text()
-                .then((message) => {
-                const error = new _octokit_request_error__WEBPACK_IMPORTED_MODULE_4__["RequestError"](message, status, {
-                    headers,
-                    request: requestOptions,
-                });
-                try {
-                    let responseBody = JSON.parse(error.message);
-                    Object.assign(error, responseBody);
-                    let errors = responseBody.errors;
-                    // Assumption `errors` would always be in Array format
-                    error.message =
-                        error.message + ": " + errors.map(JSON.stringify).join(", ");
-                }
-                catch (e) {
-                    // ignore, see octokit/rest.js#684
-                }
-                throw error;
-            });
-        }
-        const contentType = response.headers.get("content-type");
-        if (/application\/json/.test(contentType)) {
-            return response.json();
-        }
-        if (!contentType || /^text\/|charset=utf-8$/.test(contentType)) {
-            return response.text();
-        }
-        return getBufferResponse(response);
-    })
-        .then((data) => {
-        return {
-            status,
-            url,
-            headers,
-            data,
-        };
-    })
-        .catch((error) => {
-        if (error instanceof _octokit_request_error__WEBPACK_IMPORTED_MODULE_4__["RequestError"]) {
-            throw error;
-        }
-        throw new _octokit_request_error__WEBPACK_IMPORTED_MODULE_4__["RequestError"](error.message, 500, {
-            headers,
-            request: requestOptions,
-        });
-    });
-}
-
-function withDefaults(oldEndpoint, newDefaults) {
-    const endpoint = oldEndpoint.defaults(newDefaults);
-    const newApi = function (route, parameters) {
-        const endpointOptions = endpoint.merge(route, parameters);
-        if (!endpointOptions.request || !endpointOptions.request.hook) {
-            return fetchWrapper(endpoint.parse(endpointOptions));
-        }
-        const request = (route, parameters) => {
-            return fetchWrapper(endpoint.parse(endpoint.merge(route, parameters)));
-        };
-        Object.assign(request, {
-            endpoint,
-            defaults: withDefaults.bind(null, endpoint),
-        });
-        return endpointOptions.request.hook(request, endpointOptions);
-    };
-    return Object.assign(newApi, {
-        endpoint,
-        defaults: withDefaults.bind(null, endpoint),
-    });
-}
-
-const request = withDefaults(_octokit_endpoint__WEBPACK_IMPORTED_MODULE_0__["endpoint"], {
-    headers: {
-        "user-agent": `octokit-request.js/${VERSION} ${Object(universal_user_agent__WEBPACK_IMPORTED_MODULE_1__["getUserAgent"])()}`,
-    },
-});
-
-
-//# sourceMappingURL=index.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/_@octokit_rest@18.0.12@@octokit/rest/dist-web/index.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/_@octokit_rest@18.0.12@@octokit/rest/dist-web/index.js ***!
-  \*****************************************************************************/
-/*! exports provided: Octokit */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Octokit", function() { return Octokit; });
-/* harmony import */ var _octokit_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @octokit/core */ "./node_modules/_@octokit_core@3.2.4@@octokit/core/dist-web/index.js");
-/* harmony import */ var _octokit_plugin_request_log__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @octokit/plugin-request-log */ "./node_modules/_@octokit_plugin-request-log@1.0.2@@octokit/plugin-request-log/dist-web/index.js");
-/* harmony import */ var _octokit_plugin_paginate_rest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @octokit/plugin-paginate-rest */ "./node_modules/_@octokit_plugin-paginate-rest@2.7.1@@octokit/plugin-paginate-rest/dist-web/index.js");
-/* harmony import */ var _octokit_plugin_rest_endpoint_methods__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @octokit/plugin-rest-endpoint-methods */ "./node_modules/_@octokit_plugin-rest-endpoint-methods@4.4.1@@octokit/plugin-rest-endpoint-methods/dist-web/index.js");
-
-
-
-
-
-const VERSION = "18.0.12";
-
-const Octokit = _octokit_core__WEBPACK_IMPORTED_MODULE_0__["Octokit"].plugin(_octokit_plugin_request_log__WEBPACK_IMPORTED_MODULE_1__["requestLog"], _octokit_plugin_rest_endpoint_methods__WEBPACK_IMPORTED_MODULE_3__["restEndpointMethods"], _octokit_plugin_paginate_rest__WEBPACK_IMPORTED_MODULE_2__["paginateRest"]).defaults({
-    userAgent: `octokit-rest.js/${VERSION}`,
-});
-
-
-//# sourceMappingURL=index.js.map
-
-
-/***/ }),
-
 /***/ "./node_modules/_ansi-styles@4.3.0@ansi-styles/index.js":
 /*!**************************************************************!*\
   !*** ./node_modules/_ansi-styles@4.3.0@ansi-styles/index.js ***!
@@ -2883,198 +388,6 @@ module.exports = r => {
   const n = process.versions.node.split('.').map(x => parseInt(x, 10))
   r = r.split('.').map(x => parseInt(x, 10))
   return n[0] > r[0] || (n[0] === r[0] && (n[1] > r[1] || (n[1] === r[1] && n[2] >= r[2])))
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/_before-after-hook@2.1.0@before-after-hook/index.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/_before-after-hook@2.1.0@before-after-hook/index.js ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var register = __webpack_require__(/*! ./lib/register */ "./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/register.js")
-var addHook = __webpack_require__(/*! ./lib/add */ "./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/add.js")
-var removeHook = __webpack_require__(/*! ./lib/remove */ "./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/remove.js")
-
-// bind with array of arguments: https://stackoverflow.com/a/21792913
-var bind = Function.bind
-var bindable = bind.bind(bind)
-
-function bindApi (hook, state, name) {
-  var removeHookRef = bindable(removeHook, null).apply(null, name ? [state, name] : [state])
-  hook.api = { remove: removeHookRef }
-  hook.remove = removeHookRef
-
-  ;['before', 'error', 'after', 'wrap'].forEach(function (kind) {
-    var args = name ? [state, kind, name] : [state, kind]
-    hook[kind] = hook.api[kind] = bindable(addHook, null).apply(null, args)
-  })
-}
-
-function HookSingular () {
-  var singularHookName = 'h'
-  var singularHookState = {
-    registry: {}
-  }
-  var singularHook = register.bind(null, singularHookState, singularHookName)
-  bindApi(singularHook, singularHookState, singularHookName)
-  return singularHook
-}
-
-function HookCollection () {
-  var state = {
-    registry: {}
-  }
-
-  var hook = register.bind(null, state)
-  bindApi(hook, state)
-
-  return hook
-}
-
-var collectionHookDeprecationMessageDisplayed = false
-function Hook () {
-  if (!collectionHookDeprecationMessageDisplayed) {
-    console.warn('[before-after-hook]: "Hook()" repurposing warning, use "Hook.Collection()". Read more: https://git.io/upgrade-before-after-hook-to-1.4')
-    collectionHookDeprecationMessageDisplayed = true
-  }
-  return HookCollection()
-}
-
-Hook.Singular = HookSingular.bind()
-Hook.Collection = HookCollection.bind()
-
-module.exports = Hook
-// expose constructors as a named property for TypeScript
-module.exports.Hook = Hook
-module.exports.Singular = Hook.Singular
-module.exports.Collection = Hook.Collection
-
-
-/***/ }),
-
-/***/ "./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/add.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/add.js ***!
-  \****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = addHook
-
-function addHook (state, kind, name, hook) {
-  var orig = hook
-  if (!state.registry[name]) {
-    state.registry[name] = []
-  }
-
-  if (kind === 'before') {
-    hook = function (method, options) {
-      return Promise.resolve()
-        .then(orig.bind(null, options))
-        .then(method.bind(null, options))
-    }
-  }
-
-  if (kind === 'after') {
-    hook = function (method, options) {
-      var result
-      return Promise.resolve()
-        .then(method.bind(null, options))
-        .then(function (result_) {
-          result = result_
-          return orig(result, options)
-        })
-        .then(function () {
-          return result
-        })
-    }
-  }
-
-  if (kind === 'error') {
-    hook = function (method, options) {
-      return Promise.resolve()
-        .then(method.bind(null, options))
-        .catch(function (error) {
-          return orig(error, options)
-        })
-    }
-  }
-
-  state.registry[name].push({
-    hook: hook,
-    orig: orig
-  })
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/register.js":
-/*!*********************************************************************************!*\
-  !*** ./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/register.js ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = register
-
-function register (state, name, method, options) {
-  if (typeof method !== 'function') {
-    throw new Error('method for before hook must be a function')
-  }
-
-  if (!options) {
-    options = {}
-  }
-
-  if (Array.isArray(name)) {
-    return name.reverse().reduce(function (callback, name) {
-      return register.bind(null, state, name, callback, options)
-    }, method)()
-  }
-
-  return Promise.resolve()
-    .then(function () {
-      if (!state.registry[name]) {
-        return method(options)
-      }
-
-      return (state.registry[name]).reduce(function (method, registered) {
-        return registered.hook.bind(null, method, options)
-      }, method)()
-    })
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/remove.js":
-/*!*******************************************************************************!*\
-  !*** ./node_modules/_before-after-hook@2.1.0@before-after-hook/lib/remove.js ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = removeHook
-
-function removeHook (state, name, method) {
-  if (!state.registry[name]) {
-    return
-  }
-
-  var index = state.registry[name]
-    .map(function (registered) { return registered.orig })
-    .indexOf(method)
-
-  if (index === -1) {
-    return
-  }
-
-  state.registry[name].splice(index, 1)
 }
 
 
@@ -7972,36 +5285,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/_deprecation@2.3.1@deprecation/dist-web/index.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/_deprecation@2.3.1@deprecation/dist-web/index.js ***!
-  \***********************************************************************/
-/*! exports provided: Deprecation */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Deprecation", function() { return Deprecation; });
-class Deprecation extends Error {
-  constructor(message) {
-    super(message); // Maintains proper stack trace (only available on V8)
-
-    /* istanbul ignore next */
-
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, this.constructor);
-    }
-
-    this.name = 'Deprecation';
-  }
-
-}
-
-
-
-
-/***/ }),
-
 /***/ "./node_modules/_fill-range@7.0.1@fill-range/index.js":
 /*!************************************************************!*\
   !*** ./node_modules/_fill-range@7.0.1@fill-range/index.js ***!
@@ -11512,54 +8795,6 @@ module.exports = function(num) {
   }
   return false;
 };
-
-
-/***/ }),
-
-/***/ "./node_modules/_is-plain-object@5.0.0@is-plain-object/dist/is-plain-object.mjs":
-/*!**************************************************************************************!*\
-  !*** ./node_modules/_is-plain-object@5.0.0@is-plain-object/dist/is-plain-object.mjs ***!
-  \**************************************************************************************/
-/*! exports provided: isPlainObject */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPlainObject", function() { return isPlainObject; });
-/*!
- * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
- *
- * Copyright (c) 2014-2017, Jon Schlinkert.
- * Released under the MIT License.
- */
-
-function isObject(o) {
-  return Object.prototype.toString.call(o) === '[object Object]';
-}
-
-function isPlainObject(o) {
-  var ctor,prot;
-
-  if (isObject(o) === false) return false;
-
-  // If has modified constructor
-  ctor = o.constructor;
-  if (ctor === undefined) return true;
-
-  // If has modified prototype
-  prot = ctor.prototype;
-  if (isObject(prot) === false) return false;
-
-  // If constructor does not have an Object-specific method
-  if (prot.hasOwnProperty('isPrototypeOf') === false) {
-    return false;
-  }
-
-  // Most likely a plain Object
-  return true;
-}
-
-
 
 
 /***/ }),
@@ -30861,59 +28096,6 @@ module.exports = function(path, stripTrailing) {
 
 /***/ }),
 
-/***/ "./node_modules/_once@1.4.0@once/once.js":
-/*!***********************************************!*\
-  !*** ./node_modules/_once@1.4.0@once/once.js ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var wrappy = __webpack_require__(/*! wrappy */ "./node_modules/_wrappy@1.0.2@wrappy/wrappy.js")
-module.exports = wrappy(once)
-module.exports.strict = wrappy(onceStrict)
-
-once.proto = once(function () {
-  Object.defineProperty(Function.prototype, 'once', {
-    value: function () {
-      return once(this)
-    },
-    configurable: true
-  })
-
-  Object.defineProperty(Function.prototype, 'onceStrict', {
-    value: function () {
-      return onceStrict(this)
-    },
-    configurable: true
-  })
-})
-
-function once (fn) {
-  var f = function () {
-    if (f.called) return f.value
-    f.called = true
-    return f.value = fn.apply(this, arguments)
-  }
-  f.called = false
-  return f
-}
-
-function onceStrict (fn) {
-  var f = function () {
-    if (f.called)
-      throw new Error(f.onceError)
-    f.called = true
-    return f.value = fn.apply(this, arguments)
-  }
-  var name = fn.name || 'Function wrapped with `once`'
-  f.onceError = name + " shouldn't be called more than once"
-  f.called = false
-  return f
-}
-
-
-/***/ }),
-
 /***/ "./node_modules/_picomatch@2.2.2@picomatch/index.js":
 /*!**********************************************************!*\
   !*** ./node_modules/_picomatch@2.2.2@picomatch/index.js ***!
@@ -33773,32 +30955,6 @@ module.exports = toRegexRange;
 
 /***/ }),
 
-/***/ "./node_modules/_universal-user-agent@6.0.0@universal-user-agent/dist-web/index.js":
-/*!*****************************************************************************************!*\
-  !*** ./node_modules/_universal-user-agent@6.0.0@universal-user-agent/dist-web/index.js ***!
-  \*****************************************************************************************/
-/*! exports provided: getUserAgent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserAgent", function() { return getUserAgent; });
-function getUserAgent() {
-    if (typeof navigator === "object" && "userAgent" in navigator) {
-        return navigator.userAgent;
-    }
-    if (typeof process === "object" && "version" in process) {
-        return `Node.js/${process.version.substr(1)} (${process.platform}; ${process.arch})`;
-    }
-    return "<environment undetectable>";
-}
-
-
-//# sourceMappingURL=index.js.map
-
-
-/***/ }),
-
 /***/ "./node_modules/_universalify@1.0.0@universalify/index.js":
 /*!****************************************************************!*\
   !*** ./node_modules/_universalify@1.0.0@universalify/index.js ***!
@@ -33903,46 +31059,220 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./node_modules/_wrappy@1.0.2@wrappy/wrappy.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/_wrappy@1.0.2@wrappy/wrappy.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/***/ "./src/_views/explorerView.ts":
+/*!************************************!*\
+  !*** ./src/_views/explorerView.ts ***!
+  \************************************/
+/*! exports provided: ExplorerView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// Returns a wrapper function that returns a wrapped callback
-// The wrapper function should do some stuff, and return a
-// presumably different callback function.
-// This makes sure that own properties are retained, so that
-// decorations and such are not lost along the way.
-module.exports = wrappy
-function wrappy (fn, cb) {
-  if (fn && cb) return wrappy(fn)(cb)
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExplorerView", function() { return ExplorerView; });
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
+/* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../managers/configuration */ "./src/managers/configuration.ts");
+/* harmony import */ var _nodes_explorerNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nodes/explorerNode */ "./src/_views/nodes/explorerNode.ts");
+/* harmony import */ var _view__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./view */ "./src/_views/view.ts");
 
-  if (typeof fn !== 'function')
-    throw new TypeError('need wrapper function')
 
-  Object.keys(fn).forEach(function (k) {
-    wrapper[k] = fn[k]
-  })
 
-  return wrapper
 
-  function wrapper() {
-    var args = new Array(arguments.length)
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i]
+class ExplorerView extends _view__WEBPACK_IMPORTED_MODULE_3__["default"] {
+    constructor() {
+        super(_config__WEBPACK_IMPORTED_MODULE_0__["ViewId"].Explorer, _config__WEBPACK_IMPORTED_MODULE_0__["ViewName"].Explorer);
     }
-    var ret = fn.apply(this, args)
-    var cb = args[args.length-1]
-    if (typeof ret === 'function' && ret !== cb) {
-      Object.keys(cb).forEach(function (k) {
-        ret[k] = cb[k]
-      })
+    getRoot() {
+        return new _nodes_explorerNode__WEBPACK_IMPORTED_MODULE_2__["ExplorerNode"](this, null);
     }
-    return ret
-  }
+    registerCommands() { }
+    onConfigurationChanged(e) {
+        if (_managers_configuration__WEBPACK_IMPORTED_MODULE_1__["default"].changed(e, 'views', 'repositories', 'location')) {
+            this.initialize('facility', { showCollapseAll: true });
+        }
+        if (!_managers_configuration__WEBPACK_IMPORTED_MODULE_1__["default"].initializing(e) && this._root !== undefined) {
+            // void this.refresh(true)
+        }
+    }
 }
+
+
+/***/ }),
+
+/***/ "./src/_views/nodes/explorerNode.ts":
+/*!******************************************!*\
+  !*** ./src/_views/nodes/explorerNode.ts ***!
+  \******************************************/
+/*! exports provided: ExplorerNode */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExplorerNode", function() { return ExplorerNode; });
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
+/* harmony import */ var _views_nodes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../views/nodes */ "./src/views/nodes/index.ts");
+/* harmony import */ var _repositoryNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./repositoryNode */ "./src/_views/nodes/repositoryNode.ts");
+/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./viewNode */ "./src/_views/nodes/viewNode.ts");
+
+
+
+
+
+class ExplorerNode extends _viewNode__WEBPACK_IMPORTED_MODULE_4__["ViewNode"] {
+    constructor(view, parent) {
+        super(view, parent);
+    }
+    getTreeItem() {
+        const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](this.view.name, vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].Expanded);
+        item.contextValue = _views_nodes__WEBPACK_IMPORTED_MODULE_2__["ContextValues"].Explorer;
+        return item;
+    }
+    getChildren() {
+        const children = [];
+        const root = _app__WEBPACK_IMPORTED_MODULE_1__["default"].tree.getRoot();
+        if (!root || !root.element) {
+            // TODO: feat meessage node
+            return [];
+        }
+        children.push(new _repositoryNode__WEBPACK_IMPORTED_MODULE_3__["RepositoryNode"](this.view, this, root));
+        return children;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/_views/nodes/repositoryNode.ts":
+/*!********************************************!*\
+  !*** ./src/_views/nodes/repositoryNode.ts ***!
+  \********************************************/
+/*! exports provided: RepositoryNode */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RepositoryNode", function() { return RepositoryNode; });
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _views_nodes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../views/nodes */ "./src/views/nodes/index.ts");
+/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./viewNode */ "./src/_views/nodes/viewNode.ts");
+
+
+
+class RepositoryNode extends _viewNode__WEBPACK_IMPORTED_MODULE_2__["ViewNode"] {
+    constructor(view, parent, repo) {
+        super(view, parent);
+        this.repo = repo;
+    }
+    getTreeItem() {
+        const { name, extension } = this.repo.element;
+        // if (name === HIDDEN_FILENAME) return null
+        const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](name, this.repo.children.length
+            ? vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].Expanded
+            : vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].None);
+        // item.iconPath =
+        item.contextValue = _views_nodes__WEBPACK_IMPORTED_MODULE_1__["ContextValues"].Explorer;
+        // item
+        return item;
+    }
+    getChildren() {
+        const children = [];
+        // if(!this.repo.children.length)
+        this.repo.children.forEach((item) => {
+            children.push(new RepositoryNode(this.view, this, item));
+        });
+        return children;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/_views/nodes/viewNode.ts":
+/*!**************************************!*\
+  !*** ./src/_views/nodes/viewNode.ts ***!
+  \**************************************/
+/*! exports provided: ViewNode */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ViewNode", function() { return ViewNode; });
+class ViewNode {
+    constructor(view, parent) {
+        this.view = view;
+        this.parent = parent;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/_views/view.ts":
+/*!****************************!*\
+  !*** ./src/_views/view.ts ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/_lodash@4.17.20@lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../managers/configuration */ "./src/managers/configuration.ts");
+
+
+
+
+class ViewBase {
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
+        // protected _onDidChangeTreeData = new EventEmitter<ViewNode>()
+        // get onDidChangeTreeData(): EventEmitter<ViewNode>{
+        //   return this._onDidChangeTreeData.event
+        // }
+        this._onDidChangeVisibility = new vscode__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.registerCommands();
+        setImmediate(() => this.onConfigurationChanged(_managers_configuration__WEBPACK_IMPORTED_MODULE_3__["default"].initializingChangeEvent));
+    }
+    get onDidChangeVisibility() {
+        return this._onDidChangeVisibility.event;
+    }
+    dispose() {
+        this._disposable && this._disposable.dispose();
+    }
+    initialize(container = _config__WEBPACK_IMPORTED_MODULE_1__["extensionId"], options = {}) {
+        this._tree = vscode__WEBPACK_IMPORTED_MODULE_0__["window"].createTreeView(`${this.id}${container ? `:${container}` : ''}`, {
+            ...options,
+            treeDataProvider: this,
+        });
+        this._disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(this._tree, this._tree.onDidChangeVisibility(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["debounce"])(this.onVisibilityChanged, 250), this));
+    }
+    getTreeItem(node) {
+        return node.getTreeItem();
+    }
+    getChildren(node) {
+        if (node !== undefined)
+            return node.getChildren();
+        const root = this.ensureRoot();
+        return root.getChildren();
+    }
+    ensureRoot() {
+        if (this._root === undefined) {
+            this._root = this.getRoot();
+        }
+        return this._root;
+    }
+    onVisibilityChanged(e) {
+        this._onDidChangeVisibility.fire(e);
+    }
+}
+/* harmony default export */ __webpack_exports__["default"] = (ViewBase);
 
 
 /***/ }),
@@ -33951,24 +31281,23 @@ function wrappy (fn, cb) {
 /*!********************!*\
   !*** ./src/app.ts ***!
   \********************/
-/*! exports provided: App */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "App", function() { return App; });
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "path");
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _views_explorerView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/explorerView */ "./src/views/explorerView.ts");
-/* harmony import */ var _views_outlineView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/outlineView */ "./src/views/outlineView.ts");
-/* harmony import */ var _tree_explorerTree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tree/explorerTree */ "./src/tree/explorerTree.ts");
-/* harmony import */ var _managers_monitor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./managers/monitor */ "./src/managers/monitor.ts");
-/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./config/pathConfig */ "./src/config/pathConfig.ts");
-/* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./managers/configuration */ "./src/managers/configuration.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services */ "./src/services/index.ts");
+/* harmony import */ var _views_explorerView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_views/explorerView */ "./src/_views/explorerView.ts");
+/* harmony import */ var _tree_explorerTree__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tree/_explorerTree */ "./src/tree/_explorerTree.ts");
+/* harmony import */ var _managers_monitor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./managers/monitor */ "./src/managers/monitor.ts");
+/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./config/pathConfig */ "./src/config/pathConfig.ts");
+/* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./managers/configuration */ "./src/managers/configuration.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./services */ "./src/services/index.ts");
 
 
-
+// import { OutlineView } from './views/outlineView'
+// import { ExplorerTree, GistElement } from './tree/explorerTree'
 
 
 
@@ -33980,7 +31309,7 @@ class App {
     }
     static get config() {
         if (this._config === undefined) {
-            this._config = _managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].get();
+            this._config = _managers_configuration__WEBPACK_IMPORTED_MODULE_5__["default"].get();
         }
         return this._config;
     }
@@ -33990,46 +31319,41 @@ class App {
         }
         return this._explorerView;
     }
-    static get outlineView() {
-        if (this._outlineView === undefined) {
-            this._context.subscriptions.push((this._outlineView = new _views_outlineView__WEBPACK_IMPORTED_MODULE_2__["OutlineView"]()));
-        }
-        return this._outlineView;
-    }
-    static get explorerTree() {
-        return this._explorerTree;
+    static get tree() {
+        return this._tree;
     }
     static initialize(context, config) {
         this._context = context;
         this._config = config;
-        context.subscriptions.push(_managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].onDidChange(this.onConfigurationChanging, this));
-        context.subscriptions.push((this._explorerTree = new _tree_explorerTree__WEBPACK_IMPORTED_MODULE_3__["ExplorerTree"]()));
+        context.subscriptions.push(_managers_configuration__WEBPACK_IMPORTED_MODULE_5__["default"].onDidChange(this.onConfigurationChanging, this));
+        context.subscriptions.push((this._tree = new _tree_explorerTree__WEBPACK_IMPORTED_MODULE_2__["default"]()));
         context.subscriptions.push((this._explorerView = new _views_explorerView__WEBPACK_IMPORTED_MODULE_1__["ExplorerView"]()));
-        context.subscriptions.push((this._outlineView = new _views_outlineView__WEBPACK_IMPORTED_MODULE_2__["OutlineView"]()));
+        // context.subscriptions.push((this._outlineView = new OutlineView()))
     }
     static async onConfigurationChanging(e) {
         var _a;
-        if (_managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].changed(e, _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ConfigurationName"].WorkspaceFolder)) {
-            const onConfigurationSetting = this._onConfigurationSetting.get(_config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ConfigurationName"].WorkspaceFolder);
+        if (_managers_configuration__WEBPACK_IMPORTED_MODULE_5__["default"].changed(e, _config_pathConfig__WEBPACK_IMPORTED_MODULE_4__["ConfigurationName"].WorkspaceFolder)) {
+            const onConfigurationSetting = this._onConfigurationSetting.get(_config_pathConfig__WEBPACK_IMPORTED_MODULE_4__["ConfigurationName"].WorkspaceFolder);
             if (onConfigurationSetting)
                 return;
-            this._onConfigurationSetting.set(_config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ConfigurationName"].WorkspaceFolder, true);
-            let cfg = (_a = this._config) === null || _a === void 0 ? void 0 : _a.workspaceFolder, config = _managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].get(_config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ConfigurationName"].WorkspaceFolder);
-            cfg = cfg ? path__WEBPACK_IMPORTED_MODULE_0__["join"](cfg, _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["HIDDEN"]) : _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ORIGIN_PATH"];
-            config = config ? path__WEBPACK_IMPORTED_MODULE_0__["join"](config, _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["HIDDEN"]) : _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ORIGIN_PATH"];
+            this._onConfigurationSetting.set(_config_pathConfig__WEBPACK_IMPORTED_MODULE_4__["ConfigurationName"].WorkspaceFolder, true);
+            let cfg = (_a = this._config) === null || _a === void 0 ? void 0 : _a.workspaceFolder, config = _managers_configuration__WEBPACK_IMPORTED_MODULE_5__["default"].get(_config_pathConfig__WEBPACK_IMPORTED_MODULE_4__["ConfigurationName"].WorkspaceFolder);
+            cfg = cfg ? path__WEBPACK_IMPORTED_MODULE_0__["join"](cfg, _config_pathConfig__WEBPACK_IMPORTED_MODULE_4__["HIDDEN_FILENAME"]) : _config_pathConfig__WEBPACK_IMPORTED_MODULE_4__["ORIGIN_PATH"];
+            config = config ? path__WEBPACK_IMPORTED_MODULE_0__["join"](config, _config_pathConfig__WEBPACK_IMPORTED_MODULE_4__["HIDDEN_FILENAME"]) : _config_pathConfig__WEBPACK_IMPORTED_MODULE_4__["ORIGIN_PATH"];
             if (cfg === config) {
-                this._onConfigurationSetting.set(_config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ConfigurationName"].WorkspaceFolder, false);
+                this._onConfigurationSetting.set(_config_pathConfig__WEBPACK_IMPORTED_MODULE_4__["ConfigurationName"].WorkspaceFolder, false);
                 return;
             }
-            await _services__WEBPACK_IMPORTED_MODULE_7__["fileSystem"].migrate(cfg, config);
-            this._explorerTree.clear();
-            _managers_monitor__WEBPACK_IMPORTED_MODULE_4__["default"].reset(this._context, _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["CONFIGURED_PATH"]);
-            this._config = _managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].get();
-            this._onConfigurationSetting.set(_config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ConfigurationName"].WorkspaceFolder, false);
+            await _services__WEBPACK_IMPORTED_MODULE_6__["fileSystem"].migrate(cfg, config);
+            // this._explorerTree.clear()
+            _managers_monitor__WEBPACK_IMPORTED_MODULE_3__["default"].reset(this._context, _managers_configuration__WEBPACK_IMPORTED_MODULE_5__["default"].path);
+            this._config = _managers_configuration__WEBPACK_IMPORTED_MODULE_5__["default"].get();
+            this._onConfigurationSetting.set(_config_pathConfig__WEBPACK_IMPORTED_MODULE_4__["ConfigurationName"].WorkspaceFolder, false);
         }
     }
 }
 App._onConfigurationSetting = new Map();
+/* harmony default export */ __webpack_exports__["default"] = (App);
 
 
 /***/ }),
@@ -34038,7 +31362,7 @@ App._onConfigurationSetting = new Map();
 /*!*************************!*\
   !*** ./src/commands.ts ***!
   \*************************/
-/*! exports provided: Commands, command, registerCommands, Command, Save, Paste, Open, Pull, composeSnippet, composeSnippetData, Push */
+/*! exports provided: Commands, command, registerCommands, Command */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -34052,31 +31376,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Command", function() { return _commands_common__WEBPACK_IMPORTED_MODULE_0__["Command"]; });
 
-/* harmony import */ var _commands_save__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./commands/save */ "./src/commands/save.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Save", function() { return _commands_save__WEBPACK_IMPORTED_MODULE_1__["Save"]; });
 
-/* harmony import */ var _commands_paste__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./commands/paste */ "./src/commands/paste.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Paste", function() { return _commands_paste__WEBPACK_IMPORTED_MODULE_2__["Paste"]; });
-
-/* harmony import */ var _commands_open__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./commands/open */ "./src/commands/open.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Open", function() { return _commands_open__WEBPACK_IMPORTED_MODULE_3__["Open"]; });
-
-/* harmony import */ var _commands_pull__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./commands/pull */ "./src/commands/pull.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Pull", function() { return _commands_pull__WEBPACK_IMPORTED_MODULE_4__["Pull"]; });
-
-/* harmony import */ var _commands_push__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./commands/push */ "./src/commands/push.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "composeSnippet", function() { return _commands_push__WEBPACK_IMPORTED_MODULE_5__["composeSnippet"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "composeSnippetData", function() { return _commands_push__WEBPACK_IMPORTED_MODULE_5__["composeSnippetData"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Push", function() { return _commands_push__WEBPACK_IMPORTED_MODULE_5__["Push"]; });
-
-
-
-
-
-
-
+// export * from './commands/save'
+// export * from './commands/paste'
+// export * from './commands/open'
+// export * from './commands/pull'
+// export * from './commands/push'
 
 
 /***/ }),
@@ -34138,492 +31443,6 @@ class Command {
 
 /***/ }),
 
-/***/ "./src/commands/open.ts":
-/*!******************************!*\
-  !*** ./src/commands/open.ts ***!
-  \******************************/
-/*! exports provided: Open */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Open", function() { return Open; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common */ "./src/commands/common.ts");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-let Open = class Open extends _common__WEBPACK_IMPORTED_MODULE_2__["Command"] {
-    constructor() {
-        super(_common__WEBPACK_IMPORTED_MODULE_2__["Commands"].Open);
-    }
-    async execute() {
-        const uri = vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(_config_pathConfig__WEBPACK_IMPORTED_MODULE_1__["CONFIGURED_PATH"]);
-        await vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].executeCommand('vscode.openFolder', uri, true);
-    }
-};
-Open = __decorate([
-    Object(_common__WEBPACK_IMPORTED_MODULE_2__["command"])()
-], Open);
-
-
-
-/***/ }),
-
-/***/ "./src/commands/paste.ts":
-/*!*******************************!*\
-  !*** ./src/commands/paste.ts ***!
-  \*******************************/
-/*! exports provided: Paste */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Paste", function() { return Paste; });
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "path");
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common */ "./src/commands/common.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services */ "./src/services/index.ts");
-/* harmony import */ var _managers_i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../managers/i18n */ "./src/managers/i18n.ts");
-/* harmony import */ var _config_message__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../config/message */ "./src/config/message.ts");
-/* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../managers/configuration */ "./src/managers/configuration.ts");
-/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-
-
-
-let Paste = class Paste extends _common__WEBPACK_IMPORTED_MODULE_2__["Command"] {
-    constructor() {
-        super(_common__WEBPACK_IMPORTED_MODULE_2__["Commands"].Paste);
-    }
-    async execute() {
-        const input = await Object(_utils__WEBPACK_IMPORTED_MODULE_1__["showInputBox"])({
-            prompt: _managers_i18n__WEBPACK_IMPORTED_MODULE_4__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_5__["Comment"].PasteDescription),
-        });
-        if (input) {
-            await this.onKeywordInputed(input);
-        }
-        else {
-            Object(_utils__WEBPACK_IMPORTED_MODULE_1__["showWarningMessage"])(_managers_i18n__WEBPACK_IMPORTED_MODULE_4__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_5__["WarningMessage"].CancelPasteCodeSnippetToCurrentFile));
-        }
-    }
-    async onKeywordInputed(input) {
-        const config = _managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].get(_config_pathConfig__WEBPACK_IMPORTED_MODULE_7__["ConfigurationName"].Keyword);
-        if (config) {
-            const path = path__WEBPACK_IMPORTED_MODULE_0__["join"](_config_pathConfig__WEBPACK_IMPORTED_MODULE_7__["CONFIGURED_PATH"], Reflect.get(config, input));
-            await this.paste(path);
-        }
-        else {
-            Object(_utils__WEBPACK_IMPORTED_MODULE_1__["showErrorMessage"])(_managers_i18n__WEBPACK_IMPORTED_MODULE_4__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_5__["ErrorMessage"].CannotFoundConfigurationInformation));
-        }
-    }
-    async paste(path) {
-        let text = '';
-        try {
-            const document = await Object(_utils__WEBPACK_IMPORTED_MODULE_1__["openTextDocument"])(path);
-            text = document.getText();
-        }
-        catch (error) {
-            Object(_utils__WEBPACK_IMPORTED_MODULE_1__["showErrorMessage"])(`${_managers_i18n__WEBPACK_IMPORTED_MODULE_4__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_5__["ErrorMessage"].CannotReadFile)}${path}`);
-        }
-        await _services__WEBPACK_IMPORTED_MODULE_3__["fileSystem"].edit(text);
-    }
-};
-Paste = __decorate([
-    Object(_common__WEBPACK_IMPORTED_MODULE_2__["command"])()
-], Paste);
-
-
-
-/***/ }),
-
-/***/ "./src/commands/pull.ts":
-/*!******************************!*\
-  !*** ./src/commands/pull.ts ***!
-  \******************************/
-/*! exports provided: Pull */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Pull", function() { return Pull; });
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
-/* harmony import */ var _services_gist__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/gist */ "./src/services/gist.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./common */ "./src/commands/common.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-/* harmony import */ var _managers_i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../managers/i18n */ "./src/managers/i18n.ts");
-/* harmony import */ var _config_message__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../config/message */ "./src/config/message.ts");
-/* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../managers/configuration */ "./src/managers/configuration.ts");
-/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-
-
-
-
-let Pull = class Pull extends _common__WEBPACK_IMPORTED_MODULE_3__["Command"] {
-    constructor() {
-        super(_common__WEBPACK_IMPORTED_MODULE_3__["Commands"].Pull);
-    }
-    async execute() {
-        const shouldPull = Object(_config__WEBPACK_IMPORTED_MODULE_0__["ensureValidState"])();
-        if (!shouldPull) {
-            return;
-        }
-        const response = await _services_gist__WEBPACK_IMPORTED_MODULE_1__["gists"].list();
-        if (!response.data) {
-            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].error(_managers_i18n__WEBPACK_IMPORTED_MODULE_5__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_6__["ErrorMessage"].NetworkAbort));
-            Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showErrorMessage"])(_managers_i18n__WEBPACK_IMPORTED_MODULE_5__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_6__["ErrorMessage"].NetworkAbort));
-            return;
-        }
-        const id = _managers_configuration__WEBPACK_IMPORTED_MODULE_7__["default"].get(_config_pathConfig__WEBPACK_IMPORTED_MODULE_8__["ConfigurationName"].Id);
-        if (!id) {
-            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].warn(_managers_i18n__WEBPACK_IMPORTED_MODULE_5__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_6__["WarningMessage"].NoGistId));
-            Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showWarningMessage"])(_managers_i18n__WEBPACK_IMPORTED_MODULE_5__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_6__["WarningMessage"].NoGistId));
-            return;
-        }
-        let results = response.data.filter((item) => item.id === id);
-        if (!results.length) {
-            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].info(_managers_i18n__WEBPACK_IMPORTED_MODULE_5__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_6__["WarningMessage"].NoRemoteSnippet));
-            Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showWarningMessage"])(_managers_i18n__WEBPACK_IMPORTED_MODULE_5__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_6__["WarningMessage"].NoRemoteSnippet));
-            return;
-        }
-        const item = results[0].files[_constants__WEBPACK_IMPORTED_MODULE_4__["GIST_FILE"]];
-        let value = [];
-        try {
-            value = await _utils__WEBPACK_IMPORTED_MODULE_2__["Request"].get(item.raw_url);
-        }
-        catch (err) {
-            Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showErrorMessage"])(_managers_i18n__WEBPACK_IMPORTED_MODULE_5__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_6__["ErrorMessage"].NetworkAbort));
-            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].error(_managers_i18n__WEBPACK_IMPORTED_MODULE_5__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_6__["ErrorMessage"].NetworkAbort), err.message);
-        }
-        try {
-            await this.onWillSaveSnippets(value);
-            Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showInformationMessage"])(_managers_i18n__WEBPACK_IMPORTED_MODULE_5__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_6__["SuccessMessage"].PullComplete));
-        }
-        catch (err) {
-            _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].error(err.message);
-        }
-    }
-    async onWillSaveSnippets(data) {
-        try {
-            await Promise.allSettled(data.map(({ path, content }) => {
-                return new Promise(async (resolve) => {
-                    await Object(_utils__WEBPACK_IMPORTED_MODULE_2__["write"])(Object(_config__WEBPACK_IMPORTED_MODULE_0__["resolve"])(path), content);
-                    resolve(void 0);
-                });
-            }));
-        }
-        catch (err) {
-            throw err;
-        }
-    }
-};
-Pull = __decorate([
-    Object(_common__WEBPACK_IMPORTED_MODULE_3__["command"])()
-], Pull);
-
-
-
-/***/ }),
-
-/***/ "./src/commands/push.ts":
-/*!******************************!*\
-  !*** ./src/commands/push.ts ***!
-  \******************************/
-/*! exports provided: composeSnippet, composeSnippetData, Push */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "composeSnippet", function() { return composeSnippet; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "composeSnippetData", function() { return composeSnippetData; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Push", function() { return Push; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/_lodash@4.17.20@lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../app */ "./src/app.ts");
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config */ "./src/config/index.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-/* harmony import */ var _services_gist__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/gist */ "./src/services/gist.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
-/* harmony import */ var _utils_request__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/request */ "./src/utils/request.ts");
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./common */ "./src/commands/common.ts");
-/* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../managers/configuration */ "./src/managers/configuration.ts");
-/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
-/* harmony import */ var _managers_i18n__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../managers/i18n */ "./src/managers/i18n.ts");
-/* harmony import */ var _config_message__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../config/message */ "./src/config/message.ts");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-async function composeSnippet(name, path) {
-    const document = await Object(_utils__WEBPACK_IMPORTED_MODULE_6__["openTextDocument"])(path);
-    return {
-        name,
-        path: Object(_config__WEBPACK_IMPORTED_MODULE_3__["dropRoot"])(path),
-        content: document.getText(),
-    };
-}
-function composeSnippetData(snippets) {
-    return {
-        [_constants__WEBPACK_IMPORTED_MODULE_4__["GIST_FILE"]]: {
-            content: JSON.stringify(snippets),
-        },
-        cloudSettings: {
-            content: JSON.stringify({ lastUpload: new Date() }),
-        },
-    };
-}
-let Push = class Push extends _common__WEBPACK_IMPORTED_MODULE_8__["Command"] {
-    constructor() {
-        super(_common__WEBPACK_IMPORTED_MODULE_8__["Commands"].Push);
-    }
-    async execute() {
-        const shouldPull = Object(_config__WEBPACK_IMPORTED_MODULE_3__["ensureValidState"])();
-        if (!shouldPull) {
-            return;
-        }
-        const selections = await this.getSelections();
-        const selectOption = await vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showQuickPick(selections, {
-            canPickMany: true,
-        });
-        if (!selectOption.length)
-            return;
-        const local = await Promise.all(selectOption.map(async (item) => {
-            const data = await composeSnippet(item.label, item.detail);
-            return data;
-        }));
-        const id = _managers_configuration__WEBPACK_IMPORTED_MODULE_9__["default"].get(_config_pathConfig__WEBPACK_IMPORTED_MODULE_10__["ConfigurationName"].Id);
-        if (!id) {
-            try {
-                const data = await composeSnippetData(local);
-                const res = await await _services_gist__WEBPACK_IMPORTED_MODULE_5__["gists"].create({
-                    description: _constants__WEBPACK_IMPORTED_MODULE_4__["GIST_DESCRIPTION"],
-                    files: data,
-                    public: true,
-                });
-                _managers_configuration__WEBPACK_IMPORTED_MODULE_9__["default"].update(_config_pathConfig__WEBPACK_IMPORTED_MODULE_10__["ConfigurationName"].Id, res.data.id, vscode__WEBPACK_IMPORTED_MODULE_0__["ConfigurationTarget"].Global);
-            }
-            catch (err) {
-                Object(_utils__WEBPACK_IMPORTED_MODULE_6__["showErrorMessage"])(_managers_i18n__WEBPACK_IMPORTED_MODULE_11__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_12__["ErrorMessage"].NetworkAbort));
-                _utils__WEBPACK_IMPORTED_MODULE_6__["logger"].error(_managers_i18n__WEBPACK_IMPORTED_MODULE_11__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_12__["ErrorMessage"].NetworkAbort), err.message);
-            }
-            return;
-        }
-        const remote = await this.fetchSnippet(id);
-        const snippets = [];
-        for (let i = 0; i < remote.length; i++) {
-            const index = lodash__WEBPACK_IMPORTED_MODULE_1__["findIndex"](local, (o) => o.path === Object(_config__WEBPACK_IMPORTED_MODULE_3__["resolve"])(remote[i].path));
-            if (index > 0) {
-                snippets.push(Object(_utils__WEBPACK_IMPORTED_MODULE_6__["extend"])(remote, local[index]));
-            }
-            else {
-                snippets.push(remote);
-            }
-        }
-        const data = composeSnippetData(snippets);
-        try {
-            await _services_gist__WEBPACK_IMPORTED_MODULE_5__["gists"].update({
-                files: data,
-                gist_id: id,
-            });
-        }
-        catch (err) {
-            Object(_utils__WEBPACK_IMPORTED_MODULE_6__["showErrorMessage"])(_managers_i18n__WEBPACK_IMPORTED_MODULE_11__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_12__["ErrorMessage"].NetworkAbort));
-            _utils__WEBPACK_IMPORTED_MODULE_6__["logger"].error(_managers_i18n__WEBPACK_IMPORTED_MODULE_11__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_12__["ErrorMessage"].NetworkAbort), err.message);
-        }
-    }
-    async getSelections() {
-        return await _app__WEBPACK_IMPORTED_MODULE_2__["App"].explorerTree.getFilterNodes((item) => {
-            const { name, _element: { fileType }, } = item.element;
-            if (fileType !== vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].File)
-                return;
-            return {
-                label: Object(_utils__WEBPACK_IMPORTED_MODULE_6__["fullname"])(name),
-                detail: name,
-            };
-        });
-    }
-    async fetchSnippet(id) {
-        try {
-            if (!id)
-                return;
-            const response = await _services_gist__WEBPACK_IMPORTED_MODULE_5__["gists"].list({
-                per_page: 9999,
-            });
-            const snippets = response.data.find((item) => item.id === id);
-            if (!snippets)
-                return;
-            return await _utils_request__WEBPACK_IMPORTED_MODULE_7__["Request"].get(snippets.files[_constants__WEBPACK_IMPORTED_MODULE_4__["GIST_FILE"]].raw_url);
-        }
-        catch (err) {
-            throw err;
-        }
-    }
-};
-Push = __decorate([
-    Object(_common__WEBPACK_IMPORTED_MODULE_8__["command"])()
-], Push);
-
-
-
-/***/ }),
-
-/***/ "./src/commands/save.ts":
-/*!******************************!*\
-  !*** ./src/commands/save.ts ***!
-  \******************************/
-/*! exports provided: Save */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Save", function() { return Save; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../app */ "./src/app.ts");
-/* harmony import */ var _config_message__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/message */ "./src/config/message.ts");
-/* harmony import */ var _managers_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../managers/i18n */ "./src/managers/i18n.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./common */ "./src/commands/common.ts");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-
-let Save = class Save extends _common__WEBPACK_IMPORTED_MODULE_5__["Command"] {
-    constructor() {
-        super(_common__WEBPACK_IMPORTED_MODULE_5__["Commands"].Save);
-    }
-    async execute() {
-        const text = await this.getText();
-        if (!text) {
-            Object(_utils__WEBPACK_IMPORTED_MODULE_4__["showErrorMessage"])(_managers_i18n__WEBPACK_IMPORTED_MODULE_3__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_2__["ErrorMessage"].CannotFoundContentToSave));
-            return;
-        }
-        const { paths, nodes } = await this.getNodes();
-        const selectOption = await vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showQuickPick(nodes);
-        if (selectOption === undefined) {
-            Object(_utils__WEBPACK_IMPORTED_MODULE_4__["showWarningMessage"])(_managers_i18n__WEBPACK_IMPORTED_MODULE_3__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_2__["WarningMessage"].CancelSaveCodeSnippetToLocal));
-        }
-        else if (selectOption === _managers_i18n__WEBPACK_IMPORTED_MODULE_3__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_2__["Comment"].SaveAsTitle)) {
-            await this.onSaveAsSelected(text);
-        }
-        else {
-            await this.onAppendSelected(paths, selectOption, text);
-        }
-    }
-    async getNodes() {
-        const paths = await _app__WEBPACK_IMPORTED_MODULE_1__["App"].explorerTree.getFilterNodes((item) => {
-            const { name, _element: { fileType }, } = item.element;
-            if (fileType !== vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].File)
-                return;
-            return name;
-        });
-        const nodes = [
-            _managers_i18n__WEBPACK_IMPORTED_MODULE_3__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_2__["Comment"].SaveAsTitle),
-            ...paths.map((item) => Object(_utils__WEBPACK_IMPORTED_MODULE_4__["fullname"])(item)),
-        ];
-        return {
-            paths,
-            nodes,
-        };
-    }
-    async getText() {
-        // get text from clipboard
-        // return await env.clipboard.readText()
-        // get text from selection
-        const editor = vscode__WEBPACK_IMPORTED_MODULE_0__["window"].activeTextEditor;
-        if (editor) {
-            const { start, end } = editor.selection;
-            return editor.document.getText(new vscode__WEBPACK_IMPORTED_MODULE_0__["Range"](start, end));
-        }
-        else {
-            Object(_utils__WEBPACK_IMPORTED_MODULE_4__["showErrorMessage"])(_managers_i18n__WEBPACK_IMPORTED_MODULE_3__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_2__["ErrorMessage"].CannotFoundActiveTextEditor));
-            return undefined;
-        }
-    }
-    async onAppendSelected(paths, selectOption, text) {
-        const path = paths.find((item) => item.includes(selectOption));
-        if (path !== undefined) {
-            text = '\n' + text;
-            await Object(_utils__WEBPACK_IMPORTED_MODULE_4__["append"])(path, text);
-        }
-        else {
-            Object(_utils__WEBPACK_IMPORTED_MODULE_4__["showWarningMessage"])(`${_managers_i18n__WEBPACK_IMPORTED_MODULE_3__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_2__["ErrorMessage"].CannotFoundPath)}${path}`);
-        }
-    }
-    async onSaveAsSelected(text) {
-        const path = await Object(_utils__WEBPACK_IMPORTED_MODULE_4__["showSaveDiaglog"])();
-        if (path) {
-            Object(_utils__WEBPACK_IMPORTED_MODULE_4__["write"])(path, text);
-        }
-        else {
-            Object(_utils__WEBPACK_IMPORTED_MODULE_4__["showErrorMessage"])(`${_managers_i18n__WEBPACK_IMPORTED_MODULE_3__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_2__["ErrorMessage"].CannotFoundPath)}${path}`);
-        }
-    }
-};
-Save = __decorate([
-    Object(_common__WEBPACK_IMPORTED_MODULE_5__["command"])()
-], Save);
-
-
-
-/***/ }),
-
 /***/ "./src/config/icon.ts":
 /*!****************************!*\
   !*** ./src/config/icon.ts ***!
@@ -34681,31 +31500,29 @@ var FILENAME;
 /*!*****************************!*\
   !*** ./src/config/index.ts ***!
   \*****************************/
-/*! exports provided: extensionId, extensionQualifiedId, ensureValidState, Configuration, resolve, dropRoot, FILE_EXTENSION, FILENAME */
+/*! exports provided: FILE_EXTENSION, FILENAME, ViewId, ViewName, extensionId */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../managers/configuration */ "./src/managers/configuration.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "extensionId", function() { return _managers_configuration__WEBPACK_IMPORTED_MODULE_0__["extensionId"]; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ViewId", function() { return ViewId; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ViewName", function() { return ViewName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extensionId", function() { return extensionId; });
+/* harmony import */ var _icon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./icon */ "./src/config/icon.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FILE_EXTENSION", function() { return _icon__WEBPACK_IMPORTED_MODULE_0__["FILE_EXTENSION"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "extensionQualifiedId", function() { return _managers_configuration__WEBPACK_IMPORTED_MODULE_0__["extensionQualifiedId"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ensureValidState", function() { return _managers_configuration__WEBPACK_IMPORTED_MODULE_0__["ensureValidState"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Configuration", function() { return _managers_configuration__WEBPACK_IMPORTED_MODULE_0__["Configuration"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "resolve", function() { return _managers_configuration__WEBPACK_IMPORTED_MODULE_0__["resolve"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "dropRoot", function() { return _managers_configuration__WEBPACK_IMPORTED_MODULE_0__["dropRoot"]; });
-
-/* harmony import */ var _icon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./icon */ "./src/config/icon.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FILE_EXTENSION", function() { return _icon__WEBPACK_IMPORTED_MODULE_1__["FILE_EXTENSION"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FILENAME", function() { return _icon__WEBPACK_IMPORTED_MODULE_1__["FILENAME"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FILENAME", function() { return _icon__WEBPACK_IMPORTED_MODULE_0__["FILENAME"]; });
 
 
-
+var ViewId;
+(function (ViewId) {
+    ViewId["Explorer"] = "facility.views.explorer";
+})(ViewId || (ViewId = {}));
+var ViewName;
+(function (ViewName) {
+    ViewName["Explorer"] = "explorer";
+})(ViewName || (ViewName = {}));
+const extensionId = 'facility';
 
 
 /***/ }),
@@ -34769,21 +31586,20 @@ var ErrorMessage;
 /*!**********************************!*\
   !*** ./src/config/pathConfig.ts ***!
   \**********************************/
-/*! exports provided: ConfigurationName, HIDDEN, ROOT, ORIGIN_PATH, CONFIGURED_PATH, DEFAULT_FILE */
+/*! exports provided: ConfigurationName, HIDDEN_FILENAME, ROOT, ORIGIN_PATH, IGNORE_FILENAME, shouldFileIgnore, PREFIX_REG */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfigurationName", function() { return ConfigurationName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HIDDEN", function() { return HIDDEN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HIDDEN_FILENAME", function() { return HIDDEN_FILENAME; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ROOT", function() { return ROOT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ORIGIN_PATH", function() { return ORIGIN_PATH; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CONFIGURED_PATH", function() { return CONFIGURED_PATH; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEFAULT_FILE", function() { return DEFAULT_FILE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IGNORE_FILENAME", function() { return IGNORE_FILENAME; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shouldFileIgnore", function() { return shouldFileIgnore; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PREFIX_REG", function() { return PREFIX_REG; });
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "path");
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../managers/configuration */ "./src/managers/configuration.ts");
-
 
 var ConfigurationName;
 (function (ConfigurationName) {
@@ -34793,11 +31609,22 @@ var ConfigurationName;
     ConfigurationName["WorkspaceFolder"] = "workspaceFolder";
 })(ConfigurationName || (ConfigurationName = {}));
 const join = (...p) => path__WEBPACK_IMPORTED_MODULE_0__["join"](...p);
-const HIDDEN = '.fl';
+const HIDDEN_FILENAME = '.fl';
 const ROOT = process.env.HOME || process.env.USERPROFILE || '';
-const ORIGIN_PATH = join(ROOT, HIDDEN);
-const CONFIGURED_PATH = join(_managers_configuration__WEBPACK_IMPORTED_MODULE_1__["default"].get(ConfigurationName.WorkspaceFolder) || ROOT, HIDDEN);
-const DEFAULT_FILE = join(_managers_configuration__WEBPACK_IMPORTED_MODULE_1__["default"].get(ConfigurationName.WorkspaceFolder) || ROOT, HIDDEN, '.prohibit.js');
+const ORIGIN_PATH = join(ROOT, HIDDEN_FILENAME);
+// export const CONFIGURED_PATH = join(
+//   configuration.get(ConfigurationName.WorkspaceFolder) || ROOT,
+//   HIDDEN_FILENAME
+// )
+// export const DEFAULT_FILE = join(
+//   configuration.get(ConfigurationName.WorkspaceFolder) || ROOT,
+//   HIDDEN_FILENAME,
+//   '.prohibit.js'
+// )
+const IGNORE_FILENAME = ['.DS_Store'];
+const shouldFileIgnore = (p) => IGNORE_FILENAME.some((name) => path__WEBPACK_IMPORTED_MODULE_0__["basename"](p).includes(name));
+// TODO Adapt windows prefix
+const PREFIX_REG = /(\/\w+)+\/.fl\/+/g;
 
 
 /***/ }),
@@ -34866,10 +31693,10 @@ function getDurationMilliseconds(start) {
 async function activate(context) {
     _utils__WEBPACK_IMPORTED_MODULE_3__["logger"].setLevel(_constants__WEBPACK_IMPORTED_MODULE_5__["DEBUG"] ? _utils__WEBPACK_IMPORTED_MODULE_3__["Levels"].DEBUG : _utils__WEBPACK_IMPORTED_MODULE_3__["Levels"].ERROR);
     _utils__WEBPACK_IMPORTED_MODULE_3__["logger"].setOutput(vscode__WEBPACK_IMPORTED_MODULE_0__["window"].createOutputChannel('Facility'));
+    _manager__WEBPACK_IMPORTED_MODULE_4__["default"].configure(context);
     try {
-        _manager__WEBPACK_IMPORTED_MODULE_4__["default"].configure(context);
         const config = _managers_configuration__WEBPACK_IMPORTED_MODULE_6__["default"].get();
-        _app__WEBPACK_IMPORTED_MODULE_1__["App"].initialize(context, config);
+        _app__WEBPACK_IMPORTED_MODULE_1__["default"].initialize(context, config);
         Object(_commands__WEBPACK_IMPORTED_MODULE_2__["registerCommands"])(context);
     }
     catch (err) {
@@ -34937,66 +31764,87 @@ _managers_manager__WEBPACK_IMPORTED_MODULE_0__["default"].registry(_managers_man
 /*!***************************************!*\
   !*** ./src/managers/configuration.ts ***!
   \***************************************/
-/*! exports provided: extensionId, extensionQualifiedId, ensureValidState, Configuration, default, resolve, dropRoot */
+/*! exports provided: extensionId, extensionQualifiedId, Configuration, default, resolve, dropRoot */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extensionId", function() { return extensionId; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extensionQualifiedId", function() { return extensionQualifiedId; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ensureValidState", function() { return ensureValidState; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Configuration", function() { return Configuration; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "resolve", function() { return resolve; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dropRoot", function() { return dropRoot; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/_lodash@4.17.20@lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-/* harmony import */ var _services_gist__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/gist */ "./src/services/gist.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
-/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
-/* harmony import */ var _config_message__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../config/message */ "./src/config/message.ts");
-/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./i18n */ "./src/managers/i18n.ts");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "path");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/_lodash@4.17.20@lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
+var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || function (receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+};
+var __classPrivateFieldGet = (undefined && undefined.__classPrivateFieldGet) || function (receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+};
+var _path, _examinee;
 
 
 
-
-
-
-
+// import { GIST_BAST_URL } from '../constants'
+// import { gists } from '../services/gist'
+// import { logger, showWarningMessage } from '../utils'
 
 const extensionId = 'facility';
 const extensionQualifiedId = `sillyy.${extensionId}`;
-function ensureValidState() {
-    const token = configuration.get(_config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["ConfigurationName"].Token);
-    if (token !== undefined && token !== '') {
-        _services_gist__WEBPACK_IMPORTED_MODULE_3__["gists"].configure({
-            key: token,
-            url: _constants__WEBPACK_IMPORTED_MODULE_2__["GIST_BAST_URL"],
-            rejectUnauthorized: true,
-        });
-        return true;
-    }
-    else {
-        _utils__WEBPACK_IMPORTED_MODULE_4__["logger"].warn(_i18n__WEBPACK_IMPORTED_MODULE_7__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_6__["WarningMessage"].NoToken));
-        Object(_utils__WEBPACK_IMPORTED_MODULE_4__["showWarningMessage"])(_i18n__WEBPACK_IMPORTED_MODULE_7__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_6__["WarningMessage"].NoToken));
-        return false;
-    }
-}
+// export function ensureValidState() {
+//   const token = configuration.get(ConfigurationName.Token)
+//   if (token !== undefined && token !== '') {
+//     gists.configure({
+//       key: token,
+//       url: GIST_BAST_URL,
+//       rejectUnauthorized: true,
+//     })
+//     return true
+//   } else {
+//     logger.warn(i18nManager.format(WarningMessage.NoToken))
+//     showWarningMessage(i18nManager.format(WarningMessage.NoToken))
+//     return false
+//   }
+// }
 class Configuration {
     constructor() {
-        this._onDidChange = new vscode__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this._onDidChange = new vscode__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        _path.set(this, void 0);
+        /**
+         * examinee as a file used to check whether the SymbolProvider is valid
+         */
+        _examinee.set(this, void 0);
         this.initializingChangeEvent = {
             affectsConfiguration: () => true,
         };
-    }
-    init(ctx) {
-        // 配置项加上防抖，否则input输出会频繁触发
-        ctx.subscriptions.push(vscode__WEBPACK_IMPORTED_MODULE_1__["workspace"].onDidChangeConfiguration(lodash__WEBPACK_IMPORTED_MODULE_0__["debounce"](configuration.onConfigurationChanged, 250), configuration));
+        __classPrivateFieldSet(this, _path, Object(path__WEBPACK_IMPORTED_MODULE_0__["join"])(this.get(_config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["ConfigurationName"].WorkspaceFolder) || _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["ROOT"], _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["HIDDEN_FILENAME"]));
+        __classPrivateFieldSet(this, _examinee, Object(path__WEBPACK_IMPORTED_MODULE_0__["join"])(this.get(_config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["ConfigurationName"].WorkspaceFolder) || _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["ROOT"], _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["HIDDEN_FILENAME"], '.prohibit.js'));
     }
     get onDidChange() {
         return this._onDidChange.event;
+    }
+    get path() {
+        return __classPrivateFieldGet(this, _path);
+    }
+    get examinee() {
+        return __classPrivateFieldGet(this, _examinee);
+    }
+    init(ctx) {
+        // 配置项加上防抖，否则input输出会频繁触发
+        ctx.subscriptions.push(vscode__WEBPACK_IMPORTED_MODULE_2__["workspace"].onDidChangeConfiguration(lodash__WEBPACK_IMPORTED_MODULE_1__["debounce"](configuration.onConfigurationChanged, 250), configuration));
     }
     onConfigurationChanged(e) {
         this._onDidChange.fire(e);
@@ -35035,10 +31883,10 @@ class Configuration {
             }
         }
         return defaultValue === undefined
-            ? vscode__WEBPACK_IMPORTED_MODULE_1__["workspace"]
+            ? vscode__WEBPACK_IMPORTED_MODULE_2__["workspace"]
                 .getConfiguration(section === undefined ? undefined : extensionId, resource)
                 .get(section === undefined ? extensionId : section)
-            : vscode__WEBPACK_IMPORTED_MODULE_1__["workspace"]
+            : vscode__WEBPACK_IMPORTED_MODULE_2__["workspace"]
                 .getConfiguration(section === undefined ? undefined : extensionId, resource)
                 .get(section === undefined ? extensionId : section, defaultValue);
     }
@@ -35072,7 +31920,7 @@ class Configuration {
             value = args[1];
             target = args[2];
         }
-        return vscode__WEBPACK_IMPORTED_MODULE_1__["workspace"]
+        return vscode__WEBPACK_IMPORTED_MODULE_2__["workspace"]
             .getConfiguration(extensionId)
             .update(section, value, target);
     }
@@ -35098,14 +31946,14 @@ class Configuration {
         else {
             resource = args[1];
         }
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         return e.affectsConfiguration(`facility.${section}`, resource);
     }
 }
+_path = new WeakMap(), _examinee = new WeakMap();
 const configuration = new Configuration();
 /* harmony default export */ __webpack_exports__["default"] = (configuration);
-const resolve = (path) => _config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["CONFIGURED_PATH"] + path;
-const dropRoot = (path) => path.replace(_config_pathConfig__WEBPACK_IMPORTED_MODULE_5__["CONFIGURED_PATH"], '');
+const resolve = (path) => configuration.path + path;
+const dropRoot = (path) => path.replace(configuration.path, '');
 
 
 /***/ }),
@@ -35205,12 +32053,12 @@ const manager = new Manager();
 /*!*********************************!*\
   !*** ./src/managers/monitor.ts ***!
   \*********************************/
-/*! exports provided: FolderChangeEvent, Monitor, default */
+/*! exports provided: FWChangeType, Monitor, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FolderChangeEvent", function() { return FolderChangeEvent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FWChangeType", function() { return FWChangeType; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Monitor", function() { return Monitor; });
 /* harmony import */ var chokidar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chokidar */ "./node_modules/_chokidar@3.5.1@chokidar/index.js");
 /* harmony import */ var chokidar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(chokidar__WEBPACK_IMPORTED_MODULE_0__);
@@ -35220,6 +32068,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
 /* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./i18n */ "./src/managers/i18n.ts");
 /* harmony import */ var _config_message__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../config/message */ "./src/config/message.ts");
+/* harmony import */ var _configuration__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./configuration */ "./src/managers/configuration.ts");
 var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || function (receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to set private field on non-instance");
@@ -35233,7 +32082,7 @@ var __classPrivateFieldGet = (undefined && undefined.__classPrivateFieldGet) || 
     }
     return privateMap.get(receiver);
 };
-var _ctx, _monitor;
+var _ctx, _monitor, _monitored;
 // @ts-ignore
 
 
@@ -35241,23 +32090,26 @@ var _ctx, _monitor;
 
 
 
-var FolderChangeEvent;
-(function (FolderChangeEvent) {
-    FolderChangeEvent["ADDDIR"] = "addDir";
-    FolderChangeEvent["ADD"] = "add";
-    FolderChangeEvent["CHANGE"] = "change";
-    FolderChangeEvent["UNLINK"] = "unlink";
-    FolderChangeEvent["UNLINKDIR"] = "unlinkDir";
-})(FolderChangeEvent || (FolderChangeEvent = {}));
+
+var FWChangeType;
+(function (FWChangeType) {
+    FWChangeType["ADDDIR"] = "addDir";
+    FWChangeType["ADD"] = "add";
+    FWChangeType["CHANGE"] = "change";
+    FWChangeType["UNLINK"] = "unlink";
+    FWChangeType["UNLINKDIR"] = "unlinkDir";
+})(FWChangeType || (FWChangeType = {}));
 class Monitor {
     constructor() {
         _ctx.set(this, void 0);
         _monitor.set(this, void 0);
+        _monitored.set(this, void 0);
         this._onWillChange = new vscode__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
     }
-    init(context, path = _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["CONFIGURED_PATH"]) {
+    init(context, path = _configuration__WEBPACK_IMPORTED_MODULE_6__["default"].path) {
         __classPrivateFieldSet(this, _ctx, context);
-        _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].info(`Watch Dir ${path}`);
+        __classPrivateFieldSet(this, _monitored, path);
+        _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].info(`[facility] ${path} monitored`);
         __classPrivateFieldSet(this, _monitor, chokidar__WEBPACK_IMPORTED_MODULE_0___default.a
             .watch(path)
             .on('all', this.onFolderChanged.bind(this))
@@ -35266,9 +32118,6 @@ class Monitor {
     }
     get onWillChange() {
         return this._onWillChange.event;
-    }
-    checkIgnore(path) {
-        return path.includes('.DS_Store');
     }
     close() {
         const watcherIndex = __classPrivateFieldGet(this, _ctx).subscriptions.findIndex((item) => item === __classPrivateFieldGet(this, _monitor));
@@ -35282,64 +32131,22 @@ class Monitor {
         this.close();
         this.init(ctx, path);
     }
-    onFolderChanged(event, path) {
-        _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].info(event, path);
-        if (this.checkIgnore(path))
+    onFolderChanged(type, path) {
+        if (Object(_config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["shouldFileIgnore"])(path))
             return;
-        const e = this.transform(event);
-        if (!e)
-            return;
+        _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].info(`[facility] ${path} changed: ${type}`);
         const evt = {
             path,
-            ...e,
+            type,
         };
         this._onWillChange.fire(evt);
     }
-    transform(event) {
-        let changeType;
-        switch (event) {
-            case FolderChangeEvent.ADD:
-                changeType = {
-                    type: vscode__WEBPACK_IMPORTED_MODULE_1__["FileChangeType"].Created,
-                    fileType: vscode__WEBPACK_IMPORTED_MODULE_1__["FileType"].File,
-                };
-                break;
-            case FolderChangeEvent.ADDDIR:
-                changeType = {
-                    type: vscode__WEBPACK_IMPORTED_MODULE_1__["FileChangeType"].Created,
-                    fileType: vscode__WEBPACK_IMPORTED_MODULE_1__["FileType"].Directory,
-                };
-                break;
-            case FolderChangeEvent.CHANGE:
-                changeType = {
-                    type: vscode__WEBPACK_IMPORTED_MODULE_1__["FileChangeType"].Changed,
-                    fileType: vscode__WEBPACK_IMPORTED_MODULE_1__["FileType"].File,
-                };
-                break;
-            case FolderChangeEvent.UNLINK:
-                changeType = {
-                    type: vscode__WEBPACK_IMPORTED_MODULE_1__["FileChangeType"].Deleted,
-                    fileType: vscode__WEBPACK_IMPORTED_MODULE_1__["FileType"].File,
-                };
-                break;
-            case FolderChangeEvent.UNLINKDIR:
-                changeType = {
-                    type: vscode__WEBPACK_IMPORTED_MODULE_1__["FileChangeType"].Deleted,
-                    fileType: vscode__WEBPACK_IMPORTED_MODULE_1__["FileType"].Directory,
-                };
-                break;
-            default:
-                changeType = null;
-                break;
-        }
-        return changeType;
-    }
     onDidWatcherError(error) {
-        _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].error(error.message);
+        _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].error('[facility] failed to monitor workspace folder:', error.message);
         Object(_utils__WEBPACK_IMPORTED_MODULE_2__["showErrorMessage"])(`${_i18n__WEBPACK_IMPORTED_MODULE_4__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_5__["ErrorMessage"].ErrorFsWatch)} Error: ${error}`);
     }
 }
-_ctx = new WeakMap(), _monitor = new WeakMap();
+_ctx = new WeakMap(), _monitor = new WeakMap(), _monitored = new WeakMap();
 const monitor = new Monitor();
 /* harmony default export */ __webpack_exports__["default"] = (monitor);
 
@@ -35360,19 +32167,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
 /* harmony import */ var _services_fileSystem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/fileSystem */ "./src/services/fileSystem.ts");
-/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
-/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./i18n */ "./src/managers/i18n.ts");
-/* harmony import */ var _config_message__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../config/message */ "./src/config/message.ts");
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./i18n */ "./src/managers/i18n.ts");
+/* harmony import */ var _config_message__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../config/message */ "./src/config/message.ts");
+/* harmony import */ var _configuration__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./configuration */ "./src/managers/configuration.ts");
 
 
 
+// import { DEFAULT_FILE } from '../config/pathConfig'
 
 
 
 class SymbolProviderChecker {
     constructor() { }
     async checkSymbolProvider() {
-        const tmp = _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["DEFAULT_FILE"];
+        const tmp = _configuration__WEBPACK_IMPORTED_MODULE_5__["default"].examinee;
         const tmpUri = vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(tmp);
         await _services_fileSystem__WEBPACK_IMPORTED_MODULE_2__["fileSystem"].write(tmp, '');
         for (let i = 0; i < 30; i++) {
@@ -35381,7 +32189,7 @@ class SymbolProviderChecker {
                 return true;
             await new Promise((r) => setTimeout(r, 1000));
         }
-        _utils__WEBPACK_IMPORTED_MODULE_1__["logger"].warn(_i18n__WEBPACK_IMPORTED_MODULE_4__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_5__["ErrorMessage"].FailedToRegisterSymbolProvider));
+        _utils__WEBPACK_IMPORTED_MODULE_1__["logger"].warn(_i18n__WEBPACK_IMPORTED_MODULE_3__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_4__["ErrorMessage"].FailedToRegisterSymbolProvider));
         return false;
     }
     async init() {
@@ -35407,18 +32215,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
 /* harmony import */ var _services_fileSystem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/fileSystem */ "./src/services/fileSystem.ts");
+/* harmony import */ var _configuration__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./configuration */ "./src/managers/configuration.ts");
+
 
 
 
 class WorkspaceFolderChecker {
-    constructor(path = _config_pathConfig__WEBPACK_IMPORTED_MODULE_0__["CONFIGURED_PATH"]) {
+    constructor(path = _configuration__WEBPACK_IMPORTED_MODULE_3__["default"].path) {
         this.path = path;
     }
     get root() {
         return _config_pathConfig__WEBPACK_IMPORTED_MODULE_0__["ORIGIN_PATH"];
     }
     get defaultFile() {
-        return _config_pathConfig__WEBPACK_IMPORTED_MODULE_0__["DEFAULT_FILE"];
+        return _configuration__WEBPACK_IMPORTED_MODULE_3__["default"].examinee;
     }
     async migrate(src = this.root, dest = this.root) {
         await _services_fileSystem__WEBPACK_IMPORTED_MODULE_2__["fileSystem"].migrate(src, dest);
@@ -35519,81 +32329,6 @@ const fileSystem = new FileSystem();
 
 /***/ }),
 
-/***/ "./src/services/gist.ts":
-/*!******************************!*\
-  !*** ./src/services/gist.ts ***!
-  \******************************/
-/*! exports provided: GISTS_BASE_URL, gists */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GISTS_BASE_URL", function() { return GISTS_BASE_URL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "gists", function() { return gists; });
-/* harmony import */ var _octokit_rest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @octokit/rest */ "./node_modules/_@octokit_rest@18.0.12@@octokit/rest/dist-web/index.js");
-/* harmony import */ var https__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! https */ "https");
-/* harmony import */ var https__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(https__WEBPACK_IMPORTED_MODULE_1__);
-
-
-const GISTS_BASE_URL = 'https://api.github.com';
-const DEFAULT_OPTIONS = {
-    baseUrl: GISTS_BASE_URL
-};
-class GistsService {
-    constructor() {
-        this.octokit = null;
-        this.options = DEFAULT_OPTIONS;
-        // this.octokit = new Octokit(this.options);
-    }
-    configure(options) {
-        const key = options.key || '';
-        const url = options.url || 'https://api.github.com';
-        const rejectUnauthorized = options.rejectUnauthorized || true;
-        const agent = new https__WEBPACK_IMPORTED_MODULE_1__["Agent"]({ rejectUnauthorized });
-        const config = { baseUrl: url, agent };
-        this.options = config || this.options;
-        this.octokit = new _octokit_rest__WEBPACK_IMPORTED_MODULE_0__["Octokit"](this.options);
-        if (key) {
-            this.octokit = new _octokit_rest__WEBPACK_IMPORTED_MODULE_0__["Octokit"]({ auth: key });
-        }
-    }
-    create(params) {
-        if (!this.octokit)
-            return;
-        return this.octokit.gists.create(params);
-    }
-    delete(params) {
-        if (!this.octokit)
-            return;
-        return this.octokit.gists.delete(params);
-    }
-    get(params) {
-        if (!this.octokit)
-            return;
-        return this.octokit.gists.get({ ...params });
-    }
-    list(params) {
-        if (!this.octokit)
-            return;
-        return this.octokit.gists.list({ ...params });
-    }
-    listStarred(params) {
-        if (!this.octokit)
-            return;
-        return this.octokit.gists.listStarred({ ...params });
-    }
-    update(params) {
-        if (!this.octokit)
-            return;
-        return this.octokit.gists.update(params);
-    }
-}
-GistsService.getInstance = () => GistsService.instance ? GistsService.instance : new GistsService();
-const gists = GistsService.getInstance();
-
-
-/***/ }),
-
 /***/ "./src/services/index.ts":
 /*!*******************************!*\
   !*** ./src/services/index.ts ***!
@@ -35617,46 +32352,36 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/tree/explorerModel.ts":
+/***/ "./src/tree/_explorerTree.ts":
 /*!***********************************!*\
-  !*** ./src/tree/explorerModel.ts ***!
+  !*** ./src/tree/_explorerTree.ts ***!
   \***********************************/
-/*! exports provided: ExplorerModel */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExplorerModel", function() { return ExplorerModel; });
-/* harmony import */ var _treeModel__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./treeModel */ "./src/tree/treeModel.ts");
-
-class ExplorerModel extends _treeModel__WEBPACK_IMPORTED_MODULE_0__["TreeModel"] {
-    constructor(rootElement) {
-        super(rootElement);
-    }
-}
-
-
-/***/ }),
-
-/***/ "./src/tree/explorerTree.ts":
-/*!**********************************!*\
-  !*** ./src/tree/explorerTree.ts ***!
-  \**********************************/
-/*! exports provided: GistElement, ExplorerTree */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GistElement", function() { return GistElement; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExplorerTree", function() { return ExplorerTree; });
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _tree__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tree */ "./src/tree/tree.ts");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! path */ "path");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _managers_monitor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../managers/monitor */ "./src/managers/monitor.ts");
-/* harmony import */ var _explorerModel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./explorerModel */ "./src/tree/explorerModel.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services */ "./src/services/index.ts");
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../app */ "./src/app.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
+/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./node */ "./src/tree/node.ts");
+var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || function (receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+};
+var __classPrivateFieldGet = (undefined && undefined.__classPrivateFieldGet) || function (receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+};
+var _disposable, _root, _onDidChangeNodes;
 
 
 
@@ -35664,272 +32389,198 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class GistElement extends _tree__WEBPACK_IMPORTED_MODULE_1__["BaseElement"] {
-    constructor(tree, name, element) {
-        super(tree, name);
-        this._element = element;
-    }
-    get element() {
-        return this._element;
-    }
-}
-class ExplorerTree extends _tree__WEBPACK_IMPORTED_MODULE_1__["Tree"] {
-    // public readonly root: IExplorerTreeNode<T> | undefined
-    constructor() {
-        super();
-        this._onDidChangeNodes = new vscode__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-        this.nodes = new Map();
-        this._disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(_managers_monitor__WEBPACK_IMPORTED_MODULE_2__["default"].onWillChange(this.updateNode, this));
-    }
-    get onDidChangeNodes() {
-        return this._onDidChangeNodes.event;
-    }
-    createModel() {
-        return new _explorerModel__WEBPACK_IMPORTED_MODULE_3__["ExplorerModel"](null);
-    }
-    clear() {
-        this.model = this.createModel();
-        this.nodes.clear();
-    }
-    deleteNode(key, fileType) {
-        var _a;
-        const node = this.getNode(key, fileType);
-        if (node) {
-            ;
-            ((_a = node.parent) === null || _a === void 0 ? void 0 : _a.children).forEach((item, i) => {
-                var _a;
-                if (item.element.name === key) {
-                    (_a = node.parent) === null || _a === void 0 ? void 0 : _a.children.splice(i, 1);
-                }
-            });
-        }
-        this.nodes.delete(key);
-    }
-    getRoot() {
-        return this.model.root;
-    }
-    getNode(p, fileType) {
-        const element = new GistElement(this, p, {
-            path: p,
-            fileType,
-            type: vscode__WEBPACK_IMPORTED_MODULE_0__["FileChangeType"].Created,
-        });
-        const value = this.nodes.get(element.name);
-        return value;
-    }
-    getFilterNodes(handler) {
-        return Array.from(this.nodes.values())
-            .map(handler)
-            .filter((item) => item);
-    }
-    async updateNode(e) {
-        const { path, fileType, type } = e;
-        if (type === vscode__WEBPACK_IMPORTED_MODULE_0__["FileChangeType"].Created) {
-            // TODO: fix anyscript
-            const node = new GistElement(this, path, e);
-            // TODO: optimize the process
-            this.model.setChildren(node, [], this.transform.bind(this));
-        }
-        if (type === vscode__WEBPACK_IMPORTED_MODULE_0__["FileChangeType"].Deleted) {
-            // TODO: optimize the process
-            this.deleteNode(path, fileType);
-        }
-        if (type === vscode__WEBPACK_IMPORTED_MODULE_0__["FileChangeType"].Changed) {
-            if (_app__WEBPACK_IMPORTED_MODULE_5__["App"].outlineView.path === '')
-                return;
-        }
-        this._onDidChangeNodes.fire();
-    }
-    patchNode(n1, n2) {
-        const patchRootNode = (n1, n2) => {
-            let { element: { name }, } = n2;
-            if (name !== n1.element.name) {
-                const p1 = n1.element.name
-                    .split(_utils__WEBPACK_IMPORTED_MODULE_6__["Separator"])
-                    .filter((item) => item !== '');
-                const p2 = name.split(_utils__WEBPACK_IMPORTED_MODULE_6__["Separator"]).filter((item) => item !== '');
-                let basePath = _utils__WEBPACK_IMPORTED_MODULE_6__["isWindows"] ? '' : _utils__WEBPACK_IMPORTED_MODULE_6__["Separator"];
-                let temp = true, i = 0;
-                while (temp) {
-                    if (p1[i] === p2[i]) {
-                        basePath += `${p1[i]}${_utils__WEBPACK_IMPORTED_MODULE_6__["Separator"]}`;
-                        p1.shift();
-                        p2.shift();
-                    }
-                    else {
-                        temp = false;
-                    }
-                }
-                const deepCreateNode = (path, fileType, parent) => {
-                    var _a;
-                    const element = new GistElement(this, path, {
-                        path: path,
-                        fileType: _services__WEBPACK_IMPORTED_MODULE_4__["fileSystem"].isDirectory(path)
-                            ? vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].Directory
-                            : vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].File,
-                        type: vscode__WEBPACK_IMPORTED_MODULE_0__["FileChangeType"].Created,
-                    });
-                    const children = (_a = this.nodes.get(path)) === null || _a === void 0 ? void 0 : _a.children;
-                    // TODO: fix anyscript
-                    return creatNode(element, parent, children ? children : [], parent ? parent.depth + 1 : 0);
-                };
-                const isExist = (children, node) => {
-                    for (const value of children) {
-                        if (value.element.name === node.element.name) {
-                            return false;
-                        }
-                    }
-                    return true;
-                };
-                const el = deepCreateNode(basePath, vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].Directory, null);
-                let cur = el;
-                let baseP1 = basePath;
-                while (p1.length) {
-                    const fileType = p1.length === 1 ? vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].File : vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].Directory;
-                    const node = deepCreateNode(baseP1 + p1[0], fileType, cur);
-                    isExist(cur.children, node) && cur.children.push(node);
-                    cur = node;
-                    if (baseP1[baseP1.length - 1] === _utils__WEBPACK_IMPORTED_MODULE_6__["Separator"]) {
-                        baseP1 += p1.shift();
-                    }
-                    else {
-                        baseP1 += `${_utils__WEBPACK_IMPORTED_MODULE_6__["Separator"]}${p1.shift()}`;
-                    }
-                }
-                cur = el;
-                let baseP2 = basePath;
-                while (p2.length) {
-                    const fileType = p2.length === 1 ? vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].File : vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].Directory;
-                    if (baseP2[baseP2.length - 1] === _utils__WEBPACK_IMPORTED_MODULE_6__["Separator"]) {
-                        baseP2 += p2.shift();
-                    }
-                    else {
-                        baseP2 += `${_utils__WEBPACK_IMPORTED_MODULE_6__["Separator"]}${p2.shift()}`;
-                    }
-                    const node = deepCreateNode(baseP2, fileType, cur);
-                    isExist(cur.children, node) && cur.children.push(node);
-                    cur = node;
-                }
-                return el;
-            }
-            return n2;
-        };
-        const creatNode = (element, parent, children, depth, visible = true) => {
-            const node = { element, parent, children, depth, visible };
-            // TODO: fix anyscript
-            !this.nodes.get(element.name) && this.nodes.set(element.name, node);
-            return node;
-        };
-        if (n1.depth === 0)
-            return patchRootNode(n1, n2);
-        return n2;
-    }
-    transform(root, element, children) {
-        const rootElemet = root.element;
-        if (rootElemet.name === element.name)
-            return;
-        return this.patchNode(root, {
-            parent: null,
-            element: element,
-            children: [],
-            depth: 0,
-            visible: true,
-        });
-    }
-}
-
-
-/***/ }),
-
-/***/ "./src/tree/tree.ts":
-/*!**************************!*\
-  !*** ./src/tree/tree.ts ***!
-  \**************************/
-/*! exports provided: BaseElement, Tree */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BaseElement", function() { return BaseElement; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tree", function() { return Tree; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _treeModel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./treeModel */ "./src/tree/treeModel.ts");
-
-
-class BaseElement {
-    constructor(tree, name) {
-        this.tree = tree;
-        this.name = name;
-    }
-}
 class Tree {
     constructor() {
-        this.model = this.createModel();
-        this._disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from();
+        _disposable.set(this, void 0);
+        _root.set(this, void 0);
+        _onDidChangeNodes.set(this, new vscode__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]());
+        __classPrivateFieldSet(this, _disposable, vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(_managers_monitor__WEBPACK_IMPORTED_MODULE_2__["default"].onWillChange(this.updateNodes, this)));
     }
-    setChildren(element, children) {
-        this.model.setChildren(element, children);
-    }
-    createModel() {
-        return new _treeModel__WEBPACK_IMPORTED_MODULE_1__["TreeModel"](null);
+    get onDidChangeNodes() {
+        return __classPrivateFieldGet(this, _onDidChangeNodes).event;
     }
     dispose() {
-        this._disposable.dispose();
+        __classPrivateFieldGet(this, _disposable).dispose();
+    }
+    getRoot() {
+        return __classPrivateFieldGet(this, _root);
+    }
+    updateNodes({ type, path }) {
+        if (type === _managers_monitor__WEBPACK_IMPORTED_MODULE_2__["FWChangeType"].ADDDIR) {
+            if (Object(path__WEBPACK_IMPORTED_MODULE_1__["basename"])(path) === _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["HIDDEN_FILENAME"]) {
+                __classPrivateFieldSet(this, _root, new _node__WEBPACK_IMPORTED_MODULE_4__["default"](this, path));
+            }
+            else {
+                const parentPath = path.slice(0, path.lastIndexOf('/'));
+                const parent = this.getNode(parentPath);
+                var node = new _node__WEBPACK_IMPORTED_MODULE_4__["default"](this, path);
+                this.insert(node, parent);
+            }
+        }
+        if (type === _managers_monitor__WEBPACK_IMPORTED_MODULE_2__["FWChangeType"].ADD) {
+            const parentPath = path.slice(0, path.lastIndexOf('/'));
+            const parent = this.getNode(parentPath);
+            var node = new _node__WEBPACK_IMPORTED_MODULE_4__["default"](this, path);
+            this.insert(node, parent);
+        }
+        if (type === _managers_monitor__WEBPACK_IMPORTED_MODULE_2__["FWChangeType"].CHANGE) {
+            // content changes, no action required
+        }
+        if (type === _managers_monitor__WEBPACK_IMPORTED_MODULE_2__["FWChangeType"].UNLINK) {
+            const node = this.getNode(path);
+            this.remove(node);
+        }
+        if (type === _managers_monitor__WEBPACK_IMPORTED_MODULE_2__["FWChangeType"].UNLINKDIR) {
+            const node = this.getNode(path);
+            this.remove(node);
+        }
+        __classPrivateFieldGet(this, _onDidChangeNodes).fire();
+    }
+    getNode(path) {
+        const match = path.match(_config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["PREFIX_REG"]);
+        if (match === null)
+            return __classPrivateFieldGet(this, _root);
+        const prefix = match[0];
+        const traces = path.replace(prefix, '').split('/');
+        let node = __classPrivateFieldGet(this, _root);
+        while (traces.length > 0) {
+            let trace = Object(path__WEBPACK_IMPORTED_MODULE_1__["join"])(prefix, traces.shift());
+            const child = node.getChild(trace);
+            node = child;
+        }
+        return node ? node : __classPrivateFieldGet(this, _root);
+    }
+    insert(child, parent) {
+        parent.children.push(child);
+        child.parentNode = parent;
+    }
+    remove(child) {
+        const parent = child.parentNode;
+        if (parent) {
+            const i = parent.children.indexOf(child);
+            if (i > -1) {
+                parent.children.splice(i, 1);
+            }
+            else {
+                console.error('target: ', child);
+                console.error('parent: ', parent);
+                throw Error('target is not a childNode of parent');
+            }
+            child.parentNode = null;
+        }
     }
 }
+_disposable = new WeakMap(), _root = new WeakMap(), _onDidChangeNodes = new WeakMap();
+/* harmony default export */ __webpack_exports__["default"] = (Tree);
 
 
 /***/ }),
 
-/***/ "./src/tree/treeModel.ts":
-/*!*******************************!*\
-  !*** ./src/tree/treeModel.ts ***!
-  \*******************************/
-/*! exports provided: TreeModel */
+/***/ "./src/tree/element.ts":
+/*!*****************************!*\
+  !*** ./src/tree/element.ts ***!
+  \*****************************/
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TreeModel", function() { return TreeModel; });
-class TreeModel {
-    constructor(rootElement) {
-        this.nodes = new Map();
-        this._root = {
-            parent: null,
-            element: rootElement,
-            children: [],
-            depth: 0,
-            visible: true,
-        };
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
+/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! path */ "path");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || function (receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
     }
-    get root() {
-        return this._root;
+    privateMap.set(receiver, value);
+    return value;
+};
+var __classPrivateFieldGet = (undefined && undefined.__classPrivateFieldGet) || function (receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
     }
-    ensureRoot(element, children, transformer) {
-        if (!this._root.element || this._root.element === element) {
-            this._root = {
-                parent: null,
-                element,
-                children,
-                depth: 0,
-                visible: true,
-            };
-            this.nodes.set(element, this._root);
-            return;
+    return privateMap.get(receiver);
+};
+var _name, _type, _extension;
+
+
+
+class Element {
+    constructor(path) {
+        _name.set(this, void 0);
+        _type.set(this, void 0);
+        _extension.set(this, void 0);
+        __classPrivateFieldSet(this, _name, Object(path__WEBPACK_IMPORTED_MODULE_1__["basename"])(path));
+        __classPrivateFieldSet(this, _type, Object(_utils__WEBPACK_IMPORTED_MODULE_2__["stat"])(path).isDirectory() ? vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].Directory : vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].File);
+        if (__classPrivateFieldGet(this, _type) === vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].File) {
+            __classPrivateFieldSet(this, _extension, Object(path__WEBPACK_IMPORTED_MODULE_1__["extname"])(path));
         }
-        if (transformer)
-            this._root = transformer(this._root, element, children);
     }
-    setChildren(element, children, transform) {
-        if (!element)
-            return;
-        this.ensureRoot(element, children, transform);
-        for (let i = 0; i < children.length; i++) {
-            this.nodes.set(element, children[i]);
-        }
+    get name() {
+        return __classPrivateFieldGet(this, _name);
+    }
+    get type() {
+        return __classPrivateFieldGet(this, _type);
+    }
+    get extension() {
+        return __classPrivateFieldGet(this, _extension);
     }
 }
+_name = new WeakMap(), _type = new WeakMap(), _extension = new WeakMap();
+/* harmony default export */ __webpack_exports__["default"] = (Element);
+
+
+/***/ }),
+
+/***/ "./src/tree/node.ts":
+/*!**************************!*\
+  !*** ./src/tree/node.ts ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./element */ "./src/tree/element.ts");
+var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || function (receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+};
+var __classPrivateFieldGet = (undefined && undefined.__classPrivateFieldGet) || function (receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+};
+var _element, _path;
+
+class TreeNode {
+    constructor(tree, path) {
+        this.tree = tree;
+        _element.set(this, void 0);
+        _path.set(this, void 0);
+        this.children = [];
+        __classPrivateFieldSet(this, _path, path);
+        __classPrivateFieldSet(this, _element, new _element__WEBPACK_IMPORTED_MODULE_0__["default"](path));
+    }
+    get element() {
+        return __classPrivateFieldGet(this, _element);
+    }
+    get path() {
+        return __classPrivateFieldGet(this, _path);
+    }
+    getChild(path) {
+        const children = this.children.filter((item) => item.path === path);
+        return children.length ? children[0] : undefined;
+    }
+}
+_element = new WeakMap(), _path = new WeakMap();
+/* harmony default export */ __webpack_exports__["default"] = (TreeNode);
 
 
 /***/ }),
@@ -36284,7 +32935,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showSaveDiaglog", function() { return showSaveDiaglog; });
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config/pathConfig */ "./src/config/pathConfig.ts");
+/* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../managers/configuration */ "./src/managers/configuration.ts");
 /* harmony import */ var _libs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./libs */ "./src/utils/libs.ts");
 
 
@@ -36308,7 +32959,7 @@ function showErrorMessage(item) {
     vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showErrorMessage(item);
 }
 async function showSaveDiaglog(options = {
-    defaultUri: vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(_config_pathConfig__WEBPACK_IMPORTED_MODULE_1__["CONFIGURED_PATH"]),
+    defaultUri: vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(_managers_configuration__WEBPACK_IMPORTED_MODULE_1__["default"].path),
 }) {
     const uri = await vscode__WEBPACK_IMPORTED_MODULE_0__["window"].showSaveDialog(options);
     if (uri) {
@@ -36319,158 +32970,6 @@ async function showSaveDiaglog(options = {
         return decodeURIComponent(normalized);
     }
     return;
-}
-
-
-/***/ }),
-
-/***/ "./src/views/explorerView.ts":
-/*!***********************************!*\
-  !*** ./src/views/explorerView.ts ***!
-  \***********************************/
-/*! exports provided: ExplorerView */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExplorerView", function() { return ExplorerView; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../managers/configuration */ "./src/managers/configuration.ts");
-/* harmony import */ var _nodes_explorerNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nodes/explorerNode */ "./src/views/nodes/explorerNode.ts");
-/* harmony import */ var _viewBase__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./viewBase */ "./src/views/viewBase.ts");
-
-
-
-
-class ExplorerView extends _viewBase__WEBPACK_IMPORTED_MODULE_3__["ViewBase"] {
-    constructor() {
-        super('facility.views.explorer', "Facility");
-    }
-    getRoot() {
-        return new _nodes_explorerNode__WEBPACK_IMPORTED_MODULE_2__["ExplorerNode"](this, true);
-    }
-    registerCommands() {
-        vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].registerCommand(this.getQualifiedCommand('stick'), (node) => this.onGistSticked(node), this);
-        // commands.registerCommand(
-        //   this
-        // )
-    }
-    onConfigurationChanged(e) {
-        if (_managers_configuration__WEBPACK_IMPORTED_MODULE_1__["default"].changed(e, 'views', 'repositories', 'location')) {
-            this.initialize('facility', { showCollapseAll: true });
-        }
-        if (!_managers_configuration__WEBPACK_IMPORTED_MODULE_1__["default"].initializing(e) && this._root !== undefined) {
-            void this.refresh(true);
-        }
-    }
-    async onGistSticked(node) {
-        return node.triggerSnippetSticked();
-    }
-}
-
-
-/***/ }),
-
-/***/ "./src/views/nodes/common.ts":
-/*!***********************************!*\
-  !*** ./src/views/nodes/common.ts ***!
-  \***********************************/
-/*! exports provided: MessageNode */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageNode", function() { return MessageNode; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
-
-
-class MessageNode extends _viewNode__WEBPACK_IMPORTED_MODULE_1__["ViewNode"] {
-    constructor(view, parent, _message, _description, _tooltip, _iconPath, _contextValue) {
-        super(view, parent);
-        this._message = _message;
-        this._description = _description;
-        this._tooltip = _tooltip;
-        this._iconPath = _iconPath;
-        this._contextValue = _contextValue;
-    }
-    getChildren() {
-        return [];
-    }
-    getTreeItem() {
-        var _a;
-        const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](this._message, vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].None);
-        item.contextValue = (_a = this._contextValue) !== null && _a !== void 0 ? _a : _viewNode__WEBPACK_IMPORTED_MODULE_1__["ContextValues"].Message;
-        item.description = this._description;
-        item.tooltip = this._tooltip;
-        item.iconPath = this._iconPath;
-        return item;
-    }
-}
-
-
-/***/ }),
-
-/***/ "./src/views/nodes/explorerNode.ts":
-/*!*****************************************!*\
-  !*** ./src/views/nodes/explorerNode.ts ***!
-  \*****************************************/
-/*! exports provided: ExplorerNode */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExplorerNode", function() { return ExplorerNode; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! . */ "./src/views/nodes/index.ts");
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
-/* harmony import */ var _config_message__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../config/message */ "./src/config/message.ts");
-/* harmony import */ var _managers_i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../managers/i18n */ "./src/managers/i18n.ts");
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./common */ "./src/views/nodes/common.ts");
-/* harmony import */ var _repositoryNode__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./repositoryNode */ "./src/views/nodes/repositoryNode.ts");
-/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
-
-
-
-
-
-
-
-
-class ExplorerNode extends _viewNode__WEBPACK_IMPORTED_MODULE_7__["SubscribeableViewNode"] {
-    constructor(view, isRoot) {
-        super(view);
-        this.isRoot = isRoot;
-    }
-    async getChildren() {
-        const children = [];
-        const root = await _app__WEBPACK_IMPORTED_MODULE_2__["App"].explorerTree.getRoot();
-        if (!root || !root.element) {
-            return [
-                new _common__WEBPACK_IMPORTED_MODULE_5__["MessageNode"](this.view, this, _managers_i18n__WEBPACK_IMPORTED_MODULE_4__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_3__["Message"].CannotFoundTreeNodes)),
-            ];
-        }
-        children.push(new _repositoryNode__WEBPACK_IMPORTED_MODULE_6__["RepositoryNode"](this.view, root.element, root.children));
-        this._children = children;
-        return this._children;
-    }
-    getTreeItem() {
-        const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](this.view.name, vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].Expanded);
-        item.contextValue = ___WEBPACK_IMPORTED_MODULE_1__["ContextValues"].Explorer;
-        return item;
-    }
-    refresh() {
-        this.onExplorerTreeNodesChanged();
-    }
-    onExplorerTreeNodesChanged() {
-        void this.triggerChange();
-    }
-    subscribe() {
-        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(_app__WEBPACK_IMPORTED_MODULE_2__["App"].explorerTree.onDidChangeNodes(this.onExplorerTreeNodesChanged, this));
-    }
 }
 
 
@@ -36493,266 +32992,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SubscribeableViewNode", function() { return _viewNode__WEBPACK_IMPORTED_MODULE_0__["SubscribeableViewNode"]; });
 
 
-
-
-/***/ }),
-
-/***/ "./src/views/nodes/outlineNode.ts":
-/*!****************************************!*\
-  !*** ./src/views/nodes/outlineNode.ts ***!
-  \****************************************/
-/*! exports provided: OutlineNode */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OutlineNode", function() { return OutlineNode; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
-/* harmony import */ var _config_message__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../config/message */ "./src/config/message.ts");
-/* harmony import */ var _managers_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../managers/i18n */ "./src/managers/i18n.ts");
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./common */ "./src/views/nodes/common.ts");
-/* harmony import */ var _symbolNode__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./symbolNode */ "./src/views/nodes/symbolNode.ts");
-/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
-
-
-
-
-
-
-
-class OutlineNode extends _viewNode__WEBPACK_IMPORTED_MODULE_6__["SubscribeableViewNode"] {
-    constructor(view) {
-        super(view);
-    }
-    async getChildren() {
-        if (!this.view.path) {
-            const desc = _managers_i18n__WEBPACK_IMPORTED_MODULE_3__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_2__["Message"].CannotProvideOutlineInformation);
-            return [
-                new _common__WEBPACK_IMPORTED_MODULE_4__["MessageNode"](this.view, this, _managers_i18n__WEBPACK_IMPORTED_MODULE_3__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_2__["Message"].CannotProvideOutlineInformation)),
-            ];
-        }
-        const symbols = await Object(_symbolNode__WEBPACK_IMPORTED_MODULE_5__["getSymbol"])(this.view.path);
-        if (symbols.children.length === 0) {
-            return [new _common__WEBPACK_IMPORTED_MODULE_4__["MessageNode"](this.view, this, _managers_i18n__WEBPACK_IMPORTED_MODULE_3__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_2__["Message"].CannotFoundTreeNodes))];
-        }
-        this._children = symbols.children.map((item) => new _symbolNode__WEBPACK_IMPORTED_MODULE_5__["SymbolNode"](this.view, item.symbol));
-        return this._children;
-    }
-    getTreeItem() {
-        const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"]('Outline', vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].Collapsed);
-        item.contextValue = _viewNode__WEBPACK_IMPORTED_MODULE_6__["ContextValues"].Outline;
-        return item;
-    }
-    onSymbolChanged() {
-        // 细节优化，节约性能
-        void this.triggerChange();
-    }
-    refresh() {
-        if (this._children === undefined)
-            return;
-        this._children.forEach((item) => item.refresh());
-    }
-    subscribe() {
-        const subscriptions = [
-            _app__WEBPACK_IMPORTED_MODULE_1__["App"].explorerTree.onDidChangeNodes(this.onSymbolChanged, this),
-        ];
-        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(...subscriptions);
-    }
-    async onOutlineChanged() {
-        // await this.view.tree.analyze()
-        void this.triggerChange();
-    }
-}
-
-
-/***/ }),
-
-/***/ "./src/views/nodes/repositoryNode.ts":
-/*!*******************************************!*\
-  !*** ./src/views/nodes/repositoryNode.ts ***!
-  \*******************************************/
-/*! exports provided: RepositoryNode */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RepositoryNode", function() { return RepositoryNode; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! . */ "./src/views/nodes/index.ts");
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
-/* harmony import */ var _commands__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../commands */ "./src/commands.ts");
-/* harmony import */ var _config_message__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../config/message */ "./src/config/message.ts");
-/* harmony import */ var _managers_i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../managers/i18n */ "./src/managers/i18n.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../services */ "./src/services/index.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utils */ "./src/utils/index.ts");
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./common */ "./src/views/nodes/common.ts");
-/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
-
-
-
-
-
-
-
-
-
-
-class RepositoryNode extends _viewNode__WEBPACK_IMPORTED_MODULE_9__["SubscribeableViewNode"] {
-    constructor(view, element, children) {
-        super(view);
-        this.element = element;
-        this.children = children;
-    }
-    async getChildren() {
-        const children = [];
-        const root = await _app__WEBPACK_IMPORTED_MODULE_2__["App"].explorerTree.getNode(this.element.name, vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].Directory);
-        if (!root || !root.children.length)
-            return [new _common__WEBPACK_IMPORTED_MODULE_8__["MessageNode"](this.view, this, _managers_i18n__WEBPACK_IMPORTED_MODULE_5__["default"].format(_config_message__WEBPACK_IMPORTED_MODULE_4__["Message"].CannotFoundTreeNodes))];
-        root.children.forEach((item) => children.push(new RepositoryNode(this.view, item.element, item.children)));
-        this._children = children;
-        return this._children;
-    }
-    getTreeItem() {
-        const { name, element } = this.element;
-        const label = _services__WEBPACK_IMPORTED_MODULE_6__["fileSystem"].fullname(name);
-        const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](label, this.children.length
-            ? vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].Expanded
-            : vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].None);
-        item.iconPath = this.adaptIcon(label, element.fileType);
-        item.contextValue = ___WEBPACK_IMPORTED_MODULE_1__["ContextValues"].Explorer;
-        item.command = {
-            title: 'Stick Snippet',
-            command: _commands__WEBPACK_IMPORTED_MODULE_3__["Commands"].StickGist,
-            arguments: [this],
-        };
-        return item;
-    }
-    onExplorerTreeNodesChanged() {
-        void this.triggerChange();
-    }
-    subscribe() {
-        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(_app__WEBPACK_IMPORTED_MODULE_2__["App"].explorerTree.onDidChangeNodes(this.onExplorerTreeNodesChanged, this));
-    }
-    triggerSnippetSticked() {
-        const { name } = this.element;
-        const content = _services__WEBPACK_IMPORTED_MODULE_6__["fileSystem"].getFileText(name);
-        if (Object(_utils__WEBPACK_IMPORTED_MODULE_7__["isDblclick"])(this)) {
-            _services__WEBPACK_IMPORTED_MODULE_6__["fileSystem"].edit(content);
-        }
-        else {
-            _app__WEBPACK_IMPORTED_MODULE_2__["App"].outlineView.path = name;
-        }
-    }
-}
-
-
-/***/ }),
-
-/***/ "./src/views/nodes/symbolNode.ts":
-/*!***************************************!*\
-  !*** ./src/views/nodes/symbolNode.ts ***!
-  \***************************************/
-/*! exports provided: SymbolModel, getSymbolAfterTrimCache, getSymbol, SymbolNode */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SymbolModel", function() { return SymbolModel; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSymbolAfterTrimCache", function() { return getSymbolAfterTrimCache; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSymbol", function() { return getSymbol; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SymbolNode", function() { return SymbolNode; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
-/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../config/pathConfig */ "./src/config/pathConfig.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services */ "./src/services/index.ts");
-/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./viewNode */ "./src/views/nodes/viewNode.ts");
-
-
-
-
-
-class SymbolModel {
-    constructor(symbol) {
-        this.children = [];
-        this.symbol = symbol;
-    }
-    addChild(child) {
-        child.parent = this;
-        this.children.push(child);
-    }
-}
-async function getSymbolAfterTrimCache(path) {
-    const tree = new SymbolModel();
-    const uri = vscode__WEBPACK_IMPORTED_MODULE_0__["Uri"].file(path);
-    let symbols = (await vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].executeCommand('vscode.executeDocumentSymbolProvider', uri));
-    if (!symbols)
-        return tree;
-    const symbolNodes = symbols
-        .filter((symbol) => symbol.kind === vscode__WEBPACK_IMPORTED_MODULE_0__["SymbolKind"].Function)
-        .map((symbol) => new SymbolModel(symbol));
-    let potentialParents = [];
-    symbolNodes.forEach((currentNode) => {
-        // Drop candidates that do not contain the current symbol range
-        potentialParents = potentialParents.filter((node) => node !== currentNode &&
-            node.symbol.location.range.contains(currentNode.symbol.location.range) &&
-            !node.symbol.location.range.isEqual(currentNode.symbol.location.range));
-        if (!potentialParents.length) {
-            tree.addChild(currentNode);
-        }
-        else {
-            const parent = potentialParents[potentialParents.length - 1];
-            parent.addChild(currentNode);
-        }
-        potentialParents.push(currentNode);
-    });
-    return tree;
-}
-async function getSymbol(path) {
-    // TAG: Delay activation until a document symbol provider is registered
-    // For this, use a default file to detect the document symbol provider
-    // See details: src/services/waitProvider.ts
-    // Reference: https://www.gitmemory.com/issue/microsoft/vscode/100660/647840607
-    await getSymbolAfterTrimCache(_config_pathConfig__WEBPACK_IMPORTED_MODULE_2__["DEFAULT_FILE"]); // Cancel the file symbol cache
-    return await getSymbolAfterTrimCache(path);
-}
-class SymbolNode extends _viewNode__WEBPACK_IMPORTED_MODULE_4__["SubscribeableViewNode"] {
-    constructor(view, symbol) {
-        super(view);
-        this.symbol = symbol;
-    }
-    getChildren() {
-        return [];
-    }
-    getTreeItem() {
-        const label = this.symbol.name;
-        const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](label, vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].None);
-        item.iconPath = {
-            dark: _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(`images/dark/icon-function.svg`),
-            light: _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(`images/light/icon-function.svg`),
-        };
-        item.command = {
-            title: 'Stick Symbol',
-            command: 'facility.views.outline.stick',
-            arguments: [this],
-        };
-        return item;
-    }
-    async triggerSymbolSticked() {
-        const { uri, range } = this.symbol.location;
-        const document = await vscode__WEBPACK_IMPORTED_MODULE_0__["workspace"].openTextDocument(uri.path);
-        _services__WEBPACK_IMPORTED_MODULE_3__["fileSystem"].edit(document.getText(range));
-    }
-    refresh() {
-        return;
-    }
-    subscribe() {
-        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from();
-    }
-}
 
 
 /***/ }),
@@ -36801,17 +33040,17 @@ class ViewNode {
         if (fileType === vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].Directory) {
             return name === _constants__WEBPACK_IMPORTED_MODULE_4__["appLibaryName"]
                 ? {
-                    dark: _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(`images/dark/icon-repo.svg`),
-                    light: _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(`images/light/icon-repo.svg`),
+                    dark: _app__WEBPACK_IMPORTED_MODULE_1__["default"].context.asAbsolutePath(`images/dark/icon-repo.svg`),
+                    light: _app__WEBPACK_IMPORTED_MODULE_1__["default"].context.asAbsolutePath(`images/light/icon-repo.svg`),
                 }
                 : vscode__WEBPACK_IMPORTED_MODULE_0__["ThemeIcon"].Folder;
         }
         const checkFileExtension = _config_icon__WEBPACK_IMPORTED_MODULE_2__["FILE_EXTENSION"][fileExtension];
         if (!checkFileExtension)
-            return _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(path__WEBPACK_IMPORTED_MODULE_3__["join"]('images/icons', _config_icon__WEBPACK_IMPORTED_MODULE_2__["FILE_EXTENSION"].DEFAULT));
+            return _app__WEBPACK_IMPORTED_MODULE_1__["default"].context.asAbsolutePath(path__WEBPACK_IMPORTED_MODULE_3__["join"]('images/icons', _config_icon__WEBPACK_IMPORTED_MODULE_2__["FILE_EXTENSION"].DEFAULT));
         return _config_icon__WEBPACK_IMPORTED_MODULE_2__["FILENAME"][name]
-            ? _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(path__WEBPACK_IMPORTED_MODULE_3__["join"]('images/icons', _config_icon__WEBPACK_IMPORTED_MODULE_2__["FILENAME"][name]))
-            : _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.asAbsolutePath(path__WEBPACK_IMPORTED_MODULE_3__["join"]('images/icons', checkFileExtension));
+            ? _app__WEBPACK_IMPORTED_MODULE_1__["default"].context.asAbsolutePath(path__WEBPACK_IMPORTED_MODULE_3__["join"]('images/icons', _config_icon__WEBPACK_IMPORTED_MODULE_2__["FILENAME"][name]))
+            : _app__WEBPACK_IMPORTED_MODULE_1__["default"].context.asAbsolutePath(path__WEBPACK_IMPORTED_MODULE_3__["join"]('images/icons', checkFileExtension));
     }
 }
 class SubscribeableViewNode extends ViewNode {
@@ -36868,148 +33107,6 @@ class SubscribeableViewNode extends ViewNode {
             return;
         this.subscription = Promise.resolve(this.subscribe());
         await this.subscription;
-    }
-}
-
-
-/***/ }),
-
-/***/ "./src/views/outlineView.ts":
-/*!**********************************!*\
-  !*** ./src/views/outlineView.ts ***!
-  \**********************************/
-/*! exports provided: OutlineView */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OutlineView", function() { return OutlineView; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../managers/configuration */ "./src/managers/configuration.ts");
-/* harmony import */ var _nodes_outlineNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nodes/outlineNode */ "./src/views/nodes/outlineNode.ts");
-/* harmony import */ var _viewBase__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./viewBase */ "./src/views/viewBase.ts");
-
-
-
-
-class OutlineView extends _viewBase__WEBPACK_IMPORTED_MODULE_3__["ViewBase"] {
-    constructor() {
-        super('facility.views.outline', 'Outline');
-        this._path = '';
-    }
-    get path() {
-        return this._path;
-    }
-    set path(val) {
-        this.refresh(true);
-        this._path = val;
-    }
-    getRoot() {
-        return new _nodes_outlineNode__WEBPACK_IMPORTED_MODULE_2__["OutlineNode"](this);
-    }
-    registerCommands() {
-        vscode__WEBPACK_IMPORTED_MODULE_0__["commands"].registerCommand(this.getQualifiedCommand('stick'), (node) => this.onSymbolSticked(node), this);
-    }
-    onConfigurationChanged(e) {
-        if (_managers_configuration__WEBPACK_IMPORTED_MODULE_1__["default"].changed(e, 'views', 'repositories', 'location')) {
-            this.initialize('facility', { showCollapseAll: true });
-        }
-        if (!_managers_configuration__WEBPACK_IMPORTED_MODULE_1__["default"].initializing(e) && this._root !== undefined) {
-            void this.refresh(true);
-        }
-    }
-    async onSymbolSticked(symbolNode) {
-        return symbolNode.triggerSymbolSticked();
-    }
-}
-
-
-/***/ }),
-
-/***/ "./src/views/viewBase.ts":
-/*!*******************************!*\
-  !*** ./src/views/viewBase.ts ***!
-  \*******************************/
-/*! exports provided: ViewBase */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ViewBase", function() { return ViewBase; });
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
-/* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../app */ "./src/app.ts");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/_lodash@4.17.20@lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../managers/configuration */ "./src/managers/configuration.ts");
-
-
-
-
-class ViewBase {
-    constructor(id, name) {
-        this.id = id;
-        this.name = name;
-        this._onDidChangeTreeData = new vscode__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-        this._onDidChangeVisibility = new vscode__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-        this.registerCommands();
-        _app__WEBPACK_IMPORTED_MODULE_1__["App"].context.subscriptions.push(_managers_configuration__WEBPACK_IMPORTED_MODULE_3__["default"].onDidChange(this.onConfigurationChanged, this));
-        setImmediate(() => this.onConfigurationChanged(_managers_configuration__WEBPACK_IMPORTED_MODULE_3__["default"].initializingChangeEvent));
-    }
-    get onDidChangeTreeData() {
-        return this._onDidChangeTreeData.event;
-    }
-    get onDidChangeVisibility() {
-        return this._onDidChangeVisibility.event;
-    }
-    dispose() {
-        this._disposable && this._disposable.dispose();
-    }
-    getQualifiedCommand(command) {
-        return `${this.id}.${command}`;
-    }
-    initialize(container, options = {}) {
-        if (this._disposable) {
-            this._disposable.dispose();
-            this._onDidChangeTreeData = new vscode__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-        }
-        this._tree = vscode__WEBPACK_IMPORTED_MODULE_0__["window"].createTreeView(`${this.id}${container ? `:${container}` : ''}`, {
-            ...options,
-            treeDataProvider: this,
-        });
-        this._disposable = vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(this._tree, this._tree.onDidChangeVisibility(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["debounce"])(this.onVisibilityChanged, 250), this));
-    }
-    ensureRoot() {
-        if (this._root === undefined) {
-            this._root = this.getRoot();
-        }
-        return this._root;
-    }
-    getChildren(node) {
-        if (node !== undefined)
-            return node.getChildren();
-        const root = this.ensureRoot();
-        return root.getChildren();
-    }
-    getTreeItem(node) {
-        return node.getTreeItem();
-    }
-    onVisibilityChanged(e) {
-        this._onDidChangeVisibility.fire(e);
-    }
-    async refresh(reset = false) {
-        if (this._root !== undefined && this._root.refresh !== undefined) {
-            await this._root.refresh(reset);
-        }
-        this.triggerNodeChange();
-    }
-    async refreshNode(node) {
-        this.triggerNodeChange(node);
-    }
-    triggerNodeChange(node) {
-        const data = node !== undefined && node !== this._root ? node : undefined;
-        this._onDidChangeTreeData.fire(data);
     }
 }
 

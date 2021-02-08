@@ -1,15 +1,16 @@
 import { commands, Uri } from 'vscode'
 import { logger } from '../utils'
 import { fileSystem } from '../services/fileSystem'
-import { DEFAULT_FILE } from '../config/pathConfig'
+// import { DEFAULT_FILE } from '../config/pathConfig'
 import i18nManager from './i18n'
 import { ErrorMessage } from '../config/message'
+import configuration from './configuration'
 
 export class SymbolProviderChecker {
   constructor() {}
 
   async checkSymbolProvider() {
-    const tmp = DEFAULT_FILE
+    const tmp = configuration.examinee
     const tmpUri = Uri.file(tmp)
     await fileSystem.write(tmp, '')
 

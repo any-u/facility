@@ -1,4 +1,4 @@
-import * as path from 'path'
+import { join } from 'path'
 import * as _ from 'lodash'
 import {
   workspace,
@@ -9,12 +9,16 @@ import {
   Uri,
   ConfigurationTarget,
 } from 'vscode'
-import { GIST_BAST_URL } from '../constants'
-import { gists } from '../services/gist'
-import { logger, showWarningMessage } from '../utils'
-import { ConfigurationName, CONFIGURED_PATH } from '../config/pathConfig'
-import { WarningMessage } from '../config/message'
-import i18nManager from './i18n'
+// import { GIST_BAST_URL } from '../constants'
+// import { gists } from '../services/gist'
+// import { logger, showWarningMessage } from '../utils'
+import {
+  ConfigurationName,
+  HIDDEN_FILENAME,
+  ROOT,
+} from '../config/pathConfig'
+// import { WarningMessage } from '../config/message'
+// import i18nManager from './i18n'
 
 export interface Config {
   [ConfigurationName.Id]: string
@@ -26,25 +30,54 @@ export interface Config {
 export const extensionId = 'facility'
 export const extensionQualifiedId = `sillyy.${extensionId}`
 
-export function ensureValidState() {
-  const token = configuration.get(ConfigurationName.Token)
+// export function ensureValidState() {
+//   const token = configuration.get(ConfigurationName.Token)
 
-  if (token !== undefined && token !== '') {
-    gists.configure({
-      key: token,
-      url: GIST_BAST_URL,
-      rejectUnauthorized: true,
-    })
-    return true
-  } else {
-    logger.warn(i18nManager.format(WarningMessage.NoToken))
+//   if (token !== undefined && token !== '') {
+//     gists.configure({
+//       key: token,
+//       url: GIST_BAST_URL,
+//       rejectUnauthorized: true,
+//     })
+//     return true
+//   } else {
+//     logger.warn(i18nManager.format(WarningMessage.NoToken))
 
-    showWarningMessage(i18nManager.format(WarningMessage.NoToken))
-    return false
-  }
-}
+//     showWarningMessage(i18nManager.format(WarningMessage.NoToken))
+//     return false
+//   }
+// }
 
 export class Configuration {
+  private _onDidChange = new EventEmitter<ConfigurationChangeEvent>()
+  get onDidChange(): Event<ConfigurationChangeEvent> {
+    return this._onDidChange.event
+  }
+
+  #path: string
+  get path() {
+    return this.#path
+  }
+
+  /**
+   * examinee as a file used to check whether the SymbolProvider is valid
+   */
+  #examinee: string
+  get examinee() {
+    return this.#examinee
+  }
+
+  constructor() {
+    this.#path = join(
+      this.get(ConfigurationName.WorkspaceFolder) || ROOT,
+      HIDDEN_FILENAME
+    )
+    this.#examinee = join(
+      this.get(ConfigurationName.WorkspaceFolder) || ROOT,
+      HIDDEN_FILENAME,
+      '.prohibit.js'
+    )
+  }
   init(ctx: ExtensionContext) {
     // 配置项加上防抖，否则input输出会频繁触发
     ctx.subscriptions.push(
@@ -53,11 +86,6 @@ export class Configuration {
         configuration
       )
     )
-  }
-
-  private _onDidChange = new EventEmitter<ConfigurationChangeEvent>()
-  get onDidChange(): Event<ConfigurationChangeEvent> {
-    return this._onDidChange.event
   }
 
   private onConfigurationChanged(e: ConfigurationChangeEvent) {
@@ -166,7 +194,6 @@ export class Configuration {
     value: Config[S1][S2] | undefined,
     target: ConfigurationTarget
   ): Thenable<void>
-
   update<
     S1 extends keyof Config,
     S2 extends keyof Config[S1],
@@ -241,7 +268,6 @@ export class Configuration {
       resource = args[1]
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     return e.affectsConfiguration(`facility.${section}`, resource!)
   }
 }
@@ -249,5 +275,5 @@ export class Configuration {
 const configuration = new Configuration()
 export default configuration
 
-export const resolve = (path: string) => CONFIGURED_PATH + path
-export const dropRoot = (path: string) => path.replace(CONFIGURED_PATH, '')
+export const resolve = (path: string) => configuration.path + path
+export const dropRoot = (path: string) => path.replace(configuration.path, '')

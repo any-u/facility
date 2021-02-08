@@ -2,9 +2,10 @@
 import chokidar from 'chokidar'
 import { EventEmitter, Event, ExtensionContext } from 'vscode'
 import { logger, showErrorMessage } from '../utils'
-import { CONFIGURED_PATH, shouldFileIgnore } from '../config/pathConfig'
+import {  shouldFileIgnore } from '../config/pathConfig'
 import i18nManager from './i18n'
 import { ErrorMessage } from '../config/message'
+import configuration from './configuration'
 
 export enum FWChangeType {
   ADDDIR = 'addDir',
@@ -24,7 +25,7 @@ export class Monitor {
   #monitor: any | null
   #monitored: string
 
-  init(context: ExtensionContext, path: string = CONFIGURED_PATH) {
+  init(context: ExtensionContext, path: string = configuration.path) {
     this.#ctx = context
     this.#monitored = path
 
@@ -65,7 +66,7 @@ export class Monitor {
     if (shouldFileIgnore(path)) return
 
     logger.info(`[facility] ${path} changed: ${type}`)
-    
+
     const evt: MonitorChangeEvent = {
       path,
       type,

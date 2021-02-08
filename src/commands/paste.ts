@@ -11,7 +11,7 @@ import { fileSystem } from '../services'
 import i18nManager from '../managers/i18n'
 import { Comment, ErrorMessage, WarningMessage } from '../config/message'
 import configuration from '../managers/configuration'
-import { ConfigurationName, CONFIGURED_PATH } from '../config/pathConfig'
+import { ConfigurationName } from '../config/pathConfig'
 
 @command()
 export class Paste extends Command {
@@ -36,7 +36,7 @@ export class Paste extends Command {
   async onKeywordInputed(input: string) {
     const config = configuration.get(ConfigurationName.Keyword)
     if (config) {
-      const path = paths.join(CONFIGURED_PATH, Reflect.get(config, input))
+      const path = paths.join(configuration.path, Reflect.get(config, input))
       await this.paste(path)
     } else {
       showErrorMessage(
