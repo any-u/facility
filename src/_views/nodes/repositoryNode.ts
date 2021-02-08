@@ -1,9 +1,10 @@
-import { TreeItem, TreeItemCollapsibleState } from 'vscode'
-import TreeNode from '../../tree/node'
-import { ExplorerView } from '../../views/explorerView'
-import { ContextValues } from '../../views/nodes'
-import { View } from '../view'
-import { ViewNode } from './viewNode'
+import { ThemeIcon, TreeItem, TreeItemCollapsibleState } from "vscode"
+import { HIDDEN_FILENAME } from "../../config/pathConfig"
+import TreeNode from "../../tree/node"
+import { ExplorerView } from "../../views/explorerView"
+import { ContextValues } from "../../views/nodes"
+import { View } from "../view"
+import { ViewNode } from "./viewNode"
 
 export class RepositoryNode extends ViewNode<ExplorerView> {
   constructor(view: View, parent: ViewNode, public readonly repo: TreeNode) {
@@ -21,7 +22,7 @@ export class RepositoryNode extends ViewNode<ExplorerView> {
         : TreeItemCollapsibleState.None
     )
 
-    // item.iconPath =
+    item.iconPath = name === HIDDEN_FILENAME ? new ThemeIcon("root-folder") : ""
     item.contextValue = ContextValues.Explorer
     // item
 

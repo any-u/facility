@@ -597,7 +597,7 @@
         "affectsGlobalScope": false
       },
       "./src/views/nodes/symbolnode.ts": {
-        "version": "417b6c721bf53336bc75a63611df0060231529e3d93d55a0847982b8866f72e0",
+        "version": "2aa7d844b81b04eaad4358496a66c9ae8349b35239b00db1b184d32c390e6b86",
         "signature": "691addb6835714431c0ff0f006fda7add26066dc81f2032c6202d96b1592c05a",
         "affectsGlobalScope": false
       },
@@ -686,14 +686,14 @@
         "signature": "0f7b4ec1f8557853ac78f7956674fa47109b815cd98a54f3b778498ce6882276",
         "affectsGlobalScope": false
       },
-      "./src/tree/_explorertree.ts": {
+      "./src/tree/_explorernode.ts": {
         "version": "c6a3fb9448a279c442283801273c0f9c705aa084712c7695ddd551b44879511d",
         "signature": "f90951dba36de73d58d6a80ae34120c2adc0bd68767145054a9fc9e2fff67d6a",
         "affectsGlobalScope": false
       },
       "./src/tree/node.ts": {
-        "version": "dbe57dc7a4260d520812b1988186bdaa9cc95f14eb35ace46ba4b51e2ee4d434",
-        "signature": "b24d010173b7b65c06453d621bd70be2d42381ba219750c917f372254e0085aa",
+        "version": "64620a639bad0218524067f4452743a87173cf52c0c8609ba405f75f506d5a4b",
+        "signature": "ea7022eb62c4ff880cafdf14d9cde009cc2cbc7017ee557fd3edb2278909b206",
         "affectsGlobalScope": false
       },
       "./src/_views/nodes/viewnode.ts": {
@@ -707,13 +707,13 @@
         "affectsGlobalScope": false
       },
       "./src/_views/nodes/repositorynode.ts": {
-        "version": "19e0883e8d1cf15295769effbb0be717c3e77c9581a16ffc414a3cc06d99758a",
-        "signature": "5279be6905380e364fb653926bb7f6e99b1161602ea2175601f5ae5c2f5981a9",
+        "version": "fd60a11af3d3aae5f0e90105da9db957259296fc8973bcacde60203b01d4dbaa",
+        "signature": "9adfd8767e7c9cf32814df5770c05fbd5705fba376205dc3ba3170ec9a8fbb92",
         "affectsGlobalScope": false
       },
       "./src/_views/nodes/explorernode.ts": {
-        "version": "243ee28738dbf26da33bc4e35a0b151f05a3b04b138adbc932b2af9f55c1d832",
-        "signature": "4cd04b985547787eb1c595c40f284d14f605822817f3b6ef12c0597c40dd2cc4",
+        "version": "de3bd1805a37dbad5dc513a09e27495c0e1c5accfbdc2c808f9a1b16f0254b76",
+        "signature": "8454903fc677e0db9163756b5852316d91e3fac7e41b1db9e2844e013629fb25",
         "affectsGlobalScope": false
       },
       "./src/_views/explorerview.ts": {
@@ -722,8 +722,8 @@
         "affectsGlobalScope": false
       },
       "./src/app.ts": {
-        "version": "b715a82a2d873344d9dffd1333261c685196eafb5d913ec19fc79684b984434d",
-        "signature": "95a6141e08247012e2f1191db4164c32a33e07cf4ee30a4894b5f11ceb9458af",
+        "version": "91efb4d660d1c7f28223971df5cd2aecfac7186c7de06c9d293fc000e5234f10",
+        "signature": "559f8d96a149449e2e71e085fd471c91aa1363ebaf1dccbc7051859d9cace79a",
         "affectsGlobalScope": false
       },
       "./src/managers/workspacefolder.ts": {
@@ -752,12 +752,12 @@
         "affectsGlobalScope": false
       },
       "./src/commands/open.ts": {
-        "version": "edf0e0fb572c1900af769424dfd6fd7cb48a979d65b1bab8ab3254fef1dc15a2",
+        "version": "365a3fe76956a75d53ceacc4256e7df1a80f3184ece9a9cff4a3cbea178f37ed",
         "signature": "21b0c619c7fc527f502e2e8b65bcc543f9c9c2926ae3ad1042f82cf047f45626",
         "affectsGlobalScope": false
       },
       "./src/commands/paste.ts": {
-        "version": "bf47013c03dd59dd1641cfae0f60cb35372b0c47449532f97a17222989865094",
+        "version": "85569627df2df7516aa8944f4d70d46cc48919c60b8692792da9171fea55e83d",
         "signature": "0ee5bc459f5fe4d7d46d7fdce33319c575e63011d28a583fc317d61792cc17b5",
         "affectsGlobalScope": false
       },
@@ -1514,6 +1514,7 @@
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/_views/nodes/viewnode.ts",
         "./src/_views/view.ts",
+        "./src/config/pathconfig.ts",
         "./src/tree/node.ts",
         "./src/views/explorerview.ts",
         "./src/views/nodes/index.ts"
@@ -1537,7 +1538,7 @@
         "./src/managers/configuration.ts",
         "./src/managers/monitor.ts",
         "./src/services/index.ts",
-        "./src/tree/_explorertree.ts"
+        "./src/tree/_explorernode.ts"
       ],
       "./src/commands.ts": [
         "./node_modules/_@types_lodash@4.14.167@@types/lodash/index.d.ts",
@@ -1549,7 +1550,7 @@
       "./src/commands/open.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/commands/common.ts",
-        "./src/config/pathconfig.ts"
+        "./src/managers/configuration.ts"
       ],
       "./src/commands/paste.ts": [
         "./node_modules/_@types_node@12.19.14@@types/node/path.d.ts",
@@ -1681,7 +1682,7 @@
         "./src/managers/i18n.ts",
         "./src/services/filesystem.ts"
       ],
-      "./src/tree/_explorertree.ts": [
+      "./src/tree/_explorernode.ts": [
         "./node_modules/_@types_node@12.19.14@@types/node/path.d.ts",
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/config/pathconfig.ts",
@@ -1707,7 +1708,7 @@
       ],
       "./src/tree/node.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./src/tree/_explorertree.ts",
+        "./src/tree/_explorernode.ts",
         "./src/tree/element.ts"
       ],
       "./src/tree/tree.ts": [
@@ -1794,7 +1795,7 @@
       "./src/views/nodes/symbolnode.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/app.ts",
-        "./src/config/pathconfig.ts",
+        "./src/managers/configuration.ts",
         "./src/services/index.ts",
         "./src/views/nodes/viewnode.ts",
         "./src/views/outlineview.ts"
@@ -2326,7 +2327,6 @@
         "./src/_views/view.ts"
       ],
       "./src/_views/nodes/explorernode.ts": [
-        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/_views/explorerview.ts",
         "./src/_views/nodes/viewnode.ts"
       ],
@@ -2350,7 +2350,7 @@
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/_views/explorerview.ts",
         "./src/managers/configuration.ts",
-        "./src/tree/_explorertree.ts"
+        "./src/tree/_explorernode.ts"
       ],
       "./src/commands.ts": [
         "./src/commands/common.ts"
@@ -2405,7 +2405,7 @@
         "./src/managers/i18n.ts",
         "./src/services/filesystem.ts"
       ],
-      "./src/tree/_explorertree.ts": [
+      "./src/tree/_explorernode.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/managers/monitor.ts",
         "./src/tree/node.ts"
@@ -2423,7 +2423,7 @@
         "./src/tree/treemodel.ts"
       ],
       "./src/tree/node.ts": [
-        "./src/tree/_explorertree.ts",
+        "./src/tree/_explorernode.ts",
         "./src/tree/element.ts"
       ],
       "./src/tree/tree.ts": [
@@ -2652,32 +2652,8 @@
       "./src/app.ts",
       "./src/commands.ts",
       "./src/commands/common.ts",
-      [
-        "./src/commands/open.ts",
-        [
-          {
-            "file": "./src/commands/open.ts",
-            "start": 49,
-            "length": 15,
-            "messageText": "Module '\"../config/pathConfig\"' has no exported member 'CONFIGURED_PATH'.",
-            "category": 1,
-            "code": 2305
-          }
-        ]
-      ],
-      [
-        "./src/commands/paste.ts",
-        [
-          {
-            "file": "./src/commands/paste.ts",
-            "start": 471,
-            "length": 15,
-            "messageText": "Module '\"../config/pathConfig\"' has no exported member 'CONFIGURED_PATH'.",
-            "category": 1,
-            "code": 2305
-          }
-        ]
-      ],
+      "./src/commands/open.ts",
+      "./src/commands/paste.ts",
       [
         "./src/commands/pull.ts",
         [
@@ -2768,7 +2744,7 @@
       "./src/services/filesystem.ts",
       "./src/services/gist.ts",
       "./src/services/index.ts",
-      "./src/tree/_explorertree.ts",
+      "./src/tree/_explorernode.ts",
       "./src/tree/element.ts",
       "./src/tree/explorermodel.ts",
       [
@@ -2843,27 +2819,7 @@
           }
         ]
       ],
-      [
-        "./src/views/nodes/symbolnode.ts",
-        [
-          {
-            "file": "./src/views/nodes/symbolnode.ts",
-            "start": 155,
-            "length": 3,
-            "messageText": "Module '\"../../app\"' has no exported member 'App'. Did you mean to use 'import App from \"../../app\"' instead?",
-            "category": 1,
-            "code": 2614
-          },
-          {
-            "file": "./src/views/nodes/symbolnode.ts",
-            "start": 187,
-            "length": 12,
-            "messageText": "Module '\"../../config/pathConfig\"' has no exported member 'DEFAULT_FILE'.",
-            "category": 1,
-            "code": 2305
-          }
-        ]
-      ],
+      "./src/views/nodes/symbolnode.ts",
       "./src/views/nodes/viewnode.ts",
       "./src/views/outlineview.ts",
       [

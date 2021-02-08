@@ -35,10 +35,7 @@
         "command": "facility.save",
         "title": "%facilityApp.command.save.title%",
         "category": "Facility",
-        "icon": {
-          "light": "images/light/save.svg",
-          "dark": "images/dark/save.svg"
-        }
+        "icon": "$(save)"
       },
       {
         "command": "facility.paste",
@@ -49,28 +46,19 @@
         "command": "facility.open",
         "title": "%facilityApp.command.open.title%",
         "category": "Facility",
-        "icon": {
-          "light": "images/light/open.svg",
-          "dark": "images/dark/open.svg"
-        }
+        "icon": "$(go-to-file)"
       },
       {
         "command": "facility.push",
         "title": "%facilityApp.command.push.title%",
         "category": "Facility",
-        "icon": {
-          "light": "images/light/upload.svg",
-          "dark": "images/dark/upload.svg"
-        }
+        "icon": "$(arrow-up)"
       },
       {
         "command": "facility.pull",
         "title": "%facilityApp.command.pull.title%",
         "category": "Facility",
-        "icon": {
-          "light": "images/light/download.svg",
-          "dark": "images/dark/download.svg"
-        }
+        "icon": "$(arrow-down)"
       },
       {
         "command": "facility.profile.clear",

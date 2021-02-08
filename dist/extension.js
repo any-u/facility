@@ -31126,7 +31126,7 @@ class ExplorerNode extends _viewNode__WEBPACK_IMPORTED_MODULE_4__["ViewNode"] {
     getTreeItem() {
         const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](this.view.name, vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].Expanded);
         item.contextValue = _views_nodes__WEBPACK_IMPORTED_MODULE_2__["ContextValues"].Explorer;
-        return item;
+        return {};
     }
     getChildren() {
         const children = [];
@@ -31135,7 +31135,9 @@ class ExplorerNode extends _viewNode__WEBPACK_IMPORTED_MODULE_4__["ViewNode"] {
             // TODO: feat meessage node
             return [];
         }
-        children.push(new _repositoryNode__WEBPACK_IMPORTED_MODULE_3__["RepositoryNode"](this.view, this, root));
+        root.children.forEach((item) => {
+            children.push(new _repositoryNode__WEBPACK_IMPORTED_MODULE_3__["RepositoryNode"](this.view, this, item));
+        });
         return children;
     }
 }
@@ -31155,12 +31157,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RepositoryNode", function() { return RepositoryNode; });
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _views_nodes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../views/nodes */ "./src/views/nodes/index.ts");
-/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./viewNode */ "./src/_views/nodes/viewNode.ts");
+/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../config/pathConfig */ "./src/config/pathConfig.ts");
+/* harmony import */ var _views_nodes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../views/nodes */ "./src/views/nodes/index.ts");
+/* harmony import */ var _viewNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./viewNode */ "./src/_views/nodes/viewNode.ts");
 
 
 
-class RepositoryNode extends _viewNode__WEBPACK_IMPORTED_MODULE_2__["ViewNode"] {
+
+class RepositoryNode extends _viewNode__WEBPACK_IMPORTED_MODULE_3__["ViewNode"] {
     constructor(view, parent, repo) {
         super(view, parent);
         this.repo = repo;
@@ -31171,8 +31175,8 @@ class RepositoryNode extends _viewNode__WEBPACK_IMPORTED_MODULE_2__["ViewNode"] 
         const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](name, this.repo.children.length
             ? vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].Expanded
             : vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].None);
-        // item.iconPath =
-        item.contextValue = _views_nodes__WEBPACK_IMPORTED_MODULE_1__["ContextValues"].Explorer;
+        item.iconPath = name === _config_pathConfig__WEBPACK_IMPORTED_MODULE_1__["HIDDEN_FILENAME"] ? new vscode__WEBPACK_IMPORTED_MODULE_0__["ThemeIcon"]("root-folder") : "";
+        item.contextValue = _views_nodes__WEBPACK_IMPORTED_MODULE_2__["ContextValues"].Explorer;
         // item
         return item;
     }
@@ -31289,7 +31293,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "path");
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _views_explorerView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_views/explorerView */ "./src/_views/explorerView.ts");
-/* harmony import */ var _tree_explorerTree__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tree/_explorerTree */ "./src/tree/_explorerTree.ts");
+/* harmony import */ var _tree_explorerNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tree/_explorerNode */ "./src/tree/_explorerNode.ts");
 /* harmony import */ var _managers_monitor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./managers/monitor */ "./src/managers/monitor.ts");
 /* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./config/pathConfig */ "./src/config/pathConfig.ts");
 /* harmony import */ var _managers_configuration__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./managers/configuration */ "./src/managers/configuration.ts");
@@ -31326,7 +31330,7 @@ class App {
         this._context = context;
         this._config = config;
         context.subscriptions.push(_managers_configuration__WEBPACK_IMPORTED_MODULE_5__["default"].onDidChange(this.onConfigurationChanging, this));
-        context.subscriptions.push((this._tree = new _tree_explorerTree__WEBPACK_IMPORTED_MODULE_2__["default"]()));
+        context.subscriptions.push((this._tree = new _tree_explorerNode__WEBPACK_IMPORTED_MODULE_2__["default"]()));
         context.subscriptions.push((this._explorerView = new _views_explorerView__WEBPACK_IMPORTED_MODULE_1__["ExplorerView"]()));
         // context.subscriptions.push((this._outlineView = new OutlineView()))
     }
@@ -32352,9 +32356,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/tree/_explorerTree.ts":
+/***/ "./src/tree/_explorerNode.ts":
 /*!***********************************!*\
-  !*** ./src/tree/_explorerTree.ts ***!
+  !*** ./src/tree/_explorerNode.ts ***!
   \***********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
