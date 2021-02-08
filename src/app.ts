@@ -4,7 +4,7 @@ import { Config } from './managers/configuration'
 import { ExplorerView } from './_views/explorerView'
 // import { OutlineView } from './views/outlineView'
 // import { ExplorerTree, GistElement } from './tree/explorerTree'
-import Tree from './tree/_explorerTree'
+import Tree from './tree/_explorerNode'
 import monitor, { Monitor } from './managers/monitor'
 import {
   ConfigurationName,

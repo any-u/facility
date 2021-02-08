@@ -1,7 +1,7 @@
 import { FileType } from 'vscode'
 import Element from './element'
 
-import Tree from './_explorerTree'
+import Tree from './_explorerNode'
 
 class TreeNode {
   #element: Element
