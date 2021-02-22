@@ -47,6 +47,10 @@ abstract class ViewBase<TRoot extends ViewNode<View>>
     this._disposable && this._disposable.dispose()
   }
 
+  getQualifiedCommand(command: string) {
+    return `${this.id}.${command}`
+  }
+
   protected initialize(
     container = extensionId,
     options: { showCollapseAll?: boolean } = {}
@@ -91,6 +95,7 @@ abstract class ViewBase<TRoot extends ViewNode<View>>
   protected onVisibilityChanged(e: TreeViewVisibilityChangeEvent) {
     this._onDidChangeVisibility.fire(e)
   }
+  
 }
 
 export default ViewBase

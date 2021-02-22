@@ -1,13 +1,17 @@
-import { commands, Disposable, ExtensionContext } from 'vscode'
+import { commands, Disposable, ExtensionContext } from "vscode"
 
 export enum Commands {
-  StickGist = 'facility.views.explorer.stick',
-  StickGistOnOutline = 'facility.views.outline.stick',
-  Save = 'facility.save',
-  Paste = 'facility.paste',
-  Open = 'facility.open',
-  Pull = 'facility.pull',
-  Push = 'facility.push'
+  StickSnippet = "facility.views.explorer.stick",
+  StickGistOnOutline = "facility.views.outline.stick",
+  Save = "facility.save",
+  Paste = "facility.paste",
+  Open = "facility.open",
+  Pull = "facility.pull",
+  Push = "facility.push",
+}
+
+export const enum CommandTitles {
+  StickSnippet = "Stick Snippet",
 }
 
 interface CommandConstructor {
@@ -32,7 +36,7 @@ export abstract class Command implements Disposable {
   private readonly _disposable: Disposable
 
   constructor(command: Commands | Commands[]) {
-    if (typeof command === 'string') {
+    if (typeof command === "string") {
       this._disposable = commands.registerCommand(
         command,
         (...args: any[]) => this._execute(command, ...args),
@@ -51,7 +55,6 @@ export abstract class Command implements Disposable {
     this._disposable = Disposable.from(...subscriptions)
   }
 
-  
   dispose() {
     this._disposable.dispose()
   }
@@ -60,5 +63,4 @@ export abstract class Command implements Disposable {
   protected _execute(command: string, ...args: any[]): any {
     this.execute(args)
   }
-
 }

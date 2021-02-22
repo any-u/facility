@@ -1,6 +1,9 @@
 import { ThemeIcon, TreeItem, TreeItemCollapsibleState } from "vscode"
+import { Commands, CommandTitles } from "../../commands/common"
 import { HIDDEN_FILENAME } from "../../config/pathConfig"
+import { fileSystem } from "../../services"
 import TreeNode from "../../tree/node"
+import { isDblclick } from "../../utils"
 import { ExplorerView } from "../../views/explorerView"
 import { ContextValues } from "../../views/nodes"
 import { View } from "../view"
@@ -13,7 +16,6 @@ export class RepositoryNode extends ViewNode<ExplorerView> {
 
   getTreeItem() {
     const { name, extension } = this.repo.element
-    // if (name === HIDDEN_FILENAME) return null
 
     const item = new TreeItem(
       name,
@@ -24,18 +26,34 @@ export class RepositoryNode extends ViewNode<ExplorerView> {
 
     item.iconPath = name === HIDDEN_FILENAME ? new ThemeIcon("root-folder") : ""
     item.contextValue = ContextValues.Explorer
-    // item
+    item.tooltip = this.repo.path
+    item.command = {
+      title: CommandTitles.StickSnippet,
+      command: Commands.StickSnippet,
+      arguments: [this],
+    }
 
     return item
   }
 
   getChildren() {
     const children: RepositoryNode[] = []
-    // if(!this.repo.children.length)
     this.repo.children.forEach((item) => {
       children.push(new RepositoryNode(this.view, this, item))
     })
 
     return children
+  }
+
+  triggerSnippetSticked() {
+    const { path } = this.repo
+
+    const content = fileSystem.getFileText(path)
+
+    if (isDblclick(this)) {
+      fileSystem.edit(content)
+    } else {
+      // TODO: symbol register
+    }
   }
 }

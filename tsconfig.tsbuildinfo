@@ -612,8 +612,8 @@
         "affectsGlobalScope": false
       },
       "./src/commands/common.ts": {
-        "version": "93020b6b544712fad58b8804a0e7ab5c119c73a57395e24d7fb3d73b54f9fa7e",
-        "signature": "36088ddba5d0e2dbe119138d8b6013c06df032eed987f44ae5b9e889b8a3e4f6",
+        "version": "b0b71abdcee31324addd38585e8d5e3084c5276b8521563dd3b0fa295a0e9933",
+        "signature": "caf0b5b03c8f9bc95b7c60ad6e0e19ad11da1edc39e6c5bf6ae8ce1e3104487a",
         "affectsGlobalScope": false
       },
       "./src/commands.ts": {
@@ -702,13 +702,13 @@
         "affectsGlobalScope": false
       },
       "./src/_views/view.ts": {
-        "version": "6ac6c7e7fb4fa5b613cf52054cb6d35b66a9fdb1b2d869fb7b9b9c67db2ab180",
-        "signature": "8527e2d55711761a310f0cf4d3fbcd69999b68310b3d326dc0e7667271ca59e1",
+        "version": "a0c44f9e441d910555b1931a3e5e35ac2f28343628bdddf4d0ba793bb6cc86a9",
+        "signature": "8ff576b38498d8d6621cea3478e141d15a45e172c47bb5c3010ffb1d7f32210b",
         "affectsGlobalScope": false
       },
       "./src/_views/nodes/repositorynode.ts": {
-        "version": "fd60a11af3d3aae5f0e90105da9db957259296fc8973bcacde60203b01d4dbaa",
-        "signature": "9adfd8767e7c9cf32814df5770c05fbd5705fba376205dc3ba3170ec9a8fbb92",
+        "version": "939a75f99d32ce5a614b85ec6192bc069bf74adb31ab2fe97e88098e490b7b83",
+        "signature": "03f89deea040a693aae0f2751b6dc094315d1c75d41d4703bcaccefa5aca476a",
         "affectsGlobalScope": false
       },
       "./src/_views/nodes/explorernode.ts": {
@@ -717,8 +717,8 @@
         "affectsGlobalScope": false
       },
       "./src/_views/explorerview.ts": {
-        "version": "b6f2e3d20078e5300bbf6725db1dc80d7c5f24c31288f8ff41c799676529cbcd",
-        "signature": "620dc69fd1eea55351dff2275eff37101fd5f2cf34ea6f7cb82302a2d9c31d81",
+        "version": "6685387c6c4e94fd27e81ad0a93ad6142e03e5d5ab7baf9de09be3cc40c18af5",
+        "signature": "0d591035854a1f13bc2286d71594555fac83052984691a62990dc348e4b59549",
         "affectsGlobalScope": false
       },
       "./src/app.ts": {
@@ -1498,6 +1498,7 @@
       "./src/_views/explorerview.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/_views/nodes/explorernode.ts",
+        "./src/_views/nodes/repositorynode.ts",
         "./src/_views/view.ts",
         "./src/config/index.ts",
         "./src/managers/configuration.ts"
@@ -1514,8 +1515,11 @@
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/_views/nodes/viewnode.ts",
         "./src/_views/view.ts",
+        "./src/commands/common.ts",
         "./src/config/pathconfig.ts",
+        "./src/services/index.ts",
         "./src/tree/node.ts",
+        "./src/utils/index.ts",
         "./src/views/explorerview.ts",
         "./src/views/nodes/index.ts"
       ],
@@ -2324,6 +2328,7 @@
       "./src/_views/explorerview.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/_views/nodes/explorernode.ts",
+        "./src/_views/nodes/repositorynode.ts",
         "./src/_views/view.ts"
       ],
       "./src/_views/nodes/explorernode.ts": [
@@ -2816,6 +2821,14 @@
             "messageText": "Module '\"../../app\"' has no exported member 'App'. Did you mean to use 'import App from \"../../app\"' instead?",
             "category": 1,
             "code": 2614
+          },
+          {
+            "file": "./src/views/nodes/repositorynode.ts",
+            "start": 1871,
+            "length": 9,
+            "code": 2339,
+            "category": 1,
+            "messageText": "Property 'StickGist' does not exist on type 'typeof Commands'."
           }
         ]
       ],
