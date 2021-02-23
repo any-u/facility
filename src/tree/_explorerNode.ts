@@ -52,6 +52,7 @@ class Tree implements Disposable {
 
     if (type === FWChangeType.CHANGE) {
       // content changes, no action required
+      // TODO: outline refresh
     }
 
     if (type === FWChangeType.UNLINK) {

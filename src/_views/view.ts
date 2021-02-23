@@ -7,20 +7,22 @@ import {
   TreeView,
   TreeViewVisibilityChangeEvent,
   window,
-} from 'vscode'
-import { ViewNode } from './nodes/viewNode'
-import { extensionId, ViewId, ViewName } from '../config'
-import { debounce } from 'lodash'
-import configuration from '../managers/configuration'
+} from "vscode"
+import { ViewNode } from "./nodes/viewNode"
+import { extensionId, ViewId, ViewName } from "../config"
+import { debounce } from "lodash"
+import configuration from "../managers/configuration"
+import { ExplorerView } from "./explorerView"
+import { OutlineView } from "./outlineView"
 
-export type View = any
+export type View = ExplorerView | OutlineView
 
 abstract class ViewBase<TRoot extends ViewNode<View>>
   implements TreeDataProvider<ViewNode>, Disposable {
-  // protected _onDidChangeTreeData = new EventEmitter<ViewNode>()
-  // get onDidChangeTreeData(): EventEmitter<ViewNode>{
-  //   return this._onDidChangeTreeData.event
-  // }
+  protected _onDidChangeTreeData = new EventEmitter<ViewNode>()
+  get onDidChangeTreeData(): Event<ViewNode> {
+    return this._onDidChangeTreeData.event
+  }
 
   private _onDidChangeVisibility = new EventEmitter<TreeViewVisibilityChangeEvent>()
   get onDidChangeVisibility(): Event<TreeViewVisibilityChangeEvent> {
@@ -56,7 +58,7 @@ abstract class ViewBase<TRoot extends ViewNode<View>>
     options: { showCollapseAll?: boolean } = {}
   ) {
     this._tree = window.createTreeView(
-      `${this.id}${container ? `:${container}` : ''}`,
+      `${this.id}${container ? `:${container}` : ""}`,
       {
         ...options,
         treeDataProvider: this,
@@ -95,7 +97,11 @@ abstract class ViewBase<TRoot extends ViewNode<View>>
   protected onVisibilityChanged(e: TreeViewVisibilityChangeEvent) {
     this._onDidChangeVisibility.fire(e)
   }
-  
+
+  refresh(node?: ViewNode) {
+    const data = node !== undefined && node !== this._root ? node : undefined
+    this._onDidChangeTreeData.fire(data)
+  }
 }
 
 export default ViewBase

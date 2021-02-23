@@ -267,8 +267,8 @@
         "affectsGlobalScope": false
       },
       "./src/config/index.ts": {
-        "version": "8fe9343457a0024bb972ecac21d57f421d52342afc36b52b7d913f9a767b5b96",
-        "signature": "9e2f7bb10de461c82756ad994f67f01b17f245a6e526b469f0f04308a66a7989",
+        "version": "7ce54a57f57b62c98341463ddbb38ff65b330e3116275f10261f40f29e062d2d",
+        "signature": "900a1d8c8fb624b3c438b21973560943639eecca3fe0a1bf1d3c6f6897fea34c",
         "affectsGlobalScope": false
       },
       "./src/config/message.ts": {
@@ -612,8 +612,8 @@
         "affectsGlobalScope": false
       },
       "./src/commands/common.ts": {
-        "version": "b0b71abdcee31324addd38585e8d5e3084c5276b8521563dd3b0fa295a0e9933",
-        "signature": "caf0b5b03c8f9bc95b7c60ad6e0e19ad11da1edc39e6c5bf6ae8ce1e3104487a",
+        "version": "474046112b3c3c8df18ec63a878533e075c475389e2f9b9a22c158f7abb01cd9",
+        "signature": "2773e7d3715c4b8fc105a0b685de56fc5f37486c13b508128e3efb4435c949ad",
         "affectsGlobalScope": false
       },
       "./src/commands.ts": {
@@ -687,7 +687,7 @@
         "affectsGlobalScope": false
       },
       "./src/tree/_explorernode.ts": {
-        "version": "c6a3fb9448a279c442283801273c0f9c705aa084712c7695ddd551b44879511d",
+        "version": "802fe1d65064ff9cac62cbca94557c0f84adc554d2a17bd3f1c7a4fe8af9e4e1",
         "signature": "f90951dba36de73d58d6a80ae34120c2adc0bd68767145054a9fc9e2fff67d6a",
         "affectsGlobalScope": false
       },
@@ -697,33 +697,43 @@
         "affectsGlobalScope": false
       },
       "./src/_views/nodes/viewnode.ts": {
-        "version": "e1c859fc338ee00724e9fd437c780afa4f7a306ceeb4a137842b2b9d5536cac7",
-        "signature": "e58db3a96e37d78f890dd752837140abd2931ca3226225c6064a115a514564bb",
+        "version": "70985711245715848eca0b2950868908f516906825c33e1ed9dc85ced98e9bf1",
+        "signature": "c5a9251a609a0949458ef7805f72e4cff20fb26301733244d66b58ff18ad30a8",
+        "affectsGlobalScope": false
+      },
+      "./src/_views/nodes/outlinenode.ts": {
+        "version": "2f004b3dd1c5eb34c0639dbfcb9deb4f414dc3bf8d57acd8a7b97e41392584cc",
+        "signature": "4ac9c8b98c2650fd89c371d9009cc1899a5aadd9cbbc7b351b16d48578ab974e",
+        "affectsGlobalScope": false
+      },
+      "./src/_views/outlineview.ts": {
+        "version": "7f2dcb2acd777469e825256456acfe84a0d71638fe756424f1d4387280e0e895",
+        "signature": "c4fcd6f445e2120b5f67962c7cc7152f2731fadc658ba89437202f431631c9b8",
         "affectsGlobalScope": false
       },
       "./src/_views/view.ts": {
-        "version": "a0c44f9e441d910555b1931a3e5e35ac2f28343628bdddf4d0ba793bb6cc86a9",
-        "signature": "8ff576b38498d8d6621cea3478e141d15a45e172c47bb5c3010ffb1d7f32210b",
+        "version": "eff2d1855646b423c79a1ede0341623da7bf33ecfdad0e561f0566da50e20393",
+        "signature": "c966856ea7d155288de274e32fb4539c697210694444fe59dc455026e6fd7069",
         "affectsGlobalScope": false
       },
       "./src/_views/nodes/repositorynode.ts": {
-        "version": "939a75f99d32ce5a614b85ec6192bc069bf74adb31ab2fe97e88098e490b7b83",
-        "signature": "03f89deea040a693aae0f2751b6dc094315d1c75d41d4703bcaccefa5aca476a",
+        "version": "774ac87b0a0134c7c59787418e749ac6e264b60c5ce87b3abc84a8fed10f908a",
+        "signature": "1edce68c551b46c8cb98a5103f5b380bbd050dcecbe418bac02bda1365ae9631",
         "affectsGlobalScope": false
       },
       "./src/_views/nodes/explorernode.ts": {
-        "version": "de3bd1805a37dbad5dc513a09e27495c0e1c5accfbdc2c808f9a1b16f0254b76",
+        "version": "3a25cc648e0dc3c16f4375d484397e97c37833abe2618bfaeb890f91a76d0a8a",
         "signature": "8454903fc677e0db9163756b5852316d91e3fac7e41b1db9e2844e013629fb25",
         "affectsGlobalScope": false
       },
       "./src/_views/explorerview.ts": {
-        "version": "6685387c6c4e94fd27e81ad0a93ad6142e03e5d5ab7baf9de09be3cc40c18af5",
-        "signature": "0d591035854a1f13bc2286d71594555fac83052984691a62990dc348e4b59549",
+        "version": "f4691afb195f8ccb31a1572f74f77eb09543fc291a8d2ffb2480fd6597212160",
+        "signature": "b3e0d57fbcd206f6d7b4197a8442005c3886e17e24039dbaa98f8e7cc1b65479",
         "affectsGlobalScope": false
       },
       "./src/app.ts": {
-        "version": "91efb4d660d1c7f28223971df5cd2aecfac7186c7de06c9d293fc000e5234f10",
-        "signature": "559f8d96a149449e2e71e085fd471c91aa1363ebaf1dccbc7051859d9cace79a",
+        "version": "c7825881cf06eee429455fd30edcf64650f6f8f47b58e60a731d6766782fb961",
+        "signature": "6169f7c8e32b70d73f30dcc56d8b7f0c98a218f4293a4fbb781702792186e677",
         "affectsGlobalScope": false
       },
       "./src/managers/workspacefolder.ts": {
@@ -1511,26 +1521,46 @@
         "./src/app.ts",
         "./src/views/nodes/index.ts"
       ],
-      "./src/_views/nodes/repositorynode.ts": [
+      "./src/_views/nodes/outlinenode.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/_views/nodes/viewnode.ts",
+        "./src/_views/outlineview.ts",
+        "./src/app.ts",
+        "./src/commands/common.ts",
+        "./src/services/index.ts",
+        "./src/views/nodes/symbolnode.ts"
+      ],
+      "./src/_views/nodes/repositorynode.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/explorerview.ts",
+        "./src/_views/nodes/viewnode.ts",
         "./src/_views/view.ts",
+        "./src/app.ts",
         "./src/commands/common.ts",
         "./src/config/pathconfig.ts",
         "./src/services/index.ts",
         "./src/tree/node.ts",
         "./src/utils/index.ts",
-        "./src/views/explorerview.ts",
         "./src/views/nodes/index.ts"
       ],
       "./src/_views/nodes/viewnode.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
-        "./src/_views/view.ts"
+        "./src/_views/view.ts",
+        "./src/app.ts"
+      ],
+      "./src/_views/outlineview.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/nodes/outlinenode.ts",
+        "./src/_views/view.ts",
+        "./src/config/index.ts",
+        "./src/managers/configuration.ts"
       ],
       "./src/_views/view.ts": [
         "./node_modules/_@types_lodash@4.14.167@@types/lodash/index.d.ts",
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/explorerview.ts",
         "./src/_views/nodes/viewnode.ts",
+        "./src/_views/outlineview.ts",
         "./src/config/index.ts",
         "./src/managers/configuration.ts"
       ],
@@ -1538,6 +1568,7 @@
         "./node_modules/_@types_node@12.19.14@@types/node/path.d.ts",
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/_views/explorerview.ts",
+        "./src/_views/outlineview.ts",
         "./src/config/pathconfig.ts",
         "./src/managers/configuration.ts",
         "./src/managers/monitor.ts",
@@ -2335,25 +2366,37 @@
         "./src/_views/explorerview.ts",
         "./src/_views/nodes/viewnode.ts"
       ],
-      "./src/_views/nodes/repositorynode.ts": [
+      "./src/_views/nodes/outlinenode.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/_views/nodes/viewnode.ts",
-        "./src/_views/view.ts",
-        "./src/tree/node.ts",
-        "./src/views/explorerview.ts"
+        "./src/_views/outlineview.ts"
+      ],
+      "./src/_views/nodes/repositorynode.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/explorerview.ts",
+        "./src/_views/nodes/viewnode.ts",
+        "./src/tree/node.ts"
       ],
       "./src/_views/nodes/viewnode.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/_views/view.ts"
       ],
+      "./src/_views/outlineview.ts": [
+        "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/nodes/outlinenode.ts",
+        "./src/_views/view.ts"
+      ],
       "./src/_views/view.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
+        "./src/_views/explorerview.ts",
         "./src/_views/nodes/viewnode.ts",
+        "./src/_views/outlineview.ts",
         "./src/config/index.ts"
       ],
       "./src/app.ts": [
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/_views/explorerview.ts",
+        "./src/_views/outlineview.ts",
         "./src/managers/configuration.ts",
         "./src/tree/_explorernode.ts"
       ],
@@ -2651,8 +2694,10 @@
       "./node_modules/_typescript@3.9.7@typescript/lib/lib.esnext.intl.d.ts",
       "./src/_views/explorerview.ts",
       "./src/_views/nodes/explorernode.ts",
+      "./src/_views/nodes/outlinenode.ts",
       "./src/_views/nodes/repositorynode.ts",
       "./src/_views/nodes/viewnode.ts",
+      "./src/_views/outlineview.ts",
       "./src/_views/view.ts",
       "./src/app.ts",
       "./src/commands.ts",

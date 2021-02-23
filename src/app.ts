@@ -2,7 +2,7 @@ import * as path from 'path'
 import { ExtensionContext, ConfigurationChangeEvent } from 'vscode'
 import { Config } from './managers/configuration'
 import { ExplorerView } from './_views/explorerView'
-// import { OutlineView } from './views/outlineView'
+import { OutlineView } from './_views/outlineView'
 // import { ExplorerTree, GistElement } from './tree/explorerTree'
 import Tree from './tree/_explorerNode'
 import monitor, { Monitor } from './managers/monitor'
@@ -44,14 +44,14 @@ class App {
     return this._explorerView
   }
 
-  // private static _outlineView: OutlineView | undefined
-  // static get outlineView(): OutlineView {
-  //   if (this._outlineView === undefined) {
-  //     this._context.subscriptions.push((this._outlineView = new OutlineView()))
-  //   }
+  private static _outlineView: OutlineView | undefined
+  static get outlineView(): OutlineView {
+    if (this._outlineView === undefined) {
+      this._context.subscriptions.push((this._outlineView = new OutlineView()))
+    }
 
-  //   return this._outlineView
-  // }
+    return this._outlineView
+  }
 
   private static _tree: Tree
   static get tree() {
@@ -67,7 +67,7 @@ class App {
     )
     context.subscriptions.push((this._tree = new Tree()))
     context.subscriptions.push((this._explorerView = new ExplorerView()))
-    // context.subscriptions.push((this._outlineView = new OutlineView()))
+    context.subscriptions.push((this._outlineView = new OutlineView()))
   }
 
   private static async onConfigurationChanging(e: ConfigurationChangeEvent) {

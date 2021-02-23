@@ -2,7 +2,7 @@ import { commands, Disposable, ExtensionContext } from "vscode"
 
 export enum Commands {
   StickSnippet = "facility.views.explorer.stick",
-  StickGistOnOutline = "facility.views.outline.stick",
+  StickSymbol = "facility.views.outline.stick",
   Save = "facility.save",
   Paste = "facility.paste",
   Open = "facility.open",
@@ -12,6 +12,7 @@ export enum Commands {
 
 export const enum CommandTitles {
   StickSnippet = "Stick Snippet",
+  StickSymbol = 'Stick Symbol'
 }
 
 interface CommandConstructor {

@@ -1,16 +1,17 @@
-import { ThemeIcon, TreeItem, TreeItemCollapsibleState } from "vscode"
+import { Disposable, ThemeIcon, TreeItem, TreeItemCollapsibleState } from "vscode"
+import App from "../../app"
 import { Commands, CommandTitles } from "../../commands/common"
 import { HIDDEN_FILENAME } from "../../config/pathConfig"
 import { fileSystem } from "../../services"
 import TreeNode from "../../tree/node"
 import { isDblclick } from "../../utils"
-import { ExplorerView } from "../../views/explorerView"
+import { ExplorerView } from "../explorerView"
 import { ContextValues } from "../../views/nodes"
 import { View } from "../view"
 import { ViewNode } from "./viewNode"
 
 export class RepositoryNode extends ViewNode<ExplorerView> {
-  constructor(view: View, parent: ViewNode, public readonly repo: TreeNode) {
+  constructor(view: ExplorerView, parent: ViewNode, public readonly repo: TreeNode) {
     super(view, parent)
   }
 
@@ -54,6 +55,8 @@ export class RepositoryNode extends ViewNode<ExplorerView> {
       fileSystem.edit(content)
     } else {
       // TODO: symbol register
+      App.outlineView.path = path
     }
   }
+
 }

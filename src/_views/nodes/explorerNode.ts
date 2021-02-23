@@ -1,4 +1,4 @@
-import { TreeItem, TreeItemCollapsibleState } from "vscode"
+import { Disposable, TreeItem, TreeItemCollapsibleState } from "vscode"
 import App from "../../app"
 import { ContextValues } from "../../views/nodes"
 import { RepositoryNode } from "./repositoryNode"
@@ -28,4 +28,5 @@ export class ExplorerNode extends ViewNode<ExplorerView> {
     })
     return children
   }
+
 }

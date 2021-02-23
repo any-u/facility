@@ -26,7 +26,7 @@
     "library"
   ],
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "main": "dist/extension",
   "contributes": {
