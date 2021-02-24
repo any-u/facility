@@ -31253,30 +31253,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FILENAME", function() { return FILENAME; });
 var FILE_EXTENSION;
 (function (FILE_EXTENSION) {
-    FILE_EXTENSION["ts"] = "typescript.svg";
-    FILE_EXTENSION["js"] = "javascript.svg";
-    FILE_EXTENSION["html"] = "html.svg";
-    FILE_EXTENSION["css"] = "css.svg";
-    FILE_EXTENSION["jsx"] = "jsx.svg";
-    FILE_EXTENSION["tsx"] = "typescript.svg";
-    FILE_EXTENSION["py"] = "python.svg";
-    FILE_EXTENSION["babelrc"] = "babel.svg";
-    FILE_EXTENSION["vue"] = "vue.svg";
-    FILE_EXTENSION["gitignore"] = "git.svg";
-    FILE_EXTENSION["md"] = "markdown.svg";
-    FILE_EXTENSION["less"] = "less.svg";
-    FILE_EXTENSION["json"] = "json.svg";
-    FILE_EXTENSION["sass"] = "sass.svg";
-    FILE_EXTENSION["scss"] = "scss.svg";
-    FILE_EXTENSION["svg"] = "image.svg";
-    FILE_EXTENSION["zip"] = "archive.svg";
-    FILE_EXTENSION["rar"] = "archive.svg";
-    FILE_EXTENSION["7z"] = "archive.svg";
-    FILE_EXTENSION["tar"] = "archive.svg";
-    FILE_EXTENSION["gz"] = "archive.svg";
-    FILE_EXTENSION["bzip2"] = "archive.svg";
-    FILE_EXTENSION["xz"] = "archive.svg";
-    FILE_EXTENSION["bz2"] = "archive.svg";
+    FILE_EXTENSION[".js"] = "javascript.svg";
+    FILE_EXTENSION[".ts"] = "typescript.svg";
+    FILE_EXTENSION[".html"] = "html.svg";
+    FILE_EXTENSION[".css"] = "css.svg";
+    FILE_EXTENSION[".jsx"] = "jsx.svg";
+    FILE_EXTENSION[".tsx"] = "typescript.svg";
+    FILE_EXTENSION[".py"] = "python.svg";
+    FILE_EXTENSION[".babelrc"] = "babel.svg";
+    FILE_EXTENSION[".vue"] = "vue.svg";
+    FILE_EXTENSION[".gitignore"] = "git.svg";
+    FILE_EXTENSION[".md"] = "markdown.svg";
+    FILE_EXTENSION[".less"] = "less.svg";
+    FILE_EXTENSION[".json"] = "json.svg";
+    FILE_EXTENSION[".sass"] = "sass.svg";
+    FILE_EXTENSION[".scss"] = "scss.svg";
+    FILE_EXTENSION[".svg"] = "image.svg";
+    FILE_EXTENSION[".zip"] = "archive.svg";
+    FILE_EXTENSION[".rar"] = "archive.svg";
+    FILE_EXTENSION[".7z"] = "archive.svg";
+    FILE_EXTENSION[".tar"] = "archive.svg";
+    FILE_EXTENSION[".gz"] = "archive.svg";
+    FILE_EXTENSION[".bzip2"] = "archive.svg";
+    FILE_EXTENSION[".xz"] = "archive.svg";
+    FILE_EXTENSION[".bz2"] = "archive.svg";
     FILE_EXTENSION["DEFAULT"] = "default.svg";
 })(FILE_EXTENSION || (FILE_EXTENSION = {}));
 var FILENAME;
@@ -31917,7 +31917,9 @@ class Monitor {
         __classPrivateFieldSet(this, _monitored, path);
         _utils__WEBPACK_IMPORTED_MODULE_2__["logger"].info(`[facility] ${path} monitored`);
         __classPrivateFieldSet(this, _monitor, chokidar__WEBPACK_IMPORTED_MODULE_0___default.a
-            .watch(path)
+            .watch(path, {
+            ignored: _configuration__WEBPACK_IMPORTED_MODULE_6__["default"].examinee
+        })
             .on('all', this.onFolderChanged.bind(this))
             .on('error', this.onDidWatcherError.bind(this)));
         __classPrivateFieldGet(this, _ctx).subscriptions.push(__classPrivateFieldGet(this, _monitor));
@@ -32933,10 +32935,7 @@ class OutlineNode extends _viewNode__WEBPACK_IMPORTED_MODULE_8__["SubscribeableV
     getTreeItem() {
         const label = this.symbol.name;
         const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](label, vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].None);
-        item.iconPath = {
-            dark: _app__WEBPACK_IMPORTED_MODULE_1__["default"].context.asAbsolutePath(`images/dark/icon-function.svg`),
-            light: _app__WEBPACK_IMPORTED_MODULE_1__["default"].context.asAbsolutePath(`images/light/icon-function.svg`),
-        };
+        item.iconPath = new vscode__WEBPACK_IMPORTED_MODULE_0__["ThemeIcon"]("symbol-function");
         item.command = {
             title: _commands_common__WEBPACK_IMPORTED_MODULE_2__["CommandTitles"].StickSymbol,
             command: _commands_common__WEBPACK_IMPORTED_MODULE_2__["Commands"].StickSymbol,
@@ -33019,9 +33018,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RepositoryNode", function() { return RepositoryNode; });
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vscode */ "vscode");
 /* harmony import */ var vscode__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vscode__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
-/* harmony import */ var _commands_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../commands/common */ "./src/commands/common.ts");
-/* harmony import */ var _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../config/pathConfig */ "./src/config/pathConfig.ts");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! path */ "path");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../app */ "./src/app.ts");
+/* harmony import */ var _commands_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../commands/common */ "./src/commands/common.ts");
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services */ "./src/services/index.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils */ "./src/utils/index.ts");
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../config */ "./src/config/index.ts");
@@ -33044,12 +33044,12 @@ class RepositoryNode extends _viewNode__WEBPACK_IMPORTED_MODULE_7__["Subscribeab
         const item = new vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItem"](name, this.repo.children.length
             ? vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].Expanded
             : vscode__WEBPACK_IMPORTED_MODULE_0__["TreeItemCollapsibleState"].None);
-        item.iconPath = name === _config_pathConfig__WEBPACK_IMPORTED_MODULE_3__["HIDDEN_FILENAME"] ? new vscode__WEBPACK_IMPORTED_MODULE_0__["ThemeIcon"]("root-folder") : "";
+        item.iconPath = this.setIcon();
         item.contextValue = _config__WEBPACK_IMPORTED_MODULE_6__["ContextValues"].Explorer;
         item.tooltip = this.repo.path;
         item.command = {
-            title: _commands_common__WEBPACK_IMPORTED_MODULE_2__["CommandTitles"].StickSnippet,
-            command: _commands_common__WEBPACK_IMPORTED_MODULE_2__["Commands"].StickSnippet,
+            title: _commands_common__WEBPACK_IMPORTED_MODULE_3__["CommandTitles"].StickSnippet,
+            command: _commands_common__WEBPACK_IMPORTED_MODULE_3__["Commands"].StickSnippet,
             arguments: [this],
         };
         return item;
@@ -33061,8 +33061,21 @@ class RepositoryNode extends _viewNode__WEBPACK_IMPORTED_MODULE_7__["Subscribeab
         });
         return children;
     }
+    setIcon() {
+        const { name, extension, type } = this.repo.element;
+        if (type === vscode__WEBPACK_IMPORTED_MODULE_0__["FileType"].Directory)
+            return vscode__WEBPACK_IMPORTED_MODULE_0__["ThemeIcon"].Folder;
+        if (_config__WEBPACK_IMPORTED_MODULE_6__["FILE_EXTENSION"][extension]) {
+            return _config__WEBPACK_IMPORTED_MODULE_6__["FILENAME"][name]
+                ? _app__WEBPACK_IMPORTED_MODULE_2__["default"].context.asAbsolutePath(Object(path__WEBPACK_IMPORTED_MODULE_1__["join"])("images/icons", _config__WEBPACK_IMPORTED_MODULE_6__["FILENAME"][name]))
+                : _app__WEBPACK_IMPORTED_MODULE_2__["default"].context.asAbsolutePath(Object(path__WEBPACK_IMPORTED_MODULE_1__["join"])("images/icons", _config__WEBPACK_IMPORTED_MODULE_6__["FILE_EXTENSION"][extension]));
+        }
+        else {
+            return _app__WEBPACK_IMPORTED_MODULE_2__["default"].context.asAbsolutePath(Object(path__WEBPACK_IMPORTED_MODULE_1__["join"])("images/icons", _config__WEBPACK_IMPORTED_MODULE_6__["FILE_EXTENSION"].DEFAULT));
+        }
+    }
     subscribe() {
-        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(...[_app__WEBPACK_IMPORTED_MODULE_1__["default"].tree.onDidChangeNodes(this.triggerChange, this)]);
+        return vscode__WEBPACK_IMPORTED_MODULE_0__["Disposable"].from(...[_app__WEBPACK_IMPORTED_MODULE_2__["default"].tree.onDidChangeNodes(this.triggerChange, this)]);
     }
     triggerSnippetSticked() {
         const { path } = this.repo;
@@ -33071,7 +33084,7 @@ class RepositoryNode extends _viewNode__WEBPACK_IMPORTED_MODULE_7__["Subscribeab
             _services__WEBPACK_IMPORTED_MODULE_4__["fileSystem"].edit(content);
         }
         else {
-            _app__WEBPACK_IMPORTED_MODULE_1__["default"].outlineView.candidate = path;
+            _app__WEBPACK_IMPORTED_MODULE_2__["default"].outlineView.candidate = path;
         }
     }
 }

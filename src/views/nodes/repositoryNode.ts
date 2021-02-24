@@ -1,9 +1,11 @@
 import {
   Disposable,
+  FileType,
   ThemeIcon,
   TreeItem,
   TreeItemCollapsibleState,
 } from "vscode"
+import { join } from "path"
 import App from "../../app"
 import { Commands, CommandTitles } from "../../commands/common"
 import { HIDDEN_FILENAME } from "../../config/pathConfig"
@@ -11,7 +13,7 @@ import { fileSystem } from "../../services"
 import TreeNode from "../../tree/node"
 import { isDblclick } from "../../utils"
 import { ExplorerView } from "../explorerView"
-import { ContextValues } from "../../config"
+import { ContextValues, FILENAME, FILE_EXTENSION } from "../../config"
 import { SubscribeableViewNode, ViewNode } from "./viewNode"
 
 export class RepositoryNode extends SubscribeableViewNode<ExplorerView> {
@@ -33,7 +35,7 @@ export class RepositoryNode extends SubscribeableViewNode<ExplorerView> {
         : TreeItemCollapsibleState.None
     )
 
-    item.iconPath = name === HIDDEN_FILENAME ? new ThemeIcon("root-folder") : ""
+    item.iconPath = this.setIcon()
     item.contextValue = ContextValues.Explorer
     item.tooltip = this.repo.path
     item.command = {
@@ -52,6 +54,24 @@ export class RepositoryNode extends SubscribeableViewNode<ExplorerView> {
     })
 
     return children
+  }
+
+  private setIcon() {
+    const { name, extension, type } = this.repo.element
+
+    if (type === FileType.Directory) return ThemeIcon.Folder
+
+    if (FILE_EXTENSION[extension]) {
+      return FILENAME[name]
+        ? App.context.asAbsolutePath(join("images/icons", FILENAME[name]))
+        : App.context.asAbsolutePath(
+            join("images/icons", FILE_EXTENSION[extension])
+          )
+    } else {
+      return App.context.asAbsolutePath(
+        join("images/icons", FILE_EXTENSION.DEFAULT)
+      )
+    }
   }
 
   subscribe(): Disposable | undefined | Promise<Disposable | undefined> {

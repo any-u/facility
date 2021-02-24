@@ -262,8 +262,8 @@
         "affectsGlobalScope": false
       },
       "./src/config/icon.ts": {
-        "version": "f211bba796af4bd8eb0b468111f8406ec76311d92e17d58a33d4e4ac328c459b",
-        "signature": "67f90ef1db12b6e62e56587ef9fe31f350e6e05725cba31045a5896f666ae997",
+        "version": "4943481f7e180e725e1629d0424765553b00e03f050975754553067308d921fb",
+        "signature": "25ca89c992a3ae011b69f3cfc20db888559b11b2ba13b473eaf438ec6866e2a5",
         "affectsGlobalScope": false
       },
       "./src/config/index.ts": {
@@ -607,7 +607,7 @@
         "affectsGlobalScope": false
       },
       "./src/managers/monitor.ts": {
-        "version": "d52fa5a8f5a5f57129371ff56c85078b4d2dfbe8150e97d81c4b705c8a183343",
+        "version": "da01d88dc92f58a95337316a7e5beaf3b8d96c64215637fa958135a25bd196c8",
         "signature": "892eb139b7c6633e18e5e62a14cc508ec6c2af79ac535f7f5308407db12857a0",
         "affectsGlobalScope": false
       },
@@ -627,7 +627,7 @@
         "affectsGlobalScope": false
       },
       "./src/views/nodes/outlinenode.ts": {
-        "version": "6d011d766252687a9c7276373d0c0737e78baea52124addaf904703ab52564c3",
+        "version": "0028e43a11fc64fd8f97f3b3126095077b3e893dc4868a072488c333b32a547e",
         "signature": "d03993c0972729efc1a15f966436e617890035ef87b6a242edc868d26d91b18d",
         "affectsGlobalScope": false
       },
@@ -647,8 +647,8 @@
         "affectsGlobalScope": false
       },
       "./src/views/nodes/repositorynode.ts": {
-        "version": "d89d69666f1357d13961e65712f983c7b4a20f87b64f0cdaf7e96f77eceaf2e6",
-        "signature": "8900047f6479d3b9bfcb747cfda812f4f70bae23dbfd3cfc032c9d3e5861555a",
+        "version": "21a57c8d6eed25b0de6fc6765b79642948a7793f4772262a45161d75b0c5487e",
+        "signature": "5a00add634e5e6a7fbb132a238fb394d1401ae579240b37178606d9fbca50415",
         "affectsGlobalScope": false
       },
       "./src/views/nodes/explorernode.ts": {
@@ -1710,6 +1710,7 @@
         "./src/views/outlineview.ts"
       ],
       "./src/views/nodes/repositorynode.ts": [
+        "./node_modules/_@types_node@12.19.14@@types/node/path.d.ts",
         "./node_modules/_@types_vscode@1.52.0@@types/vscode/index.d.ts",
         "./src/app.ts",
         "./src/commands/common.ts",

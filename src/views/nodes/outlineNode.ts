@@ -3,6 +3,7 @@ import {
   Disposable,
   SymbolInformation,
   SymbolKind,
+  ThemeIcon,
   TreeItem,
   TreeItemCollapsibleState,
   Uri,
@@ -41,10 +42,7 @@ export class OutlineNode extends SubscribeableViewNode<OutlineView> {
   getTreeItem() {
     const label = this.symbol.name
     const item = new TreeItem(label, TreeItemCollapsibleState.None)
-    item.iconPath = {
-      dark: App.context.asAbsolutePath(`images/dark/icon-function.svg`),
-      light: App.context.asAbsolutePath(`images/light/icon-function.svg`),
-    }
+    item.iconPath = new ThemeIcon("symbol-function")
     item.command = {
       title: CommandTitles.StickSymbol,
       command: Commands.StickSymbol,

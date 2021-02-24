@@ -32,7 +32,9 @@ export class Monitor {
     logger.info(`[facility] ${path} monitored`)
 
     this.#monitor = chokidar
-      .watch(path)
+      .watch(path, {
+        ignored: configuration.examinee
+      })
       .on('all', this.onFolderChanged.bind(this))
       .on('error', this.onDidWatcherError.bind(this))
     this.#ctx.subscriptions.push(this.#monitor)
