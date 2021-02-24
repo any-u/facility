@@ -1,73 +1,143 @@
-import { Disposable, TreeItem, TreeItemCollapsibleState } from 'vscode'
-import { App } from '../../app'
-import { Message } from '../../config/message'
-import i18nManager from '../../managers/i18n'
+import {
+  commands,
+  Disposable,
+  SymbolInformation,
+  SymbolKind,
+  TreeItem,
+  TreeItemCollapsibleState,
+  Uri,
+  workspace,
+} from "vscode"
+import App from "../../app"
+import { Commands, CommandTitles } from "../../commands/common"
+import { Message } from "../../config/message"
+import configuration from "../../managers/configuration"
+import i18nManager from "../../managers/i18n"
+import { fileSystem } from "../../services"
+import { OutlineView } from "../outlineView"
+import { MessageNode } from "./common"
+import { SubscribeableViewNode } from "./viewNode"
 
-import { OutlineView } from '../outlineView'
-import { MessageNode } from './common'
-import { getSymbol, SymbolNode } from './symbolNode'
-import { ContextValues, SubscribeableViewNode } from './viewNode'
+class SymbolNode {
+  parent?: SymbolNode
+  symbol: SymbolInformation
+  children: SymbolNode[]
 
-export class OutlineNode extends SubscribeableViewNode<OutlineView> {
-  private _children: (SymbolNode | MessageNode)[] | undefined
-
-  constructor(view: OutlineView) {
-    super(view)
+  constructor(symbol?: SymbolInformation) {
+    this.children = []
+    this.symbol = symbol
   }
 
-  async getChildren(): Promise<(SymbolNode | MessageNode)[]> {
-    if (!this.view.path) {
-      const desc =  i18nManager.format(
-        Message.CannotProvideOutlineInformation
-      )
+  addChild(child: SymbolNode) {
+    child.parent = this
+    this.children.push(child)
+  }
+}
+
+export class OutlineNode extends SubscribeableViewNode<OutlineView> {
+  constructor(view: OutlineView, public readonly symbol?: SymbolInformation) {
+    super(view)
+  }
+  getTreeItem() {
+    const label = this.symbol.name
+    const item = new TreeItem(label, TreeItemCollapsibleState.None)
+    item.iconPath = {
+      dark: App.context.asAbsolutePath(`images/dark/icon-function.svg`),
+      light: App.context.asAbsolutePath(`images/light/icon-function.svg`),
+    }
+    item.command = {
+      title: CommandTitles.StickSymbol,
+      command: Commands.StickSymbol,
+      arguments: [this],
+    }
+    return item
+  }
+
+  async getChildren() {
+    if (!this.view.candidate) {
       return [
         new MessageNode(
           this.view,
           this,
-          i18nManager.format(
-            Message.CannotProvideOutlineInformation
-          )
+          i18nManager.format(Message.CannotProvideOutlineInformation)
         ),
       ]
     }
-    const symbols = await getSymbol(this.view.path)
+
+    const symbols: any = await this.getSymbol(this.view.candidate)
 
     if (symbols.children.length === 0) {
-      return [new MessageNode(this.view, this, i18nManager.format(Message.CannotFoundTreeNodes))]
+      return [
+        new MessageNode(
+          this.view,
+          this,
+          i18nManager.format(Message.CannotFoundTreeNodes)
+        ),
+      ]
     }
-    this._children = symbols.children.map(
-      (item) => new SymbolNode(this.view, item.symbol)
+
+    return symbols.children.map(
+      (item) => new OutlineNode(this.view, item.symbol)
     )
-
-    return this._children
   }
 
-  getTreeItem() {
-    const item = new TreeItem('Outline', TreeItemCollapsibleState.Collapsed)
-    item.contextValue = ContextValues.Outline
-    return item
+  async getSymbol(path: string) {
+    await this.getPureSymbol(configuration.examinee) // Cancel the file symbol cache
+    return await this.getPureSymbol(path)
   }
 
-  onSymbolChanged() {
-    // 细节优化，节约性能
-    void this.triggerChange()
+  async getPureSymbol(path: string) {
+    const tree = new SymbolNode()
+    const uri = Uri.file(path)
+    let symbols = (await commands.executeCommand<SymbolInformation[]>(
+      "vscode.executeDocumentSymbolProvider",
+      uri
+    )) as any
+    if (!symbols) return tree
+
+    const symbolNodes = symbols
+      .filter((symbol: any) => symbol.kind === SymbolKind.Function)
+      .map((symbol: any) => new SymbolNode(symbol))
+    let potentialParents: SymbolNode[] = []
+    symbolNodes.forEach((currentNode: any) => {
+      // Drop candidates that do not contain the current symbol range
+      potentialParents = potentialParents.filter(
+        (node) =>
+          node !== currentNode &&
+          node.symbol.location.range.contains(
+            currentNode.symbol.location.range
+          ) &&
+          !node.symbol.location.range.isEqual(currentNode.symbol.location.range)
+      )
+      if (!potentialParents.length) {
+        tree.addChild(currentNode)
+      } else {
+        const parent = potentialParents[potentialParents.length - 1]
+        parent.addChild(currentNode)
+      }
+      potentialParents.push(currentNode)
+    })
+
+    return tree
   }
 
-  refresh() {
-    if (this._children === undefined) return
-
-    this._children.forEach((item: any) => item.refresh())
+  subscribe(): Disposable | undefined | Promise<Disposable | undefined> {
+    return Disposable.from(
+      ...[
+        App.tree.onDidChangeNodes(this.triggerChange, this),
+        App.tree.onDidChangeSymbolNodes(this.triggerSymbolChange, this),
+      ]
+    )
   }
 
-  subscribe() {
-    const subscriptions: any[] = [
-      App.explorerTree.onDidChangeNodes(this.onSymbolChanged, this),
-    ]
-    return Disposable.from(...subscriptions)
+  async triggerSymbolSticked() {
+    const { uri, range } = this.symbol.location
+
+    const document = await workspace.openTextDocument(uri.path)
+    fileSystem.edit(document.getText(range))
   }
 
-  async onOutlineChanged() {
-    // await this.view.tree.analyze()
-    void this.triggerChange()
+  triggerSymbolChange() {
+    void this.view.refresh()
   }
 }

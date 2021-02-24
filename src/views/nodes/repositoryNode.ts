@@ -1,86 +1,74 @@
 import {
   Disposable,
-  FileType,
+  ThemeIcon,
   TreeItem,
   TreeItemCollapsibleState,
-} from 'vscode'
-import { ContextValues, ViewNode } from '.'
-import { App } from '../../app'
-import { Commands } from '../../commands'
-import { Message } from '../../config/message'
-import i18nManager from '../../managers/i18n'
-import { fileSystem } from '../../services'
-import { GistElement, TExplorerTreeNode } from '../../tree/explorerTree'
-import { isDblclick } from '../../utils'
-import { ExplorerView } from '../explorerView'
-import { MessageNode } from './common'
-import { SubscribeableViewNode } from './viewNode'
+} from "vscode"
+import App from "../../app"
+import { Commands, CommandTitles } from "../../commands/common"
+import { HIDDEN_FILENAME } from "../../config/pathConfig"
+import { fileSystem } from "../../services"
+import TreeNode from "../../tree/node"
+import { isDblclick } from "../../utils"
+import { ExplorerView } from "../explorerView"
+import { ContextValues } from "../../config"
+import { SubscribeableViewNode, ViewNode } from "./viewNode"
 
 export class RepositoryNode extends SubscribeableViewNode<ExplorerView> {
-  private _children: (RepositoryNode | MessageNode)[] | undefined
-
   constructor(
     view: ExplorerView,
-    public readonly element: GistElement,
-    public readonly children: TExplorerTreeNode[]
+    parent: ViewNode,
+    public readonly repo: TreeNode
   ) {
-    super(view)
-  }
-  async getChildren(): Promise<(RepositoryNode | MessageNode)[]> {
-    const children: any[] = []
-    const root = await App.explorerTree.getNode(
-      this.element.name,
-      FileType.Directory
-    )
-
-    if (!root || !root.children.length)
-      return [new MessageNode(this.view, this, i18nManager.format(Message.CannotFoundTreeNodes))]
-
-    root.children.forEach((item) =>
-      children.push(new RepositoryNode(this.view, item.element, item.children))
-    )
-
-    this._children = children
-    return this._children
+    super(view, parent)
   }
 
   getTreeItem() {
-    const { name, element } = this.element
-    const label = fileSystem.fullname(name)
+    const { name, extension } = this.repo.element
+
     const item = new TreeItem(
-      label,
-      this.children.length
+      name,
+      this.repo.children.length
         ? TreeItemCollapsibleState.Expanded
         : TreeItemCollapsibleState.None
     )
-    item.iconPath = this.adaptIcon(label, element.fileType)
+
+    item.iconPath = name === HIDDEN_FILENAME ? new ThemeIcon("root-folder") : ""
     item.contextValue = ContextValues.Explorer
+    item.tooltip = this.repo.path
     item.command = {
-      title: 'Stick Snippet',
-      command: Commands.StickGist,
+      title: CommandTitles.StickSnippet,
+      command: Commands.StickSnippet,
       arguments: [this],
     }
+
     return item
   }
 
-  onExplorerTreeNodesChanged() {
-    void this.triggerChange()
+  getChildren() {
+    const children: RepositoryNode[] = []
+    this.repo.children.forEach((item) => {
+      children.push(new RepositoryNode(this.view, this, item))
+    })
+
+    return children
   }
 
-  subscribe() {
+  subscribe(): Disposable | undefined | Promise<Disposable | undefined> {
     return Disposable.from(
-      App.explorerTree.onDidChangeNodes(this.onExplorerTreeNodesChanged, this)
+      ...[App.tree.onDidChangeNodes(this.triggerChange, this)]
     )
   }
 
   triggerSnippetSticked() {
-    const { name } = this.element
-    const content = fileSystem.getFileText(name)
+    const { path } = this.repo
+
+    const content = fileSystem.getFileText(path)
 
     if (isDblclick(this)) {
       fileSystem.edit(content)
     } else {
-      App.outlineView.path = name
+      App.outlineView.candidate = path
     }
   }
 }

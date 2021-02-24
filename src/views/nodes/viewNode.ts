@@ -1,20 +1,5 @@
-import { Disposable, FileType, ThemeIcon, TreeItem } from 'vscode'
-import App from '../../app'
-import { FILENAME, FILE_EXTENSION } from '../../config/icon'
-import { View } from '../viewBase'
-import * as path from 'path'
-import { appLibaryName } from '../../constants'
-
-export enum ContextValues {
-  Repositories = 'facility:repositories',
-  Outline = 'facility:outline',
-  Message = 'facility:message',
-  Explorer = 'facility:explorer',
-}
-
-export interface ViewNode {
-  readonly id?: string
-}
+import { Disposable, TreeItem } from "vscode"
+import { View } from "../view"
 
 export abstract class ViewNode<TView extends View = View> {
   constructor(
@@ -28,53 +13,23 @@ export abstract class ViewNode<TView extends View = View> {
 
   refresh?(reset?: boolean): void | boolean | Promise<void> | Promise<boolean>
 
-  triggerChange(): any {
-    return this.view.refreshNode(this)
-  }
-
-  adaptIcon(name: string, fileType: FileType) {
-    const arr = name.split('.'),
-      fileExtension = arr[arr.length - 1]
-
-    if (fileType === FileType.Directory) {
-      return name === appLibaryName
-        ? {
-            dark: App.context.asAbsolutePath(`images/dark/icon-repo.svg`),
-            light: App.context.asAbsolutePath(`images/light/icon-repo.svg`),
-          }
-        : ThemeIcon.Folder
-    }
-
-    const checkFileExtension = (FILE_EXTENSION as any)[fileExtension]
-    if (!checkFileExtension)
-      return App.context.asAbsolutePath(
-        path.join('images/icons', FILE_EXTENSION.DEFAULT)
-      )
-
-    return (FILENAME as any)[name]
-      ? App.context.asAbsolutePath(
-          path.join('images/icons', (FILENAME as any)[name])
-        )
-      : App.context.asAbsolutePath(
-          path.join('images/icons', checkFileExtension)
-        )
+  triggerChange() {
+    void this.view.refresh()
   }
 }
 
 export abstract class SubscribeableViewNode<
   TView extends View = View
 > extends ViewNode<TView> {
-  protected disposable: Disposable
   protected subscription: Promise<Disposable | undefined> | undefined
 
-  private _loaded: boolean = false
+  private _loaded = false
 
-  constructor(view: TView, protected readonly parent?: ViewNode | null) {
+  constructor(
+    public readonly view: TView,
+    protected readonly parent?: ViewNode | null
+  ) {
     super(view, parent)
-
-    const disposables: any[] = [
-      // this.view
-    ]
 
     const getTreeItem = this.getTreeItem
     this.getTreeItem = function (this: SubscribeableViewNode<TView>) {
@@ -89,29 +44,6 @@ export abstract class SubscribeableViewNode<
       void this.ensureSubscription()
       return getChildren.apply(this)
     }
-
-    this.disposable = Disposable.from(...disposables)
-  }
-
-  async triggerChange() {
-    if (!this._loaded) return
-
-    await super.triggerChange()
-  }
-
-  private _canSubscribe: boolean = true
-  protected get canSubscribe(): boolean {
-    return this._canSubscribe
-  }
-  protected set canSubscribe(value: boolean) {
-    if (this._canSubscribe === value) return
-
-    this._canSubscribe = value
-
-    void this.ensureSubscription()
-    if (value) {
-      void this.triggerChange()
-    }
   }
 
   protected abstract subscribe():
@@ -120,19 +52,27 @@ export abstract class SubscribeableViewNode<
     | Promise<Disposable | undefined>
 
   protected async unsubscribe(): Promise<void> {
-    if (this.subscription != null) {
+    if (this.subscription !== undefined) {
       const subscriptionPromise = this.subscription
+
       this.subscription = undefined
-      ;(await subscriptionPromise)?.dispose()
+      ;(await subscriptionPromise)?.dispose
     }
   }
 
   async ensureSubscription() {
     await this.unsubscribe()
 
-    if (this.subscription != null) return
+    if (this.subscription !== undefined) return
 
     this.subscription = Promise.resolve(this.subscribe())
+
     await this.subscription
+  }
+
+  async triggerChange() {
+    if (!this._loaded) return
+
+    await super.triggerChange()
   }
 }

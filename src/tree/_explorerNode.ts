@@ -1,10 +1,10 @@
-import { Disposable, Event, EventEmitter, FileType } from 'vscode'
-import { basename } from 'path'
-import monitor, { FWChangeType, MonitorChangeEvent } from '../managers/monitor'
-import { HIDDEN_FILENAME } from '../config/pathConfig'
-import { PREFIX_REG } from '../config/pathConfig'
-import { join } from 'path'
-import TreeNode from './node'
+import { Disposable, Event, EventEmitter, FileType } from "vscode"
+import { basename } from "path"
+import monitor, { FWChangeType, MonitorChangeEvent } from "../managers/monitor"
+import { HIDDEN_FILENAME } from "../config/pathConfig"
+import { PREFIX_REG } from "../config/pathConfig"
+import { join } from "path"
+import TreeNode from "./node"
 
 class Tree implements Disposable {
   #disposable: Disposable
@@ -13,6 +13,11 @@ class Tree implements Disposable {
   #onDidChangeNodes = new EventEmitter<void>()
   get onDidChangeNodes(): Event<void> {
     return this.#onDidChangeNodes.event
+  }
+
+  #onDidChangeSymbolNodes = new EventEmitter<void>()
+  get onDidChangeSymbolNodes(): Event<void> {
+    return this.#onDidChangeSymbolNodes.event
   }
 
   constructor() {
@@ -34,46 +39,47 @@ class Tree implements Disposable {
       if (basename(path) === HIDDEN_FILENAME) {
         this.#root = new TreeNode(this, path)
       } else {
-        const parentPath = path.slice(0, path.lastIndexOf('/'))
+        const parentPath = path.slice(0, path.lastIndexOf("/"))
         const parent = this.getNode(parentPath)
 
         var node = new TreeNode(this, path)
         this.insert(node, parent)
       }
+      this.#onDidChangeNodes.fire()
     }
 
     if (type === FWChangeType.ADD) {
-      const parentPath = path.slice(0, path.lastIndexOf('/'))
+      const parentPath = path.slice(0, path.lastIndexOf("/"))
       const parent = this.getNode(parentPath)
 
       var node = new TreeNode(this, path)
       this.insert(node, parent)
+      this.#onDidChangeNodes.fire()
     }
 
     if (type === FWChangeType.CHANGE) {
-      // content changes, no action required
-      // TODO: outline refresh
+      this.#onDidChangeSymbolNodes.fire()
     }
 
     if (type === FWChangeType.UNLINK) {
       const node = this.getNode(path)
       this.remove(node)
+      this.#onDidChangeNodes.fire()
     }
 
     if (type === FWChangeType.UNLINKDIR) {
       const node = this.getNode(path)
       this.remove(node)
+      this.#onDidChangeNodes.fire()
     }
-
-    this.#onDidChangeNodes.fire()
   }
 
   getNode(path: string): TreeNode | undefined {
     const match = path.match(PREFIX_REG)
-    if(match === null) return this.#root
+    if (match === null) return this.#root
 
     const prefix = match[0]
-    const traces = path.replace(prefix, '').split('/')
+    const traces = path.replace(prefix, "").split("/")
     let node = this.#root
     while (traces.length > 0) {
       let trace = join(prefix, traces.shift())
@@ -97,9 +103,9 @@ class Tree implements Disposable {
       if (i > -1) {
         parent.children.splice(i, 1)
       } else {
-        console.error('target: ', child)
-        console.error('parent: ', parent)
-        throw Error('target is not a childNode of parent')
+        console.error("target: ", child)
+        console.error("parent: ", parent)
+        throw Error("target is not a childNode of parent")
       }
       child.parentNode = null
     }

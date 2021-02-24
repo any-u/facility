@@ -1,6 +1,7 @@
-import { ThemeIcon, TreeItem, TreeItemCollapsibleState, Uri } from 'vscode'
-import { ContextValues, ViewNode } from './viewNode'
-import { View } from '../viewBase'
+import { ThemeIcon, TreeItem, TreeItemCollapsibleState, Uri } from "vscode"
+import { ViewNode } from "./viewNode"
+import { View } from "../view"
+import { ContextValues } from "../../config"
 
 export class MessageNode extends ViewNode {
   constructor(
@@ -21,8 +22,7 @@ export class MessageNode extends ViewNode {
   ) {
     super(view, parent)
   }
-
-  getChildren(): ViewNode[] | Promise<ViewNode[]> {
+  getChildren() {
     return []
   }
 
